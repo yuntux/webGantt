@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Projet Complet webGantt" company="Tasmane" webLink="https://github.com/webGantt" view-date="2026-07-27" view-index="0" gantt-divider-location="350" resource-divider-location="300" version="3.3" locale="fr_FR">
+  <description><![CDATA[Ceci est un projet de test exhaustif généré pour tester webGantt.]]></description>
+  <view id="gantt-chart" zooming-state="ganttproject-value-meta-current-gantt-gantt-chart-drawer-zoom:3">
+    <field id="tpd3" name="Name" width="200" order="0"/>
+    <field id="tpd4" name="Begin date" width="75" order="1"/>
+    <field id="tpd5" name="End date" width="75" order="2"/>
+    <timeline><![CDATA[Timeline CDATA]]></timeline>
+    <option id="color.recent" value="#ff0000"/>
+    <option id="color.recent" value="#00ff00"/>
+    <option id="color.recent" value="#0000ff"/>
+  </view>
+  <view id="resource-table" zooming-state="1">
+    <field id="0" name="Name" width="210" order="0"/>
+    <field id="1" name="Default role" width="86" order="1"/>
+  </view>
+  <view id="histogram" zooming-state="1">
+  </view>
+  
+  <calendars base-id="fr">
+    <day-types>
+      <day-type id="0"/>
+      <day-type id="1"/>
+      <day-type id="2"/>
+      <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+      <only-show-weekends value="false"/>
+    </day-types>
+    <date year="2026" month="1" date="1" type="HOLIDAY" color="#ff9999"><![CDATA[Jour de l'an]]></date>
+    <date year="2026" month="5" date="1" type="HOLIDAY" color="#ff9999"><![CDATA[Fête du Travail]]></date>
+    <date year="2026" month="7" date="14" type="HOLIDAY" color="#ff9999"><![CDATA[Fête Nationale]]></date>
+  </calendars>
+  
+  <tasks empty-milestones="true">
+    <taskproperties>
+      <taskproperty id="tpd0" name="type" type="default" valuetype="icon" defaultvalue=""/>
+      <taskproperty id="tpd1" name="priority" type="default" valuetype="icon" defaultvalue=""/>
+      <taskproperty id="tpd2" name="info" type="default" valuetype="icon" defaultvalue=""/>
+      <taskproperty id="tpc0" name="Custom1" type="custom" valuetype="text" defaultvalue="ValDef">
+          <simple-select select="opt1" where="id=1"/>
+      </taskproperty>
+    </taskproperties>
+    
+    <task id="0" uid="t1" name="Phase 1 - Spécifications" color="#8cb6ce" shape="1" meeting="false" project="true" start="2026-07-01" duration="10" complete="100" thirdDate="2026-06-30" thirdDate-constraint="0" priority="1" webLink="http://spec.com" expand="true" cost-manual-value="5000.00" cost-calculated="false" fixed-start="2026-07-01">
+      <notes><![CDATA[Notes sur la phase 1]]></notes>
+      <customproperty taskproperty-id="tpc0" value="Test1"/>
+      
+      <!-- Sous tâches -->
+      <task id="1" uid="t2" name="Sous-tâche 1.1" color="#ff0000" shape="1" meeting="false" project="false" start="2026-07-01" duration="5" complete="100" expand="true">
+         <depend id="2" type="FS" difference="0" hardness="Strong"/>
+         <depend id="3" type="FF" difference="2" hardness="Rubber"/>
+         <depend id="4" type="SS" difference="0" hardness="Strong"/>
+      </task>
+      <task id="2" uid="t3" name="Sous-tâche 1.2" color="#00ff00" shape="1" meeting="false" project="false" start="2026-07-08" duration="5" complete="100" expand="true"/>
+    </task>
+    
+    <task id="3" uid="t4" name="Jalon 1" color="#ffff00" shape="0" meeting="true" project="false" start="2026-07-15" duration="0" complete="50" expand="true"/>
+    
+    <task id="4" uid="t5" name="Phase 2 - Développement" color="#8cb6ce" shape="1" meeting="false" project="true" start="2026-07-16" duration="20" complete="25" expand="true">
+       <depend id="5" type="FS" difference="0" hardness="Strong"/>
+       <depend id="6" type="SS" difference="0" hardness="Strong"/>
+       <depend id="7" type="SF" difference="5" hardness="Strong"/>
+    </task>
+
+    <task id="5" uid="t6" name="Tâche finale A" start="2026-08-13" duration="2" expand="true"/>
+    <task id="6" uid="t7" name="Tâche finale B" start="2026-08-13" duration="2" expand="true"/>
+    <task id="7" uid="t8" name="Tâche finale C" start="2026-08-13" duration="2" expand="true"/>
+  </tasks>
+  
+  <resources>
+    <custom-property-definition id="c1" name="Equipe" type="text" default-value="Dev" MSPROJECT_TYPE="Text1"/>
+    <custom-property-definition id="c2" name="Localisation" type="text" default-value="Paris" MSPROJECT_TYPE="Text2"/>
+    <custom-property-definition id="c3" name="Disponibilité" type="boolean" default-value="true" MSPROJECT_TYPE="Flag1"/>
+    
+    <resource id="0" name="Alice" function="SoftwareDevelopment:2" contacts="alice@test.com" phone="0123456789">
+      <rate name="standard" value="50.0"/>
+      <custom-property definition-id="c1" value="Frontend"/>
+      <custom-property definition-id="c2" value="Lyon"/>
+    </resource>
+    <resource id="1" name="Bob" function="SoftwareDevelopment:3" contacts="bob@test.com" phone="9876543210">
+      <rate name="standard" value="60.0"/>
+      <custom-property definition-id="c1" value="Backend"/>
+    </resource>
+    <resource id="2" name="Charlie" function="SoftwareDevelopment:4" contacts="charlie@test.com" phone="1111111111">
+      <rate name="standard" value="70.0"/>
+    </resource>
+  </resources>
+  
+  <allocations>
+    <allocation task-id="1" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+    <allocation task-id="2" resource-id="1" function="SoftwareDevelopment:3" responsible="true" load="50.0"/>
+    <allocation task-id="4" resource-id="2" function="SoftwareDevelopment:4" responsible="true" load="75.0"/>
+  </allocations>
+  
+  <vacations>
+    <vacation start="2026-07-20" end="2026-07-25" resourceid="0"/>
+    <vacation start="2026-08-01" end="2026-08-15" resourceid="1"/>
+    <vacation start="2026-08-20" end="2026-08-30" resourceid="2"/>
+  </vacations>
+  
+  <previous>
+    <previous-tasks name="Baseline 1">
+      <previous-task id="0" start="2026-07-01" duration="10" meeting="false" super="true"/>
+      <previous-task id="1" start="2026-07-01" duration="5" meeting="false" super="false"/>
+      <previous-task id="3" start="2026-07-15" duration="0" meeting="true" super="false"/>
+    </previous-tasks>
+    <previous-tasks name="Baseline 2">
+      <previous-task id="0" start="2026-07-01" duration="12" meeting="false" super="true"/>
+      <previous-task id="4" start="2026-07-15" duration="20" meeting="false" super="true"/>
+      <previous-task id="5" start="2026-08-10" duration="2" meeting="false" super="false"/>
+    </previous-tasks>
+    <previous-tasks name="Baseline 3">
+      <previous-task id="1" start="2026-07-05" duration="5" meeting="false" super="false"/>
+      <previous-task id="2" start="2026-07-10" duration="5" meeting="false" super="false"/>
+      <previous-task id="6" start="2026-08-15" duration="2" meeting="false" super="false"/>
+    </previous-tasks>
+  </previous>
+  
+  <roles roleset-name="Default">
+    <role id="SoftwareDevelopment:1" name="Project Manager"/>
+    <role id="SoftwareDevelopment:2" name="Developer"/>
+    <role id="SoftwareDevelopment:3" name="Tester"/>
+    <role id="SoftwareDevelopment:4" name="Designer"/>
+  </roles>
+</project>
