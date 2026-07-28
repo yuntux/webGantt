@@ -1,1238 +1,2212 @@
 diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
-index 5d671f6..e69de29 100644
+index 72ea709..e69de29 100644
 --- a/.agents/workflow_cm_diff.patch
 +++ b/.agents/workflow_cm_diff.patch
-@@ -1,1050 +0,0 @@
+@@ -1,1238 +0,0 @@
 -diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
--index 09e8aa5..e69de29 100644
+-index 5d671f6..e69de29 100644
 ---- a/.agents/workflow_cm_diff.patch
 -+++ b/.agents/workflow_cm_diff.patch
--@@ -1,942 +0,0 @@
+-@@ -1,1050 +0,0 @@
 --diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
---index 44b5417..e69de29 100644
+--index 09e8aa5..e69de29 100644
 ----- a/.agents/workflow_cm_diff.patch
 --+++ b/.agents/workflow_cm_diff.patch
---@@ -1,774 +0,0 @@
+--@@ -1,942 +0,0 @@
 ---diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
----index a49bfae..e69de29 100644
+---index 44b5417..e69de29 100644
 ------ a/.agents/workflow_cm_diff.patch
 ---+++ b/.agents/workflow_cm_diff.patch
----@@ -1,655 +0,0 @@
+---@@ -1,774 +0,0 @@
 ----diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
-----index 9713ad0..e69de29 100644
+----index a49bfae..e69de29 100644
 ------- a/.agents/workflow_cm_diff.patch
 ----+++ b/.agents/workflow_cm_diff.patch
-----@@ -1,584 +0,0 @@
+----@@ -1,655 +0,0 @@
 -----diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
------index 6136836..e69de29 100644
+-----index 9713ad0..e69de29 100644
 -------- a/.agents/workflow_cm_diff.patch
 -----+++ b/.agents/workflow_cm_diff.patch
------@@ -1,465 +0,0 @@
+-----@@ -1,584 +0,0 @@
 ------diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
-------index e0771b2..e69de29 100644
+------index 6136836..e69de29 100644
 --------- a/.agents/workflow_cm_diff.patch
 ------+++ b/.agents/workflow_cm_diff.patch
-------@@ -1,422 +0,0 @@
+------@@ -1,465 +0,0 @@
 -------diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
--------index a268ef6..e69de29 100644
+-------index e0771b2..e69de29 100644
 ---------- a/.agents/workflow_cm_diff.patch
 -------+++ b/.agents/workflow_cm_diff.patch
--------@@ -1,356 +0,0 @@
+-------@@ -1,422 +0,0 @@
 --------diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
---------index 8c8241a..e69de29 100644
+--------index a268ef6..e69de29 100644
 ----------- a/.agents/workflow_cm_diff.patch
 --------+++ b/.agents/workflow_cm_diff.patch
---------@@ -1,255 +0,0 @@
+--------@@ -1,356 +0,0 @@
+---------diff --git a/.agents/workflow_cm_diff.patch b/.agents/workflow_cm_diff.patch
+---------index 8c8241a..e69de29 100644
+------------ a/.agents/workflow_cm_diff.patch
+---------+++ b/.agents/workflow_cm_diff.patch
+---------@@ -1,255 +0,0 @@
+----------diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
+----------index 2e23ef9..1abf261 100644
+------------- a/specs/001-ganttproject-features/tasks.md
+----------+++ b/specs/001-ganttproject-features/tasks.md
+----------@@ -118,3 +118,3 @@
+------------ [ ] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
+------------ [ ] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
+------------ [ ] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
+----------+- [x] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
+----------+- [x] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
+----------+- [x] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
+----------@@ -124 +124 @@
+------------ [ ] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
+----------+- [x] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
+----------diff --git a/webGantt.html b/webGantt.html
+----------index 3fee042..aadc41c 100644
+------------- a/webGantt.html
+----------+++ b/webGantt.html
+----------@@ -67 +67 @@
+-----------        button:hover {
+----------+        button:hover:not(:disabled) {
+----------@@ -70,0 +71,7 @@
+----------+        button:disabled {
+----------+            opacity: 0.5;
+----------+            cursor: not-allowed;
+----------+            background-color: var(--bg-color);
+----------+            color: #888;
+----------+        }
+----------+
+----------@@ -184 +191,13 @@
+-----------            <div class="pane-header">Tâches (WBS)</div>
+----------+            <div class="pane-header" style="justify-content: space-between;">
+----------+                <span>Tâches (WBS)</span>
+----------+                <div id="wbs-toolbar" style="display:flex; gap:4px;">
+----------+                    <button id="btn-outdent" title="Désindenter" style="padding:0 4px;" disabled>←</button>
+----------+                    <button id="btn-indent" title="Indenter" style="padding:0 4px;" disabled>→</button>
+----------+                    <button id="btn-move-up" title="Monter" style="padding:0 4px;" disabled>↑</button>
+----------+                    <button id="btn-move-down" title="Descendre" style="padding:0 4px;" disabled>↓</button>
+----------+                    <button id="btn-link" title="Lier" style="padding:0 4px;" disabled>🔗</button>
+----------+                    <button id="btn-unlink" title="Délier" style="padding:0 4px;" disabled>⛓️‍💥</button>
+----------+                    <button id="btn-filter" title="Filtrer" style="padding:0 4px;">🔽</button>
+----------+                    <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
+----------+                </div>
+----------+            </div>
+----------@@ -216,0 +236,2 @@
+----------+                window.selectedTaskIds = new Set(); // T029: État de sélection global
+----------+                window.lastSelectedTaskId = null; // T029: Shift-click
+----------@@ -228,0 +250,2 @@
+----------+                window.selectedTaskIds.clear();
+----------+                window.lastSelectedTaskId = null;
+----------@@ -293,0 +317 @@
+----------+                row.setAttribute('data-task-id', task.id);
+----------@@ -299,0 +324,42 @@
+----------+                row.style.cursor = 'pointer'; // T029
+----------+                row.style.userSelect = 'none'; // Empêcher la sélection de texte
+----------+                
+----------+                // T029 : Gestion du clic pour multisélection
+----------+                row.addEventListener('click', (e) => {
+----------+                    if (e.target.tagName === 'BUTTON') return;
+----------+                    
+----------+                    if (e.shiftKey && window.lastSelectedTaskId) {
+----------+                        // Vider la sélection de texte du navigateur (sécurité supplémentaire)
+----------+                        if (window.getSelection) window.getSelection().removeAllRanges();
+----------+                        const allRows = Array.from(document.querySelectorAll('#wbs-content > div'));
+----------+                        const allIds = allRows.map(r => r.getAttribute('data-task-id'));
+----------+                        
+----------+                        const idx1 = allIds.indexOf(window.lastSelectedTaskId);
+----------+                        const idx2 = allIds.indexOf(task.id);
+----------+                        
+----------+                        if (idx1 !== -1 && idx2 !== -1) {
+----------+                            const start = Math.min(idx1, idx2);
+----------+                            const end = Math.max(idx1, idx2);
+----------+                            
+----------+                            if (!e.ctrlKey && !e.metaKey) {
+----------+                                window.selectedTaskIds.clear();
+----------+                            }
+----------+                            
+----------+                            for (let i = start; i <= end; i++) {
+----------+                                window.selectedTaskIds.add(allIds[i]);
+----------+                            }
+----------+                        }
+----------+                    } else if (e.ctrlKey || e.metaKey) {
+----------+                        if (window.selectedTaskIds.has(task.id)) {
+----------+                            window.selectedTaskIds.delete(task.id);
+----------+                        } else {
+----------+                            window.selectedTaskIds.add(task.id);
+----------+                        }
+----------+                        window.lastSelectedTaskId = task.id;
+----------+                    } else {
+----------+                        window.selectedTaskIds.clear();
+----------+                        window.selectedTaskIds.add(task.id);
+----------+                        window.lastSelectedTaskId = task.id;
+----------+                    }
+----------+                    updateSelectionUI();
+----------+                });
+----------@@ -489 +555 @@
+-----------                     svg += `<polygon points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+----------+                     svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+----------@@ -492 +558 @@
+-----------                     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
+----------+                     svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
+----------@@ -551,0 +618,2 @@
+----------+            
+----------+            updateSelectionUI(); // Rafraîchissement post-rendu
+----------@@ -553,0 +622,126 @@
+----------+        // T029 : Gestion de la sélection et UI
+----------+        function updateSelectionUI() {
+----------+            // Mise à jour des lignes WBS
+----------+            document.querySelectorAll('#wbs-content > div').forEach(row => {
+----------+                const id = row.getAttribute('data-task-id');
+----------+                if (window.selectedTaskIds.has(id)) {
+----------+                    row.style.backgroundColor = '#e3f2fd'; // Bleu léger
+----------+                } else {
+----------+                    row.style.backgroundColor = '';
+----------+                }
+----------+            });
+----------+
+----------+            // Mise à jour des éléments du SVG (Gantt)
+----------+            const svgDoc = document.querySelector('#gantt-content svg');
+----------+            if (svgDoc) {
+----------+                svgDoc.querySelectorAll('.gantt-item').forEach(item => {
+----------+                    const id = item.getAttribute('data-task-id');
+----------+                    if (window.selectedTaskIds.has(id)) {
+----------+                        item.setAttribute('stroke', '#ffeb3b'); // Contour jaune pour la sélection
+----------+                        item.setAttribute('stroke-width', '3');
+----------+                    } else {
+----------+                        item.removeAttribute('stroke');
+----------+                        item.removeAttribute('stroke-width');
+----------+                    }
+----------+                });
+----------+            }
+----------+            
+----------+            updateToolbarButtons();
+----------+        }
+----------+
+----------+        // T030 & T031 : Boutons hiérarchie WBS
+----------+        function getPrevTask(node) {
+----------+            let n = node.previousElementSibling;
+----------+            while(n && n.tagName !== 'task') n = n.previousElementSibling;
+----------+            return n;
+----------+        }
+----------+        function getNextTask(node) {
+----------+            let n = node.nextElementSibling;
+----------+            while(n && n.tagName !== 'task') n = n.nextElementSibling;
+----------+            return n;
+----------+        }
+----------+
+----------+        function updateToolbarButtons() {
+----------+            const btnIndent = document.getElementById('btn-indent');
+----------+            const btnOutdent = document.getElementById('btn-outdent');
+----------+            const btnUp = document.getElementById('btn-move-up');
+----------+            const btnDown = document.getElementById('btn-move-down');
+----------+            const btnLink = document.getElementById('btn-link');
+----------+            const btnUnlink = document.getElementById('btn-unlink');
+----------+            
+----------+            const selected = Array.from(window.selectedTaskIds);
+----------+            
+----------+            if (selected.length !== 1) {
+----------+                btnIndent.disabled = true;
+----------+                btnOutdent.disabled = true;
+----------+                btnUp.disabled = true;
+----------+                btnDown.disabled = true;
+----------+                
+----------+                // Chaînage
+----------+                if (selected.length >= 2) {
+----------+                    const parentNames = new Set(selected.map(id => {
+----------+                        const n = state.xmlDoc.querySelector(`task[id="${id}"]`);
+----------+                        return n && n.parentNode ? n.parentNode.nodeName : 'NONE'; // Approximatif pour l'instant
+----------+                    }));
+----------+                    btnLink.disabled = parentNames.size !== 1;
+----------+                    btnUnlink.disabled = false; // Autorisé s'il y a des liens
+----------+                } else {
+----------+                    btnLink.disabled = true;
+----------+                    btnUnlink.disabled = true;
+----------+                }
+----------+                return;
+----------+            }
+----------+            
+----------+            btnLink.disabled = true;
+----------+            btnUnlink.disabled = true;
+----------+            
+----------+            const taskNode = state.xmlDoc.querySelector(`task[id="${selected[0]}"]`);
+----------+            if (!taskNode) return;
+----------+            
+----------+            btnIndent.disabled = !getPrevTask(taskNode);
+----------+            btnOutdent.disabled = (taskNode.parentNode.tagName !== 'task');
+----------+            btnUp.disabled = !getPrevTask(taskNode);
+----------+            btnDown.disabled = !getNextTask(taskNode);
+----------+        }
+----------+
+----------+        // Événements d'indentation / déplacement
+----------+        document.getElementById('btn-indent').addEventListener('click', () => {
+----------+            const taskId = Array.from(window.selectedTaskIds)[0];
+----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+----------+            const prev = getPrevTask(node);
+----------+            if (prev) {
+----------+                prev.appendChild(node);
+----------+                state.notifyListeners();
+----------+            }
+----------+        });
+----------+
+----------+        document.getElementById('btn-outdent').addEventListener('click', () => {
+----------+            const taskId = Array.from(window.selectedTaskIds)[0];
+----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+----------+            const parent = node.parentNode;
+----------+            if (parent && parent.tagName === 'task') {
+----------+                parent.parentNode.insertBefore(node, parent.nextElementSibling);
+----------+                state.notifyListeners();
+----------+            }
+----------+        });
+----------+
+----------+        document.getElementById('btn-move-up').addEventListener('click', () => {
+----------+            const taskId = Array.from(window.selectedTaskIds)[0];
+----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+----------+            const prev = getPrevTask(node);
+----------+            if (prev) {
+----------+                node.parentNode.insertBefore(node, prev);
+----------+                state.notifyListeners();
+----------+            }
+----------+        });
+----------+
+----------+        document.getElementById('btn-move-down').addEventListener('click', () => {
+----------+            const taskId = Array.from(window.selectedTaskIds)[0];
+----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+----------+            const next = getNextTask(node);
+----------+            if (next) {
+----------+                node.parentNode.insertBefore(next, node);
+----------+                state.notifyListeners();
+----------+            }
+----------+        });
+----------+
+----------@@ -568,0 +763 @@
+----------+            
+----------@@ -577 +772,2 @@
+-----------            newTask.setAttribute('id', Math.floor(Math.random() * 100000));
+----------+            const newId = Math.floor(Math.random() * 100000).toString();
+----------+            newTask.setAttribute('id', newId);
+----------@@ -587 +783,16 @@
+-----------            tasksNode.appendChild(newTask);
+----------+            // T035 : Insertion sous la sélection courante
+----------+            const selectedIds = Array.from(window.selectedTaskIds);
+----------+            let inserted = false;
+----------+            if (selectedIds.length > 0) {
+----------+                const lastSelectedNode = state.xmlDoc.querySelector(`task[id="${selectedIds[selectedIds.length - 1]}"]`);
+----------+                if (lastSelectedNode && lastSelectedNode.parentNode) {
+----------+                    lastSelectedNode.parentNode.insertBefore(newTask, lastSelectedNode.nextElementSibling);
+----------+                    inserted = true;
+----------+                }
+----------+            }
+----------+            if (!inserted) {
+----------+                tasksNode.appendChild(newTask);
+----------+            }
+----------+            
+----------+            window.selectedTaskIds.clear();
+----------+            window.selectedTaskIds.add(newId);
+---------diff --git a/specs/001-ganttproject-features/spec.md b/specs/001-ganttproject-features/spec.md
+---------index 0107b61..5fb4291 100644
+------------ a/specs/001-ganttproject-features/spec.md
+---------+++ b/specs/001-ganttproject-features/spec.md
+---------@@ -93 +93 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
+----------  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste. (Grisé si toutes les tâches sélectionnées n'ont pas le même parent).
+---------+  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste.
 ---------diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
----------index 2e23ef9..1abf261 100644
+---------index 6bba87b..fbc1a42 100644
 ------------ a/specs/001-ganttproject-features/tasks.md
 ---------+++ b/specs/001-ganttproject-features/tasks.md
----------@@ -118,3 +118,3 @@
------------ [ ] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
------------ [ ] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
------------ [ ] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
----------+- [x] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
----------+- [x] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
----------+- [x] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
----------@@ -124 +124 @@
------------ [ ] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
----------+- [x] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
+---------@@ -121 +121 @@
+----------- [ ] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
+---------+- [x] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
 ---------diff --git a/webGantt.html b/webGantt.html
----------index 3fee042..aadc41c 100644
+---------index 474858a..ede9a7e 100644
 ------------ a/webGantt.html
 ---------+++ b/webGantt.html
----------@@ -67 +67 @@
-----------        button:hover {
----------+        button:hover:not(:disabled) {
----------@@ -70,0 +71,7 @@
----------+        button:disabled {
----------+            opacity: 0.5;
----------+            cursor: not-allowed;
----------+            background-color: var(--bg-color);
----------+            color: #888;
----------+        }
----------+
----------@@ -184 +191,13 @@
-----------            <div class="pane-header">Tâches (WBS)</div>
----------+            <div class="pane-header" style="justify-content: space-between;">
----------+                <span>Tâches (WBS)</span>
----------+                <div id="wbs-toolbar" style="display:flex; gap:4px;">
----------+                    <button id="btn-outdent" title="Désindenter" style="padding:0 4px;" disabled>←</button>
----------+                    <button id="btn-indent" title="Indenter" style="padding:0 4px;" disabled>→</button>
----------+                    <button id="btn-move-up" title="Monter" style="padding:0 4px;" disabled>↑</button>
----------+                    <button id="btn-move-down" title="Descendre" style="padding:0 4px;" disabled>↓</button>
----------+                    <button id="btn-link" title="Lier" style="padding:0 4px;" disabled>🔗</button>
----------+                    <button id="btn-unlink" title="Délier" style="padding:0 4px;" disabled>⛓️‍💥</button>
----------+                    <button id="btn-filter" title="Filtrer" style="padding:0 4px;">🔽</button>
----------+                    <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
----------+                </div>
----------+            </div>
----------@@ -216,0 +236,2 @@
----------+                window.selectedTaskIds = new Set(); // T029: État de sélection global
----------+                window.lastSelectedTaskId = null; // T029: Shift-click
----------@@ -228,0 +250,2 @@
----------+                window.selectedTaskIds.clear();
----------+                window.lastSelectedTaskId = null;
----------@@ -293,0 +317 @@
----------+                row.setAttribute('data-task-id', task.id);
----------@@ -299,0 +324,42 @@
----------+                row.style.cursor = 'pointer'; // T029
----------+                row.style.userSelect = 'none'; // Empêcher la sélection de texte
+---------@@ -794,2 +794,16 @@
+----------                btnLink.disabled = !hasSameParent;
+----------                btnUnlink.disabled = false;
+---------+                btnLink.disabled = false;
 ---------+                
----------+                // T029 : Gestion du clic pour multisélection
----------+                row.addEventListener('click', (e) => {
----------+                    if (e.target.tagName === 'BUTTON') return;
----------+                    
----------+                    if (e.shiftKey && window.lastSelectedTaskId) {
----------+                        // Vider la sélection de texte du navigateur (sécurité supplémentaire)
----------+                        if (window.getSelection) window.getSelection().removeAllRanges();
----------+                        const allRows = Array.from(document.querySelectorAll('#wbs-content > div'));
----------+                        const allIds = allRows.map(r => r.getAttribute('data-task-id'));
----------+                        
----------+                        const idx1 = allIds.indexOf(window.lastSelectedTaskId);
----------+                        const idx2 = allIds.indexOf(task.id);
----------+                        
----------+                        if (idx1 !== -1 && idx2 !== -1) {
----------+                            const start = Math.min(idx1, idx2);
----------+                            const end = Math.max(idx1, idx2);
----------+                            
----------+                            if (!e.ctrlKey && !e.metaKey) {
----------+                                window.selectedTaskIds.clear();
----------+                            }
----------+                            
----------+                            for (let i = start; i <= end; i++) {
----------+                                window.selectedTaskIds.add(allIds[i]);
----------+                            }
+---------+                let hasLinks = false;
+---------+                for (const source of nodes) {
+---------+                    for (const target of nodes) {
+---------+                        if (source === target) continue;
+---------+                        const targetId = target.getAttribute('id');
+---------+                        const dep = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
+---------+                        if (dep) {
+---------+                            hasLinks = true;
+---------+                            break;
 ---------+                        }
----------+                    } else if (e.ctrlKey || e.metaKey) {
----------+                        if (window.selectedTaskIds.has(task.id)) {
----------+                            window.selectedTaskIds.delete(task.id);
----------+                        } else {
----------+                            window.selectedTaskIds.add(task.id);
----------+                        }
----------+                        window.lastSelectedTaskId = task.id;
----------+                    } else {
----------+                        window.selectedTaskIds.clear();
----------+                        window.selectedTaskIds.add(task.id);
----------+                        window.lastSelectedTaskId = task.id;
 ---------+                    }
----------+                    updateSelectionUI();
----------+                });
----------@@ -489 +555 @@
-----------                     svg += `<polygon points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
----------+                     svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
----------@@ -492 +558 @@
-----------                     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
----------+                     svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
----------@@ -551,0 +618,2 @@
----------+            
----------+            updateSelectionUI(); // Rafraîchissement post-rendu
----------@@ -553,0 +622,126 @@
----------+        // T029 : Gestion de la sélection et UI
----------+        function updateSelectionUI() {
----------+            // Mise à jour des lignes WBS
----------+            document.querySelectorAll('#wbs-content > div').forEach(row => {
----------+                const id = row.getAttribute('data-task-id');
----------+                if (window.selectedTaskIds.has(id)) {
----------+                    row.style.backgroundColor = '#e3f2fd'; // Bleu léger
----------+                } else {
----------+                    row.style.backgroundColor = '';
+---------+                    if (hasLinks) break;
 ---------+                }
----------+            });
----------+
----------+            // Mise à jour des éléments du SVG (Gantt)
----------+            const svgDoc = document.querySelector('#gantt-content svg');
----------+            if (svgDoc) {
----------+                svgDoc.querySelectorAll('.gantt-item').forEach(item => {
----------+                    const id = item.getAttribute('data-task-id');
----------+                    if (window.selectedTaskIds.has(id)) {
----------+                        item.setAttribute('stroke', '#ffeb3b'); // Contour jaune pour la sélection
----------+                        item.setAttribute('stroke-width', '3');
----------+                    } else {
----------+                        item.removeAttribute('stroke');
----------+                        item.removeAttribute('stroke-width');
----------+                    }
----------+                });
----------+            }
----------+            
----------+            updateToolbarButtons();
----------+        }
----------+
----------+        // T030 & T031 : Boutons hiérarchie WBS
----------+        function getPrevTask(node) {
----------+            let n = node.previousElementSibling;
----------+            while(n && n.tagName !== 'task') n = n.previousElementSibling;
----------+            return n;
----------+        }
----------+        function getNextTask(node) {
----------+            let n = node.nextElementSibling;
----------+            while(n && n.tagName !== 'task') n = n.nextElementSibling;
----------+            return n;
----------+        }
----------+
----------+        function updateToolbarButtons() {
----------+            const btnIndent = document.getElementById('btn-indent');
----------+            const btnOutdent = document.getElementById('btn-outdent');
----------+            const btnUp = document.getElementById('btn-move-up');
----------+            const btnDown = document.getElementById('btn-move-down');
----------+            const btnLink = document.getElementById('btn-link');
----------+            const btnUnlink = document.getElementById('btn-unlink');
----------+            
----------+            const selected = Array.from(window.selectedTaskIds);
----------+            
----------+            if (selected.length !== 1) {
----------+                btnIndent.disabled = true;
----------+                btnOutdent.disabled = true;
----------+                btnUp.disabled = true;
----------+                btnDown.disabled = true;
----------+                
----------+                // Chaînage
----------+                if (selected.length >= 2) {
----------+                    const parentNames = new Set(selected.map(id => {
----------+                        const n = state.xmlDoc.querySelector(`task[id="${id}"]`);
----------+                        return n && n.parentNode ? n.parentNode.nodeName : 'NONE'; // Approximatif pour l'instant
----------+                    }));
----------+                    btnLink.disabled = parentNames.size !== 1;
----------+                    btnUnlink.disabled = false; // Autorisé s'il y a des liens
----------+                } else {
----------+                    btnLink.disabled = true;
----------+                    btnUnlink.disabled = true;
----------+                }
----------+                return;
----------+            }
----------+            
----------+            btnLink.disabled = true;
----------+            btnUnlink.disabled = true;
----------+            
----------+            const taskNode = state.xmlDoc.querySelector(`task[id="${selected[0]}"]`);
----------+            if (!taskNode) return;
----------+            
----------+            btnIndent.disabled = !getPrevTask(taskNode);
----------+            btnOutdent.disabled = (taskNode.parentNode.tagName !== 'task');
----------+            btnUp.disabled = !getPrevTask(taskNode);
----------+            btnDown.disabled = !getNextTask(taskNode);
----------+        }
----------+
----------+        // Événements d'indentation / déplacement
----------+        document.getElementById('btn-indent').addEventListener('click', () => {
----------+            const taskId = Array.from(window.selectedTaskIds)[0];
----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
----------+            const prev = getPrevTask(node);
----------+            if (prev) {
----------+                prev.appendChild(node);
----------+                state.notifyListeners();
----------+            }
----------+        });
----------+
----------+        document.getElementById('btn-outdent').addEventListener('click', () => {
----------+            const taskId = Array.from(window.selectedTaskIds)[0];
----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
----------+            const parent = node.parentNode;
----------+            if (parent && parent.tagName === 'task') {
----------+                parent.parentNode.insertBefore(node, parent.nextElementSibling);
----------+                state.notifyListeners();
----------+            }
----------+        });
----------+
----------+        document.getElementById('btn-move-up').addEventListener('click', () => {
----------+            const taskId = Array.from(window.selectedTaskIds)[0];
----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
----------+            const prev = getPrevTask(node);
----------+            if (prev) {
----------+                node.parentNode.insertBefore(node, prev);
----------+                state.notifyListeners();
----------+            }
----------+        });
----------+
----------+        document.getElementById('btn-move-down').addEventListener('click', () => {
----------+            const taskId = Array.from(window.selectedTaskIds)[0];
----------+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
----------+            const next = getNextTask(node);
----------+            if (next) {
----------+                node.parentNode.insertBefore(next, node);
----------+                state.notifyListeners();
----------+            }
----------+        });
----------+
----------@@ -568,0 +763 @@
----------+            
----------@@ -577 +772,2 @@
-----------            newTask.setAttribute('id', Math.floor(Math.random() * 100000));
----------+            const newId = Math.floor(Math.random() * 100000).toString();
----------+            newTask.setAttribute('id', newId);
----------@@ -587 +783,16 @@
-----------            tasksNode.appendChild(newTask);
----------+            // T035 : Insertion sous la sélection courante
+---------+                btnUnlink.disabled = !hasLinks;
+---------@@ -878,0 +893,58 @@
+---------+        // T032 : Boutons Lier et Délier
+---------+        document.getElementById('btn-link').addEventListener('click', () => {
 ---------+            const selectedIds = Array.from(window.selectedTaskIds);
----------+            let inserted = false;
----------+            if (selectedIds.length > 0) {
----------+                const lastSelectedNode = state.xmlDoc.querySelector(`task[id="${selectedIds[selectedIds.length - 1]}"]`);
----------+                if (lastSelectedNode && lastSelectedNode.parentNode) {
----------+                    lastSelectedNode.parentNode.insertBefore(newTask, lastSelectedNode.nextElementSibling);
----------+                    inserted = true;
+---------+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+---------+            
+---------+            if (nodes.length < 2) return;
+---------+            
+---------+            nodes.sort((a, b) => {
+---------+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+---------+            });
+---------+            
+---------+            let changed = false;
+---------+            for (let i = 0; i < nodes.length - 1; i++) {
+---------+                const source = nodes[i];
+---------+                const target = nodes[i+1];
+---------+                const targetId = target.getAttribute('id');
+---------+                
+---------+                const existing = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
+---------+                if (!existing) {
+---------+                    const depend = state.xmlDoc.createElement('depend');
+---------+                    depend.setAttribute('id', targetId);
+---------+                    depend.setAttribute('type', 'FS');
+---------+                    depend.setAttribute('difference', '0');
+---------+                    depend.setAttribute('hardness', 'Strong');
+---------+                    
+---------+                    const firstTask = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'task');
+---------+                    if (firstTask) {
+---------+                        source.insertBefore(depend, firstTask);
+---------+                    } else {
+---------+                        source.appendChild(depend);
+---------+                    }
+---------+                    changed = true;
 ---------+                }
 ---------+            }
----------+            if (!inserted) {
----------+                tasksNode.appendChild(newTask);
----------+            }
+---------+            if (changed) state.notifyListeners();
+---------+        });
+---------+
+---------+        document.getElementById('btn-unlink').addEventListener('click', () => {
+---------+            const selectedIds = Array.from(window.selectedTaskIds);
+---------+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
 ---------+            
----------+            window.selectedTaskIds.clear();
----------+            window.selectedTaskIds.add(newId);
---------diff --git a/specs/001-ganttproject-features/spec.md b/specs/001-ganttproject-features/spec.md
---------index 0107b61..5fb4291 100644
------------ a/specs/001-ganttproject-features/spec.md
---------+++ b/specs/001-ganttproject-features/spec.md
---------@@ -93 +93 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
----------  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste. (Grisé si toutes les tâches sélectionnées n'ont pas le même parent).
---------+  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste.
+---------+            if (nodes.length < 2) return;
+---------+            
+---------+            let changed = false;
+---------+            nodes.forEach(source => {
+---------+                nodes.forEach(target => {
+---------+                    if (source === target) return;
+---------+                    const targetId = target.getAttribute('id');
+---------+                    const deps = Array.from(source.childNodes).filter(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
+---------+                    deps.forEach(dep => {
+---------+                        source.removeChild(dep);
+---------+                        changed = true;
+---------+                    });
+---------+                });
+---------+            });
+---------+            if (changed) state.notifyListeners();
+---------+        });
+---------+
 --------diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
---------index 6bba87b..fbc1a42 100644
+--------index fbc1a42..dbe4eea 100644
 ----------- a/specs/001-ganttproject-features/tasks.md
 --------+++ b/specs/001-ganttproject-features/tasks.md
---------@@ -121 +121 @@
----------- [ ] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
---------+- [x] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
+--------@@ -127 +127 @@
+---------- [ ] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
+--------+- [x] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
 --------diff --git a/webGantt.html b/webGantt.html
---------index 474858a..ede9a7e 100644
+--------index ede9a7e..be62f44 100644
 ----------- a/webGantt.html
 --------+++ b/webGantt.html
---------@@ -794,2 +794,16 @@
----------                btnLink.disabled = !hasSameParent;
----------                btnUnlink.disabled = false;
---------+                btnLink.disabled = false;
---------+                
---------+                let hasLinks = false;
---------+                for (const source of nodes) {
---------+                    for (const target of nodes) {
---------+                        if (source === target) continue;
---------+                        const targetId = target.getAttribute('id');
---------+                        const dep = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
---------+                        if (dep) {
---------+                            hasLinks = true;
---------+                            break;
---------+                        }
---------+                    }
---------+                    if (hasLinks) break;
---------+                }
---------+                btnUnlink.disabled = !hasLinks;
---------@@ -878,0 +893,58 @@
---------+        // T032 : Boutons Lier et Délier
---------+        document.getElementById('btn-link').addEventListener('click', () => {
---------+            const selectedIds = Array.from(window.selectedTaskIds);
---------+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
---------+            
---------+            if (nodes.length < 2) return;
---------+            
---------+            nodes.sort((a, b) => {
---------+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
---------+            });
---------+            
---------+            let changed = false;
---------+            for (let i = 0; i < nodes.length - 1; i++) {
---------+                const source = nodes[i];
---------+                const target = nodes[i+1];
---------+                const targetId = target.getAttribute('id');
---------+                
---------+                const existing = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
---------+                if (!existing) {
---------+                    const depend = state.xmlDoc.createElement('depend');
---------+                    depend.setAttribute('id', targetId);
---------+                    depend.setAttribute('type', 'FS');
---------+                    depend.setAttribute('difference', '0');
---------+                    depend.setAttribute('hardness', 'Strong');
---------+                    
---------+                    const firstTask = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'task');
---------+                    if (firstTask) {
---------+                        source.insertBefore(depend, firstTask);
---------+                    } else {
---------+                        source.appendChild(depend);
---------+                    }
---------+                    changed = true;
---------+                }
---------+            }
---------+            if (changed) state.notifyListeners();
+--------@@ -97,0 +98 @@
+--------+            min-width: 150px;
+--------@@ -99 +99,0 @@
+---------            border-right: 2px solid var(--border-color);
+--------@@ -103,0 +104,13 @@
+--------+        /* Splitter (T038) */
+--------+        #splitter {
+--------+            width: 4px;
+--------+            cursor: col-resize;
+--------+            background-color: var(--border-color);
+--------+            flex-shrink: 0;
+--------+            z-index: 10;
+--------+            transition: background-color 0.2s;
+--------+        }
+--------+        #splitter:hover, #splitter:active {
+--------+            background-color: var(--primary-color);
+--------+        }
+--------+
+--------@@ -207,0 +221,4 @@
+--------+        
+--------+        <!-- Splitter (T038) -->
+--------+        <div id="splitter"></div>
+--------+
+--------@@ -949,0 +967,26 @@
+--------+        // T038 : Logique du Splitter
+--------+        const splitter = document.getElementById('splitter');
+--------+        const leftPane = document.getElementById('left-pane');
+--------+        let isDraggingSplitter = false;
+--------+
+--------+        splitter.addEventListener('mousedown', (e) => {
+--------+            isDraggingSplitter = true;
+--------+            document.body.style.cursor = 'col-resize';
+--------+            e.preventDefault(); // Empêche la sélection de texte
 --------+        });
 --------+
---------+        document.getElementById('btn-unlink').addEventListener('click', () => {
---------+            const selectedIds = Array.from(window.selectedTaskIds);
---------+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
---------+            
---------+            if (nodes.length < 2) return;
---------+            
---------+            let changed = false;
---------+            nodes.forEach(source => {
---------+                nodes.forEach(target => {
---------+                    if (source === target) return;
---------+                    const targetId = target.getAttribute('id');
---------+                    const deps = Array.from(source.childNodes).filter(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
---------+                    deps.forEach(dep => {
---------+                        source.removeChild(dep);
---------+                        changed = true;
---------+                    });
---------+                });
---------+            });
---------+            if (changed) state.notifyListeners();
+--------+        document.addEventListener('mousemove', (e) => {
+--------+            if (!isDraggingSplitter) return;
+--------+            const newWidth = e.clientX;
+--------+            if (newWidth > 150 && newWidth < window.innerWidth - 150) {
+--------+                leftPane.style.width = newWidth + 'px';
+--------+            }
+--------+        });
+--------+
+--------+        document.addEventListener('mouseup', () => {
+--------+            if (isDraggingSplitter) {
+--------+                isDraggingSplitter = false;
+--------+                document.body.style.cursor = '';
+--------+            }
 --------+        });
 --------+
 -------diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
--------index fbc1a42..dbe4eea 100644
+-------index dbe4eea..3ac7c16 100644
 ---------- a/specs/001-ganttproject-features/tasks.md
 -------+++ b/specs/001-ganttproject-features/tasks.md
--------@@ -127 +127 @@
---------- [ ] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
--------+- [x] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
+-------@@ -128 +128 @@
+--------- [ ] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
+-------+- [x] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
 -------diff --git a/webGantt.html b/webGantt.html
--------index ede9a7e..be62f44 100644
+-------index be62f44..65f5f5e 100644
 ---------- a/webGantt.html
 -------+++ b/webGantt.html
--------@@ -97,0 +98 @@
--------+            min-width: 150px;
--------@@ -99 +99,0 @@
---------            border-right: 2px solid var(--border-color);
--------@@ -103,0 +104,13 @@
--------+        /* Splitter (T038) */
--------+        #splitter {
--------+            width: 4px;
--------+            cursor: col-resize;
--------+            background-color: var(--border-color);
--------+            flex-shrink: 0;
--------+            z-index: 10;
--------+            transition: background-color 0.2s;
--------+        }
--------+        #splitter:hover, #splitter:active {
--------+            background-color: var(--primary-color);
--------+        }
--------+
--------@@ -207,0 +221,4 @@
--------+        
--------+        <!-- Splitter (T038) -->
--------+        <div id="splitter"></div>
--------+
--------@@ -949,0 +967,26 @@
--------+        // T038 : Logique du Splitter
--------+        const splitter = document.getElementById('splitter');
--------+        const leftPane = document.getElementById('left-pane');
--------+        let isDraggingSplitter = false;
--------+
--------+        splitter.addEventListener('mousedown', (e) => {
--------+            isDraggingSplitter = true;
--------+            document.body.style.cursor = 'col-resize';
--------+            e.preventDefault(); // Empêche la sélection de texte
--------+        });
--------+
--------+        document.addEventListener('mousemove', (e) => {
--------+            if (!isDraggingSplitter) return;
--------+            const newWidth = e.clientX;
--------+            if (newWidth > 150 && newWidth < window.innerWidth - 150) {
--------+                leftPane.style.width = newWidth + 'px';
--------+            }
--------+        });
--------+
--------+        document.addEventListener('mouseup', () => {
--------+            if (isDraggingSplitter) {
--------+                isDraggingSplitter = false;
--------+                document.body.style.cursor = '';
+-------@@ -227 +227,4 @@
+--------            <div class="pane-header">Diagramme de Gantt</div>
+-------+            <div class="pane-header">
+-------+                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS" style="padding:0 4px; margin-right: 8px;">◀</button>
+-------+                <span>Diagramme de Gantt</span>
+-------+            </div>
+-------@@ -992,0 +996,20 @@
+-------+        // T039 : Masquer/Afficher complètement le panneau WBS
+-------+        let isPaneCollapsed = false;
+-------+        let previousPaneWidth = '400px';
+-------+        document.getElementById('btn-toggle-pane').addEventListener('click', (e) => {
+-------+            const btn = e.target;
+-------+            if (!isPaneCollapsed) {
+-------+                previousPaneWidth = leftPane.style.width || '400px';
+-------+                leftPane.style.display = 'none';
+-------+                splitter.style.display = 'none';
+-------+                btn.textContent = '▶';
+-------+                isPaneCollapsed = true;
+-------+            } else {
+-------+                leftPane.style.display = 'flex';
+-------+                leftPane.style.width = previousPaneWidth;
+-------+                splitter.style.display = 'block';
+-------+                btn.textContent = '◀';
+-------+                isPaneCollapsed = false;
 -------+            }
 -------+        });
 -------+
 ------diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
-------index dbe4eea..3ac7c16 100644
+------index 3ac7c16..fee2eaa 100644
 --------- a/specs/001-ganttproject-features/tasks.md
 ------+++ b/specs/001-ganttproject-features/tasks.md
-------@@ -128 +128 @@
--------- [ ] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
-------+- [x] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
+------@@ -122 +122 @@
+-------- [ ] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
+------+- [x] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
 ------diff --git a/webGantt.html b/webGantt.html
-------index be62f44..65f5f5e 100644
+------index 65f5f5e..5c1f101 100644
 --------- a/webGantt.html
 ------+++ b/webGantt.html
-------@@ -227 +227,4 @@
--------            <div class="pane-header">Diagramme de Gantt</div>
-------+            <div class="pane-header">
-------+                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS" style="padding:0 4px; margin-right: 8px;">◀</button>
-------+                <span>Diagramme de Gantt</span>
-------+            </div>
-------@@ -992,0 +996,20 @@
-------+        // T039 : Masquer/Afficher complètement le panneau WBS
-------+        let isPaneCollapsed = false;
-------+        let previousPaneWidth = '400px';
-------+        document.getElementById('btn-toggle-pane').addEventListener('click', (e) => {
-------+            const btn = e.target;
-------+            if (!isPaneCollapsed) {
-------+                previousPaneWidth = leftPane.style.width || '400px';
-------+                leftPane.style.display = 'none';
-------+                splitter.style.display = 'none';
-------+                btn.textContent = '▶';
-------+                isPaneCollapsed = true;
-------+            } else {
-------+                leftPane.style.display = 'flex';
-------+                leftPane.style.width = previousPaneWidth;
-------+                splitter.style.display = 'block';
-------+                btn.textContent = '◀';
-------+                isPaneCollapsed = false;
+------@@ -199 +198,0 @@
+-------
+------@@ -213 +212,17 @@
+-------                    <button id="btn-filter" title="Filtrer" style="padding:0 4px;">🔽</button>
+------+                    <!-- T033: Bouton Filtre avec liste déroulante -->
+------+                    <div style="position: relative; display: inline-block;">
+------+                        <button id="btn-filter" title="Filtrer" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+------+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+------+                              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+------+                            </svg>
+------+                        </button>
+------+                        <div id="filter-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+------+                            <form id="filter-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="all" checked> Toutes les tâches</label>
+------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="not-completed"> Non terminées</label>
+------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="today"> À faire aujourd'hui</label>
+------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="late"> En retard</label>
+------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="in-progress"> En cours</label>
+------+                            </form>
+------+                        </div>
+------+                    </div>
+------@@ -350,0 +366,51 @@
+------+        // T033 : Logique de Filtrage
+------+        window.currentFilter = 'all';
+------+
+------+        function getTaskEndDate(task) {
+------+            const start = new Date(task.start);
+------+            const duration = parseInt(task.duration, 10);
+------+            return new Date(start.getTime() + duration * 24 * 60 * 60 * 1000);
+------+        }
+------+
+------+        function isDateToday(date) {
+------+            const today = new Date();
+------+            return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+------+        }
+------+
+------+        function checkTaskFilter(task, filter) {
+------+            if (filter === 'all') return true;
+------+            if (task.isProject || task.subtasks.length > 0) return false;
+------+
+------+            const complete = parseInt(task.complete, 10) || 0;
+------+            const endDate = getTaskEndDate(task);
+------+            const today = new Date();
+------+            today.setHours(0,0,0,0);
+------+            
+------+            if (filter === 'not-completed') return complete < 100;
+------+            if (filter === 'today') return complete < 100 && isDateToday(endDate);
+------+            if (filter === 'late') return complete < 100 && endDate.getTime() < today.getTime();
+------+            if (filter === 'in-progress') {
+------+                if (!task.start) return false;
+------+                const startDate = new Date(task.start);
+------+                startDate.setHours(0,0,0,0);
+------+                return complete < 100 && startDate.getTime() <= today.getTime() && endDate.getTime() >= today.getTime();
+------+            }
+------+            return true;
+------+        }
+------+
+------+        function filterTasks(tasks, filter) {
+------+            if (filter === 'all') return tasks;
+------+            const result = [];
+------+            tasks.forEach(task => {
+------+                const isMatch = checkTaskFilter(task, filter);
+------+                const filteredSubtasks = filterTasks(task.subtasks, filter);
+------+                const hasMatch = filteredSubtasks.length > 0;
+------+                
+------+                if (isMatch || hasMatch) {
+------+                    const clonedTask = { ...task, subtasks: filteredSubtasks };
+------+                    result.push(clonedTask);
+------+                }
+------+            });
+------+            return result;
+------+        }
+------+
+------@@ -1317,2 +1383,3 @@
+-------                renderWBS(parsedTasks, wbsContent);
+-------                renderGantt(parsedTasks, ganttContent);
+------+                const filteredTasks = filterTasks(parsedTasks, window.currentFilter);
+------+                renderWBS(filteredTasks, wbsContent);
+------+                renderGantt(filteredTasks, ganttContent);
+------@@ -1321,0 +1389,23 @@
+------+        // T033 : Événements de Filtrage
+------+        const btnFilter = document.getElementById('btn-filter');
+------+        const filterDropdown = document.getElementById('filter-dropdown');
+------+        
+------+        btnFilter.addEventListener('click', (e) => {
+------+            e.stopPropagation();
+------+            const isHidden = filterDropdown.style.display === 'none';
+------+            filterDropdown.style.display = isHidden ? 'block' : 'none';
+------+        });
+------+
+------+        document.addEventListener('click', (e) => {
+------+            if (!filterDropdown.contains(e.target) && !btnFilter.contains(e.target)) {
+------+                filterDropdown.style.display = 'none';
 ------+            }
 ------+        });
 ------+
+------+        document.querySelectorAll('input[name="filter-type"]').forEach(radio => {
+------+            radio.addEventListener('change', (e) => {
+------+                window.currentFilter = e.target.value;
+------+                state.notifyListeners(); // Rafraîchit dynamiquement le WBS et le Gantt
+------+            });
+------+        });
+------+
 -----diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
------index 3ac7c16..fee2eaa 100644
+-----index fee2eaa..75b96db 100644
 -------- a/specs/001-ganttproject-features/tasks.md
 -----+++ b/specs/001-ganttproject-features/tasks.md
------@@ -122 +122 @@
-------- [ ] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
------+- [x] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
+-----@@ -123 +123 @@
+------- [ ] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
+-----+- [x] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
 -----diff --git a/webGantt.html b/webGantt.html
------index 65f5f5e..5c1f101 100644
+-----index 5c1f101..975515c 100644
 -------- a/webGantt.html
 -----+++ b/webGantt.html
------@@ -199 +198,0 @@
-------
------@@ -213 +212,17 @@
-------                    <button id="btn-filter" title="Filtrer" style="padding:0 4px;">🔽</button>
------+                    <!-- T033: Bouton Filtre avec liste déroulante -->
+-----@@ -229 +229,17 @@
+------                    <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
+-----+                    <!-- T034: Bouton Colonnes avec liste déroulante -->
 -----+                    <div style="position: relative; display: inline-block;">
------+                        <button id="btn-filter" title="Filtrer" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+-----+                        <button id="btn-columns" title="Colonnes" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
 -----+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
------+                              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+-----+                                <circle cx="12" cy="12" r="3"></circle>
+-----+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
 -----+                            </svg>
 -----+                        </button>
------+                        <div id="filter-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
------+                            <form id="filter-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="all" checked> Toutes les tâches</label>
------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="not-completed"> Non terminées</label>
------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="today"> À faire aujourd'hui</label>
------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="late"> En retard</label>
------+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="in-progress"> En cours</label>
+-----+                        <div id="columns-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+-----+                            <form id="columns-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+-----+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="actions" checked> Actions</label>
+-----+                                <label style="cursor: pointer; opacity: 0.6;" title="La colonne Nom ne peut pas être masquée"><input type="checkbox" name="col-toggle" value="name" checked disabled> Nom</label>
+-----+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="duration" checked> Durée</label>
+-----+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="start" checked> Date de début</label>
 -----+                            </form>
 -----+                        </div>
 -----+                    </div>
------@@ -350,0 +366,51 @@
------+        // T033 : Logique de Filtrage
------+        window.currentFilter = 'all';
------+
------+        function getTaskEndDate(task) {
------+            const start = new Date(task.start);
------+            const duration = parseInt(task.duration, 10);
------+            return new Date(start.getTime() + duration * 24 * 60 * 60 * 1000);
------+        }
------+
------+        function isDateToday(date) {
------+            const today = new Date();
------+            return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
------+        }
------+
------+        function checkTaskFilter(task, filter) {
------+            if (filter === 'all') return true;
------+            if (task.isProject || task.subtasks.length > 0) return false;
------+
------+            const complete = parseInt(task.complete, 10) || 0;
------+            const endDate = getTaskEndDate(task);
------+            const today = new Date();
------+            today.setHours(0,0,0,0);
------+            
------+            if (filter === 'not-completed') return complete < 100;
------+            if (filter === 'today') return complete < 100 && isDateToday(endDate);
------+            if (filter === 'late') return complete < 100 && endDate.getTime() < today.getTime();
------+            if (filter === 'in-progress') {
------+                if (!task.start) return false;
------+                const startDate = new Date(task.start);
------+                startDate.setHours(0,0,0,0);
------+                return complete < 100 && startDate.getTime() <= today.getTime() && endDate.getTime() >= today.getTime();
------+            }
------+            return true;
------+        }
------+
------+        function filterTasks(tasks, filter) {
------+            if (filter === 'all') return tasks;
------+            const result = [];
------+            tasks.forEach(task => {
------+                const isMatch = checkTaskFilter(task, filter);
------+                const filteredSubtasks = filterTasks(task.subtasks, filter);
------+                const hasMatch = filteredSubtasks.length > 0;
------+                
------+                if (isMatch || hasMatch) {
------+                    const clonedTask = { ...task, subtasks: filteredSubtasks };
------+                    result.push(clonedTask);
------+                }
------+            });
------+            return result;
------+        }
------+
------@@ -1317,2 +1383,3 @@
-------                renderWBS(parsedTasks, wbsContent);
-------                renderGantt(parsedTasks, ganttContent);
------+                const filteredTasks = filterTasks(parsedTasks, window.currentFilter);
------+                renderWBS(filteredTasks, wbsContent);
------+                renderGantt(filteredTasks, ganttContent);
------@@ -1321,0 +1389,23 @@
------+        // T033 : Événements de Filtrage
------+        const btnFilter = document.getElementById('btn-filter');
------+        const filterDropdown = document.getElementById('filter-dropdown');
+-----@@ -367,0 +384,2 @@
+-----+        // T034 : Colonnes WBS
+-----+        window.visibleColumns = { actions: true, name: true, duration: true, start: true };
+-----@@ -544,0 +563 @@
+-----+                if (!window.visibleColumns.duration) durationCol.style.display = 'none';
+-----@@ -548,0 +568 @@
+-----+                if (!window.visibleColumns.start) startCol.style.display = 'none';
+-----@@ -619,0 +640 @@
+-----+                if (!window.visibleColumns.actions) actionCol.style.display = 'none';
+-----@@ -1411,0 +1433,26 @@
+-----+        // T034 : Événements de Colonnes
+-----+        const btnColumns = document.getElementById('btn-columns');
+-----+        const columnsDropdown = document.getElementById('columns-dropdown');
 -----+        
------+        btnFilter.addEventListener('click', (e) => {
+-----+        btnColumns.addEventListener('click', (e) => {
 -----+            e.stopPropagation();
------+            const isHidden = filterDropdown.style.display === 'none';
------+            filterDropdown.style.display = isHidden ? 'block' : 'none';
+-----+            const isHidden = columnsDropdown.style.display === 'none';
+-----+            columnsDropdown.style.display = isHidden ? 'block' : 'none';
 -----+        });
 -----+
 -----+        document.addEventListener('click', (e) => {
------+            if (!filterDropdown.contains(e.target) && !btnFilter.contains(e.target)) {
------+                filterDropdown.style.display = 'none';
+-----+            if (!columnsDropdown.contains(e.target) && !btnColumns.contains(e.target)) {
+-----+                columnsDropdown.style.display = 'none';
 -----+            }
 -----+        });
 -----+
------+        document.querySelectorAll('input[name="filter-type"]').forEach(radio => {
------+            radio.addEventListener('change', (e) => {
------+                window.currentFilter = e.target.value;
------+                state.notifyListeners(); // Rafraîchit dynamiquement le WBS et le Gantt
+-----+        document.querySelectorAll('input[name="col-toggle"]').forEach(checkbox => {
+-----+            checkbox.addEventListener('change', (e) => {
+-----+                const colName = e.target.value;
+-----+                if (window.visibleColumns[colName] !== undefined) {
+-----+                    window.visibleColumns[colName] = e.target.checked;
+-----+                    state.notifyListeners(); // Rafraîchit dynamiquement le WBS
+-----+                }
 -----+            });
 -----+        });
 -----+
 ----diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
-----index fee2eaa..75b96db 100644
+----index 75b96db..083e865 100644
 ------- a/specs/001-ganttproject-features/tasks.md
 ----+++ b/specs/001-ganttproject-features/tasks.md
-----@@ -123 +123 @@
------- [ ] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
-----+- [x] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
+----@@ -126 +126 @@
+------ [ ] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
+----+- [x] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
 ----diff --git a/webGantt.html b/webGantt.html
-----index 5c1f101..975515c 100644
+----index 975515c..c3c715f 100644
 ------- a/webGantt.html
 ----+++ b/webGantt.html
-----@@ -229 +229,17 @@
------                    <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
-----+                    <!-- T034: Bouton Colonnes avec liste déroulante -->
-----+                    <div style="position: relative; display: inline-block;">
-----+                        <button id="btn-columns" title="Colonnes" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
-----+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-----+                                <circle cx="12" cy="12" r="3"></circle>
-----+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-----+                            </svg>
-----+                        </button>
-----+                        <div id="columns-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
-----+                            <form id="columns-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
-----+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="actions" checked> Actions</label>
-----+                                <label style="cursor: pointer; opacity: 0.6;" title="La colonne Nom ne peut pas être masquée"><input type="checkbox" name="col-toggle" value="name" checked disabled> Nom</label>
-----+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="duration" checked> Durée</label>
-----+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="start" checked> Date de début</label>
-----+                            </form>
-----+                        </div>
-----+                    </div>
-----@@ -367,0 +384,2 @@
-----+        // T034 : Colonnes WBS
-----+        window.visibleColumns = { actions: true, name: true, duration: true, start: true };
-----@@ -544,0 +563 @@
-----+                if (!window.visibleColumns.duration) durationCol.style.display = 'none';
-----@@ -548,0 +568 @@
-----+                if (!window.visibleColumns.start) startCol.style.display = 'none';
-----@@ -619,0 +640 @@
-----+                if (!window.visibleColumns.actions) actionCol.style.display = 'none';
-----@@ -1411,0 +1433,26 @@
-----+        // T034 : Événements de Colonnes
-----+        const btnColumns = document.getElementById('btn-columns');
-----+        const columnsDropdown = document.getElementById('columns-dropdown');
-----+        
-----+        btnColumns.addEventListener('click', (e) => {
-----+            e.stopPropagation();
-----+            const isHidden = columnsDropdown.style.display === 'none';
-----+            columnsDropdown.style.display = isHidden ? 'block' : 'none';
-----+        });
-----+
-----+        document.addEventListener('click', (e) => {
-----+            if (!columnsDropdown.contains(e.target) && !btnColumns.contains(e.target)) {
-----+                columnsDropdown.style.display = 'none';
-----+            }
-----+        });
-----+
-----+        document.querySelectorAll('input[name="col-toggle"]').forEach(checkbox => {
-----+            checkbox.addEventListener('change', (e) => {
-----+                const colName = e.target.value;
-----+                if (window.visibleColumns[colName] !== undefined) {
-----+                    window.visibleColumns[colName] = e.target.checked;
-----+                    state.notifyListeners(); // Rafraîchit dynamiquement le WBS
+----@@ -258 +258 @@
+-----            <div class="pane-header">
+----+            <div class="pane-header" style="display: flex; align-items: center;">
+----@@ -260,0 +261,8 @@
+----+                <div style="margin-left: auto; display: flex; gap: 4px;">
+----+                    <!-- T037: Bouton Chemin Critique -->
+----+                    <button id="btn-critical-path" title="Afficher/Masquer le chemin critique" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+----+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+----+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+----+                        </svg>
+----+                    </button>
+----+                </div>
+----@@ -385,0 +394,2 @@
+----+        // T037 : Chemin critique
+----+        window.showCriticalPath = false;
+----@@ -689,0 +700,57 @@
+----+            // T037 : Calcul du chemin critique (heuristique simple)
+----+            const criticalTaskIds = new Set();
+----+            if (window.showCriticalPath && flatTasks.length > 0) {
+----+                let maxEndDate = -1;
+----+                let latestTasks = [];
+----+                
+----+                flatTasks.forEach(t => {
+----+                    if (t.isProject || t.subtasks.length > 0) return; // Ignorer parents
+----+                    const ed = getTaskEndDate(t).getTime();
+----+                    if (ed > maxEndDate) {
+----+                        maxEndDate = ed;
+----+                        latestTasks = [t];
+----+                    } else if (ed === maxEndDate) {
+----+                        latestTasks.push(t);
+----+                    }
+----+                });
+----+                
+----+                let queue = [...latestTasks];
+----+                while (queue.length > 0) {
+----+                    const current = queue.shift();
+----+                    if (criticalTaskIds.has(current.id)) continue;
+----+                    criticalTaskIds.add(current.id);
+----+                    
+----+                    let maxPredEndDate = -1;
+----+                    let bestPreds = [];
+----+                    flatTasks.forEach(p => {
+----+                        if (p.depends.some(d => d.id === current.id)) {
+----+                            const ped = getTaskEndDate(p).getTime();
+----+                            if (ped > maxPredEndDate) {
+----+                                maxPredEndDate = ped;
+----+                                bestPreds = [p];
+----+                            } else if (ped === maxPredEndDate) {
+----+                                bestPreds.push(p);
+----+                            }
+----+                        }
+----+                    });
+----+                    bestPreds.forEach(p => queue.push(p));
 ----+                }
+----+                
+----+                // Propager le statut critique aux tâches parentes
+----+                function markCriticalParents(tList) {
+----+                    let hasCritical = false;
+----+                    tList.forEach(t => {
+----+                        let childCritical = false;
+----+                        if (t.subtasks && t.subtasks.length > 0) {
+----+                            childCritical = markCriticalParents(t.subtasks);
+----+                        }
+----+                        if (childCritical || criticalTaskIds.has(t.id)) {
+----+                            criticalTaskIds.add(t.id);
+----+                            hasCritical = true;
+----+                        }
+----+                    });
+----+                    return hasCritical;
+----+                }
+----+                markCriticalParents(tasks);
+----+            }
+----+            
+----@@ -707 +774,4 @@
+-----                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53935" />
+----+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#9e9e9e" />
+----+                </marker>
+----+                <marker id="arrow-critical" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+----+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#d32f2f" />
+----@@ -736,0 +807,4 @@
+----+                if (window.showCriticalPath && criticalTaskIds.has(t.id)) {
+----+                    color = '#d32f2f'; // Rouge
+----+                }
+----+                
+----@@ -797,0 +872,4 @@
+----+                    const isCriticalLink = window.showCriticalPath && criticalTaskIds.has(t.id) && criticalTaskIds.has(target.id);
+----+                    const linkColor = isCriticalLink ? '#d32f2f' : '#9e9e9e'; 
+----+                    const linkWidth = isCriticalLink ? '2.5' : '1.5';
+----+                    const marker = isCriticalLink ? 'url(#arrow-critical)' : 'url(#arrow)';
+----@@ -799 +877 @@
+-----                    svg += `<path d="${path}" fill="none" stroke="#e53935" stroke-width="1.5" marker-end="url(#arrow)"/>`;
+----+                    svg += `<path d="${path}" fill="none" stroke="${linkColor}" stroke-width="${linkWidth}" marker-end="${marker}"/>`;
+----@@ -1458,0 +1537,10 @@
+----+        // T037 : Activer/Désactiver le Chemin Critique
+----+        const btnCriticalPath = document.getElementById('btn-critical-path');
+----+        if (btnCriticalPath) {
+----+            btnCriticalPath.addEventListener('click', () => {
+----+                window.showCriticalPath = !window.showCriticalPath;
+----+                btnCriticalPath.style.color = window.showCriticalPath ? '#d32f2f' : '';
+----+                state.notifyListeners();
 ----+            });
-----+        });
+----+        }
 ----+
 ---diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
----index 75b96db..083e865 100644
+---index 083e865..e3b1917 100644
 ------ a/specs/001-ganttproject-features/tasks.md
 ---+++ b/specs/001-ganttproject-features/tasks.md
----@@ -126 +126 @@
------ [ ] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
----+- [x] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
+---@@ -129,2 +129,2 @@
+----- [ ] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
+----- [ ] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
+---+- [x] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
+---+- [x] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
 ---diff --git a/webGantt.html b/webGantt.html
----index 975515c..c3c715f 100644
+---index c3c715f..8c5d7bb 100644
 ------ a/webGantt.html
 ---+++ b/webGantt.html
----@@ -258 +258 @@
-----            <div class="pane-header">
----+            <div class="pane-header" style="display: flex; align-items: center;">
----@@ -260,0 +261,8 @@
----+                <div style="margin-left: auto; display: flex; gap: 4px;">
----+                    <!-- T037: Bouton Chemin Critique -->
----+                    <button id="btn-critical-path" title="Afficher/Masquer le chemin critique" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+---@@ -153 +152,0 @@
+----        <button id="btn-baselines">Lignes de base</button>
+---@@ -261,0 +261,16 @@
+---+                    <!-- T040: Boutons de zoom -->
+---+                    <button id="btn-zoom-out" title="Zoom Arrière" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
 ---+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
----+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+---+                            <circle cx="11" cy="11" r="8"></circle>
+---+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+---+                            <line x1="8" y1="11" x2="14" y2="11"></line>
 ---+                        </svg>
 ---+                    </button>
----+                </div>
----@@ -385,0 +394,2 @@
----+        // T037 : Chemin critique
----+        window.showCriticalPath = false;
----@@ -689,0 +700,57 @@
----+            // T037 : Calcul du chemin critique (heuristique simple)
----+            const criticalTaskIds = new Set();
----+            if (window.showCriticalPath && flatTasks.length > 0) {
----+                let maxEndDate = -1;
----+                let latestTasks = [];
+---+                    <button id="btn-zoom-in" title="Zoom Avant" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+---+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+---+                            <circle cx="11" cy="11" r="8"></circle>
+---+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+---+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+---+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+---+                        </svg>
+---+                    </button>
+---@@ -267,0 +283 @@
+---+                    <button id="btn-baselines" style="padding:0 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-left: 4px;">États de référence du projet....</button>
+---@@ -395,0 +412,3 @@
+---+        // T040 : Niveaux de Zoom (largeurs de jour en pixels)
+---+        const zoomLevels = [1, 2, 3, 5, 7, 10, 15, 20, 30, 40, 60, 80];
+---+        window.currentZoomIndex = 7; // 20px par défaut
+---@@ -478 +497,44 @@
+----            if (depth === 0) container.innerHTML = ''; // Clear à la racine
+---+            if (depth === 0) {
+---+                container.innerHTML = ''; // Clear à la racine
 ---+                
----+                flatTasks.forEach(t => {
----+                    if (t.isProject || t.subtasks.length > 0) return; // Ignorer parents
----+                    const ed = getTaskEndDate(t).getTime();
----+                    if (ed > maxEndDate) {
----+                        maxEndDate = ed;
----+                        latestTasks = [t];
----+                    } else if (ed === maxEndDate) {
----+                        latestTasks.push(t);
----+                    }
----+                });
+---+                // T041 : En-tête du WBS aligné avec l'échelle temporelle (40px)
+---+                const header = document.createElement('div');
+---+                header.style.display = 'flex';
+---+                header.style.alignItems = 'center';
+---+                header.style.borderBottom = '1px solid var(--border-color)';
+---+                header.style.height = '40px';
+---+                header.style.boxSizing = 'border-box';
+---+                header.style.fontWeight = 'bold';
+---+                header.style.fontSize = '12px';
+---+                header.style.color = 'var(--text-color)';
+---+                header.style.backgroundColor = 'var(--surface-color)';
 ---+                
----+                let queue = [...latestTasks];
----+                while (queue.length > 0) {
----+                    const current = queue.shift();
----+                    if (criticalTaskIds.has(current.id)) continue;
----+                    criticalTaskIds.add(current.id);
----+                    
----+                    let maxPredEndDate = -1;
----+                    let bestPreds = [];
----+                    flatTasks.forEach(p => {
----+                        if (p.depends.some(d => d.id === current.id)) {
----+                            const ped = getTaskEndDate(p).getTime();
----+                            if (ped > maxPredEndDate) {
----+                                maxPredEndDate = ped;
----+                                bestPreds = [p];
----+                            } else if (ped === maxPredEndDate) {
----+                                bestPreds.push(p);
----+                            }
----+                        }
----+                    });
----+                    bestPreds.forEach(p => queue.push(p));
----+                }
+---+                const cAction = document.createElement('div');
+---+                cAction.style.width = '100px';
+---+                cAction.style.flexShrink = '0';
+---+                cAction.style.paddingLeft = '8px';
+---+                cAction.textContent = 'Actions';
+---+                if (!window.visibleColumns.actions) cAction.style.display = 'none';
 ---+                
----+                // Propager le statut critique aux tâches parentes
----+                function markCriticalParents(tList) {
----+                    let hasCritical = false;
----+                    tList.forEach(t => {
----+                        let childCritical = false;
----+                        if (t.subtasks && t.subtasks.length > 0) {
----+                            childCritical = markCriticalParents(t.subtasks);
----+                        }
----+                        if (childCritical || criticalTaskIds.has(t.id)) {
----+                            criticalTaskIds.add(t.id);
----+                            hasCritical = true;
----+                        }
----+                    });
----+                    return hasCritical;
----+                }
----+                markCriticalParents(tasks);
+---+                const cName = document.createElement('div');
+---+                cName.style.flexGrow = '1';
+---+                cName.textContent = 'Nom';
+---+                
+---+                const cDuration = document.createElement('div');
+---+                cDuration.style.width = '60px';
+---+                cDuration.style.flexShrink = '0';
+---+                cDuration.textContent = 'Durée';
+---+                if (!window.visibleColumns.duration) cDuration.style.display = 'none';
+---+                
+---+                const cStart = document.createElement('div');
+---+                cStart.style.width = '80px';
+---+                cStart.style.flexShrink = '0';
+---+                cStart.textContent = 'Début';
+---+                if (!window.visibleColumns.start) cStart.style.display = 'none';
+---+                
+---+                header.appendChild(cAction);
+---+                header.appendChild(cName);
+---+                header.appendChild(cDuration);
+---+                header.appendChild(cStart);
+---+                container.appendChild(header);
 ---+            }
+---@@ -758,3 +820,6 @@
+----            const dayWidth = 20; // 20px par jour
+----            const totalHeight = flatTasks.length * rowHeight;
+----            const totalWidth = 3000; // Zone déroulable large
+---+            const dayWidth = zoomLevels[window.currentZoomIndex] || 20; // T040
+---+            const timelineHeight = 40; // T041
+---+            const totalHeight = flatTasks.length * rowHeight + timelineHeight;
+---+            const maxDaysTotal = flatTasks.length > 0 ? (getTaskEndDate(flatTasks[flatTasks.length-1]).getTime() - minDate.getTime()) / (1000*60*60*24) : 0;
+---+            const totalWidth = Math.max(3000, maxDaysTotal * dayWidth + 200); // Zone dynamique
+---+
+---@@ -780,0 +846,40 @@
+---+            // T041 : Rendu de l'échelle temporelle
+---+            svg += `<rect x="0" y="0" width="${totalWidth}" height="${timelineHeight}" fill="var(--surface-color)" stroke="var(--border-color)" stroke-width="1"/>`;
+---+            const startDateScale = new Date(minDate);
+---+            startDateScale.setHours(0,0,0,0);
+---+            const maxDays = Math.ceil(totalWidth / dayWidth);
 ---+            
----@@ -707 +774,4 @@
-----                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#e53935" />
----+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#9e9e9e" />
----+                </marker>
----+                <marker id="arrow-critical" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
----+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#d32f2f" />
----@@ -736,0 +807,4 @@
----+                if (window.showCriticalPath && criticalTaskIds.has(t.id)) {
----+                    color = '#d32f2f'; // Rouge
+---+            let currentMonth = -1;
+---+            let currentYear = -1;
+---+            let monthStartX = 0;
+---+            
+---+            for(let d = 0; d <= maxDays; d++) {
+---+                const iterDate = new Date(startDateScale.getTime() + d * 24 * 60 * 60 * 1000);
+---+                const x = d * dayWidth;
+---+                
+---+                if (dayWidth >= 20) { // Zoom: Jour
+---+                    svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+---+                    if (dayWidth >= 40 || d % 2 === 0) { // Alléger le texte si trop petit
+---+                        svg += `<text x="${x + (dayWidth/2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
+---+                    }
+---+                } else if (dayWidth >= 10 && iterDate.getDay() === 1) { // Zoom: Semaine (Lundi)
+---+                    svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+---+                    svg += `<text x="${x + 2}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
+---+                } else if (dayWidth < 10 && iterDate.getDate() === 1) { // Zoom: Mois
+---+                     svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
 ---+                }
 ---+                
----@@ -797,0 +872,4 @@
----+                    const isCriticalLink = window.showCriticalPath && criticalTaskIds.has(t.id) && criticalTaskIds.has(target.id);
----+                    const linkColor = isCriticalLink ? '#d32f2f' : '#9e9e9e'; 
----+                    const linkWidth = isCriticalLink ? '2.5' : '1.5';
----+                    const marker = isCriticalLink ? 'url(#arrow-critical)' : 'url(#arrow)';
----@@ -799 +877 @@
-----                    svg += `<path d="${path}" fill="none" stroke="#e53935" stroke-width="1.5" marker-end="url(#arrow)"/>`;
----+                    svg += `<path d="${path}" fill="none" stroke="${linkColor}" stroke-width="${linkWidth}" marker-end="${marker}"/>`;
----@@ -1458,0 +1537,10 @@
----+        // T037 : Activer/Désactiver le Chemin Critique
----+        const btnCriticalPath = document.getElementById('btn-critical-path');
----+        if (btnCriticalPath) {
----+            btnCriticalPath.addEventListener('click', () => {
----+                window.showCriticalPath = !window.showCriticalPath;
----+                btnCriticalPath.style.color = window.showCriticalPath ? '#d32f2f' : '';
----+                state.notifyListeners();
+---+                // Mois (toujours en haut)
+---+                if (iterDate.getMonth() !== currentMonth) {
+---+                    if (currentMonth !== -1) {
+---+                        const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+---+                        const monthWidth = x - monthStartX;
+---+                        svg += `<text x="${monthStartX + (monthWidth/2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+---+                        svg += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+---+                    }
+---+                    currentMonth = iterDate.getMonth();
+---+                    currentYear = iterDate.getFullYear();
+---+                    monthStartX = x;
+---+                }
+---+            }
+---+
+---@@ -782,2 +887,3 @@
+----            for(let i=0; i<flatTasks.length; i++) {
+----                svg += `<line x1="0" y1="${i*rowHeight + rowHeight}" x2="${totalWidth}" y2="${i*rowHeight + rowHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+---+            for(let i=0; i<=flatTasks.length; i++) {
+---+                const y = timelineHeight + i * rowHeight;
+---+                svg += `<line x1="0" y1="${y}" x2="${totalWidth}" y2="${y}" stroke="var(--border-color)" stroke-width="1" />`;
+---@@ -796 +902 @@
+----                const y = i * rowHeight + 8; // Centrage vertical
+---+                const y = timelineHeight + i * rowHeight + 8; // Centrage vertical sous la timeline
+---@@ -1545,0 +1652,18 @@
+---+        
+---+        // T040 : Zoom
+---+        const btnZoomIn = document.getElementById('btn-zoom-in');
+---+        const btnZoomOut = document.getElementById('btn-zoom-out');
+---+        if (btnZoomIn && btnZoomOut) {
+---+            btnZoomIn.addEventListener('click', () => {
+---+                if (window.currentZoomIndex < zoomLevels.length - 1) {
+---+                    window.currentZoomIndex++;
+---+                    state.notifyListeners();
+---+                }
+---+            });
+---+            btnZoomOut.addEventListener('click', () => {
+---+                if (window.currentZoomIndex > 0) {
+---+                    window.currentZoomIndex--;
+---+                    state.notifyListeners();
+---+                }
 ---+            });
 ---+        }
----+
 --diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
---index 083e865..e3b1917 100644
+--index e3b1917..f0d3fae 100644
 ----- a/specs/001-ganttproject-features/tasks.md
 --+++ b/specs/001-ganttproject-features/tasks.md
---@@ -129,2 +129,2 @@
----- [ ] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
----- [ ] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
---+- [x] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
---+- [x] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
+--@@ -131 +131 @@
+---- [ ] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
+--+- [x] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
 --diff --git a/webGantt.html b/webGantt.html
---index c3c715f..8c5d7bb 100644
+--index 8c5d7bb..9f4caf5 100644
 ----- a/webGantt.html
 --+++ b/webGantt.html
---@@ -153 +152,0 @@
----        <button id="btn-baselines">Lignes de base</button>
---@@ -261,0 +261,16 @@
---+                    <!-- T040: Boutons de zoom -->
---+                    <button id="btn-zoom-out" title="Zoom Arrière" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
---+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
---+                            <circle cx="11" cy="11" r="8"></circle>
---+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
---+                            <line x1="8" y1="11" x2="14" y2="11"></line>
---+                        </svg>
---+                    </button>
---+                    <button id="btn-zoom-in" title="Zoom Avant" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
---+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
---+                            <circle cx="11" cy="11" r="8"></circle>
---+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
---+                            <line x1="11" y1="8" x2="11" y2="14"></line>
---+                            <line x1="8" y1="11" x2="14" y2="11"></line>
---+                        </svg>
---+                    </button>
---@@ -267,0 +283 @@
---+                    <button id="btn-baselines" style="padding:0 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-left: 4px;">États de référence du projet....</button>
---@@ -395,0 +412,3 @@
---+        // T040 : Niveaux de Zoom (largeurs de jour en pixels)
---+        const zoomLevels = [1, 2, 3, 5, 7, 10, 15, 20, 30, 40, 60, 80];
---+        window.currentZoomIndex = 7; // 20px par défaut
---@@ -478 +497,44 @@
----            if (depth === 0) container.innerHTML = ''; // Clear à la racine
---+            if (depth === 0) {
---+                container.innerHTML = ''; // Clear à la racine
+--@@ -149,0 +150,4 @@
+--+        <!-- T042 : Historique -->
+--+        <button id="btn-undo" title="Annuler (Ctrl+Z)" disabled>↩ Annuler</button>
+--+        <button id="btn-redo" title="Rétablir (Ctrl+Y)" disabled>↪ Rétablir</button>
+--+        <div style="width: 12px;"></div>
+--@@ -312,0 +317,3 @@
+--+                // T042: Historique
+--+                this.historyStack = [];
+--+                this.historyIndex = -1;
+--@@ -326,0 +334,6 @@
 --+                
---+                // T041 : En-tête du WBS aligné avec l'échelle temporelle (40px)
---+                const header = document.createElement('div');
---+                header.style.display = 'flex';
---+                header.style.alignItems = 'center';
---+                header.style.borderBottom = '1px solid var(--border-color)';
---+                header.style.height = '40px';
---+                header.style.boxSizing = 'border-box';
---+                header.style.fontWeight = 'bold';
---+                header.style.fontSize = '12px';
---+                header.style.color = 'var(--text-color)';
---+                header.style.backgroundColor = 'var(--surface-color)';
+--+                // T042 : Initialiser l'historique avec l'état de départ
+--+                this.historyStack = [this.getXMLString()];
+--+                this.historyIndex = 0;
+--+                this.updateHistoryButtons();
 --+                
---+                const cAction = document.createElement('div');
---+                cAction.style.width = '100px';
---+                cAction.style.flexShrink = '0';
---+                cAction.style.paddingLeft = '8px';
---+                cAction.textContent = 'Actions';
---+                if (!window.visibleColumns.actions) cAction.style.display = 'none';
+--@@ -391 +404 @@
+---            notifyListeners(isLoad = false) {
+--+            notifyListeners(isLoad = false, isHistoryAction = false) {
+--@@ -393,0 +407,16 @@
 --+                
---+                const cName = document.createElement('div');
---+                cName.style.flexGrow = '1';
---+                cName.textContent = 'Nom';
---+                
---+                const cDuration = document.createElement('div');
---+                cDuration.style.width = '60px';
---+                cDuration.style.flexShrink = '0';
---+                cDuration.textContent = 'Durée';
---+                if (!window.visibleColumns.duration) cDuration.style.display = 'none';
---+                
---+                const cStart = document.createElement('div');
---+                cStart.style.width = '80px';
---+                cStart.style.flexShrink = '0';
---+                cStart.textContent = 'Début';
---+                if (!window.visibleColumns.start) cStart.style.display = 'none';
---+                
---+                header.appendChild(cAction);
---+                header.appendChild(cName);
---+                header.appendChild(cDuration);
---+                header.appendChild(cStart);
---+                container.appendChild(header);
---+            }
---@@ -758,3 +820,6 @@
----            const dayWidth = 20; // 20px par jour
----            const totalHeight = flatTasks.length * rowHeight;
----            const totalWidth = 3000; // Zone déroulable large
---+            const dayWidth = zoomLevels[window.currentZoomIndex] || 20; // T040
---+            const timelineHeight = 40; // T041
---+            const totalHeight = flatTasks.length * rowHeight + timelineHeight;
---+            const maxDaysTotal = flatTasks.length > 0 ? (getTaskEndDate(flatTasks[flatTasks.length-1]).getTime() - minDate.getTime()) / (1000*60*60*24) : 0;
---+            const totalWidth = Math.max(3000, maxDaysTotal * dayWidth + 200); // Zone dynamique
---+
---@@ -780,0 +846,40 @@
---+            // T041 : Rendu de l'échelle temporelle
---+            svg += `<rect x="0" y="0" width="${totalWidth}" height="${timelineHeight}" fill="var(--surface-color)" stroke="var(--border-color)" stroke-width="1"/>`;
---+            const startDateScale = new Date(minDate);
---+            startDateScale.setHours(0,0,0,0);
---+            const maxDays = Math.ceil(totalWidth / dayWidth);
---+            
---+            let currentMonth = -1;
---+            let currentYear = -1;
---+            let monthStartX = 0;
---+            
---+            for(let d = 0; d <= maxDays; d++) {
---+                const iterDate = new Date(startDateScale.getTime() + d * 24 * 60 * 60 * 1000);
---+                const x = d * dayWidth;
---+                
---+                if (dayWidth >= 20) { // Zoom: Jour
---+                    svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
---+                    if (dayWidth >= 40 || d % 2 === 0) { // Alléger le texte si trop petit
---+                        svg += `<text x="${x + (dayWidth/2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
+--+                // T042: Sauvegarder dans l'historique
+--+                if (!isLoad && !isHistoryAction) {
+--+                    const currentXmlStr = this.getXMLString();
+--+                    if (this.historyStack.length === 0 || currentXmlStr !== this.historyStack[this.historyIndex]) {
+--+                        // Couper le futur si on a annulé précédemment
+--+                        this.historyStack = this.historyStack.slice(0, this.historyIndex + 1);
+--+                        this.historyStack.push(currentXmlStr);
+--+                        if (this.historyStack.length > 100) {
+--+                            this.historyStack.shift();
+--+                        }
+--+                        this.historyIndex = this.historyStack.length - 1;
 --+                    }
---+                } else if (dayWidth >= 10 && iterDate.getDay() === 1) { // Zoom: Semaine (Lundi)
---+                    svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
---+                    svg += `<text x="${x + 2}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
---+                } else if (dayWidth < 10 && iterDate.getDate() === 1) { // Zoom: Mois
---+                     svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
 --+                }
 --+                
---+                // Mois (toujours en haut)
---+                if (iterDate.getMonth() !== currentMonth) {
---+                    if (currentMonth !== -1) {
---+                        const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
---+                        const monthWidth = x - monthStartX;
---+                        svg += `<text x="${monthStartX + (monthWidth/2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
---+                        svg += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
---+                    }
---+                    currentMonth = iterDate.getMonth();
---+                    currentYear = iterDate.getFullYear();
---+                    monthStartX = x;
+--+                this.updateHistoryButtons();
+--@@ -395,0 +425,32 @@
+--+
+--+            // T042 : Undo / Redo
+--+            undo() {
+--+                if (this.historyIndex > 0) {
+--+                    this.historyIndex--;
+--+                    const xmlStr = this.historyStack[this.historyIndex];
+--+                    this.xmlDoc = new DOMParser().parseFromString(xmlStr, "application/xml");
+--+                    window.selectedTaskIds.clear(); // Optionnel : nettoyer la sélection
+--+                    window.lastSelectedTaskId = null;
+--+                    this.notifyListeners(false, true);
 --+                }
 --+            }
 --+
---@@ -782,2 +887,3 @@
----            for(let i=0; i<flatTasks.length; i++) {
----                svg += `<line x1="0" y1="${i*rowHeight + rowHeight}" x2="${totalWidth}" y2="${i*rowHeight + rowHeight}" stroke="var(--border-color)" stroke-width="1" />`;
---+            for(let i=0; i<=flatTasks.length; i++) {
---+                const y = timelineHeight + i * rowHeight;
---+                svg += `<line x1="0" y1="${y}" x2="${totalWidth}" y2="${y}" stroke="var(--border-color)" stroke-width="1" />`;
---@@ -796 +902 @@
----                const y = i * rowHeight + 8; // Centrage vertical
---+                const y = timelineHeight + i * rowHeight + 8; // Centrage vertical sous la timeline
---@@ -1545,0 +1652,18 @@
---+        
---+        // T040 : Zoom
---+        const btnZoomIn = document.getElementById('btn-zoom-in');
---+        const btnZoomOut = document.getElementById('btn-zoom-out');
---+        if (btnZoomIn && btnZoomOut) {
---+            btnZoomIn.addEventListener('click', () => {
---+                if (window.currentZoomIndex < zoomLevels.length - 1) {
---+                    window.currentZoomIndex++;
---+                    state.notifyListeners();
+--+            redo() {
+--+                if (this.historyIndex < this.historyStack.length - 1) {
+--+                    this.historyIndex++;
+--+                    const xmlStr = this.historyStack[this.historyIndex];
+--+                    this.xmlDoc = new DOMParser().parseFromString(xmlStr, "application/xml");
+--+                    window.selectedTaskIds.clear();
+--+                    window.lastSelectedTaskId = null;
+--+                    this.notifyListeners(false, true);
 --+                }
---+            });
---+            btnZoomOut.addEventListener('click', () => {
---+                if (window.currentZoomIndex > 0) {
---+                    window.currentZoomIndex--;
---+                    state.notifyListeners();
+--+            }
+--+
+--+            updateHistoryButtons() {
+--+                const btnUndo = document.getElementById('btn-undo');
+--+                const btnRedo = document.getElementById('btn-redo');
+--+                if (btnUndo && btnRedo) {
+--+                    btnUndo.disabled = this.historyIndex <= 0;
+--+                    btnRedo.disabled = this.historyIndex >= this.historyStack.length - 1;
+--+                }
+--+            }
+--@@ -1670,0 +1732,22 @@
+--+        // T042 : Événements Historique
+--+        const btnUndo = document.getElementById('btn-undo');
+--+        const btnRedo = document.getElementById('btn-redo');
+--+        if (btnUndo && btnRedo) {
+--+            btnUndo.addEventListener('click', () => state.undo());
+--+            btnRedo.addEventListener('click', () => state.redo());
+--+            
+--+            // Raccourcis clavier (Ctrl+Z / Ctrl+Y)
+--+            document.addEventListener('keydown', (e) => {
+--+                if (e.ctrlKey || e.metaKey) {
+--+                    if (e.key === 'z' || e.key === 'Z') {
+--+                        e.preventDefault();
+--+                        if (e.shiftKey) state.redo();
+--+                        else state.undo();
+--+                    } else if (e.key === 'y' || e.key === 'Y') {
+--+                        e.preventDefault();
+--+                        state.redo();
+--+                    }
 --+                }
 --+            });
 --+        }
+--+
 -diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
--index e3b1917..f0d3fae 100644
+-index f0d3fae..6e222f0 100644
 ---- a/specs/001-ganttproject-features/tasks.md
 -+++ b/specs/001-ganttproject-features/tasks.md
--@@ -131 +131 @@
---- [ ] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
--+- [x] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
+-@@ -132 +132 @@
+--- [ ] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
+-+- [x] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
 -diff --git a/webGantt.html b/webGantt.html
--index 8c5d7bb..9f4caf5 100644
+-index 9f4caf5..9f1f606 100644
 ---- a/webGantt.html
 -+++ b/webGantt.html
--@@ -149,0 +150,4 @@
--+        <!-- T042 : Historique -->
--+        <button id="btn-undo" title="Annuler (Ctrl+Z)" disabled>↩ Annuler</button>
--+        <button id="btn-redo" title="Rétablir (Ctrl+Y)" disabled>↪ Rétablir</button>
--+        <div style="width: 12px;"></div>
--@@ -312,0 +317,3 @@
--+                // T042: Historique
--+                this.historyStack = [];
--+                this.historyIndex = -1;
--@@ -326,0 +334,6 @@
--+                
--+                // T042 : Initialiser l'historique avec l'état de départ
--+                this.historyStack = [this.getXMLString()];
--+                this.historyIndex = 0;
--+                this.updateHistoryButtons();
--+                
--@@ -391 +404 @@
---            notifyListeners(isLoad = false) {
--+            notifyListeners(isLoad = false, isHistoryAction = false) {
--@@ -393,0 +407,16 @@
--+                
--+                // T042: Sauvegarder dans l'historique
--+                if (!isLoad && !isHistoryAction) {
--+                    const currentXmlStr = this.getXMLString();
--+                    if (this.historyStack.length === 0 || currentXmlStr !== this.historyStack[this.historyIndex]) {
--+                        // Couper le futur si on a annulé précédemment
--+                        this.historyStack = this.historyStack.slice(0, this.historyIndex + 1);
--+                        this.historyStack.push(currentXmlStr);
--+                        if (this.historyStack.length > 100) {
--+                            this.historyStack.shift();
--+                        }
--+                        this.historyIndex = this.historyStack.length - 1;
--+                    }
--+                }
--+                
--+                this.updateHistoryButtons();
--@@ -395,0 +425,32 @@
--+
--+            // T042 : Undo / Redo
--+            undo() {
--+                if (this.historyIndex > 0) {
--+                    this.historyIndex--;
--+                    const xmlStr = this.historyStack[this.historyIndex];
--+                    this.xmlDoc = new DOMParser().parseFromString(xmlStr, "application/xml");
--+                    window.selectedTaskIds.clear(); // Optionnel : nettoyer la sélection
--+                    window.lastSelectedTaskId = null;
--+                    this.notifyListeners(false, true);
--+                }
--+            }
--+
--+            redo() {
--+                if (this.historyIndex < this.historyStack.length - 1) {
--+                    this.historyIndex++;
--+                    const xmlStr = this.historyStack[this.historyIndex];
--+                    this.xmlDoc = new DOMParser().parseFromString(xmlStr, "application/xml");
--+                    window.selectedTaskIds.clear();
--+                    window.lastSelectedTaskId = null;
--+                    this.notifyListeners(false, true);
--+                }
--+            }
--+
--+            updateHistoryButtons() {
--+                const btnUndo = document.getElementById('btn-undo');
--+                const btnRedo = document.getElementById('btn-redo');
--+                if (btnUndo && btnRedo) {
--+                    btnUndo.disabled = this.historyIndex <= 0;
--+                    btnRedo.disabled = this.historyIndex >= this.historyStack.length - 1;
--+                }
--+            }
--@@ -1670,0 +1732,22 @@
--+        // T042 : Événements Historique
--+        const btnUndo = document.getElementById('btn-undo');
--+        const btnRedo = document.getElementById('btn-redo');
--+        if (btnUndo && btnRedo) {
--+            btnUndo.addEventListener('click', () => state.undo());
--+            btnRedo.addEventListener('click', () => state.redo());
+-@@ -208,0 +209,7 @@
+-+                    <!-- T043: Presse-papiers -->
+-+                    <button id="btn-cut" title="Couper" style="padding:0 4px;" disabled>✂️</button>
+-+                    <button id="btn-copy" title="Copier" style="padding:0 4px;" disabled>📋</button>
+-+                    <button id="btn-paste" title="Coller" style="padding:0 4px;" disabled>📥</button>
+-+                    <button id="btn-delete" title="Supprimer" style="padding:0 4px;" disabled>🗑️</button>
+-+                    <div style="border-left: 1px solid var(--border-color); margin: 0 4px;"></div>
+-+                    
+-@@ -316,0 +324,3 @@
+-+                // T043: Presse-papiers
+-+                window.clipboardTasks = null;
+-+                window.lastSelectedTaskId = null; // T029: Shift-click
+-@@ -1103,0 +1114,8 @@
+-+            // T043
+-+            const btnCut = document.getElementById('btn-cut');
+-+            const btnCopy = document.getElementById('btn-copy');
+-+            const btnPaste = document.getElementById('btn-paste');
+-+            const btnDelete = document.getElementById('btn-delete');
 -+            
--+            // Raccourcis clavier (Ctrl+Z / Ctrl+Y)
--+            document.addEventListener('keydown', (e) => {
--+                if (e.ctrlKey || e.metaKey) {
--+                    if (e.key === 'z' || e.key === 'Z') {
--+                        e.preventDefault();
--+                        if (e.shiftKey) state.redo();
--+                        else state.undo();
--+                    } else if (e.key === 'y' || e.key === 'Y') {
--+                        e.preventDefault();
--+                        state.redo();
+-+            if (btnPaste) btnPaste.disabled = !window.clipboardTasks || window.clipboardTasks.length === 0;
+-+            
+-@@ -1113,0 +1132,3 @@
+-+                if (btnCut) btnCut.disabled = true;
+-+                if (btnCopy) btnCopy.disabled = true;
+-+                if (btnDelete) btnDelete.disabled = true;
+-@@ -1115,0 +1137,4 @@
+-+            
+-+            if (btnCut) btnCut.disabled = false;
+-+            if (btnCopy) btnCopy.disabled = false;
+-+            if (btnDelete) btnDelete.disabled = false;
+-@@ -1301,0 +1327,117 @@
+-+        
+-+        // T043 : Presse-papiers
+-+        document.getElementById('btn-copy').addEventListener('click', () => {
+-+            const selectedIds = Array.from(window.selectedTaskIds);
+-+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+-+            if (nodes.length > 0) {
+-+                window.clipboardTasks = nodes.map(n => n.cloneNode(true));
+-+                updateToolbarButtons();
+-+            }
+-+        });
+-+
+-+        document.getElementById('btn-cut').addEventListener('click', () => {
+-+            const selectedIds = Array.from(window.selectedTaskIds);
+-+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+-+            if (nodes.length > 0) {
+-+                window.clipboardTasks = nodes.map(n => n.cloneNode(true));
+-+                
+-+                // Supprimer les tâches
+-+                nodes.forEach(n => {
+-+                    const deletedId = n.getAttribute('id');
+-+                    if (n.parentNode) n.parentNode.removeChild(n);
+-+                    state.xmlDoc.querySelectorAll(`depend[id="${deletedId}"]`).forEach(dep => {
+-+                        if (dep.parentNode) dep.parentNode.removeChild(dep);
+-+                    });
+-+                });
+-+                
+-+                window.selectedTaskIds.clear();
+-+                window.lastSelectedTaskId = null;
+-+                updateToolbarButtons();
+-+                state.notifyListeners();
+-+            }
+-+        });
+-+
+-+        document.getElementById('btn-delete').addEventListener('click', () => {
+-+            const selectedIds = Array.from(window.selectedTaskIds);
+-+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+-+            if (nodes.length > 0) {
+-+                nodes.forEach(n => {
+-+                    const deletedId = n.getAttribute('id');
+-+                    if (n.parentNode) n.parentNode.removeChild(n);
+-+                    state.xmlDoc.querySelectorAll(`depend[id="${deletedId}"]`).forEach(dep => {
+-+                        if (dep.parentNode) dep.parentNode.removeChild(dep);
+-+                    });
+-+                });
+-+                
+-+                window.selectedTaskIds.clear();
+-+                window.lastSelectedTaskId = null;
+-+                state.notifyListeners();
+-+            }
+-+        });
+-+
+-+        document.getElementById('btn-paste').addEventListener('click', () => {
+-+            if (!window.clipboardTasks || window.clipboardTasks.length === 0) return;
+-+            
+-+            // On clone ce qui est dans le clipboard pour permettre des collages multiples
+-+            const clones = window.clipboardTasks.map(n => n.cloneNode(true));
+-+            
+-+            // Génération de nouveaux IDs
+-+            const idMap = {};
+-+            function generateIds(node) {
+-+                const oldId = node.getAttribute('id');
+-+                const newId = Math.floor(Math.random() * 100000).toString();
+-+                idMap[oldId] = newId;
+-+                node.setAttribute('id', newId);
+-+                
+-+                Array.from(node.childNodes).forEach(child => {
+-+                    if (child.nodeType === 1 && child.nodeName === 'task') {
+-+                        generateIds(child);
+-+                    }
+-+                });
+-+            }
+-+            clones.forEach(generateIds);
+-+            
+-+            // Mise à jour des dépendances internes à la copie
+-+            function updateDeps(node) {
+-+                Array.from(node.childNodes).forEach(child => {
+-+                    if (child.nodeType === 1 && child.nodeName === 'task') {
+-+                        updateDeps(child);
+-+                    } else if (child.nodeType === 1 && child.nodeName === 'depend') {
+-+                        const depId = child.getAttribute('id');
+-+                        if (idMap[depId]) {
+-+                            child.setAttribute('id', idMap[depId]);
+-+                        }
+-+                    }
+-+                });
+-+            }
+-+            clones.forEach(updateDeps);
+-+            
+-+            // Déterminer la cible (sous le dernier élément sélectionné ou à la racine)
+-+            const tasksNode = state.xmlDoc.querySelector('tasks');
+-+            const selectedIds = Array.from(window.selectedTaskIds);
+-+            let targetNode = null;
+-+            let insertBeforeNode = null;
+-+            
+-+            if (selectedIds.length > 0) {
+-+                const lastSelected = state.xmlDoc.querySelector(`task[id="${selectedIds[selectedIds.length - 1]}"]`);
+-+                if (lastSelected && lastSelected.parentNode) {
+-+                    targetNode = lastSelected.parentNode;
+-+                    insertBeforeNode = lastSelected.nextElementSibling;
+-+                }
+-+            }
+-+            
+-+            if (!targetNode) {
+-+                targetNode = tasksNode;
+-+                insertBeforeNode = null;
+-+            }
+-+            
+-+            window.selectedTaskIds.clear();
+-+            clones.forEach(clone => {
+-+                targetNode.insertBefore(clone, insertBeforeNode);
+-+                window.selectedTaskIds.add(clone.getAttribute('id'));
+-+            });
+-+            window.lastSelectedTaskId = Array.from(window.selectedTaskIds)[window.selectedTaskIds.length - 1];
+-+            
+-+            state.notifyListeners();
+-+        });
+-+
+-@@ -1739 +1881 @@
+--            // Raccourcis clavier (Ctrl+Z / Ctrl+Y)
+-+            // Raccourcis clavier (Ctrl+Z / Ctrl+Y / Presse-papiers)
+-@@ -1748,0 +1891,20 @@
+-+                    } else if (e.key === 'c' || e.key === 'C') {
+-+                        const btnCopy = document.getElementById('btn-copy');
+-+                        if (btnCopy && !btnCopy.disabled) { e.preventDefault(); btnCopy.click(); }
+-+                    } else if (e.key === 'x' || e.key === 'X') {
+-+                        const btnCut = document.getElementById('btn-cut');
+-+                        if (btnCut && !btnCut.disabled) { e.preventDefault(); btnCut.click(); }
+-+                    } else if (e.key === 'v' || e.key === 'V') {
+-+                        const btnPaste = document.getElementById('btn-paste');
+-+                        if (btnPaste && !btnPaste.disabled) { e.preventDefault(); btnPaste.click(); }
 -+                    }
 -+                }
--+            });
--+        }
--+
-diff --git a/specs/001-ganttproject-features/tasks.md b/specs/001-ganttproject-features/tasks.md
-index f0d3fae..6e222f0 100644
---- a/specs/001-ganttproject-features/tasks.md
-+++ b/specs/001-ganttproject-features/tasks.md
-@@ -132 +132 @@
--- [ ] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
-+- [x] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
+-+                
+-+                // T043 : Suppression via clavier
+-+                if (e.key === 'Delete' || e.key === 'Backspace') {
+-+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+-+                        const btnDelete = document.getElementById('btn-delete');
+-+                        if (btnDelete && !btnDelete.disabled) {
+-+                            e.preventDefault();
+-+                            btnDelete.click();
+-+                        }
 diff --git a/webGantt.html b/webGantt.html
-index 9f4caf5..9f1f606 100644
+index 9f1f606..42d5217 100644
 --- a/webGantt.html
 +++ b/webGantt.html
-@@ -208,0 +209,7 @@
-+                    <!-- T043: Presse-papiers -->
-+                    <button id="btn-cut" title="Couper" style="padding:0 4px;" disabled>✂️</button>
-+                    <button id="btn-copy" title="Copier" style="padding:0 4px;" disabled>📋</button>
-+                    <button id="btn-paste" title="Coller" style="padding:0 4px;" disabled>📥</button>
-+                    <button id="btn-delete" title="Supprimer" style="padding:0 4px;" disabled>🗑️</button>
-+                    <div style="border-left: 1px solid var(--border-color); margin: 0 4px;"></div>
+@@ -2,0 +3 @@
++
+@@ -85 +86,2 @@
+-            background-color: #0255b3; /* Slightly darker primary */
++            background-color: #0255b3;
++            /* Slightly darker primary */
+@@ -113 +115,3 @@
+-        #splitter:hover, #splitter:active {
++
++        #splitter:hover,
++        #splitter:active {
+@@ -127 +131,2 @@
+-            height: 32px;
++            min-height: 32px;
++            height: auto;
+@@ -132 +137,2 @@
+-            padding: 0 8px;
++            padding: 4px 8px;
++            box-sizing: border-box;
+@@ -136,0 +143,8 @@
++        .pane-header button {
++            height: 22px;
++            display: inline-flex;
++            align-items: center;
++            justify-content: center;
++            box-sizing: border-box;
++        }
++
+@@ -140 +154,2 @@
+-            padding: 0; /* Zéro padding pour garantir l'alignement parfait des lignes */
++            padding: 0;
++            /* Zéro padding pour garantir l'alignement parfait des lignes */
+@@ -143,0 +159 @@
++
+@@ -162 +178,2 @@
+-    <dialog id="resource-modal" style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
++    <dialog id="resource-modal"
++        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+@@ -174 +191,2 @@
+-    <dialog id="assign-modal" style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
++    <dialog id="assign-modal"
++        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+@@ -185 +203,2 @@
+-    <dialog id="baseline-modal" style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
++    <dialog id="baseline-modal"
++        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+@@ -189 +208 @@
+-        
++
+@@ -191,2 +210,3 @@
+-        <ul id="baseline-list" style="margin: 8px 0; padding-left: 0; list-style-type: none; max-height: 150px; overflow-y: auto;"></ul>
+-        
++        <ul id="baseline-list"
++            style="margin: 8px 0; padding-left: 0; list-style-type: none; max-height: 150px; overflow-y: auto;"></ul>
++
+@@ -194 +214,2 @@
+-            <input type="text" id="new-baseline-name" placeholder="Nom de la nouvelle empreinte" style="flex:1; padding: 4px;" />
++            <input type="text" id="new-baseline-name" placeholder="Nom de la nouvelle empreinte"
++                style="flex:1; padding: 4px;" />
+@@ -201,0 +223,22 @@
++
++    <!-- Dialog for Task Details -->
++    <dialog id="task-details-modal" style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
++        <h3>Caractéristiques de la tâche</h3>
++        <div style="margin-bottom: 16px; font-size: 13px; line-height: 1.5;">
++            <strong>Nom :</strong> <span id="td-name"></span><br/>
++            <strong>Début :</strong> <span id="td-start"></span><br/>
++            <strong>Durée :</strong> <span id="td-duration"></span><br/>
++            <strong>Avancement :</strong> <span id="td-complete"></span>%<br/>
++            <strong>Type :</strong> <span id="td-type"></span><br/>
++            <strong>Ressources :</strong> <span id="td-resources"></span>
++        </div>
++        <div style="display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
++            <button id="td-btn-prog" style="font-size: 11px;">Mettre à jour avancement (%)</button>
++            <button id="td-btn-assign" style="font-size: 11px;">Affecter ressource</button>
++            <button id="td-btn-shift" style="font-size: 11px;">Décaler de +1j</button>
++            <button id="td-btn-del" style="font-size: 11px; color: #d32f2f;">Supprimer</button>
++        </div>
++        <div style="text-align: right;">
++            <button id="td-btn-close" class="primary">Fermer</button>
++        </div>
++    </dialog>
+@@ -207,2 +250,2 @@
+-                <span>Tâches (WBS)</span>
+-                <div id="wbs-toolbar" style="display:flex; gap:4px;">
++                <span>Tâches</span>
++                <div id="wbs-toolbar" style="display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end;">
+@@ -210,12 +253,32 @@
+-                    <button id="btn-cut" title="Couper" style="padding:0 4px;" disabled>✂️</button>
+-                    <button id="btn-copy" title="Copier" style="padding:0 4px;" disabled>📋</button>
+-                    <button id="btn-paste" title="Coller" style="padding:0 4px;" disabled>📥</button>
+-                    <button id="btn-delete" title="Supprimer" style="padding:0 4px;" disabled>🗑️</button>
+-                    <div style="border-left: 1px solid var(--border-color); margin: 0 4px;"></div>
+-                    
+-                    <button id="btn-outdent" title="Désindenter" style="padding:0 4px;" disabled>←</button>
+-                    <button id="btn-indent" title="Indenter" style="padding:0 4px;" disabled>→</button>
+-                    <button id="btn-move-up" title="Monter" style="padding:0 4px;" disabled>↑</button>
+-                    <button id="btn-move-down" title="Descendre" style="padding:0 4px;" disabled>↓</button>
+-                    <button id="btn-link" title="Lier" style="padding:0 4px;" disabled>🔗</button>
+-                    <button id="btn-unlink" title="Délier" style="padding:0 4px;" disabled>⛓️‍💥</button>
++                    <button id="btn-cut" title="Couper" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
++                    </button>
++                    <button id="btn-copy" title="Copier" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
++                    </button>
++                    <button id="btn-paste" title="Coller" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
++                    </button>
++                    <button id="btn-delete" title="Supprimer" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
++                    </button>
++                    <div style="border-left: 1px solid var(--border-color); margin: 0 4px; height: 22px;"></div>
++
++                    <button id="btn-outdent" title="Désindenter" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line><polyline points="8 16 4 12 8 8"></polyline></svg>
++                    </button>
++                    <button id="btn-indent" title="Indenter" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line><polyline points="16 16 20 12 16 8"></polyline></svg>
++                    </button>
++                    <button id="btn-move-up" title="Monter" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
++                    </button>
++                    <button id="btn-move-down" title="Descendre" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
++                    </button>
++                    <button id="btn-link" title="Lier" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
++                    </button>
++                    <button id="btn-unlink" title="Délier" disabled>
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>
++                    </button>
+@@ -224,3 +287,5 @@
+-                        <button id="btn-filter" title="Filtrer" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+-                              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
++                        <button id="btn-filter" title="Filtrer"
++                            style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
++                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
++                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+@@ -229,7 +294,14 @@
+-                        <div id="filter-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+-                            <form id="filter-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+-                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="all" checked> Toutes les tâches</label>
+-                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="not-completed"> Non terminées</label>
+-                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="today"> À faire aujourd'hui</label>
+-                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="late"> En retard</label>
+-                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="in-progress"> En cours</label>
++                        <div id="filter-dropdown"
++                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
++                            <form id="filter-form"
++                                style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
++                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="all"
++                                        checked> Toutes les tâches</label>
++                                <label style="cursor: pointer;"><input type="radio" name="filter-type"
++                                        value="not-completed"> Non terminées</label>
++                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="today"> À
++                                    faire aujourd'hui</label>
++                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="late"> En
++                                    retard</label>
++                                <label style="cursor: pointer;"><input type="radio" name="filter-type"
++                                        value="in-progress"> En cours</label>
+@@ -241,2 +313,4 @@
+-                        <button id="btn-columns" title="Colonnes" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                        <button id="btn-columns" title="Colonnes"
++                            style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
++                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
++                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+@@ -244 +318,3 @@
+-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
++                                <path
++                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
++                                </path>
+@@ -247,6 +323,13 @@
+-                        <div id="columns-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+-                            <form id="columns-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+-                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="actions" checked> Actions</label>
+-                                <label style="cursor: pointer; opacity: 0.6;" title="La colonne Nom ne peut pas être masquée"><input type="checkbox" name="col-toggle" value="name" checked disabled> Nom</label>
+-                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="duration" checked> Durée</label>
+-                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="start" checked> Date de début</label>
++                        <div id="columns-dropdown"
++                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
++                            <form id="columns-form"
++                                style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
++                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="actions"
++                                        checked> Détails (Loupe)</label>
++                                <label style="cursor: pointer; opacity: 0.6;"
++                                    title="La colonne Nom ne peut pas être masquée"><input type="checkbox"
++                                        name="col-toggle" value="name" checked disabled> Nom</label>
++                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle"
++                                        value="duration" checked> Durée</label>
++                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="start"
++                                        checked> Date de début</label>
+@@ -262 +345 @@
+-        
++
+@@ -269 +352,2 @@
+-                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS" style="padding:0 4px; margin-right: 8px;">◀</button>
++                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS"
++                    style="padding:0 4px; margin-right: 8px;">◀</button>
+@@ -273,2 +357,4 @@
+-                    <button id="btn-zoom-out" title="Zoom Arrière" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                    <button id="btn-zoom-out" title="Zoom Arrière"
++                        style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
++                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+@@ -280,2 +366,4 @@
+-                    <button id="btn-zoom-in" title="Zoom Avant" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                    <button id="btn-zoom-in" title="Zoom Avant"
++                        style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
++                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+@@ -289,2 +377,4 @@
+-                    <button id="btn-critical-path" title="Afficher/Masquer le chemin critique" style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                    <button id="btn-critical-path" title="Afficher/Masquer le chemin critique"
++                        style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
++                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
++                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+@@ -294 +384,3 @@
+-                    <button id="btn-baselines" style="padding:0 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-left: 4px;">États de référence du projet....</button>
++                    <button id="btn-baselines"
++                        style="padding:0 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-left: 4px;">États
++                        de référence du projet....</button>
+@@ -307 +399 @@
+-        
++
+@@ -336 +428 @@
+-                
++
+@@ -344 +436 @@
+-                
++
+@@ -349 +441 @@
+-                
++
+@@ -368 +460 @@
+-                
++
+@@ -371 +463 @@
+-                    
++
+@@ -376 +468 @@
+-                    
++
+@@ -378 +470 @@
+-                    
++
+@@ -382 +474 @@
+-                    
++
+@@ -385 +477 @@
+-                        
++
+@@ -399 +491 @@
+-                    
++
+@@ -403 +495 @@
+-                        
++
+@@ -409 +501 @@
+-                
++
+@@ -417 +509 @@
+-                
++
+@@ -431 +523 @@
+-                
++
+@@ -467 +559 @@
+-            
++
+@@ -505,2 +597,2 @@
+-            today.setHours(0,0,0,0);
+-            
++            today.setHours(0, 0, 0, 0);
++
+@@ -513 +605 @@
+-                startDate.setHours(0,0,0,0);
++                startDate.setHours(0, 0, 0, 0);
+@@ -526 +618 @@
+-                
++
+@@ -570 +662 @@
+-                
++
+@@ -582 +674 @@
+-                
++
+@@ -584 +676 @@
+-                cAction.style.width = '100px';
++                cAction.style.width = '30px';
+@@ -586,2 +678 @@
+-                cAction.style.paddingLeft = '8px';
+-                cAction.textContent = 'Actions';
++                cAction.textContent = ''; 
+@@ -589 +680 @@
+-                
++
+@@ -593 +684 @@
+-                
++
+@@ -599 +690 @@
+-                
++
+@@ -605,2 +696 @@
+-                
+-                header.appendChild(cAction);
++
+@@ -609,0 +700 @@
++                header.appendChild(cAction);
+@@ -612 +703 @@
+-            
++
+@@ -624 +715 @@
+-                
++
+@@ -628 +719 @@
+-                    
++
+@@ -634 +725 @@
+-                        
++
+@@ -637 +728 @@
+-                        
++
+@@ -641 +732 @@
+-                            
++
+@@ -645 +736 @@
+-                            
++
+@@ -664 +755 @@
+-                
++
+@@ -669 +760 @@
+-                
++
+@@ -674 +765 @@
+-                
++
+@@ -700 +791 @@
+-                
++
+@@ -707 +798 @@
+-                
++
+@@ -712,24 +802,0 @@
+-                
+-                // T010 : Suppression d'une tâche via un bouton
+-                const delBtn = document.createElement('button');
+-                delBtn.textContent = 'x';
+-                delBtn.style.padding = '0 6px';
+-                delBtn.style.marginRight = '2px';
+-                delBtn.style.fontSize = '10px';
+-                delBtn.style.cursor = 'pointer';
+-                delBtn.onclick = () => {
+-                    task.node.parentNode.removeChild(task.node);
+-                    state.notifyListeners(); // Force le re-rendu
+-                };
+-
+-                // T015 : Bouton pour décaler la tâche de +1 jour (Décalage en cascade)
+-                const shiftBtn = document.createElement('button');
+-                shiftBtn.textContent = '→';
+-                shiftBtn.style.padding = '0 4px';
+-                shiftBtn.style.marginRight = '4px';
+-                shiftBtn.style.fontSize = '10px';
+-                shiftBtn.title = 'Décaler de +1 jour (Cascade)';
+-                shiftBtn.onclick = () => {
+-                    shiftTaskRecursive(task.id, 1);
+-                    state.notifyListeners();
+-                };
+@@ -737,9 +804,13 @@
+-                // T018 : Affecter une ressource
+-                const assignBtn = document.createElement('button');
+-                assignBtn.textContent = '👤';
+-                assignBtn.style.padding = '0 4px';
+-                assignBtn.style.fontSize = '10px';
+-                assignBtn.title = 'Affecter une ressource';
+-                assignBtn.onclick = () => {
+-                    const res = getResources();
+-                    if (res.length === 0) return alert('Aucune ressource dans le pool. Créez-en d\'abord via le bouton Ressources.');
++                // T010, T015, T018, T022: Remplacés par un bouton Loupe unique
++                const detailsBtn = document.createElement('button');
++                detailsBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
++                detailsBtn.style.padding = '0';
++                detailsBtn.style.width = '22px';
++                detailsBtn.style.height = '22px';
++                detailsBtn.style.display = 'flex';
++                detailsBtn.style.alignItems = 'center';
++                detailsBtn.style.justifyContent = 'center';
++                detailsBtn.style.cursor = 'pointer';
++                detailsBtn.title = 'Voir les caractéristiques';
++                detailsBtn.onclick = (e) => {
++                    e.stopPropagation(); // Éviter la sélection de la tâche si on clique juste sur le bouton
+@@ -747,8 +818,2 @@
+-                    const assignSelect = document.getElementById('assign-resource-select');
+-                    assignSelect.innerHTML = '';
+-                    res.forEach(r => {
+-                        const opt = document.createElement('option');
+-                        opt.value = r.id;
+-                        opt.textContent = r.name;
+-                        assignSelect.appendChild(opt);
+-                    });
++                    window.currentDetailsTaskId = task.id;
++                    window.currentDetailsTaskNode = task.node;
+@@ -756,23 +821,12 @@
+-                    window.currentAssignTaskId = task.id;
+-                    document.getElementById('assign-modal').showModal();
+-                };
+-                
+-                // T022 : Bouton pourcentage d'avancement
+-                const progBtn = document.createElement('button');
+-                progBtn.textContent = '%';
+-                progBtn.style.padding = '0 4px';
+-                progBtn.style.marginLeft = '4px';
+-                progBtn.style.fontSize = '10px';
+-                progBtn.title = 'Avancement (0-100%)';
+-                progBtn.onclick = () => {
+-                    const currentComp = task.complete || 0;
+-                    const val = prompt("Pourcentage d'avancement (0-100) :", currentComp);
+-                    if (val !== null) {
+-                        const parsed = parseInt(val);
+-                        if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) {
+-                            task.node.setAttribute('complete', parsed);
+-                            state.notifyListeners();
+-                        } else {
+-                            alert("Veuillez entrer un nombre entre 0 et 100.");
+-                        }
+-                    }
++                    document.getElementById('td-name').textContent = task.name;
++                    document.getElementById('td-start').textContent = task.start || 'Non défini';
++                    document.getElementById('td-duration').textContent = task.isMilestone ? '0 (Jalon)' : task.duration + ' jours';
++                    document.getElementById('td-complete').textContent = task.complete || 0;
++                    document.getElementById('td-type').textContent = task.isProject ? 'Projet / Parent' : (task.isMilestone ? 'Jalon' : 'Standard');
 +                    
-@@ -316,0 +324,3 @@
-+                // T043: Presse-papiers
-+                window.clipboardTasks = null;
-+                window.lastSelectedTaskId = null; // T029: Shift-click
-@@ -1103,0 +1114,8 @@
-+            // T043
-+            const btnCut = document.getElementById('btn-cut');
-+            const btnCopy = document.getElementById('btn-copy');
-+            const btnPaste = document.getElementById('btn-paste');
-+            const btnDelete = document.getElementById('btn-delete');
-+            
-+            if (btnPaste) btnPaste.disabled = !window.clipboardTasks || window.clipboardTasks.length === 0;
-+            
-@@ -1113,0 +1132,3 @@
-+                if (btnCut) btnCut.disabled = true;
-+                if (btnCopy) btnCopy.disabled = true;
-+                if (btnDelete) btnDelete.disabled = true;
-@@ -1115,0 +1137,4 @@
-+            
-+            if (btnCut) btnCut.disabled = false;
-+            if (btnCopy) btnCopy.disabled = false;
-+            if (btnDelete) btnDelete.disabled = false;
-@@ -1301,0 +1327,117 @@
++                    const allocs = getAllocations().filter(a => a.taskId === task.id);
++                    const resMap = getResources().reduce((acc, r) => ({...acc, [r.id]: r.name}), {});
++                    const resNames = allocs.map(a => resMap[a.resourceId] || 'Inconnu').join(', ');
++                    document.getElementById('td-resources').textContent = resNames || 'Aucune';
++                    
++                    document.getElementById('task-details-modal').showModal();
+@@ -780 +834 @@
+-                
++
+@@ -782 +836,3 @@
+-                actionCol.style.width = '95px';
++                actionCol.style.width = '30px';
++                actionCol.style.display = 'flex';
++                actionCol.style.justifyContent = 'center';
+@@ -784,4 +840 @@
+-                actionCol.appendChild(delBtn);
+-                actionCol.appendChild(shiftBtn);
+-                actionCol.appendChild(assignBtn);
+-                actionCol.appendChild(progBtn);
++                actionCol.appendChild(detailsBtn);
+@@ -789 +841,0 @@
+-                row.appendChild(actionCol);
+@@ -792,0 +845 @@
++                row.appendChild(actionCol);
+@@ -794 +847 @@
+-                
++
+@@ -806 +859 @@
+-            
++
+@@ -818 +871 @@
+-            
++
+@@ -832 +885 @@
+-            
++
+@@ -838 +891 @@
+-                
++
+@@ -849 +902 @@
+-                
++
+@@ -855 +908 @@
+-                    
++
+@@ -871 +924 @@
+-                
++
+@@ -889 +942 @@
+-            
++
+@@ -894 +947 @@
+-            const maxDaysTotal = flatTasks.length > 0 ? (getTaskEndDate(flatTasks[flatTasks.length-1]).getTime() - minDate.getTime()) / (1000*60*60*24) : 0;
++            const maxDaysTotal = flatTasks.length > 0 ? (getTaskEndDate(flatTasks[flatTasks.length - 1]).getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24) : 0;
+@@ -897 +950 @@
+-            
++
+@@ -906 +959 @@
+-            
++
+@@ -916 +969 @@
+-            
++
+@@ -920 +973 @@
+-            startDateScale.setHours(0,0,0,0);
++            startDateScale.setHours(0, 0, 0, 0);
+@@ -922 +975 @@
+-            
++
+@@ -926,2 +979,2 @@
+-            
+-            for(let d = 0; d <= maxDays; d++) {
++
++            for (let d = 0; d <= maxDays; d++) {
+@@ -930 +983 @@
+-                
++
+@@ -932 +985 @@
+-                    svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
++                    svg += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+@@ -934 +987 @@
+-                        svg += `<text x="${x + (dayWidth/2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
++                        svg += `<text x="${x + (dayWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
+@@ -937 +990 @@
+-                    svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
++                    svg += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+@@ -940 +993 @@
+-                     svg += `<line x1="${x}" y1="${timelineHeight/2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
++                    svg += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+@@ -942 +995 @@
+-                
++
+@@ -948 +1001 @@
+-                        svg += `<text x="${monthStartX + (monthWidth/2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
++                        svg += `<text x="${monthStartX + (monthWidth / 2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+@@ -958 +1011 @@
+-            for(let i=0; i<=flatTasks.length; i++) {
++            for (let i = 0; i <= flatTasks.length; i++) {
+@@ -969 +1022 @@
+-                
++
+@@ -971 +1024 @@
+-                
++
+@@ -976 +1029 @@
+-                
++
+@@ -978,2 +1031,2 @@
+-                coordMap[t.id] = { xStart: x, xEnd: x + w, yMid: y + h/2 };
+-                
++                coordMap[t.id] = { xStart: x, xEnd: x + w, yMid: y + h / 2 };
++
+@@ -983 +1036 @@
+-                
++
+@@ -987 +1040 @@
+-                
++
+@@ -989,5 +1042,5 @@
+-                     // T011 : Affichage graphique des jalons (Losange)
+-                     const cx = x + 10;
+-                     const cy = y + h/2;
+-                     const r = 8;
+-                     svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
++                    // T011 : Affichage graphique des jalons (Losange)
++                    const cx = x + 10;
++                    const cy = y + h / 2;
++                    const r = 8;
++                    svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+@@ -995,7 +1048,7 @@
+-                     // Barre de tâche rectangulaire
+-                     svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
+-                     // Affichage de la complétion (T023)
+-                     if (t.complete > 0) {
+-                         const compW = w * (t.complete / 100);
+-                         svg += `<rect x="${x}" y="${y+(h/4)}" width="${compW}" height="${h/2}" fill="#000" opacity="0.3" rx="1"/>`;
+-                     }
++                    // Barre de tâche rectangulaire
++                    svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
++                    // Affichage de la complétion (T023)
++                    if (t.complete > 0) {
++                        const compW = w * (t.complete / 100);
++                        svg += `<rect x="${x}" y="${y + (h / 4)}" width="${compW}" height="${h / 2}" fill="#000" opacity="0.3" rx="1"/>`;
++                    }
+@@ -1003 +1056 @@
+-                
++
+@@ -1017 +1070 @@
+-                
++
+@@ -1025,2 +1078,2 @@
+-                    
+-                    svg += `<text x="${x + w + 10}" y="${y + h/2 + 4}" font-size="11" fill="var(--text-color)">👤 ${resNames}</text>`;
++
++                    svg += `<text x="${x + w + 10}" y="${y + h / 2 + 4}" font-size="11" fill="var(--text-color)">👤 ${resNames}</text>`;
+@@ -1029 +1082 @@
+-            
++
+@@ -1034 +1087 @@
+-                
++
+@@ -1038 +1091 @@
+-                    
++
+@@ -1043 +1096 @@
+-                    
++
+@@ -1047 +1100 @@
+-                    
++
+@@ -1050 +1103 @@
+-                    const linkColor = isCriticalLink ? '#d32f2f' : '#9e9e9e'; 
++                    const linkColor = isCriticalLink ? '#d32f2f' : '#9e9e9e';
+@@ -1053 +1106 @@
+-                    const path = `M ${x1} ${y1} L ${x1+5} ${y1} L ${x1+5} ${y2} L ${x2-8} ${y2}`;
++                    const path = `M ${x1} ${y1} L ${x1 + 5} ${y1} L ${x1 + 5} ${y2} L ${x2 - 8} ${y2}`;
+@@ -1057 +1110 @@
+-            
++
+@@ -1060 +1113 @@
+-            
++
+@@ -1090 +1143 @@
+-            
++
+@@ -1097 +1150 @@
+-            while(n && n.tagName !== 'task') n = n.previousElementSibling;
++            while (n && n.tagName !== 'task') n = n.previousElementSibling;
+@@ -1102 +1155 @@
+-            while(n && n.tagName !== 'task') n = n.nextElementSibling;
++            while (n && n.tagName !== 'task') n = n.nextElementSibling;
+@@ -1113 +1166 @@
+-            
++
+@@ -1119 +1172 @@
+-            
++
+@@ -1121 +1174 @@
+-            
++
+@@ -1124 +1177 @@
+-            
++
+@@ -1137 +1190 @@
+-            
++
+@@ -1144 +1197 @@
+-            
++
+@@ -1157 +1210 @@
+-                    
++
+@@ -1169 +1222 @@
+-            
++
+@@ -1172 +1225 @@
+-                
++
+@@ -1197 +1250 @@
+-            
++
+@@ -1201 +1254 @@
+-            
++
+@@ -1216 +1269 @@
+-            
++
+@@ -1220 +1273 @@
+-            
++
+@@ -1235 +1288 @@
+-            
++
+@@ -1239 +1292 @@
+-            
++
+@@ -1254 +1307 @@
+-            
++
+@@ -1258 +1311 @@
+-            
++
+@@ -1274 +1327 @@
+-            
++
+@@ -1276 +1329 @@
+-            
++
+@@ -1280 +1333 @@
+-            
++
+@@ -1284 +1337 @@
+-                const target = nodes[i+1];
++                const target = nodes[i + 1];
+@@ -1286 +1339 @@
+-                
++
+@@ -1294 +1347 @@
+-                    
++
+@@ -1310 +1363 @@
+-            
++
+@@ -1312 +1365 @@
+-            
++
+@@ -1327 +1380 @@
+-        
++
+@@ -1343 +1396 @@
+-                
++
+@@ -1352 +1405 @@
+-                
++
+@@ -1371 +1424 @@
+-                
++
+@@ -1380 +1433 @@
+-            
++
+@@ -1383 +1436 @@
+-            
++
+@@ -1391 +1444 @@
+-                
++
+@@ -1399 +1452 @@
+-            
++
+@@ -1414 +1467 @@
+-            
++
+@@ -1420 +1473 @@
+-            
++
+@@ -1428 +1481 @@
+-            
++
+@@ -1433 +1486 @@
+-            
++
+@@ -1440 +1493 @@
+-            
++
+@@ -1494 +1547 @@
+-        
++
+@@ -1505,2 +1558,2 @@
+-            
+-            
++
++
+@@ -1513 +1566 @@
+-            
++
+@@ -1518 +1571 @@
+-            
++
+@@ -1522 +1575 @@
+-            
++
+@@ -1525 +1578 @@
+-            
++
+@@ -1539 +1592 @@
+-            
++
+@@ -1552 +1605 @@
+-            
++
+@@ -1555 +1608 @@
+-            
++
+@@ -1562 +1615 @@
+-            
++
+@@ -1603 +1656 @@
+-        
++
+@@ -1617 +1670 @@
+-            
++
+@@ -1624 +1677 @@
+-            
++
+@@ -1627 +1680 @@
+-        
++
+@@ -1684 +1737 @@
+-            
++
+@@ -1693 +1746 @@
+-            
++
+@@ -1701 +1754 @@
+-                
++
+@@ -1705 +1758 @@
+-                
++
+@@ -1722 +1775 @@
+-                
++
+@@ -1748 +1801 @@
+-            
++
+@@ -1754 +1807 @@
+-            
++
+@@ -1757 +1810 @@
+-            
++
+@@ -1766 +1819 @@
+-                    
++
+@@ -1778 +1831 @@
+-            
++
+@@ -1796,0 +1850,61 @@
++        // Initialisation des événements de la popin Task Details
++        document.getElementById('td-btn-close').addEventListener('click', () => {
++            document.getElementById('task-details-modal').close();
++        });
++
++        document.getElementById('td-btn-del').addEventListener('click', () => {
++            if (window.currentDetailsTaskNode && window.currentDetailsTaskNode.parentNode) {
++                if (confirm("Voulez-vous vraiment supprimer cette tâche ?")) {
++                    window.currentDetailsTaskNode.parentNode.removeChild(window.currentDetailsTaskNode);
++                    state.notifyListeners();
++                    document.getElementById('task-details-modal').close();
++                }
++            }
++        });
++
++        document.getElementById('td-btn-shift').addEventListener('click', () => {
++            if (window.currentDetailsTaskId) {
++                shiftTaskRecursive(window.currentDetailsTaskId, 1);
++                state.notifyListeners();
++                document.getElementById('task-details-modal').close();
++            }
++        });
++
++        document.getElementById('td-btn-assign').addEventListener('click', () => {
++            if (window.currentDetailsTaskId) {
++                const res = getResources();
++                if (res.length === 0) {
++                    alert('Aucune ressource dans le pool. Créez-en d\'abord via le bouton Ressources.');
++                    return;
++                }
++                const assignSelect = document.getElementById('assign-resource-select');
++                assignSelect.innerHTML = '';
++                res.forEach(r => {
++                    const opt = document.createElement('option');
++                    opt.value = r.id;
++                    opt.textContent = r.name;
++                    assignSelect.appendChild(opt);
++                });
++                window.currentAssignTaskId = window.currentDetailsTaskId;
++                document.getElementById('task-details-modal').close();
++                document.getElementById('assign-modal').showModal();
++            }
++        });
++
++        document.getElementById('td-btn-prog').addEventListener('click', () => {
++            if (window.currentDetailsTaskNode) {
++                const currentComp = window.currentDetailsTaskNode.getAttribute('complete') || 0;
++                const val = prompt("Pourcentage d'avancement (0-100) :", currentComp);
++                if (val !== null) {
++                    const parsed = parseInt(val);
++                    if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) {
++                        window.currentDetailsTaskNode.setAttribute('complete', parsed);
++                        state.notifyListeners();
++                        document.getElementById('task-details-modal').close();
++                    } else {
++                        alert("Veuillez entrer un nombre entre 0 et 100.");
++                    }
++                }
++            }
++        });
++
+@@ -1800 +1914 @@
+-        
++
+@@ -1823 +1937 @@
+-        
++
+@@ -1855 +1969 @@
+-        
++
+@@ -1880 +1994 @@
+-            
++
+@@ -1902 +2016 @@
+-                
++
+@@ -1927 +2041 @@
+-                            accept: {'application/xml': ['.gan']}
++                            accept: { 'application/xml': ['.gan'] }
+@@ -1932 +2046 @@
+-                    
++
+@@ -1935 +2049 @@
+-                    
++
+@@ -1987 +2101 @@
+-            
++
+@@ -1989,2 +2103,2 @@
+-            const finalXml = xmlContent.startsWith('<?xml') 
+-                ? xmlContent 
++            const finalXml = xmlContent.startsWith('<?xml')
++                ? xmlContent
+@@ -1992 +2106 @@
+-                
++
+@@ -1999 +2113 @@
+-                    
++
+@@ -2016 +2130 @@
+-            
++
+@@ -2018,2 +2132,2 @@
+-            const finalXml = xmlContent.startsWith('<?xml') 
+-                ? xmlContent 
++            const finalXml = xmlContent.startsWith('<?xml')
++                ? xmlContent
+@@ -2021 +2135 @@
+-                
++
+@@ -2028 +2142 @@
+-                            accept: {'application/xml': ['.gan']}
++                            accept: { 'application/xml': ['.gan'] }
+@@ -2031 +2145 @@
+-                    
++
+@@ -2035 +2149 @@
+-                    
++
+@@ -2060,0 +2175,20 @@
++        // Synchronisation des hauteurs d'en-tête (panneaux gauche et droit)
++        const leftPaneSync = document.getElementById('left-pane');
++        const rightPaneSync = document.getElementById('right-pane');
++        const leftHeaderSync = document.querySelector('#left-pane .pane-header');
++        const rightHeaderSync = document.querySelector('#right-pane .pane-header');
 +        
-+        // T043 : Presse-papiers
-+        document.getElementById('btn-copy').addEventListener('click', () => {
-+            const selectedIds = Array.from(window.selectedTaskIds);
-+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
-+            if (nodes.length > 0) {
-+                window.clipboardTasks = nodes.map(n => n.cloneNode(true));
-+                updateToolbarButtons();
-+            }
-+        });
++        if (leftPaneSync && rightPaneSync && leftHeaderSync && rightHeaderSync && window.ResizeObserver) {
++            const syncHeaderHeights = () => {
++                leftHeaderSync.style.height = 'auto';
++                rightHeaderSync.style.height = 'auto';
++                const maxHeight = Math.max(leftHeaderSync.offsetHeight, rightHeaderSync.offsetHeight, 32);
++                leftHeaderSync.style.height = maxHeight + 'px';
++                rightHeaderSync.style.height = maxHeight + 'px';
++            };
++            const paneResizer = new ResizeObserver(syncHeaderHeights);
++            paneResizer.observe(leftPaneSync);
++            paneResizer.observe(rightPaneSync);
++            setTimeout(syncHeaderHeights, 0); // Exécuter une fois initialement
++        }
 +
-+        document.getElementById('btn-cut').addEventListener('click', () => {
-+            const selectedIds = Array.from(window.selectedTaskIds);
-+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
-+            if (nodes.length > 0) {
-+                window.clipboardTasks = nodes.map(n => n.cloneNode(true));
-+                
-+                // Supprimer les tâches
-+                nodes.forEach(n => {
-+                    const deletedId = n.getAttribute('id');
-+                    if (n.parentNode) n.parentNode.removeChild(n);
-+                    state.xmlDoc.querySelectorAll(`depend[id="${deletedId}"]`).forEach(dep => {
-+                        if (dep.parentNode) dep.parentNode.removeChild(dep);
-+                    });
-+                });
-+                
-+                window.selectedTaskIds.clear();
-+                window.lastSelectedTaskId = null;
-+                updateToolbarButtons();
-+                state.notifyListeners();
-+            }
-+        });
+@@ -2070 +2204,2 @@
+-</html>
 +
-+        document.getElementById('btn-delete').addEventListener('click', () => {
-+            const selectedIds = Array.from(window.selectedTaskIds);
-+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
-+            if (nodes.length > 0) {
-+                nodes.forEach(n => {
-+                    const deletedId = n.getAttribute('id');
-+                    if (n.parentNode) n.parentNode.removeChild(n);
-+                    state.xmlDoc.querySelectorAll(`depend[id="${deletedId}"]`).forEach(dep => {
-+                        if (dep.parentNode) dep.parentNode.removeChild(dep);
-+                    });
-+                });
-+                
-+                window.selectedTaskIds.clear();
-+                window.lastSelectedTaskId = null;
-+                state.notifyListeners();
-+            }
-+        });
-+
-+        document.getElementById('btn-paste').addEventListener('click', () => {
-+            if (!window.clipboardTasks || window.clipboardTasks.length === 0) return;
-+            
-+            // On clone ce qui est dans le clipboard pour permettre des collages multiples
-+            const clones = window.clipboardTasks.map(n => n.cloneNode(true));
-+            
-+            // Génération de nouveaux IDs
-+            const idMap = {};
-+            function generateIds(node) {
-+                const oldId = node.getAttribute('id');
-+                const newId = Math.floor(Math.random() * 100000).toString();
-+                idMap[oldId] = newId;
-+                node.setAttribute('id', newId);
-+                
-+                Array.from(node.childNodes).forEach(child => {
-+                    if (child.nodeType === 1 && child.nodeName === 'task') {
-+                        generateIds(child);
-+                    }
-+                });
-+            }
-+            clones.forEach(generateIds);
-+            
-+            // Mise à jour des dépendances internes à la copie
-+            function updateDeps(node) {
-+                Array.from(node.childNodes).forEach(child => {
-+                    if (child.nodeType === 1 && child.nodeName === 'task') {
-+                        updateDeps(child);
-+                    } else if (child.nodeType === 1 && child.nodeName === 'depend') {
-+                        const depId = child.getAttribute('id');
-+                        if (idMap[depId]) {
-+                            child.setAttribute('id', idMap[depId]);
-+                        }
-+                    }
-+                });
-+            }
-+            clones.forEach(updateDeps);
-+            
-+            // Déterminer la cible (sous le dernier élément sélectionné ou à la racine)
-+            const tasksNode = state.xmlDoc.querySelector('tasks');
-+            const selectedIds = Array.from(window.selectedTaskIds);
-+            let targetNode = null;
-+            let insertBeforeNode = null;
-+            
-+            if (selectedIds.length > 0) {
-+                const lastSelected = state.xmlDoc.querySelector(`task[id="${selectedIds[selectedIds.length - 1]}"]`);
-+                if (lastSelected && lastSelected.parentNode) {
-+                    targetNode = lastSelected.parentNode;
-+                    insertBeforeNode = lastSelected.nextElementSibling;
-+                }
-+            }
-+            
-+            if (!targetNode) {
-+                targetNode = tasksNode;
-+                insertBeforeNode = null;
-+            }
-+            
-+            window.selectedTaskIds.clear();
-+            clones.forEach(clone => {
-+                targetNode.insertBefore(clone, insertBeforeNode);
-+                window.selectedTaskIds.add(clone.getAttribute('id'));
-+            });
-+            window.lastSelectedTaskId = Array.from(window.selectedTaskIds)[window.selectedTaskIds.length - 1];
-+            
-+            state.notifyListeners();
-+        });
-+
-@@ -1739 +1881 @@
--            // Raccourcis clavier (Ctrl+Z / Ctrl+Y)
-+            // Raccourcis clavier (Ctrl+Z / Ctrl+Y / Presse-papiers)
-@@ -1748,0 +1891,20 @@
-+                    } else if (e.key === 'c' || e.key === 'C') {
-+                        const btnCopy = document.getElementById('btn-copy');
-+                        if (btnCopy && !btnCopy.disabled) { e.preventDefault(); btnCopy.click(); }
-+                    } else if (e.key === 'x' || e.key === 'X') {
-+                        const btnCut = document.getElementById('btn-cut');
-+                        if (btnCut && !btnCut.disabled) { e.preventDefault(); btnCut.click(); }
-+                    } else if (e.key === 'v' || e.key === 'V') {
-+                        const btnPaste = document.getElementById('btn-paste');
-+                        if (btnPaste && !btnPaste.disabled) { e.preventDefault(); btnPaste.click(); }
-+                    }
-+                }
-+                
-+                // T043 : Suppression via clavier
-+                if (e.key === 'Delete' || e.key === 'Backspace') {
-+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-+                        const btnDelete = document.getElementById('btn-delete');
-+                        if (btnDelete && !btnDelete.disabled) {
-+                            e.preventDefault();
-+                            btnDelete.click();
-+                        }
++</html>
+\ No newline at end of file
