@@ -133,6 +133,8 @@
 - [ ] T044 [US5] Implémenter la fonctionnalité d'Impression spécifique au Gantt.
 - [ ] T045 [P] Mettre à jour `tests/e2e.test.js` pour inclure la vérification des nouvelles fonctionnalités d'IHM complexes.
 - [x] T046 [US5] Implémenter le calcul automatique des bornes temporelles (début, fin, durée) pour les tâches parentes en fonction de leurs enfants.
+- [x] T047 [US5] Mémoriser l'historique des 20 derniers fichiers ouverts, recharger automatiquement le dernier au lancement, et proposer une liste déroulante (chevron) pour ouvrir les autres.
+- [x] T048 [US5] Implémenter l'activation automatique du mode sombre en respectant les préférences système de l'utilisateur ou le capteur de luminosité de l'OS (AmbientLightSensor), sans recourir à la webcam pour des raisons de confidentialité.
 
 ---
 

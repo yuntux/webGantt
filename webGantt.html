@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>webGantt - GanttProject in the Browser</title>
+    <title>webGantt</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230969da'/><rect x='15' y='25' width='45' height='15' rx='5' fill='white'/><rect x='35' y='50' width='50' height='15' rx='5' fill='white'/><rect x='25' y='75' width='30' height='15' rx='5' fill='white'/></svg>">
     <style>
         /* CSS Variables for Light/Dark Mode (UI-004) */
         :root {
@@ -160,7 +162,13 @@
 <body>
     <!-- Top Toolbar -->
     <div id="toolbar">
-        <button id="btn-open" class="primary">Ouvrir un projet (.gan)</button>
+        <div style="position: relative; display: inline-flex;">
+            <button id="btn-open" class="primary" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">Ouvrir un projet (.gan)</button>
+            <button id="btn-open-recent" class="primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 0 6px; border-left: 1px solid rgba(0,0,0,0.1);" title="Fichiers récents">▼</button>
+            <div id="recent-files-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; z-index: 1000; min-width: 250px; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px; color: var(--text-color);">
+                <div style="padding: 8px; color: #888; font-style: italic;">Aucun fichier récent</div>
+            </div>
+        </div>
         <button id="btn-save" style="display: none;">Enregistrer</button>
         <button id="btn-download">Télécharger</button>
         <!-- T042 : Historique -->
@@ -222,14 +230,15 @@
     </dialog>
 
     <!-- Dialog for Task Details -->
-    <dialog id="task-details-modal" style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    <dialog id="task-details-modal"
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         <h3>Caractéristiques de la tâche</h3>
         <div style="margin-bottom: 16px; font-size: 13px; line-height: 1.5;">
-            <strong>Nom :</strong> <span id="td-name"></span><br/>
-            <strong>Début :</strong> <span id="td-start"></span><br/>
-            <strong>Durée :</strong> <span id="td-duration"></span><br/>
-            <strong>Avancement :</strong> <span id="td-complete"></span>%<br/>
-            <strong>Type :</strong> <span id="td-type"></span><br/>
+            <strong>Nom :</strong> <span id="td-name"></span><br />
+            <strong>Début :</strong> <span id="td-start"></span><br />
+            <strong>Durée :</strong> <span id="td-duration"></span><br />
+            <strong>Avancement :</strong> <span id="td-complete"></span>%<br />
+            <strong>Type :</strong> <span id="td-type"></span><br />
             <strong>Ressources :</strong> <span id="td-resources"></span>
         </div>
         <div style="display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
@@ -251,36 +260,85 @@
                 <div id="wbs-toolbar" style="display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end;">
                     <!-- T043: Presse-papiers -->
                     <button id="btn-cut" title="Couper" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="6" cy="6" r="3"></circle>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+                            <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+                            <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+                        </svg>
                     </button>
                     <button id="btn-copy" title="Copier" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
                     </button>
                     <button id="btn-paste" title="Coller" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        </svg>
                     </button>
                     <button id="btn-delete" title="Supprimer" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
                     </button>
                     <div style="border-left: 1px solid var(--border-color); margin: 0 4px; height: 22px;"></div>
 
                     <button id="btn-outdent" title="Désindenter" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line><polyline points="8 16 4 12 8 8"></polyline></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                            <polyline points="8 16 4 12 8 8"></polyline>
+                        </svg>
                     </button>
                     <button id="btn-indent" title="Indenter" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line><polyline points="16 16 20 12 16 8"></polyline></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                            <polyline points="16 16 20 12 16 8"></polyline>
+                        </svg>
                     </button>
                     <button id="btn-move-up" title="Monter" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="19" x2="12" y2="5"></line>
+                            <polyline points="5 12 12 5 19 12"></polyline>
+                        </svg>
                     </button>
                     <button id="btn-move-down" title="Descendre" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <polyline points="19 12 12 19 5 12"></polyline>
+                        </svg>
                     </button>
                     <button id="btn-link" title="Lier" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
                     </button>
                     <button id="btn-unlink" title="Délier" disabled>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            <line x1="2" y1="2" x2="22" y2="22"></line>
+                        </svg>
                     </button>
                     <!-- T033: Bouton Filtre avec liste déroulante -->
                     <div style="position: relative; display: inline-block;">
@@ -401,10 +459,158 @@
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', newTheme);
-            themeToggleBtn.textContent = newTheme === 'light' ? 'Mode Sombre' : 'Mode Clair';
-        });
+        // T048: Détection du mode sombre via l'OS (Capteur de luminosité ou Préférence Système)
+        function startAmbientLightDetection() {
+            // 1. Méthode standard et respectueuse de la vie privée (Préférence OS)
+            const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            const applyOsTheme = (e) => {
+                const isDark = e.matches;
+                html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+                themeToggleBtn.textContent = isDark ? 'Mode Clair' : 'Mode Sombre';
+                console.log("Thème adapté selon les préférences du système/OS : " + (isDark ? "Sombre" : "Clair"));
+            };
+            
+            // Appliquer au chargement
+            applyOsTheme(darkModeMediaQuery);
+            
+            // Écouter les changements en temps réel (ex: si l'OS passe en mode nuit au coucher du soleil)
+            darkModeMediaQuery.addEventListener('change', applyOsTheme);
+
+            // 2. Essai avec l'API AmbientLightSensor (si le navigateur et le matériel le supportent)
+            if ('AmbientLightSensor' in window) {
+                try {
+                    const sensor = new AmbientLightSensor();
+                    sensor.onreading = () => {
+                        const lux = sensor.illuminance;
+                        const isDark = html.getAttribute('data-theme') === 'dark';
+                        
+                        if (lux < 20 && !isDark) {
+                            html.setAttribute('data-theme', 'dark');
+                            themeToggleBtn.textContent = 'Mode Clair';
+                            console.log("Capteur de luminosité ("+lux+" lux) : Passage en Mode Sombre");
+                        } else if (lux > 50 && isDark) {
+                            html.setAttribute('data-theme', 'light');
+                            themeToggleBtn.textContent = 'Mode Sombre';
+                            console.log("Capteur de luminosité ("+lux+" lux) : Passage en Mode Clair");
+                        }
+                    };
+                    sensor.start();
+                } catch (err) {
+                    console.warn("L'API AmbientLightSensor est disponible mais ne peut pas démarrer (permission ou matériel) : ", err);
+                }
+            }
+        }
+        
+        // Lance la détection après l'initialisation de l'interface
+        setTimeout(startAmbientLightDetection, 100);
 
         // T005: State Manager (Gestionnaire d'État XML)
+        // T047 : IndexedDB Helper pour sauvegarder le projet et le FileHandle
+        const DB_NAME = 'WebGanttDB';
+        const STORE_NAME = 'projectData';
+        
+        function getDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, 1);
+                req.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(STORE_NAME)) {
+                        db.createObjectStore(STORE_NAME);
+                    }
+                };
+                req.onsuccess = (e) => resolve(e.target.result);
+                req.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        async function saveProjectStateToDB(xml, handle) {
+            try {
+                const db = await getDB();
+                
+                let recent = [];
+                if (handle && !handle.fallback) {
+                    recent = await getRecentFilesFromDB();
+                    recent = recent.filter(r => r.name !== handle.name);
+                    recent.unshift({ name: handle.name, handle: handle, timestamp: Date.now() });
+                    if (recent.length > 20) recent = recent.slice(0, 20);
+                }
+
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                if (xml !== undefined) store.put(xml, 'lastXML');
+                if (handle !== undefined) {
+                    if (handle === null) store.delete('lastHandle');
+                    else store.put(handle, 'lastHandle');
+                    
+                    if (handle && !handle.fallback) {
+                        store.put(recent, 'recentFiles');
+                    }
+                }
+                return new Promise(resolve => tx.oncomplete = resolve);
+            } catch (e) {
+                console.warn('Erreur IndexedDB save:', e);
+            }
+        }
+
+        async function getRecentFilesFromDB() {
+            try {
+                const db = await getDB();
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const req = tx.objectStore(STORE_NAME).get('recentFiles');
+                return new Promise(resolve => {
+                    req.onsuccess = () => resolve(req.result || []);
+                    req.onerror = () => resolve([]);
+                });
+            } catch (e) {
+                return [];
+            }
+        }
+
+        async function removeRecentFileFromDB(name) {
+            try {
+                const db = await getDB();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                const req = store.get('recentFiles');
+                req.onsuccess = () => {
+                    let recent = req.result || [];
+                    recent = recent.filter(r => r.name !== name);
+                    store.put(recent, 'recentFiles');
+                };
+            } catch(e) {}
+        }
+
+        async function clearRecentFilesFromDB() {
+            try {
+                const db = await getDB();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                tx.objectStore(STORE_NAME).delete('recentFiles');
+            } catch(e) {}
+        }
+
+        async function loadProjectStateFromDB() {
+            try {
+                const db = await getDB();
+                const tx = db.transaction(STORE_NAME, 'readonly');
+                const store = tx.objectStore(STORE_NAME);
+                const reqXml = store.get('lastXML');
+                const reqHandle = store.get('lastHandle');
+                
+                return new Promise(resolve => {
+                    tx.oncomplete = () => {
+                        resolve({
+                            xml: reqXml.result,
+                            handle: reqHandle.result
+                        });
+                    };
+                });
+            } catch (e) {
+                console.warn('Erreur IndexedDB load:', e);
+                return { xml: null, handle: null };
+            }
+        }
+
         class ProjectState {
             constructor() {
                 this.xmlDoc = null;
@@ -505,7 +711,11 @@
 
             notifyListeners(isLoad = false, isHistoryAction = false) {
                 this.recomputeParentDates();
-                if (!isLoad) this.hasUnsavedChanges = true;
+                if (!isLoad) {
+                    this.hasUnsavedChanges = true;
+                    // T047 : Auto-save in IndexedDB
+                    saveProjectStateToDB(this.getXMLString(), this.fileHandle).catch(console.error);
+                }
 
                 // T042: Sauvegarder dans l'historique
                 if (!isLoad && !isHistoryAction) {
@@ -675,11 +885,12 @@
                 const cAction = document.createElement('div');
                 cAction.style.width = '30px';
                 cAction.style.flexShrink = '0';
-                cAction.textContent = ''; 
+                cAction.textContent = '';
                 if (!window.visibleColumns.actions) cAction.style.display = 'none';
 
                 const cName = document.createElement('div');
                 cName.style.flexGrow = '1';
+                cName.style.paddingLeft = '8px';
                 cName.textContent = 'Nom';
 
                 const cDuration = document.createElement('div');
@@ -814,21 +1025,21 @@
                 detailsBtn.title = 'Voir les caractéristiques';
                 detailsBtn.onclick = (e) => {
                     e.stopPropagation(); // Éviter la sélection de la tâche si on clique juste sur le bouton
-                    
+
                     window.currentDetailsTaskId = task.id;
                     window.currentDetailsTaskNode = task.node;
-                    
+
                     document.getElementById('td-name').textContent = task.name;
                     document.getElementById('td-start').textContent = task.start || 'Non défini';
                     document.getElementById('td-duration').textContent = task.isMilestone ? '0 (Jalon)' : task.duration + ' jours';
                     document.getElementById('td-complete').textContent = task.complete || 0;
                     document.getElementById('td-type').textContent = task.isProject ? 'Projet / Parent' : (task.isMilestone ? 'Jalon' : 'Standard');
-                    
+
                     const allocs = getAllocations().filter(a => a.taskId === task.id);
-                    const resMap = getResources().reduce((acc, r) => ({...acc, [r.id]: r.name}), {});
+                    const resMap = getResources().reduce((acc, r) => ({ ...acc, [r.id]: r.name }), {});
                     const resNames = allocs.map(a => resMap[a.resourceId] || 'Inconnu').join(', ');
                     document.getElementById('td-resources').textContent = resNames || 'Aucune';
-                    
+
                     document.getElementById('task-details-modal').showModal();
                 };
 
@@ -2031,6 +2242,97 @@
         const btnOpen = document.getElementById('btn-open');
         const btnSave = document.getElementById('btn-save');
 
+        // T047 : UI des Fichiers Récents
+        const btnOpenRecent = document.getElementById('btn-open-recent');
+        const recentDropdown = document.getElementById('recent-files-dropdown');
+        
+        if (!window.showOpenFilePicker) {
+            btnOpenRecent.style.display = 'none';
+            btnOpen.style.borderTopRightRadius = '4px';
+            btnOpen.style.borderBottomRightRadius = '4px';
+        }
+
+        async function updateRecentDropdown() {
+            const recent = await getRecentFilesFromDB();
+            recentDropdown.innerHTML = '';
+            if (recent.length === 0) {
+                recentDropdown.innerHTML = '<div style="padding: 8px; color: #888; font-style: italic;">Aucun fichier récent</div>';
+                return;
+            }
+            recent.forEach(r => {
+                const item = document.createElement('div');
+                item.style.padding = '8px';
+                item.style.cursor = 'pointer';
+                item.style.borderBottom = '1px solid var(--border-color)';
+                item.textContent = r.name;
+                item.title = new Date(r.timestamp).toLocaleString();
+                item.addEventListener('mouseenter', () => item.style.backgroundColor = 'rgba(0,0,0,0.05)');
+                item.addEventListener('mouseleave', () => item.style.backgroundColor = '');
+                item.addEventListener('click', async () => {
+                    recentDropdown.style.display = 'none';
+                    try {
+                        if (!r.handle.fallback) {
+                            if ((await r.handle.queryPermission({ mode: 'read' })) !== 'granted') {
+                                if ((await r.handle.requestPermission({ mode: 'read' })) !== 'granted') {
+                                    throw new Error("Permission refusée.");
+                                }
+                            }
+                            const file = await r.handle.getFile();
+                            const contents = await file.text();
+                            state.loadXML(contents);
+                            state.fileHandle = r.handle;
+                            document.getElementById('btn-save').style.display = 'inline-block';
+                            saveProjectStateToDB(contents, r.handle).catch(console.error);
+                            console.log("Projet récent chargé avec succès !");
+                        } else {
+                            throw new Error("Impossible d'ouvrir un fichier fallback directement.");
+                        }
+                    } catch(err) {
+                        alert("Impossible d'ouvrir ce fichier (déplacé ou permission refusée).");
+                        removeRecentFileFromDB(r.name).then(updateRecentDropdown);
+                    }
+                });
+                recentDropdown.appendChild(item);
+            });
+            
+            if (recent.length > 0) {
+                const clearBtn = document.createElement('div');
+                clearBtn.style.padding = '8px';
+                clearBtn.style.cursor = 'pointer';
+                clearBtn.style.borderTop = '1px solid var(--border-color)';
+                clearBtn.style.textAlign = 'center';
+                clearBtn.style.color = 'var(--text-color)';
+                clearBtn.style.fontWeight = 'bold';
+                clearBtn.style.opacity = '0.7';
+                clearBtn.textContent = "Vider l'historique";
+                clearBtn.addEventListener('mouseenter', () => clearBtn.style.backgroundColor = 'rgba(200,0,0,0.1)');
+                clearBtn.addEventListener('mouseleave', () => clearBtn.style.backgroundColor = '');
+                clearBtn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    await clearRecentFilesFromDB();
+                    updateRecentDropdown();
+                });
+                recentDropdown.appendChild(clearBtn);
+            }
+        }
+
+        if (btnOpenRecent) {
+            btnOpenRecent.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (recentDropdown.style.display === 'none') {
+                    await updateRecentDropdown();
+                    recentDropdown.style.display = 'block';
+                } else {
+                    recentDropdown.style.display = 'none';
+                }
+            });
+            document.addEventListener('click', (e) => {
+                if (!recentDropdown.contains(e.target) && e.target !== btnOpenRecent) {
+                    recentDropdown.style.display = 'none';
+                }
+            });
+        }
+
         btnOpen.addEventListener('click', async () => {
             if (window.showOpenFilePicker) {
                 try {
@@ -2050,6 +2352,7 @@
                     state.loadXML(contents);
                     state.fileHandle = fileHandle;
                     document.getElementById('btn-save').style.display = 'inline-block';
+                    saveProjectStateToDB(contents, fileHandle).catch(console.error);
                     console.log("Projet chargé avec succès ! (File System Access API)");
                 } catch (err) {
                     if (err.name !== 'AbortError') {
@@ -2073,8 +2376,10 @@
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         try {
-                            state.loadXML(event.target.result);
+                            const contents = event.target.result;
+                            state.loadXML(contents);
                             state.fileHandle = { name: file.name, fallback: true };
+                            saveProjectStateToDB(contents, null).catch(console.error);
                             document.getElementById('btn-save').style.display = 'none';
                             console.log("Projet chargé avec succès ! (Fallback input file)");
                         } catch (err) {
@@ -2106,6 +2411,13 @@
 
             if (window.showSaveFilePicker && state.fileHandle && !state.fileHandle.fallback) {
                 try {
+                    // T047 : Vérification et demande de permission (nécessaire après rechargement auto)
+                    if ((await state.fileHandle.queryPermission({ mode: 'readwrite' })) !== 'granted') {
+                        if ((await state.fileHandle.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+                            throw new Error("Permission refusée par l'utilisateur.");
+                        }
+                    }
+                    
                     // Écrase le fichier original sans ouvrir de dialogue "Enregistrer sous"
                     const writable = await state.fileHandle.createWritable();
                     await writable.write(finalXml);
@@ -2177,7 +2489,7 @@
         const rightPaneSync = document.getElementById('right-pane');
         const leftHeaderSync = document.querySelector('#left-pane .pane-header');
         const rightHeaderSync = document.querySelector('#right-pane .pane-header');
-        
+
         if (leftPaneSync && rightPaneSync && leftHeaderSync && rightHeaderSync && window.ResizeObserver) {
             const syncHeaderHeights = () => {
                 leftHeaderSync.style.height = 'auto';
@@ -2191,6 +2503,22 @@
             paneResizer.observe(rightPaneSync);
             setTimeout(syncHeaderHeights, 0); // Exécuter une fois initialement
         }
+
+        // T047 : Restauration automatique
+        loadProjectStateFromDB().then(async (data) => {
+            if (data.xml) {
+                try {
+                    console.log('Restauration automatique du projet depuis le cache...');
+                    state.loadXML(data.xml);
+                    if (data.handle) {
+                        state.fileHandle = data.handle;
+                        document.getElementById('btn-save').style.display = 'inline-block';
+                    }
+                } catch (e) {
+                    console.error('Erreur lors de la restauration du cache:', e);
+                }
+            }
+        });
 
         // Avertissement de modifications non sauvegardées à la fermeture
         window.addEventListener('beforeunload', (e) => {

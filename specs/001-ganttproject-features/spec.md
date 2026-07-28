@@ -116,6 +116,7 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
 - **FR-019** : Le système DOIT supporter les opérations de presse-papiers (Copier, Couper, Coller) sur les tâches.
 - **FR-020** : Le système DOIT offrir une fonctionnalité d'impression optimisée pour le diagramme de Gantt.
 - **FR-021** : Le système DOIT recalculer automatiquement les dates des tâches parentes (groupes). La date de début d'un parent correspond à la date de début la plus ancienne de ses enfants, et sa date de fin correspond à la date de fin la plus tardive de ses enfants. La durée de la tâche parente est déduite de ces bornes.
+- **FR-022** : Le navigateur DOIT mémoriser les 20 derniers fichiers ouverts (historique) en utilisant la File System Access API. Au lancement, l'application DOIT tenter de recharger automatiquement le dernier fichier ouvert. Un chevron à côté du bouton "Ouvrir" DOIT dérouler cette liste des 20 derniers fichiers. *Note technique : Cette fonctionnalité nécessite l'API File System Access (Chrome/Edge). Sur les navigateurs non compatibles (ex: Firefox), la sécurité du navigateur interdit la mémorisation d'un pointeur de fichier local. Le chevron DOIT par conséquent être masqué sur ces navigateurs.*
 
 ### Exigences d'Interface Graphique (IHM)
 
@@ -124,7 +125,7 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
   - **Volet droit** : La frise chronologique (Gantt chart) interactive avec les barres horizontales et les flèches de dépendance.
 - **UI-002 (Synchronisation du défilement)** : Le défilement vertical du tableau à gauche et du diagramme à droite DOIT être parfaitement synchronisé.
 - **UI-003 (Barre d'outils WBS & Gantt)** : L'en-tête du panneau de gauche (WBS) DOIT intégrer ses propres boutons (hiérarchie, filtres, colonnes, liaisons). L'en-tête du diagramme de Gantt DOIT intégrer ses contrôles de Zoom.
-- **UI-004 (Thématisation)** : L'interface DOIT proposer un mode clair (Light Mode) et un mode sombre (Dark Mode). Le mode **clair** DOIT être activé par défaut.
+- **UI-004 (Thématisation)** : L'interface DOIT proposer un mode clair (Light Mode) et un mode sombre (Dark Mode). L'application PEUT s'adapter automatiquement à la luminosité de deux manières non-intrusives : 1. En écoutant la préférence globale du système d'exploitation de l'utilisateur (`prefers-color-scheme`). 2. En utilisant l'API `AmbientLightSensor` (capteur de luminosité matériel) si elle est disponible, sans jamais recourir à la webcam pour préserver la vie privée. Le mode clair reste l'option de secours par défaut.
 - **UI-005 (Splitter dynamique)** : Une barre de redimensionnement interactive DOIT séparer les deux panneaux, avec des boutons de masquage rapide.
 - **UI-006 (Insertion contextuelle)** : L'ajout de nouvelles tâches DOIT s'effectuer contextuellement sous la sélection active.
 - **UI-007 (Indicateurs d'états)** : Les boutons nécessitant des conditions spécifiques (ex: "désindenter" sur une tâche racine) DOIVENT être grisés/désactivés visuellement.
