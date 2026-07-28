@@ -130,7 +130,7 @@
 - [x] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
 - [x] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
 - [x] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
-- [ ] T044 [US5] Implémenter la fonctionnalité d'Impression spécifique au Gantt.
+- [x] T044 [US5] Implémenter la fonctionnalité d'Impression spécifique au Gantt.
 - [ ] T045 [P] Mettre à jour `tests/e2e.test.js` pour inclure la vérification des nouvelles fonctionnalités d'IHM complexes.
 - [x] T046 [US5] Implémenter le calcul automatique des bornes temporelles (début, fin, durée) pour les tâches parentes en fonction de leurs enfants.
 - [x] T047 [US5] Mémoriser l'historique des 20 derniers fichiers ouverts, recharger automatiquement le dernier au lancement, et proposer une liste déroulante (chevron) pour ouvrir les autres.

@@ -156,6 +156,53 @@
             padding: 0;
             /* Zéro padding pour garantir l'alignement parfait des lignes */
         }
+
+        /* T044 : Styles spécifiques pour l'impression */
+        @media print {
+            @page {
+                size: landscape;
+                margin: 0; /* Supprime l'URL et le titre injectés par le navigateur */
+            }
+            body, html {
+                margin: 10mm !important; /* Recrée la marge pour le contenu */
+                height: auto !important;
+                background-color: white !important;
+                color: black !important;
+                overflow: visible !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            #toolbar, #splitter, #btn-theme-toggle {
+                display: none !important;
+            }
+            #main-container {
+                height: auto !important;
+                display: flex !important;
+                flex-direction: row !important;
+                overflow: visible !important;
+            }
+            #left-pane, #right-pane {
+                height: auto !important;
+                overflow: visible !important;
+                border: none !important;
+                background-color: white !important;
+            }
+            .pane-content {
+                overflow: visible !important;
+                height: auto !important;
+            }
+            /* Assurer que le SVG s'imprime en entier */
+            #gantt-content svg {
+                overflow: visible !important;
+                max-width: none !important;
+            }
+            /* Masquer les styles de surbrillance/sélection inutiles à l'impression */
+            #wbs-content > div {
+                background-color: transparent !important;
+            }
+        }
     </style>
 </head>
 
@@ -174,6 +221,9 @@
         <!-- T042 : Historique -->
         <button id="btn-undo" title="Annuler (Ctrl+Z)" disabled>↩ Annuler</button>
         <button id="btn-redo" title="Rétablir (Ctrl+Y)" disabled>↪ Rétablir</button>
+        <div style="width: 12px;"></div>
+        <!-- T044 : Impression -->
+        <button id="btn-print" title="Imprimer le diagramme">🖨️ Imprimer</button>
         <div style="width: 12px;"></div>
         <button id="btn-add-task">Ajouter Tâche</button>
         <button id="btn-add-milestone">Ajouter Jalon</button>
@@ -459,6 +509,9 @@
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', newTheme);
+            if(themeToggleBtn) themeToggleBtn.textContent = newTheme === 'light' ? 'Mode Sombre' : 'Mode Clair';
+        });
+
         // T048: Détection du mode sombre via l'OS (Capteur de luminosité ou Préférence Système)
         function startAmbientLightDetection() {
             // 1. Méthode standard et respectueuse de la vie privée (Préférence OS)
@@ -2241,6 +2294,14 @@
         // T006: File System Access API (Ouvrir / Sauvegarder .gan) avec Fallback
         const btnOpen = document.getElementById('btn-open');
         const btnSave = document.getElementById('btn-save');
+        
+        // T044 : Impression
+        const btnPrint = document.getElementById('btn-print');
+        if (btnPrint) {
+            btnPrint.addEventListener('click', () => {
+                window.print();
+            });
+        }
 
         // T047 : UI des Fichiers Récents
         const btnOpenRecent = document.getElementById('btn-open-recent');
