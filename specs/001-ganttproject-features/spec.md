@@ -87,8 +87,8 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
 - **FR-010** : Le système DOIT fournir des outils de hiérarchie WBS et de réordonnancement :
   - **Indenter (flèche droite)** : La tâche sélectionnée devient l'enfant de la tâche la précédant. (Grisé si aucune tâche ne précède dans la même fratrie).
   - **Désindenter (flèche gauche)** : La tâche remonte d'un niveau (son parent devient le parent de son parent). (Grisé si niveau 1 / sans parent).
-  - **Monter (flèche haut)** : La tâche sélectionnée monte dans la fratrie. (Grisé s'il n'y a pas de tâche supérieure avec le même parent).
-  - **Descendre (flèche bas)** : La tâche sélectionnée descend dans la fratrie. (Grisé s'il n'y a pas de tâche inférieure avec le même parent).
+  - **Monter (flèche haut)** : La tâche sélectionnée (ou le groupe de tâches) monte dans la fratrie. (Grisé s'il n'y a pas de tâche supérieure avec le même parent. En sélection multiple, actif uniquement si toutes les tâches ont le même parent et peuvent toutes monter).
+  - **Descendre (flèche bas)** : La tâche sélectionnée (ou le groupe de tâches) descend dans la fratrie. (Grisé s'il n'y a pas de tâche inférieure avec le même parent. En sélection multiple, actif uniquement si toutes les tâches ont le même parent et peuvent toutes descendre).
 - **FR-011** : Le système DOIT permettre la liaison et déliaison multiple via des boutons dédiés opérant sur les N tâches sélectionnées :
   - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste. (Grisé si toutes les tâches sélectionnées n'ont pas le même parent).
   - **Délier (chaîne brisée)** : Supprime les dépendances entre les tâches sélectionnées. (Grisé si les tâches ne sont pas reliées).

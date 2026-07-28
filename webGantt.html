@@ -670,38 +670,49 @@
             const btnUnlink = document.getElementById('btn-unlink');
             
             const selected = Array.from(window.selectedTaskIds);
+            const nodes = selected.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
             
-            if (selected.length !== 1) {
+            if (nodes.length === 0) {
                 btnIndent.disabled = true;
                 btnOutdent.disabled = true;
                 btnUp.disabled = true;
                 btnDown.disabled = true;
-                
-                // Chaînage
-                if (selected.length >= 2) {
-                    const parentNames = new Set(selected.map(id => {
-                        const n = state.xmlDoc.querySelector(`task[id="${id}"]`);
-                        return n && n.parentNode ? n.parentNode.nodeName : 'NONE'; // Approximatif pour l'instant
-                    }));
-                    btnLink.disabled = parentNames.size !== 1;
-                    btnUnlink.disabled = false; // Autorisé s'il y a des liens
-                } else {
-                    btnLink.disabled = true;
-                    btnUnlink.disabled = true;
-                }
+                btnLink.disabled = true;
+                btnUnlink.disabled = true;
                 return;
             }
+
+            const parentNodes = new Set(nodes.map(n => n.parentNode));
+            const hasSameParent = (parentNodes.size === 1);
             
-            btnLink.disabled = true;
-            btnUnlink.disabled = true;
+            if (nodes.length === 1) {
+                const taskNode = nodes[0];
+                btnIndent.disabled = !getPrevTask(taskNode);
+                btnOutdent.disabled = (taskNode.parentNode.tagName !== 'task');
+                btnUp.disabled = !getPrevTask(taskNode);
+                btnDown.disabled = !getNextTask(taskNode);
+            } else {
+                btnIndent.disabled = true;
+                btnOutdent.disabled = true;
+                
+                if (hasSameParent) {
+                    const canAllMoveUp = nodes.every(n => getPrevTask(n) !== null);
+                    const canAllMoveDown = nodes.every(n => getNextTask(n) !== null);
+                    btnUp.disabled = !canAllMoveUp;
+                    btnDown.disabled = !canAllMoveDown;
+                } else {
+                    btnUp.disabled = true;
+                    btnDown.disabled = true;
+                }
+            }
             
-            const taskNode = state.xmlDoc.querySelector(`task[id="${selected[0]}"]`);
-            if (!taskNode) return;
-            
-            btnIndent.disabled = !getPrevTask(taskNode);
-            btnOutdent.disabled = (taskNode.parentNode.tagName !== 'task');
-            btnUp.disabled = !getPrevTask(taskNode);
-            btnDown.disabled = !getNextTask(taskNode);
+            if (nodes.length >= 2) {
+                btnLink.disabled = !hasSameParent;
+                btnUnlink.disabled = false;
+            } else {
+                btnLink.disabled = true;
+                btnUnlink.disabled = true;
+            }
         }
 
         // Événements d'indentation / déplacement
@@ -726,23 +737,41 @@
         });
 
         document.getElementById('btn-move-up').addEventListener('click', () => {
-            const taskId = Array.from(window.selectedTaskIds)[0];
-            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
-            const prev = getPrevTask(node);
-            if (prev) {
-                node.parentNode.insertBefore(node, prev);
-                state.notifyListeners();
-            }
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            
+            nodes.sort((a, b) => {
+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+            });
+            
+            let moved = false;
+            nodes.forEach(node => {
+                const prev = getPrevTask(node);
+                if (prev) {
+                    node.parentNode.insertBefore(node, prev);
+                    moved = true;
+                }
+            });
+            if (moved) state.notifyListeners();
         });
 
         document.getElementById('btn-move-down').addEventListener('click', () => {
-            const taskId = Array.from(window.selectedTaskIds)[0];
-            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
-            const next = getNextTask(node);
-            if (next) {
-                node.parentNode.insertBefore(next, node);
-                state.notifyListeners();
-            }
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            
+            nodes.sort((a, b) => {
+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? 1 : -1;
+            });
+            
+            let moved = false;
+            nodes.forEach(node => {
+                const next = getNextTask(node);
+                if (next) {
+                    node.parentNode.insertBefore(next, node);
+                    moved = true;
+                }
+            });
+            if (moved) state.notifyListeners();
         });
 
         // T012: Défilement synchronisé entre le WBS et le Gantt
