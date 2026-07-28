@@ -264,7 +264,57 @@
                 this.listeners.push(callback);
             }
 
+            // T046: Calcul automatique des dates des tâches parentes
+            recomputeParentDates() {
+                if (!this.xmlDoc) return;
+                
+                function processTaskNode(taskNode) {
+                    const children = Array.from(taskNode.childNodes).filter(n => n.nodeType === 1 && n.nodeName === 'task');
+                    
+                    if (children.length === 0) {
+                        taskNode.setAttribute('project', 'false');
+                        return;
+                    }
+                    
+                    taskNode.setAttribute('project', 'true');
+                    
+                    let minStart = Infinity;
+                    let maxEnd = -Infinity;
+                    let hasValidChildren = false;
+                    
+                    children.forEach(child => {
+                        processTaskNode(child);
+                        
+                        const startStr = child.getAttribute('start');
+                        const durStr = child.getAttribute('duration');
+                        if (startStr && durStr) {
+                            const d = new Date(startStr);
+                            const dur = parseInt(durStr);
+                            if (!isNaN(d) && !isNaN(dur)) {
+                                const endMs = d.getTime() + dur * 24 * 60 * 60 * 1000;
+                                if (d.getTime() < minStart) minStart = d.getTime();
+                                if (endMs > maxEnd) maxEnd = endMs;
+                                hasValidChildren = true;
+                            }
+                        }
+                    });
+                    
+                    if (hasValidChildren) {
+                        const minDate = new Date(minStart);
+                        const dur = Math.round((maxEnd - minStart) / (24 * 60 * 60 * 1000));
+                        
+                        const isoStr = minDate.toISOString().split('T')[0];
+                        taskNode.setAttribute('start', isoStr);
+                        taskNode.setAttribute('duration', dur.toString());
+                    }
+                }
+                
+                const rootTasks = Array.from(this.xmlDoc.querySelectorAll('tasks > task'));
+                rootTasks.forEach(t => processTaskNode(t));
+            }
+
             notifyListeners(isLoad = false) {
+                this.recomputeParentDates();
                 if (!isLoad) this.hasUnsavedChanges = true;
                 this.listeners.forEach(cb => cb(this.xmlDoc));
             }
@@ -292,6 +342,7 @@
                         complete: parseInt(child.getAttribute('complete') || '0'),
                         isMilestone: child.getAttribute('meeting') === 'true',
                         isProject: child.getAttribute('project') === 'true',
+                        isExpanded: child.getAttribute('expand') !== 'false', // T036 : true par défaut
                         subtasks: getDirectChildTasks(child), // Récursivité WBS
                         // T013: Analyse des dépendances (Successeurs)
                         depends: Array.from(child.childNodes)
@@ -373,7 +424,32 @@
                 let icon = '📄 ';
                 if (task.isMilestone) icon = '🔷 ';
                 if (task.isProject || task.subtasks.length > 0) icon = '📁 ';
-                nameCol.textContent = icon + task.name;
+                
+                // T036 : Chevron pliable
+                const chevronSpan = document.createElement('span');
+                chevronSpan.style.display = 'inline-block';
+                chevronSpan.style.width = '14px';
+                chevronSpan.style.textAlign = 'center';
+                chevronSpan.style.cursor = 'pointer';
+                chevronSpan.style.marginRight = '4px';
+                chevronSpan.style.userSelect = 'none';
+
+                const hasChildren = task.subtasks.length > 0;
+                const isFolded = !task.isExpanded;
+
+                if (hasChildren) {
+                    chevronSpan.textContent = isFolded ? '›' : 'v';
+                    chevronSpan.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Évite de sélectionner la tâche
+                        task.node.setAttribute('expand', isFolded ? 'true' : 'false');
+                        state.notifyListeners();
+                    });
+                } else {
+                    chevronSpan.textContent = ' ';
+                }
+
+                nameCol.appendChild(chevronSpan);
+                nameCol.appendChild(document.createTextNode(icon + task.name));
                 
                 const durationCol = document.createElement('div');
                 durationCol.style.width = '60px';
@@ -467,7 +543,9 @@
                 container.appendChild(row);
                 
                 // Rendu récursif des sous-tâches
-                renderWBS(task.subtasks, container, depth + 1);
+                if (task.isExpanded) {
+                    renderWBS(task.subtasks, container, depth + 1);
+                }
             });
         }
 
@@ -481,7 +559,9 @@
             function flatten(tList) {
                 tList.forEach(t => {
                     flatTasks.push(t);
-                    flatten(t.subtasks);
+                    if (t.isExpanded) {
+                        flatten(t.subtasks);
+                    }
                 });
             }
             flatten(tasks);

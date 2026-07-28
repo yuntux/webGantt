@@ -101,6 +101,8 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
 - **FR-014** : Le WBS DOIT afficher les tâches sous forme d'arborescence pliable :
   - Chevron bas (v) : tâche dépliée. Un clic la plie et affiche un chevron droit (>).
   - Chevron droit (>) : tâche pliée. Un clic la déplie et affiche un chevron bas (v).
+  - **Persistance** : L'état plié/déplié DOIT être synchronisé en temps réel avec l'attribut XML `expand="true/false"` de la tâche concernée, afin que cet état soit conservé lors de la sauvegarde et du chargement du fichier `.gan`.
+  - Le diagramme de Gantt DOIT masquer dynamiquement les barres des tâches enfants lorsqu'un groupe est plié, et réaligner verticalement les tâches suivantes.
 - **FR-014b** : L'ajout de tâche DOIT insérer la nouvelle tâche sous la dernière tâche sélectionnée, avec le même parent. Sans sélection, elle s'ajoute à la fin sans parent.
 - **FR-015** : L'application DOIT calculer et permettre d'afficher ou masquer le chemin critique.
 - **FR-016** : L'interface DOIT permettre :
@@ -113,6 +115,7 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
 - **FR-018** : Le système DOIT maintenir un historique des actions (Annuler/Rétablir) avec une profondeur minimale de 100 actions.
 - **FR-019** : Le système DOIT supporter les opérations de presse-papiers (Copier, Couper, Coller) sur les tâches.
 - **FR-020** : Le système DOIT offrir une fonctionnalité d'impression optimisée pour le diagramme de Gantt.
+- **FR-021** : Le système DOIT recalculer automatiquement les dates des tâches parentes (groupes). La date de début d'un parent correspond à la date de début la plus ancienne de ses enfants, et sa date de fin correspond à la date de fin la plus tardive de ses enfants. La durée de la tâche parente est déduite de ces bornes.
 
 ### Exigences d'Interface Graphique (IHM)
 
