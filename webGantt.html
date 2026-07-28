@@ -692,15 +692,19 @@
                 btnUp.disabled = !getPrevTask(taskNode);
                 btnDown.disabled = !getNextTask(taskNode);
             } else {
-                btnIndent.disabled = true;
-                btnOutdent.disabled = true;
-                
                 if (hasSameParent) {
+                    const canAllIndent = nodes.every(n => getPrevTask(n) !== null);
+                    const canAllOutdent = nodes.every(n => n.parentNode.tagName === 'task');
                     const canAllMoveUp = nodes.every(n => getPrevTask(n) !== null);
                     const canAllMoveDown = nodes.every(n => getNextTask(n) !== null);
+                    
+                    btnIndent.disabled = !canAllIndent;
+                    btnOutdent.disabled = !canAllOutdent;
                     btnUp.disabled = !canAllMoveUp;
                     btnDown.disabled = !canAllMoveDown;
                 } else {
+                    btnIndent.disabled = true;
+                    btnOutdent.disabled = true;
                     btnUp.disabled = true;
                     btnDown.disabled = true;
                 }
@@ -717,23 +721,41 @@
 
         // Événements d'indentation / déplacement
         document.getElementById('btn-indent').addEventListener('click', () => {
-            const taskId = Array.from(window.selectedTaskIds)[0];
-            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
-            const prev = getPrevTask(node);
-            if (prev) {
-                prev.appendChild(node);
-                state.notifyListeners();
-            }
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            
+            nodes.sort((a, b) => {
+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+            });
+            
+            let moved = false;
+            nodes.forEach(node => {
+                const prev = getPrevTask(node);
+                if (prev) {
+                    prev.appendChild(node);
+                    moved = true;
+                }
+            });
+            if (moved) state.notifyListeners();
         });
 
         document.getElementById('btn-outdent').addEventListener('click', () => {
-            const taskId = Array.from(window.selectedTaskIds)[0];
-            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
-            const parent = node.parentNode;
-            if (parent && parent.tagName === 'task') {
-                parent.parentNode.insertBefore(node, parent.nextElementSibling);
-                state.notifyListeners();
-            }
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            
+            nodes.sort((a, b) => {
+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? 1 : -1;
+            });
+            
+            let moved = false;
+            nodes.forEach(node => {
+                const parent = node.parentNode;
+                if (parent && parent.tagName === 'task') {
+                    parent.parentNode.insertBefore(node, parent.nextElementSibling);
+                    moved = true;
+                }
+            });
+            if (moved) state.notifyListeners();
         });
 
         document.getElementById('btn-move-up').addEventListener('click', () => {
