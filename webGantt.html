@@ -206,6 +206,13 @@
             <div class="pane-header" style="justify-content: space-between;">
                 <span>Tâches (WBS)</span>
                 <div id="wbs-toolbar" style="display:flex; gap:4px;">
+                    <!-- T043: Presse-papiers -->
+                    <button id="btn-cut" title="Couper" style="padding:0 4px;" disabled>✂️</button>
+                    <button id="btn-copy" title="Copier" style="padding:0 4px;" disabled>📋</button>
+                    <button id="btn-paste" title="Coller" style="padding:0 4px;" disabled>📥</button>
+                    <button id="btn-delete" title="Supprimer" style="padding:0 4px;" disabled>🗑️</button>
+                    <div style="border-left: 1px solid var(--border-color); margin: 0 4px;"></div>
+                    
                     <button id="btn-outdent" title="Désindenter" style="padding:0 4px;" disabled>←</button>
                     <button id="btn-indent" title="Indenter" style="padding:0 4px;" disabled>→</button>
                     <button id="btn-move-up" title="Monter" style="padding:0 4px;" disabled>↑</button>
@@ -313,6 +320,9 @@
                 this.listeners = [];
                 this.hasUnsavedChanges = false;
                 window.selectedTaskIds = new Set(); // T029: État de sélection global
+                window.lastSelectedTaskId = null; // T029: Shift-click
+                // T043: Presse-papiers
+                window.clipboardTasks = null;
                 window.lastSelectedTaskId = null; // T029: Shift-click
                 // T042: Historique
                 this.historyStack = [];
@@ -1101,6 +1111,14 @@
             const btnLink = document.getElementById('btn-link');
             const btnUnlink = document.getElementById('btn-unlink');
             
+            // T043
+            const btnCut = document.getElementById('btn-cut');
+            const btnCopy = document.getElementById('btn-copy');
+            const btnPaste = document.getElementById('btn-paste');
+            const btnDelete = document.getElementById('btn-delete');
+            
+            if (btnPaste) btnPaste.disabled = !window.clipboardTasks || window.clipboardTasks.length === 0;
+            
             const selected = Array.from(window.selectedTaskIds);
             const nodes = selected.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
             
@@ -1111,8 +1129,15 @@
                 btnDown.disabled = true;
                 btnLink.disabled = true;
                 btnUnlink.disabled = true;
+                if (btnCut) btnCut.disabled = true;
+                if (btnCopy) btnCopy.disabled = true;
+                if (btnDelete) btnDelete.disabled = true;
                 return;
             }
+            
+            if (btnCut) btnCut.disabled = false;
+            if (btnCopy) btnCopy.disabled = false;
+            if (btnDelete) btnDelete.disabled = false;
 
             const parentNodes = new Set(nodes.map(n => n.parentNode));
             const hasSameParent = (parentNodes.size === 1);
@@ -1299,6 +1324,123 @@
             });
             if (changed) state.notifyListeners();
         });
+        
+        // T043 : Presse-papiers
+        document.getElementById('btn-copy').addEventListener('click', () => {
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            if (nodes.length > 0) {
+                window.clipboardTasks = nodes.map(n => n.cloneNode(true));
+                updateToolbarButtons();
+            }
+        });
+
+        document.getElementById('btn-cut').addEventListener('click', () => {
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            if (nodes.length > 0) {
+                window.clipboardTasks = nodes.map(n => n.cloneNode(true));
+                
+                // Supprimer les tâches
+                nodes.forEach(n => {
+                    const deletedId = n.getAttribute('id');
+                    if (n.parentNode) n.parentNode.removeChild(n);
+                    state.xmlDoc.querySelectorAll(`depend[id="${deletedId}"]`).forEach(dep => {
+                        if (dep.parentNode) dep.parentNode.removeChild(dep);
+                    });
+                });
+                
+                window.selectedTaskIds.clear();
+                window.lastSelectedTaskId = null;
+                updateToolbarButtons();
+                state.notifyListeners();
+            }
+        });
+
+        document.getElementById('btn-delete').addEventListener('click', () => {
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            if (nodes.length > 0) {
+                nodes.forEach(n => {
+                    const deletedId = n.getAttribute('id');
+                    if (n.parentNode) n.parentNode.removeChild(n);
+                    state.xmlDoc.querySelectorAll(`depend[id="${deletedId}"]`).forEach(dep => {
+                        if (dep.parentNode) dep.parentNode.removeChild(dep);
+                    });
+                });
+                
+                window.selectedTaskIds.clear();
+                window.lastSelectedTaskId = null;
+                state.notifyListeners();
+            }
+        });
+
+        document.getElementById('btn-paste').addEventListener('click', () => {
+            if (!window.clipboardTasks || window.clipboardTasks.length === 0) return;
+            
+            // On clone ce qui est dans le clipboard pour permettre des collages multiples
+            const clones = window.clipboardTasks.map(n => n.cloneNode(true));
+            
+            // Génération de nouveaux IDs
+            const idMap = {};
+            function generateIds(node) {
+                const oldId = node.getAttribute('id');
+                const newId = Math.floor(Math.random() * 100000).toString();
+                idMap[oldId] = newId;
+                node.setAttribute('id', newId);
+                
+                Array.from(node.childNodes).forEach(child => {
+                    if (child.nodeType === 1 && child.nodeName === 'task') {
+                        generateIds(child);
+                    }
+                });
+            }
+            clones.forEach(generateIds);
+            
+            // Mise à jour des dépendances internes à la copie
+            function updateDeps(node) {
+                Array.from(node.childNodes).forEach(child => {
+                    if (child.nodeType === 1 && child.nodeName === 'task') {
+                        updateDeps(child);
+                    } else if (child.nodeType === 1 && child.nodeName === 'depend') {
+                        const depId = child.getAttribute('id');
+                        if (idMap[depId]) {
+                            child.setAttribute('id', idMap[depId]);
+                        }
+                    }
+                });
+            }
+            clones.forEach(updateDeps);
+            
+            // Déterminer la cible (sous le dernier élément sélectionné ou à la racine)
+            const tasksNode = state.xmlDoc.querySelector('tasks');
+            const selectedIds = Array.from(window.selectedTaskIds);
+            let targetNode = null;
+            let insertBeforeNode = null;
+            
+            if (selectedIds.length > 0) {
+                const lastSelected = state.xmlDoc.querySelector(`task[id="${selectedIds[selectedIds.length - 1]}"]`);
+                if (lastSelected && lastSelected.parentNode) {
+                    targetNode = lastSelected.parentNode;
+                    insertBeforeNode = lastSelected.nextElementSibling;
+                }
+            }
+            
+            if (!targetNode) {
+                targetNode = tasksNode;
+                insertBeforeNode = null;
+            }
+            
+            window.selectedTaskIds.clear();
+            clones.forEach(clone => {
+                targetNode.insertBefore(clone, insertBeforeNode);
+                window.selectedTaskIds.add(clone.getAttribute('id'));
+            });
+            window.lastSelectedTaskId = Array.from(window.selectedTaskIds)[window.selectedTaskIds.length - 1];
+            
+            state.notifyListeners();
+        });
+
         // T038 : Logique du Splitter
         const splitter = document.getElementById('splitter');
         const leftPane = document.getElementById('left-pane');
@@ -1736,7 +1878,7 @@
             btnUndo.addEventListener('click', () => state.undo());
             btnRedo.addEventListener('click', () => state.redo());
             
-            // Raccourcis clavier (Ctrl+Z / Ctrl+Y)
+            // Raccourcis clavier (Ctrl+Z / Ctrl+Y / Presse-papiers)
             document.addEventListener('keydown', (e) => {
                 if (e.ctrlKey || e.metaKey) {
                     if (e.key === 'z' || e.key === 'Z') {
@@ -1746,6 +1888,26 @@
                     } else if (e.key === 'y' || e.key === 'Y') {
                         e.preventDefault();
                         state.redo();
+                    } else if (e.key === 'c' || e.key === 'C') {
+                        const btnCopy = document.getElementById('btn-copy');
+                        if (btnCopy && !btnCopy.disabled) { e.preventDefault(); btnCopy.click(); }
+                    } else if (e.key === 'x' || e.key === 'X') {
+                        const btnCut = document.getElementById('btn-cut');
+                        if (btnCut && !btnCut.disabled) { e.preventDefault(); btnCut.click(); }
+                    } else if (e.key === 'v' || e.key === 'V') {
+                        const btnPaste = document.getElementById('btn-paste');
+                        if (btnPaste && !btnPaste.disabled) { e.preventDefault(); btnPaste.click(); }
+                    }
+                }
+                
+                // T043 : Suppression via clavier
+                if (e.key === 'Delete' || e.key === 'Backspace') {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                        const btnDelete = document.getElementById('btn-delete');
+                        if (btnDelete && !btnDelete.disabled) {
+                            e.preventDefault();
+                            btnDelete.click();
+                        }
                     }
                 }
             });
