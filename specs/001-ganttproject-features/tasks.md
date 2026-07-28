@@ -118,7 +118,7 @@
 - [x] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
 - [x] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
 - [x] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
-- [ ] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
+- [x] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
 - [ ] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
 - [ ] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
 - [x] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).

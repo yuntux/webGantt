@@ -791,8 +791,22 @@
             }
             
             if (nodes.length >= 2) {
-                btnLink.disabled = !hasSameParent;
-                btnUnlink.disabled = false;
+                btnLink.disabled = false;
+                
+                let hasLinks = false;
+                for (const source of nodes) {
+                    for (const target of nodes) {
+                        if (source === target) continue;
+                        const targetId = target.getAttribute('id');
+                        const dep = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
+                        if (dep) {
+                            hasLinks = true;
+                            break;
+                        }
+                    }
+                    if (hasLinks) break;
+                }
+                btnUnlink.disabled = !hasLinks;
             } else {
                 btnLink.disabled = true;
                 btnUnlink.disabled = true;
@@ -874,6 +888,64 @@
                 }
             });
             if (moved) state.notifyListeners();
+        });
+
+        // T032 : Boutons Lier et Délier
+        document.getElementById('btn-link').addEventListener('click', () => {
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            
+            if (nodes.length < 2) return;
+            
+            nodes.sort((a, b) => {
+                return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+            });
+            
+            let changed = false;
+            for (let i = 0; i < nodes.length - 1; i++) {
+                const source = nodes[i];
+                const target = nodes[i+1];
+                const targetId = target.getAttribute('id');
+                
+                const existing = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
+                if (!existing) {
+                    const depend = state.xmlDoc.createElement('depend');
+                    depend.setAttribute('id', targetId);
+                    depend.setAttribute('type', 'FS');
+                    depend.setAttribute('difference', '0');
+                    depend.setAttribute('hardness', 'Strong');
+                    
+                    const firstTask = Array.from(source.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'task');
+                    if (firstTask) {
+                        source.insertBefore(depend, firstTask);
+                    } else {
+                        source.appendChild(depend);
+                    }
+                    changed = true;
+                }
+            }
+            if (changed) state.notifyListeners();
+        });
+
+        document.getElementById('btn-unlink').addEventListener('click', () => {
+            const selectedIds = Array.from(window.selectedTaskIds);
+            const nodes = selectedIds.map(id => state.xmlDoc.querySelector(`task[id="${id}"]`)).filter(n => n);
+            
+            if (nodes.length < 2) return;
+            
+            let changed = false;
+            nodes.forEach(source => {
+                nodes.forEach(target => {
+                    if (source === target) return;
+                    const targetId = target.getAttribute('id');
+                    const deps = Array.from(source.childNodes).filter(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetId);
+                    deps.forEach(dep => {
+                        source.removeChild(dep);
+                        changed = true;
+                    });
+                });
+            });
+            if (changed) state.notifyListeners();
         });
 
         // T012: Défilement synchronisé entre le WBS et le Gantt

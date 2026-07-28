@@ -90,7 +90,7 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
   - **Monter (flèche haut)** : La tâche sélectionnée (ou le groupe de tâches) monte dans la fratrie. (Grisé s'il n'y a pas de tâche supérieure avec le même parent. En sélection multiple, actif uniquement si toutes les tâches ont le même parent et peuvent toutes monter).
   - **Descendre (flèche bas)** : La tâche sélectionnée (ou le groupe de tâches) descend dans la fratrie. (Grisé s'il n'y a pas de tâche inférieure avec le même parent. En sélection multiple, actif uniquement si toutes les tâches ont le même parent et peuvent toutes descendre).
 - **FR-011** : Le système DOIT permettre la liaison et déliaison multiple via des boutons dédiés opérant sur les N tâches sélectionnées :
-  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste. (Grisé si toutes les tâches sélectionnées n'ont pas le même parent).
+  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste.
   - **Délier (chaîne brisée)** : Supprime les dépendances entre les tâches sélectionnées. (Grisé si les tâches ne sont pas reliées).
 - **FR-012** : Le système DOIT proposer un bouton (Entonnoir) avec 4 boutons radio pour filtrer :
   1. Tâches non terminées (progression < 100%).
