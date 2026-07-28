@@ -226,7 +226,23 @@
                             </form>
                         </div>
                     </div>
-                    <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
+                    <!-- T034: Bouton Colonnes avec liste déroulante -->
+                    <div style="position: relative; display: inline-block;">
+                        <button id="btn-columns" title="Colonnes" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </button>
+                        <div id="columns-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            <form id="columns-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="actions" checked> Actions</label>
+                                <label style="cursor: pointer; opacity: 0.6;" title="La colonne Nom ne peut pas être masquée"><input type="checkbox" name="col-toggle" value="name" checked disabled> Nom</label>
+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="duration" checked> Durée</label>
+                                <label style="cursor: pointer;"><input type="checkbox" name="col-toggle" value="start" checked> Date de début</label>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="pane-content" id="wbs-content">
@@ -365,6 +381,8 @@
 
         // T033 : Logique de Filtrage
         window.currentFilter = 'all';
+        // T034 : Colonnes WBS
+        window.visibleColumns = { actions: true, name: true, duration: true, start: true };
 
         function getTaskEndDate(task) {
             const start = new Date(task.start);
@@ -542,10 +560,12 @@
                 durationCol.style.textAlign = 'right';
                 durationCol.style.paddingRight = '8px';
                 durationCol.textContent = task.isMilestone ? '0j' : task.duration + 'j';
+                if (!window.visibleColumns.duration) durationCol.style.display = 'none';
                 
                 const startCol = document.createElement('div');
                 startCol.style.width = '100px';
                 startCol.textContent = task.start;
+                if (!window.visibleColumns.start) startCol.style.display = 'none';
                 
                 // T010 : Suppression d'une tâche via un bouton
                 const delBtn = document.createElement('button');
@@ -617,6 +637,7 @@
                 
                 const actionCol = document.createElement('div');
                 actionCol.style.width = '95px';
+                if (!window.visibleColumns.actions) actionCol.style.display = 'none';
                 actionCol.appendChild(delBtn);
                 actionCol.appendChild(shiftBtn);
                 actionCol.appendChild(assignBtn);
@@ -1406,6 +1427,32 @@
             radio.addEventListener('change', (e) => {
                 window.currentFilter = e.target.value;
                 state.notifyListeners(); // Rafraîchit dynamiquement le WBS et le Gantt
+            });
+        });
+
+        // T034 : Événements de Colonnes
+        const btnColumns = document.getElementById('btn-columns');
+        const columnsDropdown = document.getElementById('columns-dropdown');
+        
+        btnColumns.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = columnsDropdown.style.display === 'none';
+            columnsDropdown.style.display = isHidden ? 'block' : 'none';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!columnsDropdown.contains(e.target) && !btnColumns.contains(e.target)) {
+                columnsDropdown.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('input[name="col-toggle"]').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const colName = e.target.value;
+                if (window.visibleColumns[colName] !== undefined) {
+                    window.visibleColumns[colName] = e.target.checked;
+                    state.notifyListeners(); // Rafraîchit dynamiquement le WBS
+                }
             });
         });
 
