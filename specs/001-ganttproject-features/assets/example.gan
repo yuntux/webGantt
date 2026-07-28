@@ -59,11 +59,11 @@
        <depend id="5" type="FS" difference="0" hardness="Strong"/>
        <depend id="6" type="SS" difference="0" hardness="Strong"/>
        <depend id="7" type="SF" difference="5" hardness="Strong"/>
-    </task>
 
-    <task id="5" uid="t6" name="Tâche finale A" start="2026-08-13" duration="2" expand="true"/>
-    <task id="6" uid="t7" name="Tâche finale B" start="2026-08-13" duration="2" expand="true"/>
-    <task id="7" uid="t8" name="Tâche finale C" start="2026-08-13" duration="2" expand="true"/>
+       <task id="5" uid="t6" name="Tâche finale A" start="2026-08-13" duration="2" expand="true"/>
+       <task id="6" uid="t7" name="Tâche finale B" start="2026-08-13" duration="2" expand="true"/>
+       <task id="7" uid="t8" name="Tâche finale C" start="2026-08-13" duration="2" expand="true"/>
+    </task>
   </tasks>
   
   <resources>
