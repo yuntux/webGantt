@@ -196,7 +196,6 @@
             <button id="btn-close-baselines">Fermer</button>
         </div>
     </dialog>
-
     <!-- Main Application Split View -->
     <div id="main-container">
         <!-- Left Pane: Data Table -->
@@ -210,7 +209,23 @@
                     <button id="btn-move-down" title="Descendre" style="padding:0 4px;" disabled>↓</button>
                     <button id="btn-link" title="Lier" style="padding:0 4px;" disabled>🔗</button>
                     <button id="btn-unlink" title="Délier" style="padding:0 4px;" disabled>⛓️‍💥</button>
-                    <button id="btn-filter" title="Filtrer" style="padding:0 4px;">🔽</button>
+                    <!-- T033: Bouton Filtre avec liste déroulante -->
+                    <div style="position: relative; display: inline-block;">
+                        <button id="btn-filter" title="Filtrer" style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                            </svg>
+                        </button>
+                        <div id="filter-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            <form id="filter-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="all" checked> Toutes les tâches</label>
+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="not-completed"> Non terminées</label>
+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="today"> À faire aujourd'hui</label>
+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="late"> En retard</label>
+                                <label style="cursor: pointer;"><input type="radio" name="filter-type" value="in-progress"> En cours</label>
+                            </form>
+                        </div>
+                    </div>
                     <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
                 </div>
             </div>
@@ -347,6 +362,57 @@
         }
 
         const state = new ProjectState();
+
+        // T033 : Logique de Filtrage
+        window.currentFilter = 'all';
+
+        function getTaskEndDate(task) {
+            const start = new Date(task.start);
+            const duration = parseInt(task.duration, 10);
+            return new Date(start.getTime() + duration * 24 * 60 * 60 * 1000);
+        }
+
+        function isDateToday(date) {
+            const today = new Date();
+            return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+        }
+
+        function checkTaskFilter(task, filter) {
+            if (filter === 'all') return true;
+            if (task.isProject || task.subtasks.length > 0) return false;
+
+            const complete = parseInt(task.complete, 10) || 0;
+            const endDate = getTaskEndDate(task);
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            
+            if (filter === 'not-completed') return complete < 100;
+            if (filter === 'today') return complete < 100 && isDateToday(endDate);
+            if (filter === 'late') return complete < 100 && endDate.getTime() < today.getTime();
+            if (filter === 'in-progress') {
+                if (!task.start) return false;
+                const startDate = new Date(task.start);
+                startDate.setHours(0,0,0,0);
+                return complete < 100 && startDate.getTime() <= today.getTime() && endDate.getTime() >= today.getTime();
+            }
+            return true;
+        }
+
+        function filterTasks(tasks, filter) {
+            if (filter === 'all') return tasks;
+            const result = [];
+            tasks.forEach(task => {
+                const isMatch = checkTaskFilter(task, filter);
+                const filteredSubtasks = filterTasks(task.subtasks, filter);
+                const hasMatch = filteredSubtasks.length > 0;
+                
+                if (isMatch || hasMatch) {
+                    const clonedTask = { ...task, subtasks: filteredSubtasks };
+                    result.push(clonedTask);
+                }
+            });
+            return result;
+        }
 
         // T007: Logique d'analyse de l'entité Tâche (Task Parsing)
         function getDirectChildTasks(parentNode) {
@@ -1314,9 +1380,33 @@
             const tasksNode = xmlDoc.querySelector('tasks');
             if (tasksNode) {
                 const parsedTasks = getDirectChildTasks(tasksNode);
-                renderWBS(parsedTasks, wbsContent);
-                renderGantt(parsedTasks, ganttContent);
+                const filteredTasks = filterTasks(parsedTasks, window.currentFilter);
+                renderWBS(filteredTasks, wbsContent);
+                renderGantt(filteredTasks, ganttContent);
             }
+        });
+
+        // T033 : Événements de Filtrage
+        const btnFilter = document.getElementById('btn-filter');
+        const filterDropdown = document.getElementById('filter-dropdown');
+        
+        btnFilter.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = filterDropdown.style.display === 'none';
+            filterDropdown.style.display = isHidden ? 'block' : 'none';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!filterDropdown.contains(e.target) && !btnFilter.contains(e.target)) {
+                filterDropdown.style.display = 'none';
+            }
+        });
+
+        document.querySelectorAll('input[name="filter-type"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                window.currentFilter = e.target.value;
+                state.notifyListeners(); // Rafraîchit dynamiquement le WBS et le Gantt
+            });
         });
 
         // T006: File System Access API (Ouvrir / Sauvegarder .gan) avec Fallback
