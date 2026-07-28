@@ -64,8 +64,15 @@
             transition: background-color 0.2s;
         }
 
-        button:hover {
+        button:hover:not(:disabled) {
             background-color: var(--hover-color);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--bg-color);
+            color: #888;
         }
 
         button.primary {
@@ -181,7 +188,19 @@
     <div id="main-container">
         <!-- Left Pane: Data Table -->
         <div id="left-pane">
-            <div class="pane-header">Tâches (WBS)</div>
+            <div class="pane-header" style="justify-content: space-between;">
+                <span>Tâches (WBS)</span>
+                <div id="wbs-toolbar" style="display:flex; gap:4px;">
+                    <button id="btn-outdent" title="Désindenter" style="padding:0 4px;" disabled>←</button>
+                    <button id="btn-indent" title="Indenter" style="padding:0 4px;" disabled>→</button>
+                    <button id="btn-move-up" title="Monter" style="padding:0 4px;" disabled>↑</button>
+                    <button id="btn-move-down" title="Descendre" style="padding:0 4px;" disabled>↓</button>
+                    <button id="btn-link" title="Lier" style="padding:0 4px;" disabled>🔗</button>
+                    <button id="btn-unlink" title="Délier" style="padding:0 4px;" disabled>⛓️‍💥</button>
+                    <button id="btn-filter" title="Filtrer" style="padding:0 4px;">🔽</button>
+                    <button id="btn-columns" title="Colonnes" style="padding:0 4px;">⚙️</button>
+                </div>
+            </div>
             <div class="pane-content" id="wbs-content">
                 <!-- WBS Table will go here -->
             </div>
@@ -214,6 +233,8 @@
                 this.fileHandle = null;
                 this.listeners = [];
                 this.hasUnsavedChanges = false;
+                window.selectedTaskIds = new Set(); // T029: État de sélection global
+                window.lastSelectedTaskId = null; // T029: Shift-click
             }
 
             // Charge la chaîne XML dans le DOM natif du navigateur
@@ -226,6 +247,8 @@
                     throw new Error("Erreur de parsing XML : " + parseError.textContent);
                 }
                 this.hasUnsavedChanges = false; // Réinitialise sur nouveau chargement
+                window.selectedTaskIds.clear();
+                window.lastSelectedTaskId = null;
                 this.notifyListeners(true);
             }
 
@@ -291,12 +314,55 @@
             
             tasks.forEach(task => {
                 const row = document.createElement('div');
+                row.setAttribute('data-task-id', task.id);
                 row.style.display = 'flex';
                 row.style.alignItems = 'center';
                 row.style.borderBottom = '1px solid var(--border-color)';
                 row.style.height = '32px';
                 row.style.boxSizing = 'border-box';
                 row.style.fontSize = '13px';
+                row.style.cursor = 'pointer'; // T029
+                row.style.userSelect = 'none'; // Empêcher la sélection de texte
+                
+                // T029 : Gestion du clic pour multisélection
+                row.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') return;
+                    
+                    if (e.shiftKey && window.lastSelectedTaskId) {
+                        // Vider la sélection de texte du navigateur (sécurité supplémentaire)
+                        if (window.getSelection) window.getSelection().removeAllRanges();
+                        const allRows = Array.from(document.querySelectorAll('#wbs-content > div'));
+                        const allIds = allRows.map(r => r.getAttribute('data-task-id'));
+                        
+                        const idx1 = allIds.indexOf(window.lastSelectedTaskId);
+                        const idx2 = allIds.indexOf(task.id);
+                        
+                        if (idx1 !== -1 && idx2 !== -1) {
+                            const start = Math.min(idx1, idx2);
+                            const end = Math.max(idx1, idx2);
+                            
+                            if (!e.ctrlKey && !e.metaKey) {
+                                window.selectedTaskIds.clear();
+                            }
+                            
+                            for (let i = start; i <= end; i++) {
+                                window.selectedTaskIds.add(allIds[i]);
+                            }
+                        }
+                    } else if (e.ctrlKey || e.metaKey) {
+                        if (window.selectedTaskIds.has(task.id)) {
+                            window.selectedTaskIds.delete(task.id);
+                        } else {
+                            window.selectedTaskIds.add(task.id);
+                        }
+                        window.lastSelectedTaskId = task.id;
+                    } else {
+                        window.selectedTaskIds.clear();
+                        window.selectedTaskIds.add(task.id);
+                        window.lastSelectedTaskId = task.id;
+                    }
+                    updateSelectionUI();
+                });
                 
                 const nameCol = document.createElement('div');
                 nameCol.style.flex = '1';
@@ -486,10 +552,10 @@
                      const cx = x + 10;
                      const cy = y + h/2;
                      const r = 8;
-                     svg += `<polygon points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+                     svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy-r} ${cx+r},${cy} ${cx},${cy+r} ${cx-r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
                 } else {
                      // Barre de tâche rectangulaire
-                     svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
+                     svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="${color}" stroke="#00000033" stroke-width="1"/>`;
                      // Affichage de la complétion (T023)
                      if (t.complete > 0) {
                          const compW = w * (t.complete / 100);
@@ -549,7 +615,135 @@
             
             svg += `</svg>`;
             container.innerHTML = svg;
+            
+            updateSelectionUI(); // Rafraîchissement post-rendu
         }
+
+        // T029 : Gestion de la sélection et UI
+        function updateSelectionUI() {
+            // Mise à jour des lignes WBS
+            document.querySelectorAll('#wbs-content > div').forEach(row => {
+                const id = row.getAttribute('data-task-id');
+                if (window.selectedTaskIds.has(id)) {
+                    row.style.backgroundColor = '#e3f2fd'; // Bleu léger
+                } else {
+                    row.style.backgroundColor = '';
+                }
+            });
+
+            // Mise à jour des éléments du SVG (Gantt)
+            const svgDoc = document.querySelector('#gantt-content svg');
+            if (svgDoc) {
+                svgDoc.querySelectorAll('.gantt-item').forEach(item => {
+                    const id = item.getAttribute('data-task-id');
+                    if (window.selectedTaskIds.has(id)) {
+                        item.setAttribute('stroke', '#ffeb3b'); // Contour jaune pour la sélection
+                        item.setAttribute('stroke-width', '3');
+                    } else {
+                        item.removeAttribute('stroke');
+                        item.removeAttribute('stroke-width');
+                    }
+                });
+            }
+            
+            updateToolbarButtons();
+        }
+
+        // T030 & T031 : Boutons hiérarchie WBS
+        function getPrevTask(node) {
+            let n = node.previousElementSibling;
+            while(n && n.tagName !== 'task') n = n.previousElementSibling;
+            return n;
+        }
+        function getNextTask(node) {
+            let n = node.nextElementSibling;
+            while(n && n.tagName !== 'task') n = n.nextElementSibling;
+            return n;
+        }
+
+        function updateToolbarButtons() {
+            const btnIndent = document.getElementById('btn-indent');
+            const btnOutdent = document.getElementById('btn-outdent');
+            const btnUp = document.getElementById('btn-move-up');
+            const btnDown = document.getElementById('btn-move-down');
+            const btnLink = document.getElementById('btn-link');
+            const btnUnlink = document.getElementById('btn-unlink');
+            
+            const selected = Array.from(window.selectedTaskIds);
+            
+            if (selected.length !== 1) {
+                btnIndent.disabled = true;
+                btnOutdent.disabled = true;
+                btnUp.disabled = true;
+                btnDown.disabled = true;
+                
+                // Chaînage
+                if (selected.length >= 2) {
+                    const parentNames = new Set(selected.map(id => {
+                        const n = state.xmlDoc.querySelector(`task[id="${id}"]`);
+                        return n && n.parentNode ? n.parentNode.nodeName : 'NONE'; // Approximatif pour l'instant
+                    }));
+                    btnLink.disabled = parentNames.size !== 1;
+                    btnUnlink.disabled = false; // Autorisé s'il y a des liens
+                } else {
+                    btnLink.disabled = true;
+                    btnUnlink.disabled = true;
+                }
+                return;
+            }
+            
+            btnLink.disabled = true;
+            btnUnlink.disabled = true;
+            
+            const taskNode = state.xmlDoc.querySelector(`task[id="${selected[0]}"]`);
+            if (!taskNode) return;
+            
+            btnIndent.disabled = !getPrevTask(taskNode);
+            btnOutdent.disabled = (taskNode.parentNode.tagName !== 'task');
+            btnUp.disabled = !getPrevTask(taskNode);
+            btnDown.disabled = !getNextTask(taskNode);
+        }
+
+        // Événements d'indentation / déplacement
+        document.getElementById('btn-indent').addEventListener('click', () => {
+            const taskId = Array.from(window.selectedTaskIds)[0];
+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+            const prev = getPrevTask(node);
+            if (prev) {
+                prev.appendChild(node);
+                state.notifyListeners();
+            }
+        });
+
+        document.getElementById('btn-outdent').addEventListener('click', () => {
+            const taskId = Array.from(window.selectedTaskIds)[0];
+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+            const parent = node.parentNode;
+            if (parent && parent.tagName === 'task') {
+                parent.parentNode.insertBefore(node, parent.nextElementSibling);
+                state.notifyListeners();
+            }
+        });
+
+        document.getElementById('btn-move-up').addEventListener('click', () => {
+            const taskId = Array.from(window.selectedTaskIds)[0];
+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+            const prev = getPrevTask(node);
+            if (prev) {
+                node.parentNode.insertBefore(node, prev);
+                state.notifyListeners();
+            }
+        });
+
+        document.getElementById('btn-move-down').addEventListener('click', () => {
+            const taskId = Array.from(window.selectedTaskIds)[0];
+            const node = state.xmlDoc.querySelector(`task[id="${taskId}"]`);
+            const next = getNextTask(node);
+            if (next) {
+                node.parentNode.insertBefore(next, node);
+                state.notifyListeners();
+            }
+        });
 
         // T012: Défilement synchronisé entre le WBS et le Gantt
         const wbsContent = document.getElementById('wbs-content');
@@ -566,6 +760,7 @@
         function createNewTask(isMilestone = false) {
             if (!state.xmlDoc) return alert("Veuillez d'abord ouvrir ou initialiser un projet !");
             
+            
             let tasksNode = state.xmlDoc.querySelector('tasks');
             if (!tasksNode) {
                 // Si la racine <tasks> n'existe pas, la créer (pour les nouveaux projets vides)
@@ -574,7 +769,8 @@
             }
             
             const newTask = state.xmlDoc.createElement('task');
-            newTask.setAttribute('id', Math.floor(Math.random() * 100000));
+            const newId = Math.floor(Math.random() * 100000).toString();
+            newTask.setAttribute('id', newId);
             newTask.setAttribute('name', isMilestone ? 'Nouveau Jalon' : 'Nouvelle Tâche');
             
             // On met la date d'aujourd'hui par défaut
@@ -584,7 +780,22 @@
             newTask.setAttribute('duration', isMilestone ? '0' : '1');
             newTask.setAttribute('meeting', isMilestone ? 'true' : 'false');
             
-            tasksNode.appendChild(newTask);
+            // T035 : Insertion sous la sélection courante
+            const selectedIds = Array.from(window.selectedTaskIds);
+            let inserted = false;
+            if (selectedIds.length > 0) {
+                const lastSelectedNode = state.xmlDoc.querySelector(`task[id="${selectedIds[selectedIds.length - 1]}"]`);
+                if (lastSelectedNode && lastSelectedNode.parentNode) {
+                    lastSelectedNode.parentNode.insertBefore(newTask, lastSelectedNode.nextElementSibling);
+                    inserted = true;
+                }
+            }
+            if (!inserted) {
+                tasksNode.appendChild(newTask);
+            }
+            
+            window.selectedTaskIds.clear();
+            window.selectedTaskIds.add(newId);
             state.notifyListeners();
         }
 

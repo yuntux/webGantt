@@ -115,13 +115,13 @@
 
 **Objectif** : Atteindre l'ergonomie et la richesse fonctionnelle de GanttProject (barres d'outils complètes, arborescence interactive, zooms, filtres).
 
-- [ ] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
-- [ ] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
-- [ ] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
+- [x] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
+- [x] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
+- [x] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
 - [ ] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
 - [ ] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
 - [ ] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
-- [ ] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
+- [x] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
 - [ ] T036 [US5] Rendre le WBS pliable/dépliable : icônes chevrons (v) et (>) conditionnelles sur les parents, cachant/affichant les sous-tâches.
 - [ ] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
 - [ ] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
