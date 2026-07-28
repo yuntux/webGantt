@@ -95,10 +95,23 @@
         /* Left Pane: WBS Data Table */
         #left-pane {
             width: 400px;
+            min-width: 150px;
             background-color: var(--surface-color);
-            border-right: 2px solid var(--border-color);
             display: flex;
             flex-direction: column;
+        }
+
+        /* Splitter (T038) */
+        #splitter {
+            width: 4px;
+            cursor: col-resize;
+            background-color: var(--border-color);
+            flex-shrink: 0;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+        #splitter:hover, #splitter:active {
+            background-color: var(--primary-color);
         }
 
         /* Right Pane: Gantt Chart Timeline */
@@ -205,6 +218,10 @@
                 <!-- WBS Table will go here -->
             </div>
         </div>
+        
+        <!-- Splitter (T038) -->
+        <div id="splitter"></div>
+
         <!-- Right Pane: Gantt Timeline -->
         <div id="right-pane">
             <div class="pane-header">Diagramme de Gantt</div>
@@ -947,6 +964,32 @@
             });
             if (changed) state.notifyListeners();
         });
+        // T038 : Logique du Splitter
+        const splitter = document.getElementById('splitter');
+        const leftPane = document.getElementById('left-pane');
+        let isDraggingSplitter = false;
+
+        splitter.addEventListener('mousedown', (e) => {
+            isDraggingSplitter = true;
+            document.body.style.cursor = 'col-resize';
+            e.preventDefault(); // Empêche la sélection de texte
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDraggingSplitter) return;
+            const newWidth = e.clientX;
+            if (newWidth > 150 && newWidth < window.innerWidth - 150) {
+                leftPane.style.width = newWidth + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isDraggingSplitter) {
+                isDraggingSplitter = false;
+                document.body.style.cursor = '';
+            }
+        });
+
 
         // T012: Défilement synchronisé entre le WBS et le Gantt
         const wbsContent = document.getElementById('wbs-content');

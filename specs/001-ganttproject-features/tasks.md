@@ -124,7 +124,7 @@
 - [x] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
 - [x] T036 [US5] Rendre le WBS pliable/dépliable : icônes chevrons (v) et (>) conditionnelles sur les parents, cachant/affichant les sous-tâches.
 - [ ] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
-- [ ] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
+- [x] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
 - [ ] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
 - [ ] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
 - [ ] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
