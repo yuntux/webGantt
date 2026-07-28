@@ -111,6 +111,30 @@
 
 ---
 
+## Phase 8 : Interface Utilisateur Avancée & Parité Desktop (Priorité : P1/P2)
+
+**Objectif** : Atteindre l'ergonomie et la richesse fonctionnelle de GanttProject (barres d'outils complètes, arborescence interactive, zooms, filtres).
+
+- [ ] T029 [US5] Implémenter le modèle de sélection de tâches (multisélection), avec surbrillance WBS et Gantt.
+- [ ] T030 [US5] Ajouter les boutons WBS Indenter (flèche droite) et Désindenter (flèche gauche) avec leurs règles précises de grisage/désactivation en fonction du parent. Modifier l'arborescence XML (`parent`).
+- [ ] T031 [US5] Ajouter les boutons WBS Monter (flèche haut) et Descendre (flèche bas) avec leurs règles de grisage (vérification de l'existence d'un frère au-dessus/en-dessous).
+- [ ] T032 [US5] Ajouter les boutons WBS Lier (maillon) et Délier (maillon brisé). "Lier" crée les dépendances 2 à 2 en séquence. Gérer les conditions de grisage (même parent, reliées ou non).
+- [ ] T033 [US5] Ajouter le bouton Filtre (Entonnoir) ouvrant une liste de 4 boutons radio (Non terminées, Aujourd'hui, En retard, En cours) pour filtrer le rendu.
+- [ ] T034 [US5] Ajouter le bouton Colonnes (Engrenage) pour afficher/masquer dynamiquement les attributs du WBS.
+- [ ] T035 [US5] Modifier l'algorithme "Ajouter Tâche" : insertion juste en dessous de la sélection courante, partageant le même parent (ou racine si rien n'est sélectionné).
+- [ ] T036 [US5] Rendre le WBS pliable/dépliable : icônes chevrons (v) et (>) conditionnelles sur les parents, cachant/affichant les sous-tâches.
+- [ ] T037 [US5] Ajouter un bouton pour afficher/masquer le chemin critique sur le Gantt.
+- [ ] T038 [US5] Implémenter la bordure splitter (resize) entre le paneau gauche et droit.
+- [ ] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
+- [ ] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
+- [ ] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
+- [ ] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
+- [ ] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
+- [ ] T044 [US5] Implémenter la fonctionnalité d'Impression spécifique au Gantt.
+- [ ] T045 [P] Mettre à jour `tests/e2e.test.js` pour inclure la vérification des nouvelles fonctionnalités d'IHM complexes.
+
+---
+
 ## Dépendances & Ordre d'Exécution
 
 ### Dépendances des Phases

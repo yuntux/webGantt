@@ -14,5 +14,8 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.62.0"
+  },
+  "dependencies": {
+    "jsdom": "^30.0.0"
   }
 }

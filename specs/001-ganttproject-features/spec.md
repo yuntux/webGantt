@@ -84,6 +84,35 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
 - **FR-007** : Le système DOIT être capable de lire, modifier et sauvegarder un fichier au format natif `.gan` (XML GanttProject). L'application DOIT se conformer strictement au schéma de référence `assets/ganttproject.xsd` et l'interface utilisateur (IHM) DOIT être capable de gérer et d'exposer **toutes** les possibilités et attributs offerts par ce fichier XSD (tâches, dépendances, ressources, affectations, lignes de base, couleurs, etc.).
 - **FR-008** : L'application doit permettre la sauvegarde d'empreintes du projet (lignes de base) au sein du fichier et offrir un affichage visuel de ces références. Elle doit permettre de gérer ces lignes de base (création, suppression, sélection de la ligne active pour l'affichage). Elle doit permettre de définir et visualiser le pourcentage d'avancement des tâches (attribut `complete`).
 - **FR-009** : L'application doit distinguer l'écrasement natif du fichier ("Enregistrer") du téléchargement d'une nouvelle copie ("Télécharger"). Si l'utilisateur tente de quitter la page avec des modifications non sauvegardées, une alerte système (beforeunload) doit le prévenir.
+- **FR-010** : Le système DOIT fournir des outils de hiérarchie WBS et de réordonnancement :
+  - **Indenter (flèche droite)** : La tâche sélectionnée devient l'enfant de la tâche la précédant. (Grisé si aucune tâche ne précède dans la même fratrie).
+  - **Désindenter (flèche gauche)** : La tâche remonte d'un niveau (son parent devient le parent de son parent). (Grisé si niveau 1 / sans parent).
+  - **Monter (flèche haut)** : La tâche sélectionnée monte dans la fratrie. (Grisé s'il n'y a pas de tâche supérieure avec le même parent).
+  - **Descendre (flèche bas)** : La tâche sélectionnée descend dans la fratrie. (Grisé s'il n'y a pas de tâche inférieure avec le même parent).
+- **FR-011** : Le système DOIT permettre la liaison et déliaison multiple via des boutons dédiés opérant sur les N tâches sélectionnées :
+  - **Lier (chaîne)** : Crée des dépendances 2 à 2 dans l'ordre de la liste. (Grisé si toutes les tâches sélectionnées n'ont pas le même parent).
+  - **Délier (chaîne brisée)** : Supprime les dépendances entre les tâches sélectionnées. (Grisé si les tâches ne sont pas reliées).
+- **FR-012** : Le système DOIT proposer un bouton (Entonnoir) avec 4 boutons radio pour filtrer :
+  1. Tâches non terminées (progression < 100%).
+  2. Tâches à faire aujourd'hui (progression < 100% et date de fin = aujourd'hui).
+  3. Tâches en retard.
+  4. Tâches en cours.
+- **FR-013** : Le système DOIT proposer un bouton (Engrenage) pour afficher/masquer les colonnes du WBS.
+- **FR-014** : Le WBS DOIT afficher les tâches sous forme d'arborescence pliable :
+  - Chevron bas (v) : tâche dépliée. Un clic la plie et affiche un chevron droit (>).
+  - Chevron droit (>) : tâche pliée. Un clic la déplie et affiche un chevron bas (v).
+- **FR-014b** : L'ajout de tâche DOIT insérer la nouvelle tâche sous la dernière tâche sélectionnée, avec le même parent. Sans sélection, elle s'ajoute à la fin sans parent.
+- **FR-015** : L'application DOIT calculer et permettre d'afficher ou masquer le chemin critique.
+- **FR-016** : L'interface DOIT permettre :
+  - D'élargir ou rétrécir le panneau de gauche via une bordure cliquable et glissable (splitter).
+  - De masquer d'un coup le panneau de gauche (bouton chevron gauche) et de le réafficher (bouton chevron droit).
+- **FR-017** : Le diagramme de Gantt (panneau de droite) DOIT intégrer :
+  - Un bouton "Zoom avant" (allonge la largeur des rectangles).
+  - Un bouton "Zoom arrière" (raccourcit la largeur des rectangles).
+  - Une échelle de temps graduée s'adaptant au zoom (jour, semaine, mois, trimestre, semestre, année).
+- **FR-018** : Le système DOIT maintenir un historique des actions (Annuler/Rétablir) avec une profondeur minimale de 100 actions.
+- **FR-019** : Le système DOIT supporter les opérations de presse-papiers (Copier, Couper, Coller) sur les tâches.
+- **FR-020** : Le système DOIT offrir une fonctionnalité d'impression optimisée pour le diagramme de Gantt.
 
 ### Exigences d'Interface Graphique (IHM)
 
@@ -91,8 +120,11 @@ Les utilisateurs peuvent enregistrer une ligne de base du projet et suivre l'ava
   - **Volet gauche** : Un tableau de données hiérarchique (WBS) listant les tâches, leurs dates de début, de fin et leurs durées.
   - **Volet droit** : La frise chronologique (Gantt chart) interactive avec les barres horizontales et les flèches de dépendance.
 - **UI-002 (Synchronisation du défilement)** : Le défilement vertical du tableau à gauche et du diagramme à droite DOIT être parfaitement synchronisé.
-- **UI-003 (Barre d'outils)** : Une barre d'outils supérieure DOIT être présente pour accéder rapidement aux actions principales (Nouveau, Ouvrir, Enregistrer, Ajouter une Tâche, Propriétés, Descendre une tâche, Remonter une tâche, Ajouter une dépendance, Supprimer une dépendance, Ajouter une ressource, Supprimer une ressource, Affecter une ressource à une tâche).
+- **UI-003 (Barre d'outils WBS & Gantt)** : L'en-tête du panneau de gauche (WBS) DOIT intégrer ses propres boutons (hiérarchie, filtres, colonnes, liaisons). L'en-tête du diagramme de Gantt DOIT intégrer ses contrôles de Zoom.
 - **UI-004 (Thématisation)** : L'interface DOIT proposer un mode clair (Light Mode) et un mode sombre (Dark Mode). Le mode **clair** DOIT être activé par défaut.
+- **UI-005 (Splitter dynamique)** : Une barre de redimensionnement interactive DOIT séparer les deux panneaux, avec des boutons de masquage rapide.
+- **UI-006 (Insertion contextuelle)** : L'ajout de nouvelles tâches DOIT s'effectuer contextuellement sous la sélection active.
+- **UI-007 (Indicateurs d'états)** : Les boutons nécessitant des conditions spécifiques (ex: "désindenter" sur une tâche racine) DOIVENT être grisés/désactivés visuellement.
 
 ### Entités Clés
 
