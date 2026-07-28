@@ -224,7 +224,10 @@
 
         <!-- Right Pane: Gantt Timeline -->
         <div id="right-pane">
-            <div class="pane-header">Diagramme de Gantt</div>
+            <div class="pane-header">
+                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS" style="padding:0 4px; margin-right: 8px;">◀</button>
+                <span>Diagramme de Gantt</span>
+            </div>
             <div class="pane-content" id="gantt-content">
                 <!-- SVG Gantt Chart will go here -->
             </div>
@@ -987,6 +990,26 @@
             if (isDraggingSplitter) {
                 isDraggingSplitter = false;
                 document.body.style.cursor = '';
+            }
+        });
+
+        // T039 : Masquer/Afficher complètement le panneau WBS
+        let isPaneCollapsed = false;
+        let previousPaneWidth = '400px';
+        document.getElementById('btn-toggle-pane').addEventListener('click', (e) => {
+            const btn = e.target;
+            if (!isPaneCollapsed) {
+                previousPaneWidth = leftPane.style.width || '400px';
+                leftPane.style.display = 'none';
+                splitter.style.display = 'none';
+                btn.textContent = '▶';
+                isPaneCollapsed = true;
+            } else {
+                leftPane.style.display = 'flex';
+                leftPane.style.width = previousPaneWidth;
+                splitter.style.display = 'block';
+                btn.textContent = '◀';
+                isPaneCollapsed = false;
             }
         });
 
