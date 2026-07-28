@@ -128,7 +128,7 @@
 - [x] T039 [US5] Implémenter les boutons chevron gauche/droit pour masquer complètement / réafficher le panneau gauche d'un seul clic.
 - [x] T040 [US5] En-tête du Gantt : Boutons "Zoom avant" (allongement rectangles) et "Zoom arrière" (rétrécissement rectangles).
 - [x] T041 [US5] En-tête du Gantt : Affichage de l'échelle du temps (graduation évoluant : jour, semaine, mois, trimestre, semestre, année) couplée au niveau de zoom.
-- [ ] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
+- [x] T042 [US5] Implémenter le système d'historique (Annuler / Rétablir) avec une pile d'état de profondeur 100.
 - [ ] T043 [US5] Implémenter le presse-papiers complet : Copier, Couper, Coller appliqués aux tâches sélectionnées.
 - [ ] T044 [US5] Implémenter la fonctionnalité d'Impression spécifique au Gantt.
 - [ ] T045 [P] Mettre à jour `tests/e2e.test.js` pour inclure la vérification des nouvelles fonctionnalités d'IHM complexes.

@@ -147,6 +147,10 @@
         <button id="btn-open" class="primary">Ouvrir un projet (.gan)</button>
         <button id="btn-save" style="display: none;">Enregistrer</button>
         <button id="btn-download">Télécharger</button>
+        <!-- T042 : Historique -->
+        <button id="btn-undo" title="Annuler (Ctrl+Z)" disabled>↩ Annuler</button>
+        <button id="btn-redo" title="Rétablir (Ctrl+Y)" disabled>↪ Rétablir</button>
+        <div style="width: 12px;"></div>
         <button id="btn-add-task">Ajouter Tâche</button>
         <button id="btn-add-milestone">Ajouter Jalon</button>
         <button id="btn-resources">Ressources</button>
@@ -310,6 +314,9 @@
                 this.hasUnsavedChanges = false;
                 window.selectedTaskIds = new Set(); // T029: État de sélection global
                 window.lastSelectedTaskId = null; // T029: Shift-click
+                // T042: Historique
+                this.historyStack = [];
+                this.historyIndex = -1;
             }
 
             // Charge la chaîne XML dans le DOM natif du navigateur
@@ -324,6 +331,12 @@
                 this.hasUnsavedChanges = false; // Réinitialise sur nouveau chargement
                 window.selectedTaskIds.clear();
                 window.lastSelectedTaskId = null;
+                
+                // T042 : Initialiser l'historique avec l'état de départ
+                this.historyStack = [this.getXMLString()];
+                this.historyIndex = 0;
+                this.updateHistoryButtons();
+                
                 this.notifyListeners(true);
             }
 
@@ -388,10 +401,58 @@
                 rootTasks.forEach(t => processTaskNode(t));
             }
 
-            notifyListeners(isLoad = false) {
+            notifyListeners(isLoad = false, isHistoryAction = false) {
                 this.recomputeParentDates();
                 if (!isLoad) this.hasUnsavedChanges = true;
+                
+                // T042: Sauvegarder dans l'historique
+                if (!isLoad && !isHistoryAction) {
+                    const currentXmlStr = this.getXMLString();
+                    if (this.historyStack.length === 0 || currentXmlStr !== this.historyStack[this.historyIndex]) {
+                        // Couper le futur si on a annulé précédemment
+                        this.historyStack = this.historyStack.slice(0, this.historyIndex + 1);
+                        this.historyStack.push(currentXmlStr);
+                        if (this.historyStack.length > 100) {
+                            this.historyStack.shift();
+                        }
+                        this.historyIndex = this.historyStack.length - 1;
+                    }
+                }
+                
+                this.updateHistoryButtons();
                 this.listeners.forEach(cb => cb(this.xmlDoc));
+            }
+
+            // T042 : Undo / Redo
+            undo() {
+                if (this.historyIndex > 0) {
+                    this.historyIndex--;
+                    const xmlStr = this.historyStack[this.historyIndex];
+                    this.xmlDoc = new DOMParser().parseFromString(xmlStr, "application/xml");
+                    window.selectedTaskIds.clear(); // Optionnel : nettoyer la sélection
+                    window.lastSelectedTaskId = null;
+                    this.notifyListeners(false, true);
+                }
+            }
+
+            redo() {
+                if (this.historyIndex < this.historyStack.length - 1) {
+                    this.historyIndex++;
+                    const xmlStr = this.historyStack[this.historyIndex];
+                    this.xmlDoc = new DOMParser().parseFromString(xmlStr, "application/xml");
+                    window.selectedTaskIds.clear();
+                    window.lastSelectedTaskId = null;
+                    this.notifyListeners(false, true);
+                }
+            }
+
+            updateHistoryButtons() {
+                const btnUndo = document.getElementById('btn-undo');
+                const btnRedo = document.getElementById('btn-redo');
+                if (btnUndo && btnRedo) {
+                    btnUndo.disabled = this.historyIndex <= 0;
+                    btnRedo.disabled = this.historyIndex >= this.historyStack.length - 1;
+                }
             }
             
             // Helpers
@@ -1664,6 +1725,28 @@
                 if (window.currentZoomIndex > 0) {
                     window.currentZoomIndex--;
                     state.notifyListeners();
+                }
+            });
+        }
+
+        // T042 : Événements Historique
+        const btnUndo = document.getElementById('btn-undo');
+        const btnRedo = document.getElementById('btn-redo');
+        if (btnUndo && btnRedo) {
+            btnUndo.addEventListener('click', () => state.undo());
+            btnRedo.addEventListener('click', () => state.redo());
+            
+            // Raccourcis clavier (Ctrl+Z / Ctrl+Y)
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    if (e.key === 'z' || e.key === 'Z') {
+                        e.preventDefault();
+                        if (e.shiftKey) state.redo();
+                        else state.undo();
+                    } else if (e.key === 'y' || e.key === 'Y') {
+                        e.preventDefault();
+                        state.redo();
+                    }
                 }
             });
         }
