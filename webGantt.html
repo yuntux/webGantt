@@ -693,6 +693,9 @@
                 window.selectedTaskIds.clear();
                 window.lastSelectedTaskId = null;
 
+                // T049 : Parser le calendrier du projet
+                parseCalendar(this.xmlDoc);
+
                 // T042 : Initialiser l'historique avec l'état de départ
                 this.historyStack = [this.getXMLString()];
                 this.historyIndex = 0;
@@ -740,7 +743,8 @@
                             const d = new Date(startStr);
                             const dur = parseInt(durStr);
                             if (!isNaN(d) && !isNaN(dur)) {
-                                const endMs = d.getTime() + dur * 24 * 60 * 60 * 1000;
+                                const endDate = addWorkingDays(d, dur);
+                                const endMs = endDate.getTime();
                                 if (d.getTime() < minStart) minStart = d.getTime();
                                 if (endMs > maxEnd) maxEnd = endMs;
                                 hasValidChildren = true;
@@ -750,7 +754,8 @@
 
                     if (hasValidChildren) {
                         const minDate = new Date(minStart);
-                        const dur = Math.round((maxEnd - minStart) / (24 * 60 * 60 * 1000));
+                        const maxDate = new Date(maxEnd);
+                        const dur = countWorkingDays(minDate, maxDate);
 
                         const isoStr = minDate.toISOString().split('T')[0];
                         taskNode.setAttribute('start', isoStr);
@@ -762,8 +767,187 @@
                 rootTasks.forEach(t => processTaskNode(t));
             }
 
+            // T050 : Propagation des dépendances (moteur de calcul avancé)
+            propagateDependencies() {
+                if (!this.xmlDoc) return;
+
+                // 1. Collecter toutes les tâches feuilles (non-parentes) avec leurs dépendances
+                const allTaskNodes = Array.from(this.xmlDoc.querySelectorAll('task'));
+                const taskMap = {}; // id -> taskNode
+                const successorMap = {}; // predecessorId -> [{ successorId, type, difference, hardness }]
+
+                allTaskNodes.forEach(node => {
+                    const id = node.getAttribute('id');
+                    if (!id) return;
+                    taskMap[id] = node;
+
+                    // Les <depend> dans une tâche indiquent ses successeurs
+                    const depends = Array.from(node.childNodes)
+                        .filter(n => n.nodeType === 1 && n.nodeName === 'depend');
+
+                    depends.forEach(dep => {
+                        const successorId = dep.getAttribute('id');
+                        const type = dep.getAttribute('type') || 'FS';
+                        const difference = parseInt(dep.getAttribute('difference') || '0');
+                        const hardness = dep.getAttribute('hardness') || 'Strong';
+
+                        if (!successorMap[id]) successorMap[id] = [];
+                        successorMap[id].push({ successorId, type, difference, hardness });
+                    });
+                });
+
+                // 2. Construire la map inverse : successorId -> [{ predecessorId, type, difference }]
+                const predecessorMap = {};
+                for (const [predId, succs] of Object.entries(successorMap)) {
+                    succs.forEach(s => {
+                        if (!predecessorMap[s.successorId]) predecessorMap[s.successorId] = [];
+                        predecessorMap[s.successorId].push({
+                            predecessorId: predId,
+                            type: s.type,
+                            difference: s.difference,
+                            hardness: s.hardness
+                        });
+                    });
+                }
+
+                // 3. Tri topologique (BFS) pour traiter les tâches dans l'ordre des dépendances
+                const inDegree = {};
+                const ids = Object.keys(taskMap);
+                ids.forEach(id => { inDegree[id] = 0; });
+                for (const [, preds] of Object.entries(predecessorMap)) {
+                    preds.forEach(p => {
+                        if (inDegree[p.predecessorId] !== undefined) {
+                            // On ne modifie pas inDegree du prédécesseur, mais du successeur
+                        }
+                    });
+                }
+                // Compter les degrés entrants
+                for (const [succId, preds] of Object.entries(predecessorMap)) {
+                    if (inDegree[succId] !== undefined) {
+                        inDegree[succId] = preds.length;
+                    }
+                }
+
+                const queue = ids.filter(id => inDegree[id] === 0);
+                const sorted = [];
+                while (queue.length > 0) {
+                    const current = queue.shift();
+                    sorted.push(current);
+                    const succs = successorMap[current] || [];
+                    succs.forEach(s => {
+                        inDegree[s.successorId]--;
+                        if (inDegree[s.successorId] === 0) {
+                            queue.push(s.successorId);
+                        }
+                    });
+                }
+
+                // 4. Propager les dates dans l'ordre topologique
+                let changed = false;
+                sorted.forEach(taskId => {
+                    const node = taskMap[taskId];
+                    if (!node) return;
+
+                    const preds = predecessorMap[taskId];
+                    if (!preds || preds.length === 0) return;
+
+                    // Ignorer les tâches parentes (recalculées par recomputeParentDates)
+                    const hasChildTasks = Array.from(node.childNodes).some(n => n.nodeType === 1 && n.nodeName === 'task');
+                    if (hasChildTasks) return;
+
+                    // T050 : Respecter la contrainte fixed-start
+                    const fixedStart = node.getAttribute('fixed-start');
+                    if (fixedStart) return; // Ne pas recalculer cette tâche
+
+                    const duration = parseInt(node.getAttribute('duration') || '1');
+                    let earliestStart = new Date('1970-01-01');
+
+                    preds.forEach(p => {
+                        const predNode = taskMap[p.predecessorId];
+                        if (!predNode) return;
+
+                        const predStart = new Date(predNode.getAttribute('start'));
+                        const predDur = parseInt(predNode.getAttribute('duration') || '1');
+                        if (isNaN(predStart)) return;
+
+                        let candidateDate;
+
+                        switch (p.type) {
+                            case 'FS': // Finish-to-Start : le successeur commence après la fin du prédécesseur
+                                candidateDate = addWorkingDays(predStart, predDur);
+                                // Appliquer le décalage (lag)
+                                if (p.difference > 0) candidateDate = addWorkingDays(candidateDate, p.difference);
+                                break;
+                            case 'SS': // Start-to-Start : le successeur commence en même temps que le prédécesseur
+                                candidateDate = new Date(predStart);
+                                if (p.difference > 0) candidateDate = addWorkingDays(candidateDate, p.difference);
+                                break;
+                            case 'FF': // Finish-to-Finish : les deux finissent en même temps
+                                candidateDate = addWorkingDays(predStart, predDur);
+                                if (p.difference > 0) candidateDate = addWorkingDays(candidateDate, p.difference);
+                                // Reculer du nombre de jours ouvrés de la durée du successeur
+                                // (on veut que la fin du successeur coïncide)
+                                const d = new Date(candidateDate);
+                                let remaining = duration;
+                                while (remaining > 0) {
+                                    d.setDate(d.getDate() - 1);
+                                    if (isWorkingDay(d)) remaining--;
+                                }
+                                candidateDate = d;
+                                break;
+                            case 'SF': // Start-to-Finish : la fin du successeur >= début du prédécesseur
+                                candidateDate = new Date(predStart);
+                                if (p.difference > 0) candidateDate = addWorkingDays(candidateDate, p.difference);
+                                const d2 = new Date(candidateDate);
+                                let rem2 = duration;
+                                while (rem2 > 0) {
+                                    d2.setDate(d2.getDate() - 1);
+                                    if (isWorkingDay(d2)) rem2--;
+                                }
+                                candidateDate = d2;
+                                break;
+                            default:
+                                return;
+                        }
+
+                        // Garder la date la plus tardive (au plus tôt = max des contraintes)
+                        if (candidateDate > earliestStart) {
+                            earliestStart = candidateDate;
+                        }
+                    });
+
+                    // T050 : Respecter thirdDate-constraint (1 = ne pas commencer avant thirdDate)
+                    const thirdDate = node.getAttribute('thirdDate');
+                    const thirdConstraint = parseInt(node.getAttribute('thirdDate-constraint') || '0');
+                    if (thirdConstraint === 1 && thirdDate) {
+                        const td = new Date(thirdDate);
+                        if (!isNaN(td) && td > earliestStart) {
+                            earliestStart = td;
+                        }
+                    }
+
+                    // S'assurer que la date tombe sur un jour ouvré
+                    earliestStart = skipToWorkingDay(earliestStart);
+
+                    const newStartStr = earliestStart.toISOString().split('T')[0];
+                    const currentStart = node.getAttribute('start');
+
+                    if (currentStart !== newStartStr) {
+                        node.setAttribute('start', newStartStr);
+                        changed = true;
+                    }
+                });
+
+                return changed;
+            }
+
             notifyListeners(isLoad = false, isHistoryAction = false) {
                 this.recomputeParentDates();
+                // T050 : Propager les dépendances après recalcul des parents
+                if (this.propagateDependencies()) {
+                    // Si des dates ont changé, recalculer les parents à nouveau
+                    this.recomputeParentDates();
+                }
                 if (!isLoad) {
                     this.hasUnsavedChanges = true;
                     // T047 : Auto-save in IndexedDB
@@ -829,6 +1013,144 @@
 
         const state = new ProjectState();
 
+        // ===== T049 : Moteur de Calendrier (jours ouvrés, week-ends, jours fériés) =====
+        // Structure globale du calendrier du projet
+        window.projectCalendar = {
+            // Jours de la semaine chômés (0=dim, 1=lun, ..., 6=sam). Par défaut : sam+dim
+            nonWorkingWeekdays: new Set([0, 6]),
+            // Set de dates fériées au format 'YYYY-MM-DD'
+            holidays: new Set(),
+            // Détails des jours fériés { 'YYYY-MM-DD': { name, color } }
+            holidayDetails: {},
+            // Afficher les week-ends sur la frise ?
+            onlyShowWeekends: false
+        };
+
+        /**
+         * Parse la balise <calendars> du XML GanttProject et peuple window.projectCalendar.
+         * Gère : <default-week> (jours travaillés/chômés), <only-show-weekends>,
+         * et <date type="HOLIDAY"> (jours fériés nommés).
+         */
+        function parseCalendar(xmlDoc) {
+            const cal = window.projectCalendar;
+            cal.nonWorkingWeekdays = new Set([0, 6]); // Reset par défaut
+            cal.holidays = new Set();
+            cal.holidayDetails = {};
+            cal.onlyShowWeekends = false;
+
+            if (!xmlDoc) return;
+
+            const calendarsNode = xmlDoc.querySelector('calendars');
+            if (!calendarsNode) return;
+
+            // Parser <default-week> pour déterminer les jours travaillés
+            const defaultWeek = calendarsNode.querySelector('default-week');
+            if (defaultWeek) {
+                // Mapping GanttProject: sun=0, mon=1, ..., sat=6
+                // Valeur '0' = jour travaillé, '1' = jour chômé
+                const dayMap = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+                cal.nonWorkingWeekdays.clear();
+                for (const [attr, jsDay] of Object.entries(dayMap)) {
+                    const val = defaultWeek.getAttribute(attr);
+                    if (val === '1') {
+                        cal.nonWorkingWeekdays.add(jsDay);
+                    }
+                }
+            }
+
+            // Parser <only-show-weekends>
+            const onlyShowWE = calendarsNode.querySelector('only-show-weekends');
+            if (onlyShowWE && onlyShowWE.getAttribute('value') === 'true') {
+                cal.onlyShowWeekends = true;
+                cal.nonWorkingWeekdays.clear(); // Tous les jours sont ouvrés
+            }
+
+            // Parser les jours fériés <date type="HOLIDAY">
+            const holidayNodes = calendarsNode.querySelectorAll('date[type="HOLIDAY"]');
+            holidayNodes.forEach(node => {
+                const year = node.getAttribute('year');
+                const month = node.getAttribute('month');
+                const day = node.getAttribute('date');
+                if (year && month && day) {
+                    const key = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                    cal.holidays.add(key);
+                    cal.holidayDetails[key] = {
+                        name: (node.textContent || '').trim(),
+                        color: node.getAttribute('color') || '#ff9999'
+                    };
+                }
+            });
+
+            console.log(`T049 Calendrier chargé : ${cal.nonWorkingWeekdays.size} jour(s) chômé(s)/semaine, ${cal.holidays.size} jour(s) férié(s)`);
+        }
+
+        /**
+         * Vérifie si une date donnée est un jour ouvré (ni week-end configuré, ni férié).
+         */
+        function isWorkingDay(date) {
+            const cal = window.projectCalendar;
+            // Vérifier le jour de la semaine
+            if (cal.nonWorkingWeekdays.has(date.getDay())) return false;
+            // Vérifier les jours fériés
+            const key = date.toISOString().split('T')[0];
+            if (cal.holidays.has(key)) return false;
+            return true;
+        }
+
+        /**
+         * Ajoute N jours ouvrés à une date de départ.
+         * Retourne la date calendaire de fin (le jour suivant le dernier jour travaillé).
+         * C'est la logique exacte de GanttProject : duration=5 => 5 jours de travail effectif.
+         */
+        function addWorkingDays(startDate, workingDays) {
+            if (workingDays <= 0) return new Date(startDate);
+            const d = new Date(startDate);
+            d.setHours(0, 0, 0, 0);
+            let count = 0;
+            while (count < workingDays) {
+                if (isWorkingDay(d)) {
+                    count++;
+                }
+                if (count < workingDays) {
+                    d.setDate(d.getDate() + 1);
+                }
+            }
+            // Avancer au jour suivant (la date de fin est exclusive dans GanttProject)
+            d.setDate(d.getDate() + 1);
+            return d;
+        }
+
+        /**
+         * Compte le nombre de jours ouvrés entre deux dates (startDate incluse, endDate exclue).
+         */
+        function countWorkingDays(startDate, endDate) {
+            const s = new Date(startDate);
+            s.setHours(0, 0, 0, 0);
+            const e = new Date(endDate);
+            e.setHours(0, 0, 0, 0);
+            let count = 0;
+            const iter = new Date(s);
+            while (iter < e) {
+                if (isWorkingDay(iter)) count++;
+                iter.setDate(iter.getDate() + 1);
+            }
+            return count;
+        }
+
+        /**
+         * T050 : Avance une date au prochain jour ouvré si elle tombe un jour chômé.
+         */
+        function skipToWorkingDay(date) {
+            const d = new Date(date);
+            d.setHours(0, 0, 0, 0);
+            let safety = 0;
+            while (!isWorkingDay(d) && safety < 365) {
+                d.setDate(d.getDate() + 1);
+                safety++;
+            }
+            return d;
+        }
+
         // T033 : Logique de Filtrage
         window.currentFilter = 'all';
         // T034 : Colonnes WBS
@@ -842,7 +1164,7 @@
         function getTaskEndDate(task) {
             const start = new Date(task.start);
             const duration = parseInt(task.duration, 10);
-            return new Date(start.getTime() + duration * 24 * 60 * 60 * 1000);
+            return addWorkingDays(start, duration);
         }
 
         function isDateToday(date) {
@@ -904,12 +1226,19 @@
                         isExpanded: child.getAttribute('expand') !== 'false', // T036 : true par défaut
                         subtasks: getDirectChildTasks(child), // Récursivité WBS
                         // T013: Analyse des dépendances (Successeurs)
+                        // T050 : Attributs de contrainte
+                        fixedStart: child.getAttribute('fixed-start') || null,
+                        thirdDate: child.getAttribute('thirdDate') || null,
+                        thirdDateConstraint: parseInt(child.getAttribute('thirdDate-constraint') || '0'),
+                        color: child.getAttribute('color') || null,
+                        priority: child.getAttribute('priority') || '1',
                         depends: Array.from(child.childNodes)
                             .filter(n => n.nodeType === 1 && n.nodeName === 'depend')
                             .map(n => ({
                                 id: n.getAttribute('id'),
                                 type: n.getAttribute('type') || 'FS',
-                                difference: parseInt(n.getAttribute('difference') || '0')
+                                difference: parseInt(n.getAttribute('difference') || '0'),
+                                hardness: n.getAttribute('hardness') || 'Strong'
                             }))
                     };
                     tasks.push(task);
@@ -1208,7 +1537,14 @@
             const dayWidth = zoomLevels[window.currentZoomIndex] || 20; // T040
             const timelineHeight = 40; // T041
             const totalHeight = flatTasks.length * rowHeight + timelineHeight;
-            const maxDaysTotal = flatTasks.length > 0 ? (getTaskEndDate(flatTasks[flatTasks.length - 1]).getTime() - minDate.getTime()) / (1000 * 60 * 60 * 24) : 0;
+            // T049 : Calcul de la fin calendaire réelle du projet (en jours calendaires)
+            let maxEndMs = minDate.getTime();
+            flatTasks.forEach(t => {
+                if (!t.start) return;
+                const ed = getTaskEndDate(t).getTime();
+                if (ed > maxEndMs) maxEndMs = ed;
+            });
+            const maxDaysTotal = (maxEndMs - minDate.getTime()) / (1000 * 60 * 60 * 24);
             const totalWidth = Math.max(3000, maxDaysTotal * dayWidth + 200); // Zone dynamique
 
 
@@ -1277,6 +1613,27 @@
                 svg += `<line x1="0" y1="${y}" x2="${totalWidth}" y2="${y}" stroke="var(--border-color)" stroke-width="1" />`;
             }
 
+            // T049/T050 : Bandes verticales grisées pour les jours chômés (week-ends et fériés)
+            const gridHeight = flatTasks.length * rowHeight;
+            for (let d = 0; d <= maxDays; d++) {
+                const iterDate = new Date(startDateScale.getTime() + d * 24 * 60 * 60 * 1000);
+                if (!isWorkingDay(iterDate)) {
+                    const x = d * dayWidth;
+                    // Distinguer fériés (rougeâtre) des week-ends (gris)
+                    const dateKey = iterDate.toISOString().split('T')[0];
+                    const isHoliday = window.projectCalendar.holidays.has(dateKey);
+                    const fillColor = isHoliday ? 'rgba(255, 100, 100, 0.12)' : 'rgba(128, 128, 128, 0.10)';
+                    svg += `<rect x="${x}" y="${timelineHeight}" width="${dayWidth}" height="${gridHeight}" fill="${fillColor}" />`;
+                    // Afficher le nom du jour férié en tooltip via un titre dans le header
+                    if (isHoliday && dayWidth >= 10) {
+                        const detail = window.projectCalendar.holidayDetails[dateKey];
+                        if (detail && detail.name) {
+                            svg += `<title>${detail.name}</title>`;
+                        }
+                    }
+                }
+            }
+
             const coordMap = {}; // T014: Cartographie des coordonnées
 
             flatTasks.forEach((t, i) => {
@@ -1288,7 +1645,10 @@
 
                 const x = Math.max(daysDiff * dayWidth, 10);
                 const y = timelineHeight + i * rowHeight + 8; // Centrage vertical sous la timeline
-                const w = Math.max(t.duration * dayWidth, 4);
+                // T049 : Largeur basée sur l'étalement calendaire réel (inclut les week-ends traversés)
+                const taskEndDate = getTaskEndDate(t);
+                const calendarSpan = (taskEndDate - startDate) / (1000 * 60 * 60 * 24);
+                const w = Math.max(calendarSpan * dayWidth, 4);
                 const h = rowHeight - 16;
 
                 // Mémorisation pour les flèches
