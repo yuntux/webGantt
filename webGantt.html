@@ -228,6 +228,13 @@
 
     <!-- Top Toolbar -->
     <div id="toolbar">
+        <a href="https://github.com/yuntux/webGantt" target="_blank"
+            style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text-color); margin-right: 16px; margin-left: 4px;">
+            <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230969da'/><rect x='15' y='25' width='45' height='15' rx='5' fill='white'/><rect x='35' y='50' width='50' height='15' rx='5' fill='white'/><rect x='25' y='75' width='30' height='15' rx='5' fill='white'/></svg>"
+                alt="Logo WebGantt" style="height: 24px; width: 24px;">
+            <span
+                style="font-weight: 600; font-size: 16px; font-family: system-ui, -apple-system, sans-serif;">webGantt</span>
+        </a>
         <div style="position: relative; display: inline-flex;">
             <button id="btn-open" class="primary"
                 style="border-top-right-radius: 0; border-bottom-right-radius: 0;">Ouvrir un projet (.gan)</button>
@@ -263,19 +270,23 @@
         <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
             <div>
                 <label style="font-weight: bold;">Nom du projet :</label>
-                <input type="text" id="proj-prop-name" style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
+                <input type="text" id="proj-prop-name"
+                    style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
             </div>
             <div>
                 <label style="font-weight: bold;">Organisation (Compagnie) :</label>
-                <input type="text" id="proj-prop-company" style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
+                <input type="text" id="proj-prop-company"
+                    style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
             </div>
             <div>
                 <label style="font-weight: bold;">Lien web :</label>
-                <input type="url" id="proj-prop-weblink" style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
+                <input type="url" id="proj-prop-weblink"
+                    style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
             </div>
             <div>
                 <label style="font-weight: bold;">Description :</label>
-                <textarea id="proj-prop-description" style="width: 100%; padding: 4px; margin-top: 4px; height: 80px; resize: vertical; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;"></textarea>
+                <textarea id="proj-prop-description"
+                    style="width: 100%; padding: 4px; margin-top: 4px; height: 80px; resize: vertical; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;"></textarea>
             </div>
         </div>
         <div style="margin-top: 16px; text-align: right;">
@@ -289,7 +300,8 @@
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 650px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <h3 style="margin: 0;">Configuration des Champs Personnalisés</h3>
-            <button id="btn-add-custom-prop" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouveau Champ</button>
+            <button id="btn-add-custom-prop" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouveau
+                Champ</button>
         </div>
 
         <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
@@ -308,13 +320,14 @@
                 <!-- Rendu dynamique -->
             </tbody>
         </table>
-        
+
         <div style="margin-top: 20px; text-align: right;">
             <button id="btn-close-custom-props" class="primary" style="padding: 6px 16px;">Fermer</button>
         </div>
     </dialog>
 
-    <dialog id="formula-help-modal" style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+    <dialog id="formula-help-modal"
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <h3 style="margin-top: 0; color: var(--primary-color);">Aide : Formules de calcul</h3>
         <div style="font-size: 13px; line-height: 1.5; margin-bottom: 16px;">
             <p>Les champs calculés utilisent une expression de type SQL (compatibilité GanttProject / H2).</p>
@@ -324,9 +337,11 @@
                 <li><code>is_milestone</code>, <code>is_project_task</code></li>
                 <li><code>start_date</code>, <code>end_date</code>, <code>earliest_start_date</code></li>
                 <li><code>duration</code>, <code>completion</code>, <code>priority</code>, <code>web_link</code></li>
-                <li><code>cost</code>, <code>cost_manual_value</code>, <code>is_cost_calculated</code>, <code>notes</code></li>
+                <li><code>cost</code>, <code>cost_manual_value</code>, <code>is_cost_calculated</code>,
+                    <code>notes</code></li>
             </ul>
-            <p style="color: #d32f2f; margin-top: 4px;"><em>Attention : Les champs personnalisés (tpcX) ne sont pas autorisés dans ces formules dans GanttProject.</em></p>
+            <p style="color: #d32f2f; margin-top: 4px;"><em>Attention : Les champs personnalisés (tpcX) ne sont pas
+                    autorisés dans ces formules dans GanttProject.</em></p>
             <p><strong>Exemples d'expressions (syntaxe SQL) :</strong></p>
             <ul style="margin-top: 4px; padding-left: 20px;">
                 <li><code>cost * 2</code> (Double le coût)</li>
@@ -375,11 +390,14 @@
     <!-- T053 : Dialog pour les valeurs des champs perso d'une ressource -->
     <dialog id="res-custom-props-values-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 500px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
             <h3 id="res-custom-props-title" style="margin: 0;">Champs personnalisés</h3>
-            <button type="button" id="btn-res-manage-custom-props" class="primary" style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
+            <button type="button" id="btn-res-manage-custom-props" class="primary"
+                style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
         </div>
-        <div id="res-custom-props-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; overflow-y: auto; padding: 4px; max-height: 400px; font-size: 13px;">
+        <div id="res-custom-props-container"
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; overflow-y: auto; padding: 4px; max-height: 400px; font-size: 13px;">
             <!-- Dynamique -->
         </div>
         <div style="margin-top: 16px; text-align: right;">
@@ -485,7 +503,8 @@
                 <button type="button" class="td-tab-btn" data-target="td-tab-resources"
                     style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Ressources</button>
                 <button type="button" class="td-tab-btn" data-target="td-tab-custom"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs Perso.</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs
+                    Perso.</button>
             </div>
 
             <form id="task-edit-form" style="flex: 1; display: flex; flex-direction: column; min-height: 0;"
@@ -704,11 +723,14 @@
                 <!-- Onglet Champs personnalisés -->
                 <div id="td-tab-custom"
                     style="display: none; font-size: 13px; flex-direction: column; flex: 1; min-height: 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);">
                         <p style="margin: 0; font-weight: bold;">Valeurs personnalisées pour cette tâche :</p>
-                        <button type="button" id="btn-custom-props" class="primary" style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
+                        <button type="button" id="btn-custom-props" class="primary"
+                            style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
                     </div>
-                    <div id="td-custom-props-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; overflow-y: auto; padding: 4px;">
+                    <div id="td-custom-props-container"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; overflow-y: auto; padding: 4px;">
                         <!-- Généré dynamiquement -->
                     </div>
                 </div>
@@ -876,6 +898,24 @@
                     style="padding:0 4px; margin-right: 8px;">◀</button>
                 <span>Diagramme de Gantt</span>
                 <div style="margin-left: auto; display: flex; gap: 4px;">
+                    <!-- Bouton Centrer (Scroll) -->
+                    <div style="position: relative; display: inline-block;">
+                        <button id="btn-scroll-to" title="Aller à..." style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 16 16 12 12 8"></polyline>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                        </button>
+                        <div id="scroll-to-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            <form id="scroll-to-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <button type="button" class="btn-scroll-action" data-action="start" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Début du projet</button>
+                                <button type="button" class="btn-scroll-action" data-action="end" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Fin du projet</button>
+                                <button type="button" class="btn-scroll-action" data-action="today" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Aujourd'hui</button>
+                                <button type="button" class="btn-scroll-action" data-action="selection" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Sélection</button>
+                            </form>
+                        </div>
+                    </div>
                     <!-- T040: Boutons de zoom -->
                     <button id="btn-zoom-out" title="Zoom Arrière"
                         style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
@@ -1129,13 +1169,13 @@
             el.style.whiteSpace = 'nowrap';
             el.style.boxSizing = 'border-box';
             el.style.borderRight = '1px solid var(--border-color)';
-            
+
             const orderIndex = window.columnOrder.indexOf(id);
             if (orderIndex !== -1) el.style.order = orderIndex.toString();
-            
+
             if (isHeader) {
                 el.style.position = 'relative';
-                
+
                 // Drag & Drop
                 el.draggable = true;
                 el.addEventListener('dragstart', e => {
@@ -1223,7 +1263,7 @@
 
                 // T055 : Restaurer l'état UI depuis le XML
                 const projNode = this.xmlDoc.documentElement;
-                
+
                 const ganttDivider = parseInt(projNode.getAttribute('gantt-divider-location'));
                 if (!isNaN(ganttDivider)) {
                     const leftPane = document.getElementById('left-pane');
@@ -1239,21 +1279,21 @@
                         }
                     }
                 }
-                
+
                 const viewNode = this.xmlDoc.querySelector('view[id="gantt-chart"]');
                 if (viewNode) {
                     const zoomState = viewNode.getAttribute('zooming-state');
                     if (zoomState) window.currentZoomLevel = zoomState;
-                    
+
                     const fields = viewNode.querySelectorAll('field');
                     if (fields.length > 0) {
                         window.visibleColumns = {};
                         window.columnOrder = [];
                         document.querySelectorAll('input[name="col-toggle"]').forEach(cb => cb.checked = false);
-                        
+
                         const fieldsList = Array.from(fields);
                         fieldsList.sort((a, b) => parseInt(a.getAttribute('order') || 0) - parseInt(b.getAttribute('order') || 0));
-                        
+
                         fieldsList.forEach(f => {
                             const id = f.getAttribute('id');
                             window.columnOrder.push(id);
@@ -1263,18 +1303,18 @@
                             const cb = document.querySelector(`input[name="col-toggle"][value="${id}"]`);
                             if (cb) cb.checked = true;
                         });
-                        
+
                         const allKnown = ['tpd3', 'tpd4', 'tpd5', 'tpd6', 'tpd7', 'tpd8', 'tpd9', 'tpd13', 'priority', 'cost', 'color', 'milestone', 'webLink', 'tpd-actions'];
                         allKnown.forEach(k => {
                             if (!window.columnOrder.includes(k)) window.columnOrder.push(k);
                         });
-                        
+
                         window.visibleColumns['tpd3'] = true; // Forcer Name
                         window.visibleColumns['tpd-actions'] = true; // Forcer Actions
-                        
+
                         if (!window.columnWidths['tpd3']) window.columnWidths['tpd3'] = 200;
                         if (!window.columnWidths['tpd-actions']) window.columnWidths['tpd-actions'] = 30;
-                        
+
                         const nameCb = document.querySelector(`input[name="col-toggle"][value="tpd3"]`);
                         if (nameCb) nameCb.checked = true;
                         const actionCb = document.querySelector(`input[name="col-toggle"][value="tpd-actions"]`);
@@ -1293,7 +1333,7 @@
             // Synchronise l'état UI vers le XML avant sauvegarde (T055)
             syncUIStateToXML() {
                 if (!this.xmlDoc) return;
-                
+
                 const leftPane = document.getElementById('left-pane');
                 if (leftPane) {
                     if (leftPane.style.display === 'none') {
@@ -1304,18 +1344,18 @@
                         this.xmlDoc.documentElement.setAttribute('gantt-divider-location', currentWidth);
                     }
                 }
-                
+
                 let viewNode = this.xmlDoc.querySelector('view[id="gantt-chart"]');
                 if (!viewNode) {
                     viewNode = this.xmlDoc.createElement('view');
                     viewNode.setAttribute('id', 'gantt-chart');
                     projNode.appendChild(viewNode);
                 }
-                
+
                 viewNode.setAttribute('zooming-state', window.currentZoomLevel || 'default:2');
-                
+
                 viewNode.querySelectorAll('field').forEach(f => f.remove());
-                
+
                 let order = 0;
                 window.columnOrder.forEach(key => {
                     if (window.visibleColumns[key]) {
@@ -1331,7 +1371,7 @@
                         else if (key === 'tpd9') name = 'Prédécesseurs';
                         else if (key === 'tpd13') name = 'Ressources';
                         else if (key === 'tpd-actions') name = 'Actions';
-                        
+
                         f.setAttribute('name', name);
                         const w = window.columnWidths[key] || (key === 'tpd3' ? 200 : (key === 'tpd-actions' ? 30 : 80));
                         f.setAttribute('width', w.toString());
@@ -1916,16 +1956,16 @@
                 const tpdLabels = { tpd4: 'Date de début', tpd5: 'Date de fin', tpd6: 'Durée', tpd7: 'Avancement', tpd8: 'Responsable', tpd9: 'Prédécesseurs' };
                 props.forEach(p => {
                     const id = p.getAttribute('id');
-                    if (id === 'tpd3') return; 
-                    if (id === 'tpd0' || id === 'tpd1' || id === 'tpd2') return; 
-                    
+                    if (id === 'tpd3') return;
+                    if (id === 'tpd0' || id === 'tpd1' || id === 'tpd2') return;
+
                     const name = tpdLabels[id] || p.getAttribute('name') || id;
                     const cProp = document.createElement('div');
                     cProp.textContent = name;
                     cProp.title = name;
                     applyColStyle(cProp, id, true);
                     cProp.style.paddingLeft = '4px';
-                    
+
                     if (!window.visibleColumns[id]) cProp.style.display = 'none';
                     header.appendChild(cProp);
                 });
@@ -1939,14 +1979,14 @@
                     { id: 'milestone', name: 'Jalon' },
                     { id: 'webLink', name: 'Lien Web' }
                 ];
-                
+
                 extraNatives.forEach(e => {
                     const cProp = document.createElement('div');
                     cProp.textContent = e.name;
                     cProp.title = e.name;
                     applyColStyle(cProp, e.id, true);
                     cProp.style.paddingLeft = '4px';
-                    
+
                     if (!window.visibleColumns[e.id]) cProp.style.display = 'none';
                     header.appendChild(cProp);
                 });
@@ -2054,20 +2094,20 @@
 
                 const tpNode = ensureTaskPropertiesNode();
                 const props = tpNode ? Array.from(tpNode.querySelectorAll('taskproperty')) : [];
-                
+
                 props.forEach(p => {
                     const id = p.getAttribute('id');
                     if (id === 'tpd3') return;
-                    if (id === 'tpd0' || id === 'tpd1' || id === 'tpd2') return; 
-                    
+                    if (id === 'tpd0' || id === 'tpd1' || id === 'tpd2') return;
+
                     const type = p.getAttribute('type');
                     const col = document.createElement('div');
                     applyColStyle(col, id, false);
                     col.style.paddingLeft = '4px';
                     col.style.fontSize = '12px';
-                    
+
                     if (!window.visibleColumns[id]) col.style.display = 'none';
-                    
+
                     let val = '';
                     if (type === 'default') {
                         if (id === 'tpd4') val = task.start;
@@ -2093,7 +2133,7 @@
                         val = customPropNode ? (customPropNode.getAttribute('value') || '') : p.getAttribute('defaultvalue');
                         if (isCalculated) val = evaluateTaskFormula(task.node, formula);
                     }
-                    
+
                     col.textContent = val || '';
                     col.title = val || '';
                     row.appendChild(col);
@@ -2107,7 +2147,7 @@
                     col.style.paddingLeft = '4px';
                     col.style.fontSize = '12px';
                     if (!window.visibleColumns[id]) col.style.display = 'none';
-                    
+
                     let val = '';
                     if (id === 'tpd13') {
                         const allocs = Array.from(state.xmlDoc.querySelectorAll(`allocations > allocation[task-id="${task.id}"]`));
@@ -2157,7 +2197,7 @@
                             val = '';
                         }
                     }
-                    
+
                     if (val) col.appendChild(document.createTextNode(val));
                     col.title = col.textContent;
                     row.appendChild(col);
@@ -2247,7 +2287,7 @@
                     document.getElementById('td-tab-resources').style.display = 'none';
                     document.getElementById('td-tab-predecessors').style.display = 'none';
                     document.getElementById('td-tab-custom').style.display = 'none';
-                    
+
                     // Render custom properties tab
                     renderTaskCustomProps(task.id);
 
@@ -2301,6 +2341,7 @@
                 }
             });
             if (!hasValidDates) minDate = new Date();
+            window.currentMinDate = minDate;
 
             // T037 : Calcul du chemin critique (heuristique simple)
             const criticalTaskIds = new Set();
@@ -2370,6 +2411,7 @@
                 const ed = getTaskEndDate(t).getTime();
                 if (ed > maxEndMs) maxEndMs = ed;
             });
+            window.currentMaxDate = new Date(maxEndMs);
             const maxDaysTotal = (maxEndMs - minDate.getTime()) / (1000 * 60 * 60 * 24);
             const totalWidth = Math.max(3000, maxDaysTotal * dayWidth + 200); // Zone dynamique
 
@@ -3123,7 +3165,7 @@
             document.getElementById('proj-prop-name').value = projNode.getAttribute('name') || '';
             document.getElementById('proj-prop-company').value = projNode.getAttribute('company') || '';
             document.getElementById('proj-prop-weblink').value = projNode.getAttribute('webLink') || '';
-            
+
             let desc = '';
             for (let i = 0; i < projNode.childNodes.length; i++) {
                 const node = projNode.childNodes[i];
@@ -3133,7 +3175,7 @@
                 }
             }
             document.getElementById('proj-prop-description').value = desc;
-            
+
             document.getElementById('project-props-modal').showModal();
         });
 
@@ -3146,7 +3188,7 @@
             projNode.setAttribute('name', document.getElementById('proj-prop-name').value);
             projNode.setAttribute('company', document.getElementById('proj-prop-company').value);
             projNode.setAttribute('webLink', document.getElementById('proj-prop-weblink').value);
-            
+
             let descNode = null;
             for (let i = 0; i < projNode.childNodes.length; i++) {
                 const node = projNode.childNodes[i];
@@ -3160,7 +3202,7 @@
                 projNode.appendChild(descNode);
             }
             descNode.textContent = document.getElementById('proj-prop-description').value;
-            
+
             document.getElementById('project-props-modal').close();
             state.notifyListeners();
         });
@@ -3170,7 +3212,7 @@
             renderResourceTable();
             document.getElementById('resource-modal').showModal();
         });
-        
+
         // T053 : Configuration Globale des Champs Personnalisés
         document.getElementById('btn-custom-props').addEventListener('click', () => {
             renderCustomPropsTable();
@@ -3182,7 +3224,7 @@
         document.getElementById('btn-close-formula-help').addEventListener('click', () => {
             document.getElementById('formula-help-modal').close();
         });
-        
+
         function ensureTaskPropertiesNode() {
             let tpNode = state.xmlDoc.querySelector('taskproperties');
             if (!tpNode) {
@@ -3194,7 +3236,7 @@
                     state.xmlDoc.documentElement.appendChild(tpNode);
                 }
             }
-            
+
             // Add standard fields as GanttProject does by default if they are missing
             const defaults = [
                 { id: 'tpd0', name: 'type', valuetype: 'icon' },
@@ -3208,7 +3250,7 @@
                 { id: 'tpd8', name: 'coordinator', valuetype: 'text' },
                 { id: 'tpd9', name: 'predecessors', valuetype: 'text' }
             ];
-            
+
             defaults.forEach(d => {
                 if (!tpNode.querySelector(`taskproperty[id="${d.id}"]`)) {
                     const node = state.xmlDoc.createElement('taskproperty');
@@ -3216,7 +3258,7 @@
                     node.setAttribute('name', d.name);
                     node.setAttribute('type', 'default');
                     node.setAttribute('valuetype', d.valuetype);
-                    
+
                     // Insert before the first custom property, or append
                     const firstCustom = tpNode.querySelector('taskproperty[type="custom"]');
                     if (firstCustom) {
@@ -3229,23 +3271,23 @@
 
             return tpNode;
         }
-        
+
         function renderCustomPropsTable() {
             const tbody = document.getElementById('custom-props-tbody');
             if (tbody) tbody.innerHTML = '';
-            
+
             const tpNode = state.xmlDoc.querySelector('taskproperties');
             if (!tpNode) {
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:8px; color:gray; font-style:italic;">Aucun champ personnalisé.</td></tr>';
                 return;
             }
-            
+
             const props = Array.from(tpNode.querySelectorAll('taskproperty[type="custom"]'));
             if (props.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:8px; color:gray; font-style:italic;">Aucun champ personnalisé.</td></tr>';
                 return;
             }
-            
+
             props.forEach(p => {
                 const id = p.getAttribute('id');
                 const name = p.getAttribute('name') || '';
@@ -3253,7 +3295,7 @@
                 const defaultvalue = p.getAttribute('defaultvalue') || '';
                 const calculated = p.getAttribute('calculated') === 'true';
                 const formula = p.getAttribute('formula') || '';
-                
+
                 const tr = document.createElement('tr');
                 tr.style.borderBottom = '1px solid var(--border-color)';
                 tr.innerHTML = `
@@ -3263,11 +3305,11 @@
                     </td>
                     <td style="padding: 8px;">
                         <select class="cp-select-type" data-id="${id}" style="width: 100%; padding: 4px; box-sizing: border-box;">
-                            <option value="text" ${valuetype==='text'?'selected':''}>Texte</option>
-                            <option value="int" ${valuetype==='int'?'selected':''}>Entier</option>
-                            <option value="double" ${valuetype==='double'?'selected':''}>Décimal</option>
-                            <option value="date" ${valuetype==='date'?'selected':''}>Date</option>
-                            <option value="boolean" ${valuetype==='boolean'?'selected':''}>Booléen</option>
+                            <option value="text" ${valuetype === 'text' ? 'selected' : ''}>Texte</option>
+                            <option value="int" ${valuetype === 'int' ? 'selected' : ''}>Entier</option>
+                            <option value="double" ${valuetype === 'double' ? 'selected' : ''}>Décimal</option>
+                            <option value="date" ${valuetype === 'date' ? 'selected' : ''}>Date</option>
+                            <option value="boolean" ${valuetype === 'boolean' ? 'selected' : ''}>Booléen</option>
                         </select>
                     </td>
                     <td style="padding: 8px;">
@@ -3288,14 +3330,14 @@
                 `;
                 tbody.appendChild(tr);
             });
-            
+
             // Listeners
             tbody.querySelectorAll('.cp-input-name, .cp-input-default, .cp-input-formula').forEach(inp => {
                 inp.addEventListener('change', (e) => {
                     const id = e.target.getAttribute('data-id');
                     const val = e.target.value;
                     let field = 'name';
-                    
+
                     if (e.target.classList.contains('cp-input-default')) {
                         field = 'defaultvalue';
                     } else if (e.target.classList.contains('cp-input-formula')) {
@@ -3304,7 +3346,7 @@
                         if (val.trim() !== '') {
                             try {
                                 let jsFormula = val.replace(/(?<![=<>!])=(?![=])/g, '==').replace(/\|\|/g, '+');
-                                
+
                                 // Test d'exécution à blanc avec un contexte fictif complet
                                 const dummyCtx = {
                                     uid: '123', id: 1, name: 'Test', color: '#000000', is_milestone: false,
@@ -3315,7 +3357,7 @@
                                 };
                                 const fn = new Function(...Object.keys(dummyCtx), 'return (' + jsFormula + ');');
                                 fn(...Object.values(dummyCtx));
-                                
+
                                 e.target.style.border = ''; // OK
                             } catch (err) {
                                 alert("Erreur dans la formule : \n" + err.message + "\nLa formule n'a pas été enregistrée.\nVérifiez les noms des variables.");
@@ -3334,7 +3376,7 @@
                     }
                 });
             });
-            
+
             tbody.querySelectorAll('.cp-input-calculated').forEach(chk => {
                 chk.addEventListener('change', (e) => {
                     const id = e.target.getAttribute('data-id');
@@ -3346,14 +3388,14 @@
                     }
                 });
             });
-            
+
             tbody.querySelectorAll('.btn-formula-help').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     document.getElementById('formula-help-modal').showModal();
                 });
             });
-            
+
             tbody.querySelectorAll('.cp-select-type').forEach(sel => {
                 sel.addEventListener('change', (e) => {
                     const id = e.target.getAttribute('data-id');
@@ -3364,7 +3406,7 @@
                     }
                 });
             });
-            
+
             tbody.querySelectorAll('.btn-del-cp').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     if (confirm("Voulez-vous vraiment supprimer ce champ personnalisé ? Les données associées dans les tâches seront perdues.")) {
@@ -3381,10 +3423,10 @@
                 });
             });
         }
-        
+
         document.getElementById('btn-add-custom-prop').addEventListener('click', () => {
             const tpNode = ensureTaskPropertiesNode();
-            
+
             let maxId = -1;
             tpNode.querySelectorAll('taskproperty[type="custom"]').forEach(n => {
                 const idStr = n.getAttribute('id');
@@ -3393,7 +3435,7 @@
                     if (!isNaN(num) && num > maxId) maxId = num;
                 }
             });
-            
+
             const newId = `tpc${maxId + 1}`;
             const newNode = state.xmlDoc.createElement('taskproperty');
             newNode.setAttribute('id', newId);
@@ -3403,7 +3445,7 @@
             newNode.setAttribute('defaultvalue', '');
             newNode.setAttribute('calculated', 'false');
             newNode.setAttribute('formula', '');
-            
+
             tpNode.appendChild(newNode);
             state.notifyListeners();
             renderCustomPropsTable();
@@ -3677,10 +3719,10 @@
             document.getElementById('res-custom-props-title').textContent = 'Champs personnalisés : ' + resName;
             const container = document.getElementById('res-custom-props-container');
             container.innerHTML = '';
-            
+
             const resNode = state.xmlDoc.querySelector(`resources > resource[id="${resId}"]`);
             if (!resNode) return;
-            
+
             // Lecture des définitions globales (on utilise taskproperties par défaut comme base si existant)
             const tpNode = state.xmlDoc.querySelector('taskproperties');
             if (tpNode) {
@@ -3689,21 +3731,21 @@
                     const name = p.getAttribute('name');
                     const type = p.getAttribute('valuetype');
                     let val = p.getAttribute('defaultvalue') || '';
-                    
+
                     let cpNode = Array.from(resNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'customproperty' && n.getAttribute('taskproperty-id') === propId);
                     if (cpNode) {
                         val = cpNode.getAttribute('value');
                     }
-                    
+
                     const div = document.createElement('div');
                     div.style.display = 'flex';
                     div.style.flexDirection = 'column';
-                    
+
                     const label = document.createElement('label');
                     label.textContent = name;
                     label.style.fontWeight = 'bold';
                     label.style.marginBottom = '4px';
-                    
+
                     let input;
                     if (type === 'boolean') {
                         input = document.createElement('input');
@@ -3722,7 +3764,7 @@
                         input.style.padding = '4px';
                         input.style.boxSizing = 'border-box';
                     }
-                    
+
                     input.addEventListener('change', (e) => {
                         const newVal = type === 'boolean' ? (e.target.checked ? 'true' : 'false') : e.target.value;
                         let node = Array.from(resNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'customproperty' && n.getAttribute('taskproperty-id') === propId);
@@ -3734,7 +3776,7 @@
                         node.setAttribute('value', newVal);
                         state.notifyListeners();
                     });
-                    
+
                     div.appendChild(label);
                     div.appendChild(input);
                     container.appendChild(div);
@@ -4233,7 +4275,7 @@
                 const duration = parseInt(taskNode.getAttribute('duration')) || 0;
                 const taskId = taskNode.getAttribute('id');
                 let calculatedCost = 0;
-                
+
                 const allocs = Array.from(state.xmlDoc.querySelectorAll(`allocations > allocation[task-id="${taskId}"]`));
                 allocs.forEach(alloc => {
                     const resId = alloc.getAttribute('resource-id');
@@ -4254,7 +4296,7 @@
                     try {
                         const endD = getTaskEndDate({ start: startStr, duration: duration });
                         endDateStr = endD.toISOString().split('T')[0];
-                    } catch(e) {}
+                    } catch (e) { }
                 }
 
                 const ctx = {
@@ -4273,21 +4315,21 @@
                     web_link: taskNode.getAttribute('webLink') || '',
                     cost_manual_value: manualCost !== null ? parseFloat(manualCost) : null,
                     is_cost_calculated: isCostCalculated,
-                    notes: '', 
+                    notes: '',
                     cost: isCostCalculated ? calculatedCost : (manualCost !== null ? parseFloat(manualCost) : 0)
                 };
 
                 const keys = Object.keys(ctx);
                 const values = Object.values(ctx);
-                
+
                 // Transpilation basique de SQL/H2 vers JS pour la compatibilité
                 let jsFormula = formula
                     .replace(/(?<![=<>!])=(?![=])/g, '==') // = devient == (sans toucher à ==, !=, <=, >=)
                     .replace(/\|\|/g, '+');                // || devient + pour la concaténation de strings
-                
+
                 const fn = new Function(...keys, `return (${jsFormula});`);
                 const result = fn(...values);
-                
+
                 if (typeof result === 'number') {
                     if (result % 1 === 0) return result.toString();
                     return result.toFixed(2);
@@ -4302,22 +4344,22 @@
         function renderTaskCustomProps(taskId) {
             const container = document.getElementById('td-custom-props-container');
             if (container) container.innerHTML = '';
-            
+
             const tpNode = state.xmlDoc.querySelector('taskproperties');
             if (!tpNode) {
                 container.innerHTML = '<div style="grid-column: 1 / -1; text-align:center; color:gray; font-style:italic;">Aucun champ personnalisé défini pour le projet.</div>';
                 return;
             }
-            
+
             const props = Array.from(tpNode.querySelectorAll('taskproperty[type="custom"]'));
             if (props.length === 0) {
                 container.innerHTML = '<div style="grid-column: 1 / -1; text-align:center; color:gray; font-style:italic;">Aucun champ personnalisé défini pour le projet.</div>';
                 return;
             }
-            
+
             const taskNode = state.xmlDoc.querySelector(`tasks task[id="${taskId}"]`);
             if (!taskNode) return;
-            
+
             props.forEach(p => {
                 const id = p.getAttribute('id');
                 const name = p.getAttribute('name') || id;
@@ -4325,24 +4367,24 @@
                 const defaultvalue = p.getAttribute('defaultvalue') || '';
                 const calculated = p.getAttribute('calculated') === 'true';
                 const formula = p.getAttribute('formula') || '';
-                
+
                 const customPropNode = Array.from(taskNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'customproperty' && n.getAttribute('taskproperty-id') === id);
                 let currentValue = customPropNode ? (customPropNode.getAttribute('value') || '') : defaultvalue;
-                
+
                 if (calculated) {
                     currentValue = evaluateTaskFormula(taskNode, formula);
                 }
-                
+
                 const div = document.createElement('div');
                 div.style.display = 'flex';
                 div.style.flexDirection = 'column';
                 div.style.gap = '4px';
-                
+
                 const label = document.createElement('label');
                 label.textContent = name;
                 if (calculated) label.textContent += ' (Calculé)';
                 div.appendChild(label);
-                
+
                 let input;
                 if (valuetype === 'boolean') {
                     input = document.createElement('input');
@@ -4362,18 +4404,18 @@
                     input.type = 'text';
                     input.value = currentValue;
                 }
-                
+
                 input.className = 'td-custom-prop-input';
                 input.setAttribute('data-prop-id', id);
                 input.setAttribute('data-calculated', calculated ? 'true' : 'false');
                 if (calculated) input.disabled = true;
-                
+
                 if (valuetype !== 'boolean') {
                     input.style.padding = '6px';
                 } else {
                     input.style.width = 'fit-content';
                 }
-                
+
                 div.appendChild(input);
                 container.appendChild(div);
             });
@@ -4453,12 +4495,12 @@
                 customInputs.forEach(inp => {
                     const isCalculated = inp.getAttribute('data-calculated') === 'true';
                     if (isCalculated) return; // Ne pas sauvegarder les champs calculés manuellement
-                    
+
                     const propId = inp.getAttribute('data-prop-id');
                     const val = inp.type === 'checkbox' ? (inp.checked ? 'true' : 'false') : inp.value;
-                    
+
                     let cpNode = Array.from(window.currentDetailsTaskNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'customproperty' && n.getAttribute('taskproperty-id') === propId);
-                    
+
                     if (cpNode) {
                         cpNode.setAttribute('value', val);
                     } else if (val !== '') {
@@ -4891,47 +4933,47 @@
 
         btnColumns.addEventListener('click', (e) => {
             e.stopPropagation();
-            
+
             const form = document.getElementById('columns-form');
             form.innerHTML = '';
-            
+
             const addCheckbox = (id, label, disabled = false) => {
                 const lbl = document.createElement('label');
                 lbl.style.cursor = disabled ? 'default' : 'pointer';
                 if (disabled) lbl.style.opacity = '0.6';
-                
+
                 const chk = document.createElement('input');
                 chk.type = 'checkbox';
                 chk.name = 'col-toggle';
                 chk.value = id;
                 chk.disabled = disabled;
-                
+
                 chk.checked = window.visibleColumns[id] === true || (id === 'tpd3');
-                
+
                 chk.addEventListener('change', (ev) => {
                     window.visibleColumns[id] = ev.target.checked;
                     state.notifyListeners();
                 });
-                
+
                 lbl.appendChild(chk);
                 lbl.appendChild(document.createTextNode(' ' + label));
                 form.appendChild(lbl);
             };
 
             addCheckbox('tpd3', 'Nom', true);
-            
+
             const tpNode = ensureTaskPropertiesNode();
             const props = tpNode ? Array.from(tpNode.querySelectorAll('taskproperty')) : [];
             const tpdLabels = { tpd4: 'Date de début', tpd5: 'Date de fin', tpd6: 'Durée', tpd7: 'Avancement', tpd8: 'Responsable', tpd9: 'Prédécesseurs' };
             props.forEach(p => {
                 const id = p.getAttribute('id');
-                if (id === 'tpd3') return; 
-                if (id === 'tpd0' || id === 'tpd1' || id === 'tpd2') return; 
-                
+                if (id === 'tpd3') return;
+                if (id === 'tpd0' || id === 'tpd1' || id === 'tpd2') return;
+
                 const name = tpdLabels[id] || p.getAttribute('name') || id;
                 addCheckbox(id, name);
             });
-            
+
             // Custom native fields
             addCheckbox('tpd13', 'Ressources');
             addCheckbox('priority', 'Priorité');
@@ -4939,7 +4981,7 @@
             addCheckbox('color', 'Couleur');
             addCheckbox('milestone', 'Jalon');
             addCheckbox('webLink', 'Lien Web');
-            
+
             const isHidden = columnsDropdown.style.display === 'none';
             columnsDropdown.style.display = isHidden ? 'block' : 'none';
         });
@@ -4957,6 +4999,69 @@
                 window.showCriticalPath = !window.showCriticalPath;
                 btnCriticalPath.style.color = window.showCriticalPath ? '#d32f2f' : '';
                 state.notifyListeners();
+            });
+        }
+
+        // Bouton Scroll To
+        const btnScrollTo = document.getElementById('btn-scroll-to');
+        const scrollToDropdown = document.getElementById('scroll-to-dropdown');
+        if (btnScrollTo && scrollToDropdown) {
+            btnScrollTo.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = scrollToDropdown.style.display === 'none';
+                scrollToDropdown.style.display = isHidden ? 'block' : 'none';
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!scrollToDropdown.contains(e.target) && !btnScrollTo.contains(e.target)) {
+                    scrollToDropdown.style.display = 'none';
+                }
+            });
+
+            document.querySelectorAll('.btn-scroll-action').forEach(btn => {
+                btn.addEventListener('mouseenter', () => btn.style.backgroundColor = 'var(--bg-color)');
+                btn.addEventListener('mouseleave', () => btn.style.backgroundColor = 'transparent');
+                
+                btn.addEventListener('click', (e) => {
+                    const action = e.target.getAttribute('data-action');
+                    const ganttContent = document.getElementById('gantt-content');
+                    if (!ganttContent || !window.currentMinDate) return;
+                    
+                    const dayWidth = zoomLevels[window.currentZoomIndex] || 20;
+                    const dateToX = (date) => {
+                        return ((date.getTime() - window.currentMinDate.getTime()) / (1000 * 60 * 60 * 24)) * dayWidth;
+                    };
+                    
+                    let targetX = 0;
+                    let handled = true;
+                    
+                    if (action === 'start') {
+                        targetX = 0;
+                    } else if (action === 'end' && window.currentMaxDate) {
+                        targetX = dateToX(window.currentMaxDate);
+                    } else if (action === 'today') {
+                        targetX = dateToX(new Date());
+                    } else if (action === 'selection') {
+                        if (window.selectedTaskIds && window.selectedTaskIds.size > 0) {
+                            const firstSelectedId = Array.from(window.selectedTaskIds)[0];
+                            const taskNode = state.xmlDoc.querySelector(`task[id="${firstSelectedId}"]`);
+                            if (taskNode && taskNode.getAttribute('start')) {
+                                targetX = dateToX(new Date(taskNode.getAttribute('start')));
+                            } else {
+                                handled = false;
+                            }
+                        } else {
+                            handled = false;
+                        }
+                    } else {
+                        handled = false;
+                    }
+                    
+                    if (handled) {
+                        ganttContent.scrollLeft = Math.max(0, targetX - 50);
+                    }
+                    scrollToDropdown.style.display = 'none';
+                });
             });
         }
 
