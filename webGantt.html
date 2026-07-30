@@ -98,7 +98,7 @@
 
         /* Left Pane: WBS Data Table */
         #left-pane {
-            width: 800px;
+            width: 30%;
             min-width: 300px;
             background-color: var(--surface-color);
             display: flex;
@@ -1108,7 +1108,7 @@
             if (resizingColId) {
                 resizingColId = null;
                 document.body.style.cursor = '';
-                if (window.state) window.state.hasUnsavedChanges = true;
+                if (state) state.hasUnsavedChanges = true;
             }
         });
 
@@ -1116,17 +1116,61 @@
             el.setAttribute('data-col-id', id);
             const w = window.columnWidths[id] || (id === 'tpd3' ? 200 : (id === 'tpd-actions' ? 30 : 80));
             el.style.width = w + 'px';
-            el.style.flexShrink = '0';
-            if (id === 'tpd3') el.style.flexGrow = '1';
-            else el.style.flexGrow = '0';
+            if (id === 'tpd-actions') {
+                el.style.flexGrow = '0';
+                el.style.flexShrink = '0';
+            } else {
+                el.style.flexGrow = '1';
+                el.style.flexShrink = '1';
+                el.style.minWidth = '50px';
+            }
             el.style.overflow = 'hidden';
             el.style.textOverflow = 'ellipsis';
             el.style.whiteSpace = 'nowrap';
             el.style.boxSizing = 'border-box';
             el.style.borderRight = '1px solid var(--border-color)';
             
+            const orderIndex = window.columnOrder.indexOf(id);
+            if (orderIndex !== -1) el.style.order = orderIndex.toString();
+            
             if (isHeader) {
                 el.style.position = 'relative';
+                
+                // Drag & Drop
+                el.draggable = true;
+                el.addEventListener('dragstart', e => {
+                    if (e.target.classList.contains('col-resizer')) {
+                        e.preventDefault();
+                        return;
+                    }
+                    e.dataTransfer.setData('text/plain', id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    el.style.opacity = '0.5';
+                });
+                el.addEventListener('dragend', () => {
+                    el.style.opacity = '1';
+                });
+                el.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                });
+                el.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const draggedId = e.dataTransfer.getData('text/plain');
+                    if (draggedId && draggedId !== id) {
+                        const draggedIndex = window.columnOrder.indexOf(draggedId);
+                        const dropIndex = window.columnOrder.indexOf(id);
+                        if (draggedIndex !== -1 && dropIndex !== -1) {
+                            window.columnOrder.splice(draggedIndex, 1);
+                            window.columnOrder.splice(dropIndex, 0, draggedId);
+                            if (state) {
+                                state.hasUnsavedChanges = true;
+                                state.notifyListeners();
+                            }
+                        }
+                    }
+                });
+
                 const resizer = document.createElement('div');
                 resizer.className = 'col-resizer';
                 resizer.setAttribute('data-resizer-id', id);
@@ -1187,13 +1231,10 @@
                     if (leftPane && btnToggle) {
                         const isCurrentlyCollapsed = leftPane.style.display === 'none';
                         if (ganttDivider <= 10) {
-                            // GanttProject n'arrive pas à masquer le panneau (limite JSplitPane)
-                            // et l'affiche donc à sa taille par défaut. Nous faisons de même.
                             leftPane.style.width = '800px';
                             if (isCurrentlyCollapsed) btnToggle.click(); // Afficher
                         } else {
-                            // On multiplie par 2 la valeur native pour qu'elle s'affiche correctement (plus large) sur le web
-                            leftPane.style.width = Math.max(300, ganttDivider * 2) + 'px';
+                            leftPane.style.width = '30%';
                             if (isCurrentlyCollapsed) btnToggle.click(); // Afficher
                         }
                     }
@@ -1207,15 +1248,25 @@
                     const fields = viewNode.querySelectorAll('field');
                     if (fields.length > 0) {
                         window.visibleColumns = {};
+                        window.columnOrder = [];
                         document.querySelectorAll('input[name="col-toggle"]').forEach(cb => cb.checked = false);
                         
-                        fields.forEach(f => {
+                        const fieldsList = Array.from(fields);
+                        fieldsList.sort((a, b) => parseInt(a.getAttribute('order') || 0) - parseInt(b.getAttribute('order') || 0));
+                        
+                        fieldsList.forEach(f => {
                             const id = f.getAttribute('id');
+                            window.columnOrder.push(id);
                             window.visibleColumns[id] = true;
                             const w = parseInt(f.getAttribute('width'));
                             if (!isNaN(w) && w > 0) window.columnWidths[id] = w;
                             const cb = document.querySelector(`input[name="col-toggle"][value="${id}"]`);
                             if (cb) cb.checked = true;
+                        });
+                        
+                        const allKnown = ['tpd3', 'tpd4', 'tpd5', 'tpd6', 'tpd7', 'tpd8', 'tpd9', 'tpd13', 'priority', 'cost', 'color', 'milestone', 'webLink', 'tpd-actions'];
+                        allKnown.forEach(k => {
+                            if (!window.columnOrder.includes(k)) window.columnOrder.push(k);
                         });
                         
                         window.visibleColumns['tpd3'] = true; // Forcer Name
@@ -1242,16 +1293,15 @@
             // Synchronise l'état UI vers le XML avant sauvegarde (T055)
             syncUIStateToXML() {
                 if (!this.xmlDoc) return;
-                const projNode = this.xmlDoc.documentElement;
                 
                 const leftPane = document.getElementById('left-pane');
                 if (leftPane) {
                     if (leftPane.style.display === 'none') {
-                        projNode.setAttribute('gantt-divider-location', '1');
+                        this.xmlDoc.documentElement.setAttribute('gantt-divider-location', '1');
                     } else {
-                        // On divise par 2 la largeur web avant de la sauvegarder pour GanttProject
-                        let currentWidth = parseInt(leftPane.style.width || 800);
-                        projNode.setAttribute('gantt-divider-location', Math.round(currentWidth / 2));
+                        let currentWidth = Math.round(leftPane.offsetWidth);
+                        if (currentWidth < 300) currentWidth = 300;
+                        this.xmlDoc.documentElement.setAttribute('gantt-divider-location', currentWidth);
                     }
                 }
                 
@@ -1267,7 +1317,7 @@
                 viewNode.querySelectorAll('field').forEach(f => f.remove());
                 
                 let order = 0;
-                Object.keys(window.visibleColumns).forEach(key => {
+                window.columnOrder.forEach(key => {
                     if (window.visibleColumns[key]) {
                         const f = this.xmlDoc.createElement('field');
                         f.setAttribute('id', key);
@@ -1741,6 +1791,7 @@
 
         // T033 : Logique de Filtrage
         window.currentFilter = 'all';
+        window.columnOrder = ['tpd3', 'tpd4', 'tpd5', 'tpd6', 'tpd7', 'tpd8', 'tpd9', 'tpd13', 'priority', 'cost', 'color', 'milestone', 'webLink', 'tpd-actions'];
         // T034 : Colonnes WBS
         window.visibleColumns = { tpd3: true, tpd4: true, tpd5: true, 'tpd-actions': true };
         window.columnWidths = { tpd3: 200, tpd4: 80, tpd5: 80, 'tpd-actions': 30 };
@@ -1901,7 +1952,9 @@
                 });
 
                 const cAction = document.createElement('div');
-                cAction.textContent = '';
+                cAction.textContent = 'Act.';
+                cAction.style.textAlign = 'center';
+                cAction.style.fontSize = '10px';
                 applyColStyle(cAction, 'tpd-actions', true);
                 if (!window.visibleColumns['tpd-actions']) cAction.style.display = 'none';
                 header.appendChild(cAction);
@@ -4866,7 +4919,6 @@
             };
 
             addCheckbox('tpd3', 'Nom', true);
-            addCheckbox('tpd-actions', 'Actions');
             
             const tpNode = ensureTaskPropertiesNode();
             const props = tpNode ? Array.from(tpNode.querySelectorAll('taskproperty')) : [];
