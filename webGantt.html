@@ -265,17 +265,22 @@
 
     <!-- T055 : Dialog pour les propriétés du projet -->
     <dialog id="project-props-modal"
-        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <h3 style="margin-top: 0; margin-bottom: 12px;">Propriétés du Projet</h3>
-        
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 600px; height: 750px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <h3 style="margin-top: 0; margin-bottom: 12px;">Propriétés du Projet</h3>
+
         <!-- Onglets -->
         <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 12px;">
-            <button type="button" class="proj-prop-tab-btn active" data-target="proj-prop-tab-general" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;">Général</button>
-            <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-calendar" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Calendrier</button>
-            <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-roles" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Rôles</button>
+            <button type="button" class="proj-prop-tab-btn active" data-target="proj-prop-tab-general"
+                style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;">Général</button>
+            <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-calendar"
+                style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Calendrier</button>
+            <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-roles"
+                style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Rôles</button>
         </div>
 
-        <div id="proj-prop-tab-general" class="proj-prop-tab-content" style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+        <div id="proj-prop-tab-general" class="proj-prop-tab-content"
+            style="display: flex; flex-direction: column; flex: 1; overflow-y: auto; gap: 12px; font-size: 13px;">
             <div>
                 <label style="font-weight: bold;">Nom du projet :</label>
                 <input type="text" id="proj-prop-name"
@@ -298,12 +303,115 @@
             </div>
         </div>
 
-        <div id="proj-prop-tab-calendar" class="proj-prop-tab-content" style="display: none; flex-direction: column; gap: 12px; font-size: 13px;">
-            <p style="margin: 0; font-style: italic; opacity: 0.7;">Calendrier non configuré.</p>
+        <div id="proj-prop-tab-calendar" class="proj-prop-tab-content"
+            style="display: none; flex-direction: column; flex: 1; overflow-y: auto; gap: 16px; font-size: 13px;">
+            <!-- Section Choix des week-ends -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 220px; font-weight: bold;">Choix des week-ends</div>
+                    <div style="display: flex; gap: 8px;" id="pp-cal-weekends">
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="1" value="mon"> lun.</label>
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="2" value="tue"> mar.</label>
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="3" value="wed"> mer.</label>
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="4" value="thu"> jeu.</label>
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="5" value="fri"> ven.</label>
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="6" value="sat"> sam.</label>
+                        <label style="cursor: pointer;"><input type="checkbox" data-day="0" value="sun"> dim.</label>
+                    </div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 220px; font-weight: bold;">Les week-ends</div>
+                    <select id="pp-cal-weekends-work"
+                        style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
+                        <option value="false">Aucune tâche ne peut être exécutée</option>
+                        <option value="true">Les tâches sont executées comme n'iporte quel autre jour.</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="width: 220px; font-weight: bold;">Choix d'un calendrier de jours fériés</div>
+                    <select
+                        style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);"
+                        disabled>
+                        <option>Personnalisé</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Table Jours Fériés -->
+            <div
+                style="display: flex; flex-direction: column; border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; margin-top: 8px;">
+                <div
+                    style="background: var(--bg-color); padding: 8px; display: flex; gap: 8px; border-bottom: 1px solid var(--border-color);">
+                    <button type="button" id="pp-cal-btn-add"
+                        style="padding: 4px 12px; background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">Ajouter</button>
+                    <button type="button" id="pp-cal-btn-del"
+                        style="padding: 4px 12px; background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">Supprimer</button>
+                </div>
+                <div style="flex: 1; overflow-y: auto; min-height: 200px;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead style="background: var(--bg-color);">
+                            <tr>
+                                <th
+                                    style="padding: 8px; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); width: 30px; text-align: center;">
+                                    <input type="checkbox" id="pp-cal-select-all"></th>
+                                <th
+                                    style="padding: 8px; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+                                    Dates</th>
+                                <th
+                                    style="padding: 8px; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); text-align: center;">
+                                    Récurrent</th>
+                                <th
+                                    style="padding: 8px; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+                                    Résumé</th>
+                                <th
+                                    style="padding: 8px; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
+                                    Type</th>
+                                <th style="padding: 8px; border-bottom: 1px solid var(--border-color);">Couleur</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pp-cal-holidays-tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Décaler la date de début du projet -->
+            <div style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+                <div style="font-weight: bold; margin-bottom: 4px;">Décaler la date de début du projet</div>
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <label style="width: 220px;">Nouvelle date de début</label>
+                    <input type="date" id="pp-cal-new-start-date"
+                        style="padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);" />
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label id="pp-cal-shift-label-all" style="cursor: pointer; display: flex; align-items: center; gap: 8px; opacity: 0.6;">
+                        <input type="radio" name="pp-cal-shift-mode" value="all" checked disabled>
+                        Décaler toutes les tâches de votre projet
+                    </label>
+                    <label id="pp-cal-shift-label-future" style="cursor: pointer; display: flex; align-items: center; gap: 8px; opacity: 0.6;">
+                        <input type="radio" name="pp-cal-shift-mode" value="future" disabled>
+                        Décaler les tâches à partir de cette date et replanifier le reste
+                    </label>
+                </div>
+                <script>
+                    document.getElementById('pp-cal-new-start-date').addEventListener('input', function(e) {
+                        const hasDate = !!e.target.value;
+                        const radios = document.querySelectorAll('input[name="pp-cal-shift-mode"]');
+                        radios.forEach(r => r.disabled = !hasDate);
+                        
+                        document.getElementById('pp-cal-shift-label-all').style.opacity = hasDate ? '1' : '0.6';
+                        document.getElementById('pp-cal-shift-label-future').style.opacity = hasDate ? '1' : '0.6';
+                    });
+                </script>
+            </div>
         </div>
 
-        <div id="proj-prop-tab-roles" class="proj-prop-tab-content" style="display: none; flex-direction: column; flex: 1; min-height: 0; font-size: 13px;">
-            <div style="flex: 1; margin: 0 0 16px 0; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; min-height: 120px; max-height: 250px;">
+        <div id="proj-prop-tab-roles" class="proj-prop-tab-content"
+            style="display: none; flex-direction: column; flex: 1; min-height: 0; font-size: 13px;">
+            <div
+                style="flex: 1; margin: 0 0 16px 0; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; min-height: 200px;">
                 <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
                     <thead style="background: var(--bg-color); position: sticky; top: 0; z-index: 1;">
                         <tr style="border-bottom: 1px solid var(--border-color);">
@@ -316,13 +424,15 @@
                 </table>
             </div>
             <div style="display: flex; gap: 8px; align-items: center; margin-top: auto;">
-                <input type="text" id="proj-prop-new-role-name" placeholder="Nouveau rôle..." style="flex: 1; padding: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
+                <input type="text" id="proj-prop-new-role-name" placeholder="Nouveau rôle..."
+                    style="flex: 1; padding: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
                 <button type="button" id="btn-add-proj-role" class="primary" style="padding: 6px 12px;">Ajouter</button>
             </div>
         </div>
-        <div style="margin-top: 16px; text-align: right;">
-            <button id="btn-close-project-props" style="padding: 6px 16px; margin-right: 8px;">Annuler</button>
-            <button id="btn-save-project-props" class="primary" style="padding: 6px 16px;">Enregistrer</button>
+            <div style="margin-top: 16px; text-align: right; border-top: 1px solid var(--border-color); padding-top: 12px;">
+                <button id="btn-close-project-props" style="padding: 6px 16px; margin-right: 8px;">Annuler</button>
+                <button id="btn-save-project-props" class="primary" style="padding: 6px 16px;">Enregistrer</button>
+            </div>
         </div>
     </dialog>
 
@@ -369,7 +479,8 @@
                 <li><code>start_date</code>, <code>end_date</code>, <code>earliest_start_date</code></li>
                 <li><code>duration</code>, <code>completion</code>, <code>priority</code>, <code>web_link</code></li>
                 <li><code>cost</code>, <code>cost_manual_value</code>, <code>is_cost_calculated</code>,
-                    <code>notes</code></li>
+                    <code>notes</code>
+                </li>
             </ul>
             <p style="color: #d32f2f; margin-top: 4px;"><em>Attention : Les champs personnalisés (tpcX) ne sont pas
                     autorisés dans ces formules dans GanttProject.</em></p>
@@ -931,19 +1042,29 @@
                 <div style="margin-left: auto; display: flex; gap: 4px;">
                     <!-- Bouton Centrer (Scroll) -->
                     <div style="position: relative; display: inline-block;">
-                        <button id="btn-scroll-to" title="Aller à..." style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <button id="btn-scroll-to" title="Aller à..."
+                            style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
                                 <polyline points="12 16 16 12 12 8"></polyline>
                                 <line x1="8" y1="12" x2="16" y2="12"></line>
                             </svg>
                         </button>
-                        <div id="scroll-to-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
-                            <form id="scroll-to-form" style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
-                                <button type="button" class="btn-scroll-action" data-action="start" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Début du projet</button>
-                                <button type="button" class="btn-scroll-action" data-action="end" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Fin du projet</button>
-                                <button type="button" class="btn-scroll-action" data-action="today" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Aujourd'hui</button>
-                                <button type="button" class="btn-scroll-action" data-action="selection" style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Sélection</button>
+                        <div id="scroll-to-dropdown"
+                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            <form id="scroll-to-form"
+                                style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <button type="button" class="btn-scroll-action" data-action="start"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Début
+                                    du projet</button>
+                                <button type="button" class="btn-scroll-action" data-action="end"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Fin
+                                    du projet</button>
+                                <button type="button" class="btn-scroll-action" data-action="today"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Aujourd'hui</button>
+                                <button type="button" class="btn-scroll-action" data-action="selection"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Sélection</button>
                             </form>
                         </div>
                     </div>
@@ -3227,16 +3348,16 @@
             const tbody = document.getElementById('proj-prop-roles-tbody');
             if (!tbody) return;
             tbody.innerHTML = '';
-            
+
             if (window.tempProjectRoles.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="2" style="padding: 8px; font-style: italic; color: #888; text-align: center;">Aucun rôle défini.</td></tr>';
                 return;
             }
-            
+
             window.tempProjectRoles.forEach((role, index) => {
                 const tr = document.createElement('tr');
                 tr.style.borderBottom = '1px solid var(--border-color)';
-                
+
                 const tdName = document.createElement('td');
                 tdName.style.padding = '4px 8px';
                 const inputName = document.createElement('input');
@@ -3250,7 +3371,7 @@
                 inputName.style.borderRadius = '4px';
                 inputName.onchange = (e) => role.name = e.target.value;
                 tdName.appendChild(inputName);
-                
+
                 const tdDel = document.createElement('td');
                 tdDel.style.padding = '4px 8px';
                 tdDel.style.textAlign = 'center';
@@ -3266,7 +3387,7 @@
                     renderProjectRoles();
                 };
                 tdDel.appendChild(btnDel);
-                
+
                 tr.appendChild(tdName);
                 tr.appendChild(tdDel);
                 tbody.appendChild(tr);
@@ -3284,6 +3405,149 @@
                 nameInput.value = '';
                 renderProjectRoles();
             }
+        });
+
+        // T049 : Logique d'interface du Calendrier
+        function renderProjectHolidays() {
+            const tbody = document.getElementById('pp-cal-holidays-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            window.tempProjectHolidays.forEach((h, index) => {
+                const tr = document.createElement('tr');
+
+                // Select
+                const tdSel = document.createElement('td');
+                tdSel.style.borderBottom = '1px solid var(--border-color)';
+                tdSel.style.borderRight = '1px solid var(--border-color)';
+                tdSel.style.textAlign = 'center';
+                const cb = document.createElement('input');
+                cb.type = 'checkbox';
+                cb.className = 'pp-cal-holiday-cb';
+                cb.dataset.index = index;
+                tdSel.appendChild(cb);
+
+                // Date
+                const tdDate = document.createElement('td');
+                tdDate.style.padding = '4px 8px';
+                tdDate.style.borderBottom = '1px solid var(--border-color)';
+                tdDate.style.borderRight = '1px solid var(--border-color)';
+                const inputDate = document.createElement('input');
+                inputDate.type = 'date';
+                inputDate.value = h.date;
+                inputDate.style.width = '100%';
+                inputDate.style.border = 'none';
+                inputDate.style.background = 'transparent';
+                inputDate.style.color = 'var(--text-color)';
+                inputDate.onchange = (e) => { window.tempProjectHolidays[index].date = e.target.value; };
+                tdDate.appendChild(inputDate);
+
+                // Récurrent
+                const tdRecurrent = document.createElement('td');
+                tdRecurrent.style.padding = '4px 8px';
+                tdRecurrent.style.borderBottom = '1px solid var(--border-color)';
+                tdRecurrent.style.borderRight = '1px solid var(--border-color)';
+                tdRecurrent.style.textAlign = 'center';
+                const cbRecurrent = document.createElement('input');
+                cbRecurrent.type = 'checkbox';
+                cbRecurrent.checked = h.isRecurrent;
+                cbRecurrent.onchange = (e) => { window.tempProjectHolidays[index].isRecurrent = e.target.checked; };
+                tdRecurrent.appendChild(cbRecurrent);
+
+                // Résumé (Name)
+                const tdName = document.createElement('td');
+                tdName.style.padding = '4px 8px';
+                tdName.style.borderBottom = '1px solid var(--border-color)';
+                tdName.style.borderRight = '1px solid var(--border-color)';
+                const inputName = document.createElement('input');
+                inputName.type = 'text';
+                inputName.value = h.name;
+                inputName.style.width = '100%';
+                inputName.style.border = 'none';
+                inputName.style.background = 'transparent';
+                inputName.style.color = 'var(--text-color)';
+                inputName.oninput = (e) => { window.tempProjectHolidays[index].name = e.target.value; };
+                tdName.appendChild(inputName);
+
+                // Type
+                const tdType = document.createElement('td');
+                tdType.style.padding = '4px 8px';
+                tdType.style.borderBottom = '1px solid var(--border-color)';
+                tdType.style.borderRight = '1px solid var(--border-color)';
+                const selectType = document.createElement('select');
+                selectType.style.width = '100%';
+                selectType.style.border = 'none';
+                selectType.style.background = 'transparent';
+                selectType.style.color = 'var(--text-color)';
+                
+                const optHol = document.createElement('option');
+                optHol.value = 'HOLIDAY';
+                optHol.textContent = 'Vacances';
+                
+                const optWork = document.createElement('option');
+                optWork.value = 'WORKING_DAY';
+                optWork.textContent = 'Travail';
+                
+                const optNeut = document.createElement('option');
+                optNeut.value = 'NEUTRAL';
+                optNeut.textContent = 'Neutre';
+                
+                selectType.appendChild(optHol);
+                selectType.appendChild(optWork);
+                selectType.appendChild(optNeut);
+                selectType.value = h.type || 'HOLIDAY';
+                selectType.onchange = (e) => { window.tempProjectHolidays[index].type = e.target.value; };
+                
+                tdType.appendChild(selectType);
+
+                // Couleur
+                const tdColor = document.createElement('td');
+                tdColor.style.padding = '4px 8px';
+                tdColor.style.borderBottom = '1px solid var(--border-color)';
+                const inputColor = document.createElement('input');
+                inputColor.type = 'color';
+                inputColor.value = h.color;
+                inputColor.style.border = 'none';
+                inputColor.style.background = 'transparent';
+                inputColor.style.width = '30px';
+                inputColor.style.height = '30px';
+                inputColor.style.padding = '0';
+                inputColor.onchange = (e) => { window.tempProjectHolidays[index].color = e.target.value; };
+                tdColor.appendChild(inputColor);
+
+                tr.appendChild(tdSel);
+                tr.appendChild(tdDate);
+                tr.appendChild(tdRecurrent);
+                tr.appendChild(tdName);
+                tr.appendChild(tdType);
+                tr.appendChild(tdColor);
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('pp-cal-btn-add')?.addEventListener('click', () => {
+            window.tempProjectHolidays.push({
+                date: new Date().toISOString().split('T')[0],
+                isRecurrent: false,
+                name: 'Nouveau jour férié',
+                type: 'HOLIDAY',
+                color: '#ff9999'
+            });
+            renderProjectHolidays();
+        });
+
+        document.getElementById('pp-cal-btn-del')?.addEventListener('click', () => {
+            const checkboxes = Array.from(document.querySelectorAll('.pp-cal-holiday-cb:checked'));
+            const indices = checkboxes.map(cb => parseInt(cb.dataset.index, 10)).sort((a, b) => b - a);
+            indices.forEach(idx => {
+                window.tempProjectHolidays.splice(idx, 1);
+            });
+            document.getElementById('pp-cal-select-all').checked = false;
+            renderProjectHolidays();
+        });
+
+        document.getElementById('pp-cal-select-all')?.addEventListener('change', (e) => {
+            document.querySelectorAll('.pp-cal-holiday-cb').forEach(cb => cb.checked = e.target.checked);
         });
 
         document.getElementById('btn-project-props').addEventListener('click', () => {
@@ -3313,6 +3577,51 @@
             });
             renderProjectRoles();
 
+            // Load Calendar Settings
+            document.querySelectorAll('#pp-cal-weekends input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.getElementById('pp-cal-weekends-work').value = 'false';
+            window.tempProjectHolidays = [];
+
+            const calNode = state.xmlDoc.querySelector('calendars');
+            if (calNode) {
+                const dayTypes = calNode.querySelector('day-types');
+                if (dayTypes) {
+                    const defaultWeek = dayTypes.querySelector('default-week');
+                    if (defaultWeek) {
+                        const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+                        days.forEach(day => {
+                            const val = defaultWeek.getAttribute(day);
+                            const cb = document.querySelector(`#pp-cal-weekends input[value="${day}"]`);
+                            if (cb) cb.checked = (val === '1');
+                        });
+                    }
+                    const onlyShowWeekends = dayTypes.querySelector('only-show-weekends');
+                    if (onlyShowWeekends) {
+                        document.getElementById('pp-cal-weekends-work').value = onlyShowWeekends.getAttribute('value') === 'true' ? 'true' : 'false';
+                    }
+                }
+                const holidays = calNode.querySelectorAll('date');
+                holidays.forEach(h => {
+                    let yr = h.getAttribute('year');
+                    const mo = h.getAttribute('month');
+                    const dt = h.getAttribute('date');
+                    const isRecurrent = !yr;
+                    if (!yr) {
+                        yr = new Date().getFullYear().toString();
+                    }
+                    if (mo && dt) {
+                        window.tempProjectHolidays.push({
+                            date: `${yr}-${mo.padStart(2, '0')}-${dt.padStart(2, '0')}`,
+                            isRecurrent: isRecurrent,
+                            name: h.textContent,
+                            type: h.getAttribute('type') || 'HOLIDAY',
+                            color: h.getAttribute('color') || '#ff9999'
+                        });
+                    }
+                });
+            }
+            renderProjectHolidays();
+
             // Reset tabs to General
             const btnGeneral = document.querySelector('.proj-prop-tab-btn[data-target="proj-prop-tab-general"]');
             if (btnGeneral) btnGeneral.click();
@@ -3329,7 +3638,7 @@
                     b.style.fontWeight = 'normal';
                 });
                 document.querySelectorAll('.proj-prop-tab-content').forEach(c => c.style.display = 'none');
-                
+
                 const target = e.target.getAttribute('data-target');
                 e.target.classList.add('active');
                 e.target.style.borderBottom = '2px solid var(--primary-color)';
@@ -3377,6 +3686,121 @@
                     node.setAttribute('name', r.name);
                     customRolesTag.appendChild(node);
                 });
+            }
+
+            // Save Calendar
+            let calNode = state.xmlDoc.querySelector('calendars');
+            if (!calNode) {
+                calNode = state.xmlDoc.createElement('calendars');
+                calNode.setAttribute('base-id', 'fr');
+                projNode.appendChild(calNode);
+            }
+
+            let dayTypes = calNode.querySelector('day-types');
+            if (!dayTypes) {
+                dayTypes = state.xmlDoc.createElement('day-types');
+                for (let i = 0; i <= 2; i++) {
+                    const dt = state.xmlDoc.createElement('day-type');
+                    dt.setAttribute('id', i.toString());
+                    dayTypes.appendChild(dt);
+                }
+                calNode.insertBefore(dayTypes, calNode.firstChild);
+            }
+
+            let defaultWeek = dayTypes.querySelector('default-week');
+            if (!defaultWeek) {
+                defaultWeek = state.xmlDoc.createElement('default-week');
+                defaultWeek.setAttribute('id', '1');
+                defaultWeek.setAttribute('name', 'default');
+                dayTypes.appendChild(defaultWeek);
+            }
+            const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            days.forEach(day => {
+                const cb = document.querySelector(`#pp-cal-weekends input[value="${day}"]`);
+                defaultWeek.setAttribute(day, (cb && cb.checked) ? '1' : '0');
+            });
+
+            let onlyShowWeekends = dayTypes.querySelector('only-show-weekends');
+            if (!onlyShowWeekends) {
+                onlyShowWeekends = state.xmlDoc.createElement('only-show-weekends');
+                dayTypes.appendChild(onlyShowWeekends);
+            }
+            onlyShowWeekends.setAttribute('value', document.getElementById('pp-cal-weekends-work').value);
+
+            // Holidays
+            calNode.querySelectorAll('date').forEach(n => n.parentNode.removeChild(n));
+            window.tempProjectHolidays.forEach(h => {
+                const dateNode = state.xmlDoc.createElement('date');
+                const parts = h.date.split('-');
+                if (parts.length === 3) {
+                    if (!h.isRecurrent) {
+                        dateNode.setAttribute('year', parts[0]);
+                    } else {
+                        dateNode.setAttribute('year', '');
+                    }
+                    dateNode.setAttribute('month', parseInt(parts[1], 10).toString());
+                    dateNode.setAttribute('date', parseInt(parts[2], 10).toString());
+                    dateNode.setAttribute('type', h.type || 'HOLIDAY');
+                    dateNode.setAttribute('color', h.color);
+
+                    const cdata = state.xmlDoc.createCDATASection(h.name);
+                    dateNode.appendChild(cdata);
+
+                    calNode.appendChild(dateNode);
+                }
+            });
+
+            // Décalage des tâches
+            const newStartDateInput = document.getElementById('pp-cal-new-start-date').value;
+            if (newStartDateInput) {
+                const shiftMode = document.querySelector('input[name="pp-cal-shift-mode"]:checked')?.value;
+                const newStart = new Date(newStartDateInput);
+                newStart.setHours(0, 0, 0, 0);
+                
+                const tasks = state.xmlDoc.querySelectorAll('tasks task');
+                if (tasks.length > 0) {
+                    if (shiftMode === 'all') {
+                        // Trouver la date de début la plus ancienne du projet
+                        let earliest = null;
+                        tasks.forEach(t => {
+                            const sd = t.getAttribute('start');
+                            if (sd) {
+                                const d = new Date(sd);
+                                d.setHours(0, 0, 0, 0);
+                                if (!earliest || d < earliest) earliest = d;
+                            }
+                        });
+                        
+                        if (earliest) {
+                            const offsetTime = newStart.getTime() - earliest.getTime();
+                            const offsetDays = Math.round(offsetTime / (1000 * 3600 * 24));
+                            if (offsetDays !== 0) {
+                                tasks.forEach(t => {
+                                    const sd = t.getAttribute('start');
+                                    if (sd) {
+                                        const d = new Date(sd);
+                                        d.setHours(0, 0, 0, 0);
+                                        d.setDate(d.getDate() + offsetDays);
+                                        t.setAttribute('start', d.toISOString().split('T')[0]);
+                                    }
+                                });
+                            }
+                        }
+                    } else if (shiftMode === 'future') {
+                        // Décaler les tâches à partir de cette date :
+                        // Les tâches commençant avant la nouvelle date sont poussées à cette nouvelle date
+                        tasks.forEach(t => {
+                            const sd = t.getAttribute('start');
+                            if (sd) {
+                                const d = new Date(sd);
+                                d.setHours(0, 0, 0, 0);
+                                if (d < newStart) {
+                                    t.setAttribute('start', newStart.toISOString().split('T')[0]);
+                                }
+                            }
+                        });
+                    }
+                }
             }
 
             document.getElementById('project-props-modal').close();
@@ -5219,20 +5643,20 @@
             document.querySelectorAll('.btn-scroll-action').forEach(btn => {
                 btn.addEventListener('mouseenter', () => btn.style.backgroundColor = 'var(--bg-color)');
                 btn.addEventListener('mouseleave', () => btn.style.backgroundColor = 'transparent');
-                
+
                 btn.addEventListener('click', (e) => {
                     const action = e.target.getAttribute('data-action');
                     const ganttContent = document.getElementById('gantt-content');
                     if (!ganttContent || !window.currentMinDate) return;
-                    
+
                     const dayWidth = zoomLevels[window.currentZoomIndex] || 20;
                     const dateToX = (date) => {
                         return ((date.getTime() - window.currentMinDate.getTime()) / (1000 * 60 * 60 * 24)) * dayWidth;
                     };
-                    
+
                     let targetX = 0;
                     let handled = true;
-                    
+
                     if (action === 'start') {
                         targetX = 0;
                     } else if (action === 'end' && window.currentMaxDate) {
@@ -5254,7 +5678,7 @@
                     } else {
                         handled = false;
                     }
-                    
+
                     if (handled) {
                         ganttContent.scrollLeft = Math.max(0, targetX - 50);
                     }

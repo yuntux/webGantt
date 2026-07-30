@@ -113,7 +113,15 @@
               <xs:attribute name="year" type="xs:string"/>
               <xs:attribute name="month" type="xs:int"/>
               <xs:attribute name="date" type="xs:int"/>
-              <xs:attribute name="type" type="xs:string"/>
+              <xs:attribute name="type">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="HOLIDAY"/>
+                    <xs:enumeration value="WORKING_DAY"/>
+                    <xs:enumeration value="NEUTRAL"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
               <xs:attribute name="color" type="xs:string"/>
             </xs:extension>
           </xs:simpleContent>
