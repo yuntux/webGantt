@@ -35,14 +35,19 @@
       <taskproperty id="tpd0" name="type" type="default" valuetype="icon" defaultvalue=""/>
       <taskproperty id="tpd1" name="priority" type="default" valuetype="icon" defaultvalue=""/>
       <taskproperty id="tpd2" name="info" type="default" valuetype="icon" defaultvalue=""/>
-      <taskproperty id="tpc0" name="Custom1" type="custom" valuetype="text" defaultvalue="ValDef">
-          <simple-select select="opt1" where="id=1"/>
-      </taskproperty>
+      <taskproperty id="tpc0" name="CustomTexte" type="custom" valuetype="text" defaultvalue="Texte par défaut"/>
+      <taskproperty id="tpc1" name="CustomEntier" type="custom" valuetype="int" defaultvalue="42"/>
+      <taskproperty id="tpc2" name="CustomDecimalCalc" type="custom" valuetype="double" calculated="true" formula="cost * 1.5"/>
+      <taskproperty id="tpc3" name="CustomDate" type="custom" valuetype="date" defaultvalue="2026-12-31"/>
+      <taskproperty id="tpc4" name="CustomBool" type="custom" valuetype="boolean" defaultvalue="true"/>
     </taskproperties>
     
     <task id="0" uid="t1" name="Phase 1 - Spécifications" color="#8cb6ce" shape="1" meeting="false" project="true" start="2026-07-01" duration="10" complete="100" thirdDate="2026-06-30" thirdDate-constraint="0" priority="1" webLink="http://spec.com" expand="true" cost-manual-value="5000.00" cost-calculated="false" fixed-start="2026-07-01">
       <notes><![CDATA[Notes sur la phase 1]]></notes>
-      <customproperty taskproperty-id="tpc0" value="Test1"/>
+      <customproperty taskproperty-id="tpc0" value="Valeur Texte"/>
+      <customproperty taskproperty-id="tpc1" value="100"/>
+      <customproperty taskproperty-id="tpc3" value="2027-01-01"/>
+      <customproperty taskproperty-id="tpc4" value="false"/>
       
       <!-- Sous tâches -->
       <task id="1" uid="t2" name="Sous-tâche 1.1" color="#ff0000" shape="1" meeting="false" project="false" start="2026-07-01" duration="5" complete="100" expand="true">

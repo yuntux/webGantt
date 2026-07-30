@@ -258,16 +258,24 @@
         <button id="btn-add-task">Ajouter Tâche</button>
         <button id="btn-add-milestone">Ajouter Jalon</button>
         <button id="btn-resources">Ressources</button>
-        <button id="btn-project-props">Propriétés Projet</button>
         <div style="flex: 1;"></div>
+        <button id="btn-project-props" style="margin-right: 8px;">Propriétés Projet</button>
         <button id="btn-theme-toggle">Mode Sombre</button>
     </div>
 
     <!-- T055 : Dialog pour les propriétés du projet -->
     <dialog id="project-props-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <h3 style="margin-top: 0;">Propriétés du Projet</h3>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+        <h3 style="margin-top: 0; margin-bottom: 12px;">Propriétés du Projet</h3>
+        
+        <!-- Onglets -->
+        <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 12px;">
+            <button type="button" class="proj-prop-tab-btn active" data-target="proj-prop-tab-general" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;">Général</button>
+            <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-calendar" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Calendrier</button>
+            <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-roles" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Rôles</button>
+        </div>
+
+        <div id="proj-prop-tab-general" class="proj-prop-tab-content" style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
             <div>
                 <label style="font-weight: bold;">Nom du projet :</label>
                 <input type="text" id="proj-prop-name"
@@ -287,6 +295,29 @@
                 <label style="font-weight: bold;">Description :</label>
                 <textarea id="proj-prop-description"
                     style="width: 100%; padding: 4px; margin-top: 4px; height: 80px; resize: vertical; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;"></textarea>
+            </div>
+        </div>
+
+        <div id="proj-prop-tab-calendar" class="proj-prop-tab-content" style="display: none; flex-direction: column; gap: 12px; font-size: 13px;">
+            <p style="margin: 0; font-style: italic; opacity: 0.7;">Calendrier non configuré.</p>
+        </div>
+
+        <div id="proj-prop-tab-roles" class="proj-prop-tab-content" style="display: none; flex-direction: column; flex: 1; min-height: 0; font-size: 13px;">
+            <div style="flex: 1; margin: 0 0 16px 0; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; min-height: 120px; max-height: 250px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
+                    <thead style="background: var(--bg-color); position: sticky; top: 0; z-index: 1;">
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <th style="padding: 4px 8px;">Nom du rôle</th>
+                            <th style="padding: 4px 8px; width: 40px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="proj-prop-roles-tbody">
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; margin-top: auto;">
+                <input type="text" id="proj-prop-new-role-name" placeholder="Nouveau rôle..." style="flex: 1; padding: 6px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
+                <button type="button" id="btn-add-proj-role" class="primary" style="padding: 6px 12px;">Ajouter</button>
             </div>
         </div>
         <div style="margin-top: 16px; text-align: right;">
@@ -2265,6 +2296,14 @@
                     document.getElementById('td-input-priority').value = task.node.getAttribute('priority') || '1';
                     document.getElementById('td-input-weblink').value = task.node.getAttribute('webLink') || '';
 
+                    // Gestion des coûts
+                    const isCostCalc = task.node.getAttribute('cost-calculated') !== 'false';
+                    document.getElementById('td-cost-auto').checked = isCostCalc;
+                    document.getElementById('td-cost-manual').checked = !isCostCalc;
+                    document.getElementById('td-input-manual-cost').value = task.node.getAttribute('cost-manual-value') || '0';
+                    document.getElementById('td-input-manual-cost').disabled = isCostCalc;
+                    updateTaskCostCompute(task.id);
+
                     // Reset dropdown UI
                     document.getElementById('shape-options-dropdown').style.display = 'none';
 
@@ -3160,6 +3199,93 @@
         }
 
         // T055 : Propriétés globales du Projet
+        window.tempProjectRoles = [];
+
+        function getRoleOptionsHtml(selectedRoleId) {
+            const roles = [];
+            if (state.xmlDoc) {
+                state.xmlDoc.querySelectorAll('roles > role').forEach(r => {
+                    roles.push({ id: r.getAttribute('id'), name: r.getAttribute('name') });
+                });
+            }
+            let html = '<option value="">-- Aucun --</option>';
+            let found = false;
+            roles.forEach(r => {
+                const sel = (r.id === selectedRoleId) ? 'selected' : '';
+                if (r.id === selectedRoleId) found = true;
+                html += `<option value="${r.id}" ${sel}>${r.name}</option>`;
+            });
+            if (selectedRoleId && !found && selectedRoleId !== 'Default:0') {
+                html += `<option value="${selectedRoleId}" selected>${selectedRoleId}</option>`;
+            } else if (selectedRoleId === 'Default:0' && !found) {
+                html += `<option value="Default:0" selected>Défaut (Default:0)</option>`;
+            }
+            return html;
+        }
+
+        function renderProjectRoles() {
+            const tbody = document.getElementById('proj-prop-roles-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            
+            if (window.tempProjectRoles.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" style="padding: 8px; font-style: italic; color: #888; text-align: center;">Aucun rôle défini.</td></tr>';
+                return;
+            }
+            
+            window.tempProjectRoles.forEach((role, index) => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid var(--border-color)';
+                
+                const tdName = document.createElement('td');
+                tdName.style.padding = '4px 8px';
+                const inputName = document.createElement('input');
+                inputName.type = 'text';
+                inputName.value = role.name;
+                inputName.style.width = '100%';
+                inputName.style.padding = '4px';
+                inputName.style.border = '1px solid var(--border-color)';
+                inputName.style.background = 'var(--bg-color)';
+                inputName.style.color = 'var(--text-color)';
+                inputName.style.borderRadius = '4px';
+                inputName.onchange = (e) => role.name = e.target.value;
+                tdName.appendChild(inputName);
+                
+                const tdDel = document.createElement('td');
+                tdDel.style.padding = '4px 8px';
+                tdDel.style.textAlign = 'center';
+                const btnDel = document.createElement('button');
+                btnDel.type = 'button';
+                btnDel.textContent = '❌';
+                btnDel.style.padding = '4px';
+                btnDel.style.background = 'transparent';
+                btnDel.style.border = 'none';
+                btnDel.style.cursor = 'pointer';
+                btnDel.onclick = () => {
+                    window.tempProjectRoles.splice(index, 1);
+                    renderProjectRoles();
+                };
+                tdDel.appendChild(btnDel);
+                
+                tr.appendChild(tdName);
+                tr.appendChild(tdDel);
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('btn-add-proj-role')?.addEventListener('click', () => {
+            const nameInput = document.getElementById('proj-prop-new-role-name');
+            if (nameInput && nameInput.value.trim()) {
+                const newId = 'role_' + Date.now();
+                window.tempProjectRoles.push({
+                    id: newId,
+                    name: nameInput.value.trim()
+                });
+                nameInput.value = '';
+                renderProjectRoles();
+            }
+        });
+
         document.getElementById('btn-project-props').addEventListener('click', () => {
             const projNode = state.xmlDoc.documentElement;
             document.getElementById('proj-prop-name').value = projNode.getAttribute('name') || '';
@@ -3176,7 +3302,41 @@
             }
             document.getElementById('proj-prop-description').value = desc;
 
+            // Load roles
+            window.tempProjectRoles = [];
+            const roles = state.xmlDoc.querySelectorAll('roles > role');
+            roles.forEach(role => {
+                window.tempProjectRoles.push({
+                    id: role.getAttribute('id'),
+                    name: role.getAttribute('name')
+                });
+            });
+            renderProjectRoles();
+
+            // Reset tabs to General
+            const btnGeneral = document.querySelector('.proj-prop-tab-btn[data-target="proj-prop-tab-general"]');
+            if (btnGeneral) btnGeneral.click();
+
             document.getElementById('project-props-modal').showModal();
+        });
+
+        // Tabs logic for Project Props Modal
+        document.querySelectorAll('.proj-prop-tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.proj-prop-tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.borderBottom = '2px solid transparent';
+                    b.style.fontWeight = 'normal';
+                });
+                document.querySelectorAll('.proj-prop-tab-content').forEach(c => c.style.display = 'none');
+                
+                const target = e.target.getAttribute('data-target');
+                e.target.classList.add('active');
+                e.target.style.borderBottom = '2px solid var(--primary-color)';
+                e.target.style.fontWeight = 'bold';
+                const content = document.getElementById(target);
+                if (content) content.style.display = 'flex';
+            });
         });
 
         document.getElementById('btn-close-project-props').addEventListener('click', () => {
@@ -3202,6 +3362,22 @@
                 projNode.appendChild(descNode);
             }
             descNode.textContent = document.getElementById('proj-prop-description').value;
+
+            // Save Roles
+            state.xmlDoc.querySelectorAll('roles > role').forEach(n => n.parentNode.removeChild(n));
+            let customRolesTag = Array.from(state.xmlDoc.querySelectorAll('roles')).find(n => !n.hasAttribute('roleset-name'));
+            if (!customRolesTag && window.tempProjectRoles.length > 0) {
+                customRolesTag = state.xmlDoc.createElement('roles');
+                projNode.appendChild(customRolesTag);
+            }
+            if (customRolesTag) {
+                window.tempProjectRoles.forEach(r => {
+                    const node = state.xmlDoc.createElement('role');
+                    node.setAttribute('id', r.id);
+                    node.setAttribute('name', r.name);
+                    customRolesTag.appendChild(node);
+                });
+            }
 
             document.getElementById('project-props-modal').close();
             state.notifyListeners();
@@ -3480,7 +3656,9 @@
 
                 tr.innerHTML = `
                     <td style="padding: 4px;"><input type="text" class="res-input" data-field="name" data-id="${r.id}" value="${r.name}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
-                    <td style="padding: 4px;"><input type="text" class="res-input" data-field="function" data-id="${r.id}" value="${r.function}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
+                    <td style="padding: 4px;">
+                        <select class="res-input" data-field="function" data-id="${r.id}" style="width: 100%; padding: 4px; box-sizing: border-box;">${getRoleOptionsHtml(r.function)}</select>
+                    </td>
                     <td style="padding: 4px;"><input type="text" class="res-input" data-field="contacts" data-id="${r.id}" value="${r.contacts}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
                     <td style="padding: 4px;"><input type="text" class="res-input" data-field="phone" data-id="${r.id}" value="${r.phone}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
                     <td style="padding: 4px;"><input type="number" step="0.1" class="res-input" data-field="rate" data-id="${r.id}" value="${r.rate}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
@@ -4260,6 +4438,10 @@
                 document.getElementById('td-tab-resources').style.display = target === 'td-tab-resources' ? 'flex' : 'none';
                 document.getElementById('td-tab-predecessors').style.display = target === 'td-tab-predecessors' ? 'flex' : 'none';
                 document.getElementById('td-tab-custom').style.display = target === 'td-tab-custom' ? 'flex' : 'none';
+
+                if (target === 'td-tab-custom' && window.currentDetailsTaskId) {
+                    renderTaskCustomProps(window.currentDetailsTaskId);
+                }
             });
         });
 
@@ -4360,6 +4542,16 @@
             const taskNode = state.xmlDoc.querySelector(`tasks task[id="${taskId}"]`);
             if (!taskNode) return;
 
+            let evalNode = taskNode;
+            if (window.currentDetailsTaskNode && window.currentDetailsTaskNode === taskNode) {
+                evalNode = taskNode.cloneNode(true);
+                evalNode.setAttribute('cost-calculated', document.getElementById('td-cost-auto').checked ? 'true' : 'false');
+                evalNode.setAttribute('cost-manual-value', document.getElementById('td-input-manual-cost').value || '0');
+                evalNode.setAttribute('duration', document.getElementById('td-input-duration').value || '0');
+                evalNode.setAttribute('complete', document.getElementById('td-input-complete').value || '0');
+                evalNode.setAttribute('start', document.getElementById('td-input-start').value || '');
+            }
+
             props.forEach(p => {
                 const id = p.getAttribute('id');
                 const name = p.getAttribute('name') || id;
@@ -4372,7 +4564,7 @@
                 let currentValue = customPropNode ? (customPropNode.getAttribute('value') || '') : defaultvalue;
 
                 if (calculated) {
-                    currentValue = evaluateTaskFormula(taskNode, formula);
+                    currentValue = evaluateTaskFormula(evalNode, formula);
                 }
 
                 const div = document.createElement('div');
@@ -4449,6 +4641,12 @@
                 window.currentDetailsTaskNode.setAttribute('color', color);
                 window.currentDetailsTaskNode.setAttribute('priority', priority);
                 window.currentDetailsTaskNode.setAttribute('scheduling', scheduling);
+
+                // Sauvegarde des coûts
+                const isCostAuto = document.getElementById('td-cost-auto').checked;
+                const manualCost = document.getElementById('td-input-manual-cost').value;
+                window.currentDetailsTaskNode.setAttribute('cost-calculated', isCostAuto ? 'true' : 'false');
+                window.currentDetailsTaskNode.setAttribute('cost-manual-value', manualCost || '0.0');
 
                 // Earliest start / Fixed start constraints
                 if (earliestStart) {
@@ -4797,7 +4995,7 @@
                             <input type="radio" name="td-alloc-resp" class="td-alloc-resp-radio" data-res-id="${resId}" ${resp ? 'checked' : ''} style="cursor:pointer;" />
                         </td>
                         <td style="padding: 4px 2px;">
-                            <input type="text" class="td-alloc-role-input" data-res-id="${resId}" value="${role}" style="width: 70px; padding: 2px;" />
+                            <select class="td-alloc-role-input" data-res-id="${resId}" style="width: 100px; padding: 2px;">${getRoleOptionsHtml(role)}</select>
                         </td>
                         <td style="padding: 4px 2px;">
                             <button type="button" class="td-btn-del-alloc" data-res-id="${resId}" style="background: none; border: none; cursor: pointer; color: #d32f2f;">🗑️</button>
