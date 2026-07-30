@@ -142,10 +142,10 @@
 
 - [x] T049 [Interop] **Moteur de Calendrier** : Développer un parseur pour lire la balise `<calendars>`, incluant les `<day-types>` (week-ends) et `<date type="HOLIDAY">` (jours fériés).
 - [x] T050 [Interop] **Moteur de Calcul Avancé** : Mettre à jour `getTaskEndDate` et `updateParentDates` pour exclure mathématiquement les jours chômés (week-ends et fériés) lors de l'étalement des durées, et intégrer la logique de contrainte (`fixed-start` vs au plus tôt).
-- [ ] T051 [Interop] **Gestion des Ressources & Finances** : Créer un panneau d'administration des Ressources (CRUD) gérant les `<resources>` (noms, contacts), leurs rôles (`<roles>`), leurs congés (`<vacations>`) et leurs taux horaires (`<rate>`).
-- [ ] T052 [Interop] **Édition Avancée des Tâches** : Enrichir la modale de détails pour supporter l'édition de la `color`, `priority`, `webLink`, l'assignation de ressources (`<allocations>`), le champ `<notes>` et permettre la modification du pourcentage d'avancement (`complete`).
-- [ ] T053 [Interop] **Champs Personnalisés** : Implémenter la création/édition globale des propriétés personnalisées (`<taskproperties>`) et leur saisie dans chaque tâche (`<customproperty>`).
-- [ ] T054 [Interop] **Dépendances Avancées** : Permettre d'éditer le type de lien (FS, SS, FF, SF), le délai/décalage (`difference`), et la flexibilité (`hardness`) des balises `<depend>`.
+- [x] T051 [Interop] **Gestion des Ressources & Finances** : Créer un panneau d'administration des Ressources (CRUD) gérant les `<resources>` (noms, contacts), leurs rôles (`<roles>`), leurs congés (`<vacations>`) et leurs taux horaires (`<rate>`).
+- [x] T052 [Interop] **Édition Avancée des Tâches** : Enrichir la modale de détails pour supporter l'édition de la `color`, `priority`, `webLink`, l'assignation de ressources (`<allocations>`), le champ `<notes>` et permettre la modification du pourcentage d'avancement (`complete`).
+- [x] T053 [Interop] **Champs Personnalisés** : Implémenter la création/édition globale des propriétés personnalisées (`<taskproperties>`) et leur saisie dans chaque tâche (`<customproperty>`).
+- [x] T054 [Interop] **Dépendances Avancées** : Permettre d'éditer le type de lien (FS, SS, FF, SF), le délai/décalage (`difference`), et la flexibilité (`hardness`) des balises `<depend>`.
 - [ ] T055 [Interop] **Persistance des Métadonnées & UI** : Mettre en place la sauvegarde de l'état de l'interface (zoom, colonnes `width`/`order`, position du splitter) dans `<view>`, et la gestion des propriétés globales à la racine `<project>`.
 
 ---
