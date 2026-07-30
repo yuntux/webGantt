@@ -146,7 +146,7 @@
 - [x] T052 [Interop] **Édition Avancée des Tâches** : Enrichir la modale de détails pour supporter l'édition de la `color`, `priority`, `webLink`, l'assignation de ressources (`<allocations>`), le champ `<notes>` et permettre la modification du pourcentage d'avancement (`complete`).
 - [x] T053 [Interop] **Champs Personnalisés** : Implémenter la création/édition globale des propriétés personnalisées (`<taskproperties>`) et leur saisie dans chaque tâche (`<customproperty>`).
 - [x] T054 [Interop] **Dépendances Avancées** : Permettre d'éditer le type de lien (FS, SS, FF, SF), le délai/décalage (`difference`), et la flexibilité (`hardness`) des balises `<depend>`.
-- [ ] T055 [Interop] **Persistance des Métadonnées & UI** : Mettre en place la sauvegarde de l'état de l'interface (zoom, colonnes `width`/`order`, position du splitter) dans `<view>`, et la gestion des propriétés globales à la racine `<project>`.
+- [x] T055 [Interop] **Persistance des Métadonnées & UI** : Mettre en place la sauvegarde de l'état de l'interface (zoom, colonnes `width`/`order`, position du splitter) dans `<view>`, et la gestion des propriétés globales à la racine `<project>`.
 
 ---
 

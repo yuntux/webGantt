@@ -20,6 +20,7 @@
       <xs:attribute name="webLink" type="xs:string"/>
       <xs:attribute name="view-date" type="xs:string"/>
       <xs:attribute name="view-index" type="xs:int"/>
+      <!-- La largeur en pixels du tableau de gauche (WBS). Une valeur <= 10 est souvent ignorée par GanttProject qui force la largeur minimale. -->
       <xs:attribute name="gantt-divider-location" type="xs:int"/>
       <xs:attribute name="resource-divider-location" type="xs:int"/>
       <xs:attribute name="version" type="xs:string"/>
@@ -32,7 +33,9 @@
     <xs:sequence>
       <xs:element name="field" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
+          <!-- id fait souvent référence aux propriétés natives tpd (tpd0-tpd9 déclarées dans taskproperties, mais aussi les propriétés implicites comme tpd10=ID, tpd13=Ressources, etc.) -->
           <xs:attribute name="id" type="xs:string"/>
+          <!-- name est uniquement une étiquette localisée (traduite) utilisée pour l'affichage, l'ID reste la source de vérité. -->
           <xs:attribute name="name" type="xs:string"/>
           <xs:attribute name="width" type="xs:int"/>
           <xs:attribute name="order" type="xs:int"/>
@@ -169,6 +172,7 @@
     <xs:attribute name="uid" type="xs:string"/>
     <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="color" type="xs:string"/>
+    <!-- Motif de remplissage de la barre (0 ou vide = Plein, 1-20 = Motifs hachurés, etc.) -->
     <xs:attribute name="shape" type="xs:string"/>
     <xs:attribute name="meeting" type="xs:boolean"/>
     <xs:attribute name="project" type="xs:boolean"/>
