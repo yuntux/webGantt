@@ -89,15 +89,37 @@
             /* Slightly darker primary */
         }
 
-        /* Main Split View Layout (UI-001) */
-        #main-container {
-            flex: 1;
+
+        /* Tabs (Resources view) */
+        #tabs-container {
             display: flex;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 16px;
+        }
+        .view-tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: normal;
+        }
+        .view-tab.active {
+            border-bottom: 2px solid var(--primary-color);
+            font-weight: bold;
+        }
+        .view-container {
+            flex: 1;
+            display: none;
             overflow: hidden;
         }
+        .view-container.active {
+            display: flex;
+        }
+
+
 
         /* Left Pane: WBS Data Table */
-        #left-pane {
+        #left-pane, #res-left-pane {
             width: 30%;
             min-width: 300px;
             background-color: var(--surface-color);
@@ -106,7 +128,7 @@
         }
 
         /* Splitter (T038) */
-        #splitter {
+        #splitter, #res-splitter {
             width: 4px;
             cursor: col-resize;
             background-color: var(--border-color);
@@ -116,12 +138,14 @@
         }
 
         #splitter:hover,
-        #splitter:active {
+        #splitter:active,
+        #res-splitter:hover,
+        #res-splitter:active {
             background-color: var(--primary-color);
         }
 
-        /* Right Pane: Gantt Chart Timeline */
-        #right-pane {
+        /* Right Pane: Gantt Timeline */
+        #right-pane, #res-right-pane {
             flex: 1;
             background-color: var(--bg-color);
             display: flex;
@@ -186,7 +210,7 @@
                 display: none !important;
             }
 
-            #main-container {
+            .view-container.active {
                 height: auto !important;
                 display: flex !important;
                 flex-direction: row !important;
@@ -616,6 +640,102 @@
         </div>
     </dialog>
 
+    <!-- Dialog for Resource Details (loupe in resource tab) -->
+    <dialog id="res-details-modal"
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 800px; height: 600px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <div style="margin-bottom: 16px;">
+                <h3 id="rd-modal-title" style="margin: 0;">Édition de la ressource</h3>
+            </div>
+            <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
+                <button type="button" class="rd-tab-btn active" data-target="rd-tab-general"
+                    style="flex: 1; padding: 8px; border: none; background: none; border-bottom: 2px solid var(--primary-color); font-weight: bold; cursor: pointer; color: var(--text-color);">Général</button>
+                <button type="button" class="rd-tab-btn" data-target="rd-tab-vacations"
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Jours de congés</button>
+                <button type="button" class="rd-tab-btn" data-target="rd-tab-custom"
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs Perso.</button>
+                <button type="button" class="rd-tab-btn" data-target="rd-tab-allocations"
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Affectation</button>
+            </div>
+
+            <!-- Onglet Général -->
+            <div id="rd-tab-general"
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px; flex: 1; min-height: 0; align-content: start; overflow-y: auto; padding: 4px;">
+                <div style="display: flex; flex-direction: column; gap: 4px; grid-column: 1 / -1;">
+                    <label style="font-weight: bold;">Nom</label>
+                    <input type="text" id="rd-input-name" style="padding: 6px;" />
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: bold;">Rôle (Fonction)</label>
+                    <select id="rd-input-role" style="padding: 6px;"></select>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: bold;">Email (Contacts)</label>
+                    <input type="text" id="rd-input-email" style="padding: 6px;" />
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: bold;">Téléphone</label>
+                    <input type="text" id="rd-input-phone" style="padding: 6px;" />
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-weight: bold;">Taux standard</label>
+                    <input type="number" step="0.1" id="rd-input-rate" style="padding: 6px;" />
+                </div>
+            </div>
+
+            <!-- Onglet Congés -->
+            <div id="rd-tab-vacations" style="display: none; flex: 1; min-height: 0; overflow-y: auto;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                    <button id="rd-btn-add-vacation" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouveau congé</button>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color);">
+                            <th style="padding: 8px;">Date de début</th>
+                            <th style="padding: 8px;">Date de fin</th>
+                            <th style="padding: 8px; text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rd-vacation-tbody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Onglet Champs perso -->
+            <div id="rd-tab-custom" style="display: none; flex: 1; min-height: 0; overflow-y: auto;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                    <button id="rd-btn-manage-custom-props" class="primary" style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
+                </div>
+                <div id="rd-custom-props-container"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 4px; font-size: 13px;">
+                </div>
+            </div>
+
+            <!-- Onglet Affectation -->
+            <div id="rd-tab-allocations" style="display: none; flex: 1; min-height: 0; overflow-y: auto;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                    <button id="rd-btn-add-alloc" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouvelle affectation</button>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color);">
+                            <th style="padding: 8px;">ID Tâche</th>
+                            <th style="padding: 8px;">Lien vers la tâche</th>
+                            <th style="padding: 8px;">Unité (Charge %)</th>
+                            <th style="padding: 8px; text-align: center;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rd-allocation-tbody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 16px; text-align: right; flex-shrink: 0;">
+                <button id="rd-btn-close" style="padding: 6px 16px;">Fermer</button>
+            </div>
+        </div>
+    </dialog>
+
     <!-- T018 : Dialog for assigning resources -->
     <dialog id="assign-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
@@ -909,7 +1029,16 @@
         </div>
     </dialog>
     <!-- Main Application Split View -->
-    <div id="main-container">
+    
+
+    <!-- Onglets de vue -->
+    <div id="tabs-container">
+        <div class="view-tab active" data-target="main-container">Gantt des Tâches</div>
+        <div class="view-tab" data-target="res-main-container">Gantt des Ressources</div>
+    </div>
+
+    <!-- Main Application Split View -->
+    <div id="main-container" class="view-container active">
         <!-- Left Pane: Data Table -->
         <div id="left-pane">
             <div class="pane-header" style="justify-content: space-between;">
@@ -1127,7 +1256,154 @@
         </div>
     </div>
 
+    <!-- Tab Ressources -->
+    <div id="res-main-container" class="view-container">
+        <!-- Left Pane: Data Table -->
+        <div id="res-left-pane">
+            <div class="pane-header" style="justify-content: space-between;">
+                <span>Ressources</span>
+                <div id="res-wbs-toolbar" style="display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end;">
+                </div>
+            </div>
+            <div class="pane-content" id="res-wbs-content">
+                <!-- WBS Table will go here -->
+            </div>
+        </div>
+
+        <!-- Splitter (T038) -->
+        <div id="res-splitter"></div>
+
+        <!-- Right Pane: Gantt Timeline -->
+        <div id="res-right-pane">
+            <div class="pane-header" style="display: flex; align-items: center;">
+                <button id="res-btn-toggle-pane" title="Masquer / Afficher le WBS"
+                    style="padding:0 4px; margin-right: 8px;">◀</button>
+                <span>Diagramme de Gantt</span>
+                <div style="margin-left: auto; display: flex; gap: 4px;">
+                    <!-- Bouton Centrer (Scroll) -->
+                    <div style="position: relative; display: inline-block;">
+                        <button id="res-btn-scroll-to" title="Aller à..."
+                            style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 16 16 12 12 8"></polyline>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                        </button>
+                        <div id="res-scroll-to-dropdown"
+                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            <form id="res-scroll-to-form"
+                                style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
+                                <button type="button" class="btn-scroll-action" data-action="start"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Début
+                                    du projet</button>
+                                <button type="button" class="btn-scroll-action" data-action="end"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Fin
+                                    du projet</button>
+                                <button type="button" class="btn-scroll-action" data-action="today"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Aujourd'hui</button>
+                                <button type="button" class="btn-scroll-action" data-action="selection"
+                                    style="text-align: left; background: none; border: none; cursor: pointer; color: var(--text-color); padding: 4px; border-radius: 4px;">Sélection</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- T040: Boutons de zoom -->
+                    <button id="res-btn-zoom-out" title="Zoom Arrière"
+                        style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </button>
+                    <button id="res-btn-zoom-in" title="Zoom Avant"
+                        style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            <line x1="11" y1="8" x2="11" y2="14"></line>
+                            <line x1="8" y1="11" x2="14" y2="11"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="pane-content" id="res-gantt-content">
+                <!-- SVG Gantt Chart will go here -->
+            </div>
+        </div>
+    </div>
+
     <script>
+
+        // Gestion des onglets
+        document.querySelectorAll('.view-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.view-container').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.getAttribute('data-target')).classList.add('active');
+                
+                if (typeof state !== 'undefined' && state) {
+                    state.notifyListeners();
+                }
+            });
+        });
+
+        // Splitter pour l'onglet Ressources
+        const resSplitter = document.getElementById('res-splitter');
+        const resLeftPane = document.getElementById('res-left-pane');
+        let isDraggingResSplitter = false;
+
+        if (resSplitter) {
+            resSplitter.addEventListener('mousedown', (e) => {
+                isDraggingResSplitter = true;
+                document.body.style.cursor = 'col-resize';
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDraggingResSplitter) return;
+                const newWidth = e.clientX;
+                if (newWidth > 150 && newWidth < window.innerWidth - 150) {
+                    resLeftPane.style.width = newWidth + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDraggingResSplitter) {
+                    isDraggingResSplitter = false;
+                    document.body.style.cursor = '';
+                }
+            });
+        }
+        
+        // Toggle Pane pour Ressources
+        let isResPaneCollapsed = false;
+        let previousResPaneWidth = '400px';
+        const btnToggleResPane = document.getElementById('res-btn-toggle-pane');
+        if (btnToggleResPane) {
+            btnToggleResPane.addEventListener('click', (e) => {
+                const btn = e.target;
+                if (!isResPaneCollapsed) {
+                    previousResPaneWidth = resLeftPane.style.width || '400px';
+                    resLeftPane.style.display = 'none';
+                    resSplitter.style.display = 'none';
+                    btn.textContent = '▶';
+                    isResPaneCollapsed = true;
+                } else {
+                    resLeftPane.style.display = 'flex';
+                    resLeftPane.style.width = previousResPaneWidth;
+                    resSplitter.style.display = 'block';
+                    btn.textContent = '◀';
+                    isResPaneCollapsed = false;
+                }
+            });
+        }
+
         // T004: Theme Toggle Logic (UI-004)
         const themeToggleBtn = document.getElementById('btn-theme-toggle');
         const html = document.documentElement;
@@ -1347,6 +1623,7 @@
 
             if (isHeader) {
                 el.style.position = 'relative';
+                el.style.backgroundColor = 'var(--bg-color)';
 
                 // Drag & Drop
                 el.draggable = true;
@@ -2117,9 +2394,12 @@
                 header.style.height = '40px';
                 header.style.boxSizing = 'border-box';
                 header.style.fontWeight = 'bold';
+                header.style.position = 'sticky';
+                header.style.top = '0';
+                header.style.zIndex = '100';
                 header.style.fontSize = '12px';
                 header.style.color = 'var(--text-color)';
-                header.style.backgroundColor = 'var(--surface-color)';
+                header.style.backgroundColor = 'var(--bg-color)';
 
                 const cName = document.createElement('div');
                 cName.textContent = 'Nom';
@@ -2393,6 +2673,13 @@
                 detailsBtn.onclick = (e) => {
                     e.stopPropagation(); // Éviter la sélection de la tâche si on clique juste sur le bouton
 
+                    // Si c'est une ligne de ressource (onglet Ressource), ouvrir la modale ressource
+                    if (typeof task.id === 'string' && task.id.startsWith('res_')) {
+                        const realResId = task.id.replace('res_', '');
+                        openResDetailsModal(realResId);
+                        return;
+                    }
+
                     document.getElementById('td-modal-title').textContent = `Édition de la tâche : ${task.name}`;
                     document.getElementById('td-input-name').oninput = (e) => {
                         document.getElementById('td-modal-title').textContent = `Édition de la tâche : ${e.target.value}`;
@@ -2496,6 +2783,92 @@
         }
 
         // T009: Rendu du diagramme de Gantt
+
+        // T050 : Rendu de la vue Ressources
+        function renderResourceView() {
+            try {
+                if (!document.getElementById('res-main-container').classList.contains('active')) return;
+                
+                const wbsContent = document.getElementById('res-wbs-content');
+                const ganttContent = document.getElementById('res-gantt-content');
+                if (!wbsContent || !ganttContent) return;
+
+                const tasksNode = state.xmlDoc.querySelector('tasks');
+                if (!tasksNode) return;
+                
+                const allTaskNodes = Array.from(tasksNode.querySelectorAll('task'));
+                const allocations = getAllocations();
+                const resources = getResources();
+                
+                const taskMap = {};
+                allTaskNodes.forEach(node => {
+                    taskMap[node.getAttribute('id')] = {
+                        node: node,
+                        id: node.getAttribute('id'),
+                        name: node.getAttribute('name') || 'Nouvelle tâche',
+                        start: node.getAttribute('start'),
+                        duration: node.getAttribute('duration') || '1',
+                        complete: node.getAttribute('complete') || '0',
+                        color: node.getAttribute('color') || '#8bb0f5',
+                        depends: []
+                    };
+                });
+                
+                let resPseudoTasks = [];
+                
+                resources.forEach(res => {
+                    const resAllocs = allocations.filter(a => a.resourceId === res.id);
+                    const assignedTasks = resAllocs.map(a => taskMap[a.taskId]).filter(t => t && t.start);
+                    
+                    let minStart = new Date().getTime();
+                    let maxEnd = minStart;
+                    let resDuration = 0;
+                    
+                    if (assignedTasks.length > 0) {
+                        minStart = new Date(2100, 0, 1).getTime();
+                        maxEnd = new Date(1970, 0, 1).getTime();
+                        
+                        assignedTasks.forEach(t => {
+                            const st = new Date(t.start).getTime();
+                            const ed = st + (parseInt(t.duration) * 24 * 60 * 60 * 1000);
+                            if (st < minStart) minStart = st;
+                            if (ed > maxEnd) maxEnd = ed;
+                        });
+                        resDuration = Math.ceil((maxEnd - minStart) / (24 * 60 * 60 * 1000));
+                    }
+                    
+                    const resStart = new Date(minStart);
+                    const resStartDateStr = resStart.getFullYear() + '-' + String(resStart.getMonth()+1).padStart(2, '0') + '-' + String(resStart.getDate()).padStart(2, '0');
+                    
+                    const resTask = {
+                        node: { getAttribute: () => null, childNodes: [], setAttribute: () => {} },
+                        id: 'res_' + res.id,
+                        name: res.name,
+                        start: resStartDateStr,
+                        duration: resDuration.toString(),
+                        complete: '0',
+                        color: '#000000',
+                        isProject: true,
+                        isExpanded: true,
+                        depends: [],
+                        subtasks: assignedTasks.map(t => ({...t, subtasks: [], isProject: false, color: '#8bb0f5', isExpanded: true}))
+                    };
+                    
+                    resPseudoTasks.push(resTask);
+                });
+                
+                const oldFilter = window.currentFilter;
+                window.currentFilter = 'all';
+                
+                renderWBS(resPseudoTasks, wbsContent);
+                renderGantt(resPseudoTasks, ganttContent);
+                
+                window.currentFilter = oldFilter;
+            } catch (err) {
+                alert("Erreur renderResourceView: " + err.message + "\n" + err.stack);
+            }
+        }
+
         function renderGantt(tasks, container) {
             container.innerHTML = '';
             if (tasks.length === 0) return;
@@ -2619,8 +2992,10 @@
                 </marker>
             </defs>`;
 
-            // T041 : Rendu de l'échelle temporelle
-            svg += `<rect x="0" y="0" width="${totalWidth}" height="${timelineHeight}" fill="var(--surface-color)" stroke="var(--border-color)" stroke-width="1"/>`;
+            let headerGroup = '';
+// T041 : Rendu de l'échelle temporelle
+            headerGroup += `<g class="gantt-timeline-header">`;
+            headerGroup += `<rect x="0" y="0" width="${totalWidth}" height="${timelineHeight}" fill="var(--bg-color)" stroke="var(--border-color)" stroke-width="1"/>`;
             const startDateScale = new Date(minDate);
             startDateScale.setHours(0, 0, 0, 0);
             const maxDays = Math.ceil(totalWidth / dayWidth);
@@ -2634,15 +3009,15 @@
                 const x = d * dayWidth;
 
                 if (dayWidth >= 20) { // Zoom: Jour
-                    svg += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                    headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                     if (dayWidth >= 40 || d % 2 === 0) { // Alléger le texte si trop petit
-                        svg += `<text x="${x + (dayWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
+                        headerGroup += `<text x="${x + (dayWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
                     }
                 } else if (dayWidth >= 10 && iterDate.getDay() === 1) { // Zoom: Semaine (Lundi)
-                    svg += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
-                    svg += `<text x="${x + 2}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
+                    headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                    headerGroup += `<text x="${x + 2}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
                 } else if (dayWidth < 10 && iterDate.getDate() === 1) { // Zoom: Mois
-                    svg += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                    headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                 }
 
                 // Mois (toujours en haut)
@@ -2650,14 +3025,15 @@
                     if (currentMonth !== -1) {
                         const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
                         const monthWidth = x - monthStartX;
-                        svg += `<text x="${monthStartX + (monthWidth / 2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
-                        svg += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+                        headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                     }
                     currentMonth = iterDate.getMonth();
                     currentYear = iterDate.getFullYear();
                     monthStartX = x;
                 }
             }
+            headerGroup += `</g>`;
 
             // Lignes d'arrière plan (grille)
             for (let i = 0; i <= flatTasks.length; i++) {
@@ -2837,6 +3213,7 @@
                 });
             });
 
+            svg += headerGroup;
             svg += `</svg>`;
             container.innerHTML = svg;
 
@@ -2845,8 +3222,9 @@
 
         // T029 : Gestion de la sélection et UI
         function updateSelectionUI() {
-            // Mise à jour des lignes WBS
-            document.querySelectorAll('#wbs-content > div').forEach(row => {
+            // Mise à jour des lignes WBS (Tâches et Ressources)
+            const wbsRows = [...document.querySelectorAll('#wbs-content > div'), ...document.querySelectorAll('#res-wbs-content > div')];
+            wbsRows.forEach(row => {
                 const id = row.getAttribute('data-task-id');
                 if (window.selectedTaskIds.has(id)) {
                     row.style.backgroundColor = '#e3f2fd'; // Bleu léger
@@ -2856,19 +3234,17 @@
             });
 
             // Mise à jour des éléments du SVG (Gantt)
-            const svgDoc = document.querySelector('#gantt-content svg');
-            if (svgDoc) {
-                svgDoc.querySelectorAll('.gantt-item').forEach(item => {
-                    const id = item.getAttribute('data-task-id');
-                    if (window.selectedTaskIds.has(id)) {
-                        item.setAttribute('stroke', '#ffeb3b'); // Contour jaune pour la sélection
-                        item.setAttribute('stroke-width', '3');
-                    } else {
-                        item.removeAttribute('stroke');
-                        item.removeAttribute('stroke-width');
-                    }
-                });
-            }
+            const ganttItems = [...document.querySelectorAll('#gantt-content svg .gantt-item'), ...document.querySelectorAll('#res-gantt-content svg .gantt-item')];
+            ganttItems.forEach(item => {
+                const id = item.getAttribute('data-task-id');
+                if (window.selectedTaskIds.has(id)) {
+                    item.setAttribute('stroke', '#ffeb3b'); // Contour jaune pour la sélection
+                    item.setAttribute('stroke-width', '3');
+                } else {
+                    item.removeAttribute('stroke');
+                    item.removeAttribute('stroke-width');
+                }
+            });
 
             updateToolbarButtons();
         }
@@ -3369,7 +3745,22 @@
         });
         ganttContent.addEventListener('scroll', () => {
             wbsContent.scrollTop = ganttContent.scrollTop;
+            const header = ganttContent.querySelector('.gantt-timeline-header');
+            if (header) header.setAttribute('transform', `translate(0, ${ganttContent.scrollTop})`);
         });
+
+        const resWbsContent = document.getElementById('res-wbs-content');
+        const resGanttContent = document.getElementById('res-gantt-content');
+        if (resWbsContent && resGanttContent) {
+            resWbsContent.addEventListener('scroll', () => {
+                resGanttContent.scrollTop = resWbsContent.scrollTop;
+            });
+            resGanttContent.addEventListener('scroll', () => {
+                resWbsContent.scrollTop = resGanttContent.scrollTop;
+                const header = resGanttContent.querySelector('.gantt-timeline-header');
+                if (header) header.setAttribute('transform', `translate(0, ${resGanttContent.scrollTop})`);
+            });
+        }
 
         // T010 / T011: Logique de création de tâches et jalons
         function createNewTask(isMilestone = false) {
@@ -4780,6 +5171,321 @@
             currentVacationResId = null;
         });
 
+        // ===== Resource Details Modal (loupe dans l'onglet Ressources) =====
+        let currentRdResId = null;
+
+        // Tab switching
+        document.querySelectorAll('.rd-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.rd-tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.fontWeight = 'normal';
+                    b.style.borderBottom = 'none';
+                });
+                btn.classList.add('active');
+                btn.style.fontWeight = 'bold';
+                btn.style.borderBottom = '2px solid var(--primary-color)';
+
+                ['rd-tab-general', 'rd-tab-vacations', 'rd-tab-custom', 'rd-tab-allocations'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.style.display = id === btn.getAttribute('data-target') ? (id === 'rd-tab-general' ? 'grid' : 'block') : 'none';
+                });
+            });
+        });
+
+        function openResDetailsModal(resId) {
+            currentRdResId = resId;
+            const resNode = state.xmlDoc.querySelector(`resources > resource[id="${resId}"]`);
+            if (!resNode) return;
+
+            const name = resNode.getAttribute('name') || '';
+            document.getElementById('rd-modal-title').textContent = `Édition de la ressource : ${name}`;
+
+            // Onglet Général
+            document.getElementById('rd-input-name').value = name;
+            document.getElementById('rd-input-role').innerHTML = getRoleOptionsHtml(resNode.getAttribute('function') || '0');
+            document.getElementById('rd-input-email').value = resNode.getAttribute('contacts') || '';
+            document.getElementById('rd-input-phone').value = resNode.getAttribute('phone') || '';
+            const rateNode = resNode.querySelector('rate[name="standard"]');
+            document.getElementById('rd-input-rate').value = rateNode ? rateNode.getAttribute('value') || '0' : '0';
+
+            // Reset to first tab
+            document.querySelectorAll('.rd-tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.style.fontWeight = 'normal';
+                b.style.borderBottom = 'none';
+            });
+            const firstTab = document.querySelector('.rd-tab-btn[data-target="rd-tab-general"]');
+            firstTab.classList.add('active');
+            firstTab.style.fontWeight = 'bold';
+            firstTab.style.borderBottom = '2px solid var(--primary-color)';
+            document.getElementById('rd-tab-general').style.display = 'grid';
+            document.getElementById('rd-tab-vacations').style.display = 'none';
+            document.getElementById('rd-tab-custom').style.display = 'none';
+            document.getElementById('rd-tab-allocations').style.display = 'none';
+
+            // Render sub-tabs
+            renderRdVacationList();
+            renderRdAllocationList();
+            renderRdCustomProps();
+
+            document.getElementById('res-details-modal').showModal();
+        }
+
+        // Sauvegarde auto des champs généraux
+        ['rd-input-name', 'rd-input-role', 'rd-input-email', 'rd-input-phone', 'rd-input-rate'].forEach(inputId => {
+            document.getElementById(inputId).addEventListener('change', () => {
+                if (!currentRdResId || !state.xmlDoc) return;
+                const resNode = state.xmlDoc.querySelector(`resources > resource[id="${currentRdResId}"]`);
+                if (!resNode) return;
+
+                resNode.setAttribute('name', document.getElementById('rd-input-name').value);
+                resNode.setAttribute('function', document.getElementById('rd-input-role').value);
+                resNode.setAttribute('contacts', document.getElementById('rd-input-email').value);
+                resNode.setAttribute('phone', document.getElementById('rd-input-phone').value);
+
+                let rateNode = resNode.querySelector('rate[name="standard"]');
+                if (!rateNode) {
+                    rateNode = state.xmlDoc.createElement('rate');
+                    rateNode.setAttribute('name', 'standard');
+                    resNode.appendChild(rateNode);
+                }
+                rateNode.setAttribute('value', document.getElementById('rd-input-rate').value);
+
+                document.getElementById('rd-modal-title').textContent = `Édition de la ressource : ${document.getElementById('rd-input-name').value}`;
+                state.notifyListeners();
+            });
+        });
+
+        // ---- Congés tab ----
+        function renderRdVacationList() {
+            const tbody = document.getElementById('rd-vacation-tbody');
+            tbody.innerHTML = '';
+            if (!currentRdResId) return;
+
+            const vacs = getVacations(currentRdResId);
+            if (vacs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: gray; font-style: italic; padding: 12px;">Aucun congé défini.</td></tr>';
+                return;
+            }
+
+            vacs.sort((a, b) => new Date(a.start) - new Date(b.start));
+
+            vacs.forEach(v => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #eee';
+                tr.innerHTML = `
+                    <td style="padding: 4px;"><input type="date" class="rd-vac-start" data-old-start="${v.start}" value="${v.start}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
+                    <td style="padding: 4px;"><input type="date" class="rd-vac-end" data-old-start="${v.start}" value="${v.end || v.start}" style="width: 100%; padding: 4px; box-sizing: border-box;" /></td>
+                    <td style="padding: 4px; text-align: center;">
+                        <button class="rd-vac-delete" data-old-start="${v.start}" style="background: none; border: none; cursor: pointer; color: #d32f2f;">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            tbody.querySelectorAll('.rd-vac-start').forEach(inp => {
+                inp.addEventListener('change', (e) => {
+                    const oldStart = e.target.getAttribute('data-old-start');
+                    const vacNode = state.xmlDoc.querySelector(`vacations > vacation[resourceid="${currentRdResId}"][start="${oldStart}"]`);
+                    if (vacNode && e.target.value) { vacNode.setAttribute('start', e.target.value); state.notifyListeners(); renderRdVacationList(); }
+                });
+            });
+            tbody.querySelectorAll('.rd-vac-end').forEach(inp => {
+                inp.addEventListener('change', (e) => {
+                    const oldStart = e.target.getAttribute('data-old-start');
+                    const vacNode = state.xmlDoc.querySelector(`vacations > vacation[resourceid="${currentRdResId}"][start="${oldStart}"]`);
+                    if (vacNode && e.target.value) { vacNode.setAttribute('end', e.target.value); state.notifyListeners(); renderRdVacationList(); }
+                });
+            });
+            tbody.querySelectorAll('.rd-vac-delete').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const oldStart = e.target.getAttribute('data-old-start');
+                    const vacNode = state.xmlDoc.querySelector(`vacations > vacation[resourceid="${currentRdResId}"][start="${oldStart}"]`);
+                    if (vacNode) { vacNode.remove(); state.notifyListeners(); renderRdVacationList(); }
+                });
+            });
+        }
+
+        document.getElementById('rd-btn-add-vacation').addEventListener('click', () => {
+            if (!currentRdResId) return;
+            let vacsNode = state.xmlDoc.querySelector('vacations');
+            if (!vacsNode) { vacsNode = state.xmlDoc.createElement('vacations'); state.xmlDoc.documentElement.appendChild(vacsNode); }
+            const today = new Date().toISOString().split('T')[0];
+            const newVac = state.xmlDoc.createElement('vacation');
+            newVac.setAttribute('start', today);
+            newVac.setAttribute('end', today);
+            newVac.setAttribute('resourceid', currentRdResId);
+            vacsNode.appendChild(newVac);
+            state.notifyListeners();
+            renderRdVacationList();
+        });
+
+        // ---- Affectation tab ----
+        function renderRdAllocationList() {
+            const tbody = document.getElementById('rd-allocation-tbody');
+            tbody.innerHTML = '';
+            if (!currentRdResId || !state.xmlDoc) return;
+
+            const allocs = Array.from(state.xmlDoc.querySelectorAll(`allocations > allocation[resource-id="${currentRdResId}"]`));
+            const allTasks = Array.from(state.xmlDoc.querySelectorAll('tasks task')).map(t => ({
+                id: t.getAttribute('id'),
+                name: t.getAttribute('name') || 'Tâche sans nom'
+            }));
+
+            if (allocs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: gray; font-style: italic; padding: 12px;">Aucune affectation.</td></tr>';
+            }
+
+            allocs.forEach(alloc => {
+                const tr = document.createElement('tr');
+                tr.style.borderBottom = '1px solid #eee';
+                const taskId = alloc.getAttribute('task-id');
+                const load = alloc.getAttribute('load') || '100.0';
+
+                let optionsHtml = '';
+                allTasks.forEach(t => {
+                    const isAssignedToOther = allocs.some(a => a.getAttribute('task-id') === t.id && a.getAttribute('task-id') !== taskId);
+                    if (!isAssignedToOther) {
+                        optionsHtml += `<option value="${t.id}" ${t.id === taskId ? 'selected' : ''}>${t.name}</option>`;
+                    }
+                });
+
+                tr.innerHTML = `
+                    <td style="padding: 8px;">${taskId}</td>
+                    <td style="padding: 8px;">
+                        <select class="rd-alloc-task-select" data-old-task-id="${taskId}" style="width: 100%; padding: 4px;">${optionsHtml}</select>
+                    </td>
+                    <td style="padding: 8px;">
+                        <input type="number" step="10" min="0" max="100" class="rd-alloc-load" data-task-id="${taskId}" value="${load}" style="width: 70px; padding: 4px;" /> %
+                    </td>
+                    <td style="padding: 8px;">
+                        <button class="rd-alloc-delete" data-task-id="${taskId}" style="background: none; border: none; cursor: pointer; color: #d32f2f;">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            tbody.querySelectorAll('.rd-alloc-task-select').forEach(sel => {
+                sel.addEventListener('change', (e) => {
+                    const oldTaskId = e.target.getAttribute('data-old-task-id');
+                    const allocNode = state.xmlDoc.querySelector(`allocations > allocation[resource-id="${currentRdResId}"][task-id="${oldTaskId}"]`);
+                    if (allocNode) { allocNode.setAttribute('task-id', e.target.value); state.notifyListeners(); renderRdAllocationList(); }
+                });
+            });
+            tbody.querySelectorAll('.rd-alloc-load').forEach(inp => {
+                inp.addEventListener('change', (e) => {
+                    const taskId = e.target.getAttribute('data-task-id');
+                    const allocNode = state.xmlDoc.querySelector(`allocations > allocation[resource-id="${currentRdResId}"][task-id="${taskId}"]`);
+                    if (allocNode) { allocNode.setAttribute('load', e.target.value); state.notifyListeners(); }
+                });
+            });
+            tbody.querySelectorAll('.rd-alloc-delete').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const taskId = e.target.getAttribute('data-task-id');
+                    const allocNode = state.xmlDoc.querySelector(`allocations > allocation[resource-id="${currentRdResId}"][task-id="${taskId}"]`);
+                    if (allocNode) { allocNode.remove(); state.notifyListeners(); renderRdAllocationList(); }
+                });
+            });
+        }
+
+        document.getElementById('rd-btn-add-alloc').addEventListener('click', () => {
+            if (!currentRdResId || !state.xmlDoc) return;
+            const allocs = Array.from(state.xmlDoc.querySelectorAll(`allocations > allocation[resource-id="${currentRdResId}"]`));
+            const allTasks = Array.from(state.xmlDoc.querySelectorAll('tasks task')).map(t => ({ id: t.getAttribute('id') }));
+            const unassignedTask = allTasks.find(t => !allocs.some(a => a.getAttribute('task-id') === t.id));
+            if (!unassignedTask) { alert("Aucune tâche disponible pour l'affectation."); return; }
+
+            let allocsNode = state.xmlDoc.querySelector('allocations');
+            if (!allocsNode) { allocsNode = state.xmlDoc.createElement('allocations'); state.xmlDoc.documentElement.appendChild(allocsNode); }
+            const newAlloc = state.xmlDoc.createElement('allocation');
+            newAlloc.setAttribute('task-id', unassignedTask.id);
+            newAlloc.setAttribute('resource-id', currentRdResId);
+            newAlloc.setAttribute('load', '100.0');
+            allocsNode.appendChild(newAlloc);
+            state.notifyListeners();
+            renderRdAllocationList();
+        });
+
+        // ---- Champs perso tab ----
+        function renderRdCustomProps() {
+            const container = document.getElementById('rd-custom-props-container');
+            container.innerHTML = '';
+            if (!currentRdResId || !state.xmlDoc) return;
+
+            const resNode = state.xmlDoc.querySelector(`resources > resource[id="${currentRdResId}"]`);
+            if (!resNode) return;
+
+            const tpNode = state.xmlDoc.querySelector('taskproperties');
+            if (!tpNode) { container.innerHTML = '<p style="color: gray; font-style: italic;">Aucun champ personnalisé défini.</p>'; return; }
+
+            const customProps = Array.from(tpNode.querySelectorAll('taskproperty[type="custom"]'));
+            if (customProps.length === 0) { container.innerHTML = '<p style="color: gray; font-style: italic;">Aucun champ personnalisé défini.</p>'; return; }
+
+            customProps.forEach(p => {
+                const propId = p.getAttribute('id');
+                const name = p.getAttribute('name');
+                const type = p.getAttribute('valuetype');
+                let val = p.getAttribute('defaultvalue') || '';
+
+                let cpNode = Array.from(resNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'customproperty' && n.getAttribute('taskproperty-id') === propId);
+                if (cpNode) val = cpNode.getAttribute('value');
+
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.flexDirection = 'column';
+
+                const label = document.createElement('label');
+                label.textContent = name;
+                label.style.fontWeight = 'bold';
+                label.style.marginBottom = '4px';
+
+                let input;
+                if (type === 'boolean') {
+                    input = document.createElement('input');
+                    input.type = 'checkbox';
+                    input.checked = val === 'true';
+                } else if (type === 'date') {
+                    input = document.createElement('input');
+                    input.type = 'date';
+                    input.value = val;
+                    input.style.padding = '4px';
+                } else {
+                    input = document.createElement('input');
+                    input.type = type === 'int' || type === 'double' ? 'number' : 'text';
+                    if (type === 'double') input.step = '0.1';
+                    input.value = val;
+                    input.style.padding = '4px';
+                }
+
+                input.addEventListener('change', () => {
+                    const newVal = input.type === 'checkbox' ? (input.checked ? 'true' : 'false') : input.value;
+                    let cp = Array.from(resNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'customproperty' && n.getAttribute('taskproperty-id') === propId);
+                    if (!cp) {
+                        cp = state.xmlDoc.createElement('customproperty');
+                        cp.setAttribute('taskproperty-id', propId);
+                        resNode.appendChild(cp);
+                    }
+                    cp.setAttribute('value', newVal);
+                    state.notifyListeners();
+                });
+
+                div.appendChild(label);
+                div.appendChild(input);
+                container.appendChild(div);
+            });
+        }
+
+        document.getElementById('rd-btn-manage-custom-props').addEventListener('click', () => {
+            renderCustomPropsTable();
+            document.getElementById('custom-props-modal').showModal();
+        });
+
+        document.getElementById('rd-btn-close').addEventListener('click', () => {
+            document.getElementById('res-details-modal').close();
+            currentRdResId = null;
+        });
+
         document.getElementById('btn-add-resource').addEventListener('click', () => {
             let resNode = state.xmlDoc.querySelector('resources');
             if (!resNode) {
@@ -4970,6 +5676,7 @@
                 const filteredTasks = filterTasks(parsedTasks, window.currentFilter);
                 renderWBS(filteredTasks, wbsContent);
                 renderGantt(filteredTasks, ganttContent);
+                renderResourceView();
             }
         });
 
@@ -5922,19 +6629,28 @@
 
         // Bouton Scroll To
         const btnScrollTo = document.getElementById('btn-scroll-to');
+        const resBtnScrollTo = document.getElementById('res-btn-scroll-to');
         const scrollToDropdown = document.getElementById('scroll-to-dropdown');
-        if (btnScrollTo && scrollToDropdown) {
-            btnScrollTo.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const isHidden = scrollToDropdown.style.display === 'none';
-                scrollToDropdown.style.display = isHidden ? 'block' : 'none';
-            });
+        const resScrollToDropdown = document.getElementById('res-scroll-to-dropdown');
 
-            document.addEventListener('click', (e) => {
-                if (!scrollToDropdown.contains(e.target) && !btnScrollTo.contains(e.target)) {
-                    scrollToDropdown.style.display = 'none';
-                }
-            });
+        [
+            { btn: btnScrollTo, drop: scrollToDropdown },
+            { btn: resBtnScrollTo, drop: resScrollToDropdown }
+        ].forEach(({btn, drop}) => {
+            if (btn && drop) {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const isHidden = drop.style.display === 'none';
+                    drop.style.display = isHidden ? 'block' : 'none';
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!drop.contains(e.target) && !btn.contains(e.target)) {
+                        drop.style.display = 'none';
+                    }
+                });
+            }
+        });
 
             document.querySelectorAll('.btn-scroll-action').forEach(btn => {
                 btn.addEventListener('mouseenter', () => btn.style.backgroundColor = 'var(--bg-color)');
@@ -5976,30 +6692,41 @@
                     }
 
                     if (handled) {
-                        ganttContent.scrollLeft = Math.max(0, targetX - 50);
+                        const activeGantt = document.getElementById('res-main-container').classList.contains('active') 
+                            ? document.getElementById('res-gantt-content') 
+                            : document.getElementById('gantt-content');
+                        if (activeGantt) activeGantt.scrollLeft = Math.max(0, targetX - 50);
                     }
-                    scrollToDropdown.style.display = 'none';
+                    const activeDrop = document.getElementById('res-main-container').classList.contains('active')
+                        ? document.getElementById('res-scroll-to-dropdown')
+                        : document.getElementById('scroll-to-dropdown');
+                    if (activeDrop) activeDrop.style.display = 'none';
                 });
             });
-        }
 
         // T040 : Zoom
         const btnZoomIn = document.getElementById('btn-zoom-in');
+        const resBtnZoomIn = document.getElementById('res-btn-zoom-in');
         const btnZoomOut = document.getElementById('btn-zoom-out');
-        if (btnZoomIn && btnZoomOut) {
-            btnZoomIn.addEventListener('click', () => {
+        const resBtnZoomOut = document.getElementById('res-btn-zoom-out');
+        
+        [btnZoomIn, resBtnZoomIn].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => {
                 if (window.currentZoomIndex < zoomLevels.length - 1) {
                     window.currentZoomIndex++;
                     state.notifyListeners();
                 }
             });
-            btnZoomOut.addEventListener('click', () => {
+        });
+        
+        [btnZoomOut, resBtnZoomOut].forEach(btn => {
+            if (btn) btn.addEventListener('click', () => {
                 if (window.currentZoomIndex > 0) {
                     window.currentZoomIndex--;
                     state.notifyListeners();
                 }
             });
-        }
+        });
 
         // T042 : Événements Historique
         const btnUndo = document.getElementById('btn-undo');
@@ -6315,6 +7042,25 @@
             paneResizer.observe(leftPaneSync);
             paneResizer.observe(rightPaneSync);
             setTimeout(syncHeaderHeights, 0); // Exécuter une fois initialement
+        }
+
+        const resLeftPaneSync = document.getElementById('res-left-pane');
+        const resRightPaneSync = document.getElementById('res-right-pane');
+        const resLeftHeaderSync = document.querySelector('#res-left-pane .pane-header');
+        const resRightHeaderSync = document.querySelector('#res-right-pane .pane-header');
+
+        if (resLeftPaneSync && resRightPaneSync && resLeftHeaderSync && resRightHeaderSync && window.ResizeObserver) {
+            const syncResHeaderHeights = () => {
+                resLeftHeaderSync.style.height = 'auto';
+                resRightHeaderSync.style.height = 'auto';
+                const maxHeight = Math.max(resLeftHeaderSync.offsetHeight, resRightHeaderSync.offsetHeight, 32);
+                resLeftHeaderSync.style.height = maxHeight + 'px';
+                resRightHeaderSync.style.height = maxHeight + 'px';
+            };
+            const resPaneResizer = new ResizeObserver(syncResHeaderHeights);
+            resPaneResizer.observe(resLeftPaneSync);
+            resPaneResizer.observe(resRightPaneSync);
+            setTimeout(syncResHeaderHeights, 0);
         }
 
         // T047 : Restauration automatique
