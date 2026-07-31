@@ -8,6 +8,8 @@ This documentation aims to present the overall operation of the application and 
 
 ## Chapter 1: Introduction & Application Architecture
 
+![Main Gantt View](/home/ubuntu/webGantt/artifacts/screenshot_main.png)
+
 ### 1.1 Principle and Interoperability
 **webGantt** is designed to run entirely and autonomously within your web browser. It uses no server-side database, which guarantees the total confidentiality of your schedules. The application engine directly reads, interprets, and generates XML files with the `.gan` extension.
 This approach guarantees absolute interoperability with the open-source desktop software **GanttProject** (an industry standard in project management).
@@ -24,9 +26,13 @@ The top toolbar gathers the vital controls for the project lifecycle:
 - **Theme Button (Light/Dark)**: Toggles the CSS variables of the application to offer a deep dark mode (ideal to reduce eye strain) or a classic light mode.
 - **Project Properties**: Allows defining global metadata (Project Name, Company, URL) as well as the calendars for general weekends and holidays that will impact all tasks.
 
+![Project Properties](/home/ubuntu/webGantt/artifacts/screenshot_project_props.png)
+
 ---
 
 ## Chapter 2: The Work Breakdown Structure (WBS)
+
+![Task Details Modal](/home/ubuntu/webGantt/artifacts/screenshot_task_details.png)
 
 The *Work Breakdown Structure* (WBS) is the structural dashboard of your project.
 
@@ -71,6 +77,8 @@ Instead of manually modifying the dates of each task, the application uses a con
 ---
 
 ## Chapter 4: Human and Material Resource Management
+
+![Resources View](/home/ubuntu/webGantt/artifacts/screenshot_resources.png)
 
 Resources are at the heart of capacity planning in **webGantt**.
 

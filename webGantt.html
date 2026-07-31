@@ -2815,6 +2815,7 @@
         }
 
         const state = new ProjectState();
+        window.state = state;
 
         // ===== T049 : Moteur de Calendrier (jours ouvrés, week-ends, jours fériés) =====
         // Structure globale du calendrier du projet
@@ -6127,8 +6128,7 @@
 
             // Rafraîchir les diagrammes si le projet est chargé (pour traduire les en-têtes)
             if (window.state && window.state.xmlDoc) {
-                renderWBS();
-                renderGantt();
+                window.state.notifyListeners();
             }
         }
 
