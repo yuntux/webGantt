@@ -8,25 +8,43 @@
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230969da'/><rect x='15' y='25' width='45' height='15' rx='5' fill='white'/><rect x='35' y='50' width='50' height='15' rx='5' fill='white'/><rect x='25' y='75' width='30' height='15' rx='5' fill='white'/></svg>">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
         /* CSS Variables for Light/Dark Mode (UI-004) */
         :root {
-            --bg-color: #f4f5f7;
+            --bg-color: #e9edf1;
+            /* Slightly darker cool gray to contrast with white */
             --surface-color: #ffffff;
             --text-color: #333333;
-            --border-color: #dddddd;
-            --toolbar-bg: #e1e4e8;
-            --primary-color: #0366d6;
-            --hover-color: #f0f0f0;
+            --border-color: #d1d5db;
+            --toolbar-bg: #ffffff;
+            --toolbar-text: #4b5563;
+            /* Medium gray for buttons */
+            --toolbar-btn-bg: transparent;
+            --toolbar-btn-hover: #f3f4f6;
+            --toolbar-btn-border: transparent;
+            --primary-color: #0969da;
+            --hover-color: #f3f4f6;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --selected-bg: #e3f2fd;
         }
 
         [data-theme="dark"] {
-            --bg-color: #1e1e1e;
-            --surface-color: #252526;
-            --text-color: #cccccc;
-            --border-color: #3e3e42;
-            --toolbar-bg: #333333;
-            --primary-color: #3794ff;
-            --hover-color: #2a2d2e;
+            --bg-color: #0d1117;
+            --surface-color: #161b22;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --toolbar-bg: #161b22;
+            --toolbar-text: #c9d1d9;
+            --toolbar-btn-bg: transparent;
+            --toolbar-btn-hover: #21262d;
+            --toolbar-btn-border: transparent;
+            --primary-color: #2f81f7;
+            --hover-color: #21262d;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
+            --selected-bg: #1f3a5f;
         }
 
         * {
@@ -36,7 +54,7 @@
         }
 
         body {
-            font-family: sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             height: 100vh;
@@ -47,13 +65,38 @@
 
         /* Toolbar (UI-003) */
         #toolbar {
-            height: 48px;
+            height: 56px;
             background-color: var(--toolbar-bg);
+            color: var(--text-color);
             border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
             display: flex;
             align-items: center;
             padding: 0 16px;
-            gap: 12px;
+            gap: 8px;
+            z-index: 100;
+        }
+
+        #toolbar a {
+            color: var(--text-color) !important;
+        }
+
+        #toolbar button:not(.primary) {
+            background-color: var(--toolbar-btn-bg);
+            color: var(--toolbar-text);
+            border: 1px solid var(--toolbar-btn-border);
+            box-shadow: none;
+            padding: 8px 12px;
+        }
+
+        #toolbar button:not(.primary):hover:not(:disabled) {
+            background-color: var(--toolbar-btn-hover);
+            color: var(--text-color);
+        }
+
+        #toolbar button:not(.primary):disabled {
+            background-color: transparent;
+            color: #9ca3af;
         }
 
         button,
@@ -64,38 +107,58 @@
             font-size: inherit;
         }
 
-        button {
-            padding: 6px 12px;
+        button:not([class*="-tab-btn"]) {
+            padding: 8px 14px;
             background-color: var(--surface-color);
             color: var(--text-color);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
         }
 
-        button:hover:not(:disabled) {
+        button:not([class*="-tab-btn"]):hover:not(:disabled) {
             background-color: var(--hover-color);
+            color: var(--text-color);
+            border-color: #c4c6c9;
+            transform: translateY(-1px);
         }
 
-        button:disabled {
+        [data-theme="dark"] button:not([class*="-tab-btn"]):hover:not(:disabled) {
+            border-color: #484f58;
+        }
+
+        button:not([class*="-tab-btn"]):active:not(:disabled) {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        button:not([class*="-tab-btn"]):disabled {
             opacity: 0.5;
             cursor: not-allowed;
             background-color: var(--bg-color);
             color: #888;
+            box-shadow: none;
+            transform: none;
+            border-color: var(--border-color);
         }
 
         button.primary {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), #0355b3);
             color: white;
-            border-color: var(--primary-color);
+            border: none;
+            box-shadow: 0 2px 5px rgba(9, 105, 218, 0.3);
         }
 
-        button.primary:hover {
-            background-color: #0255b3;
-            /* Slightly darker primary */
+        button.primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #0a70e6, #024a9e);
+            box-shadow: 0 4px 8px rgba(9, 105, 218, 0.4);
         }
 
+        [data-theme="dark"] button.primary {
+            background: linear-gradient(135deg, var(--primary-color), #1f6feb);
+        }
 
         /* Tabs (Resources view) */
         #tabs-container {
@@ -106,28 +169,36 @@
         }
 
         .view-tab {
-            padding: 8px 16px;
+            padding: 12px 16px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
-            font-weight: normal;
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+
+        .view-tab:hover {
+            opacity: 1;
         }
 
         .view-tab.active {
             border-bottom: 2px solid var(--primary-color);
-            font-weight: bold;
+            font-weight: 600;
+            opacity: 1;
         }
 
         .view-container {
             flex: 1;
             display: none;
             overflow: hidden;
+            background-color: var(--bg-color);
+            padding: 8px;
         }
 
         .view-container.active {
             display: flex;
         }
-
-
 
         /* Left Pane: WBS Data Table */
         #left-pane,
@@ -137,17 +208,23 @@
             background-color: var(--surface-color);
             display: flex;
             flex-direction: column;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
         }
 
         /* Splitter (T038) */
         #splitter,
         #res-splitter {
             width: 4px;
+            border-radius: 2px;
             cursor: col-resize;
-            background-color: var(--border-color);
+            background-color: transparent;
             flex-shrink: 0;
             z-index: 10;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s ease;
+            margin: 0;
         }
 
         #splitter:hover,
@@ -161,31 +238,51 @@
         #right-pane,
         #res-right-pane {
             flex: 1;
-            background-color: var(--bg-color);
+            background-color: var(--surface-color);
             display: flex;
             flex-direction: column;
-            overflow: auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
         }
 
         .pane-header {
-            min-height: 32px;
-            height: auto;
-            background-color: var(--toolbar-bg);
+            min-height: 36px;
+            background-color: var(--surface-color);
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            padding: 4px 8px;
+            padding: 6px 12px;
             box-sizing: border-box;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #57606a;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            z-index: 5;
+        }
 
+        [data-theme="dark"] .pane-header {
+            color: #8b949e;
         }
 
         .pane-header button {
-            height: 22px;
+            height: 24px;
+            padding: 0 6px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             box-sizing: border-box;
+            box-shadow: none;
+            border-color: transparent;
+            background: transparent;
+        }
+
+        .pane-header button:hover {
+            background-color: var(--hover-color);
+            border-color: var(--border-color);
         }
 
         .pane-content {
@@ -310,7 +407,8 @@
         <button id="btn-add-milestone" data-i18n="tb_add_milestone">Ajouter Jalon</button>
         <button id="btn-add-resource-toolbar" data-i18n="tb_add_resource">Ajouter Ressource</button>
         <div style="flex: 1;"></div>
-        <button id="btn-project-props" style="margin-right: 8px;" data-i18n="tb_project_props">Propriétés Projet</button>
+        <button id="btn-project-props" style="margin-right: 8px;" data-i18n="tb_project_props">Propriétés
+            Projet</button>
         <button id="btn-preferences" style="margin-right: 8px;" data-i18n="tb_preferences">Préférences</button>
         <button id="btn-theme-toggle" data-i18n="tb_dark_mode">Mode Sombre</button>
     </div>
@@ -793,7 +891,7 @@
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                            <label>Ressources (surchargées)</label>
+                            <label data-i18n="pref_res_overloaded">Ressources (surchargées)</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-overloaded-color" value="#e14436" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
@@ -801,7 +899,7 @@
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                            <label>Ressources (sous employées)</label>
+                            <label data-i18n="pref_res_underloaded">Ressources (sous employées)</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-underloaded-color" value="#3bd93b" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
@@ -809,7 +907,7 @@
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                            <label>Jours de congés</label>
+                            <label data-i18n="pref_res_vacation">Jours de congés</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-vacation-color" value="#ffff55" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
@@ -1217,8 +1315,7 @@
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
                             <label data-i18n="col_color">Couleur</label>
-                                <input type="color" id="td-input-color"
-                                    style="padding: 0; width: 100%; height: 28px;" />
+                            <input type="color" id="td-input-color" style="padding: 0; width: 100%; height: 28px;" />
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
@@ -1432,7 +1529,7 @@
         <!-- Left Pane: Data Table -->
         <div id="left-pane">
             <div class="pane-header" style="justify-content: space-between;">
-                <span>Tâches</span>
+                <span data-i18n="tb_lbl_tasks">Tâches</span>
                 <div id="wbs-toolbar" style="display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end;">
                     <!-- T043: Presse-papiers -->
                     <button id="btn-cut" title="Couper" data-i18n-title="tb_cut" disabled>
@@ -1577,7 +1674,7 @@
             <div class="pane-header" style="display: flex; align-items: center;">
                 <button id="btn-toggle-pane" title="Masquer / Afficher le WBS" data-i18n-title="tb_toggle_wbs"
                     style="padding:0 4px; margin-right: 8px;">◀</button>
-                <span>Diagramme de Gantt</span>
+                <span data-i18n="tb_lbl_gantt">Diagramme de Gantt</span>
                 <div style="margin-left: auto; display: flex; gap: 4px;">
                     <!-- Bouton Centrer (Scroll) -->
                     <div style="position: relative; display: inline-block;">
@@ -1636,7 +1733,7 @@
                             <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
                         </svg>
                     </button>
-                    <button id="btn-baselines"
+                    <button id="btn-baselines" data-i18n="base_title"
                         style="padding:0 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-left: 4px;">États
                         de référence du projet....</button>
                 </div>
@@ -3226,9 +3323,9 @@
                         return;
                     }
 
-                    document.getElementById('td-modal-title').textContent = `" + t('td_title') + " : ${task.name}`;
+                    document.getElementById('td-modal-title').textContent = `${t('td_title')} : ${task.name}`;
                     document.getElementById('td-input-name').oninput = (e) => {
-                        document.getElementById('td-modal-title').textContent = `" + t('td_title') + " : ${e.target.value}`;
+                        document.getElementById('td-modal-title').textContent = `${t('td_title')} : ${e.target.value}`;
                     };
 
                     window.currentDetailsTaskId = task.id;
@@ -3239,6 +3336,9 @@
                     document.getElementById('td-input-start').value = task.start || '';
                     document.getElementById('td-input-duration').value = task.duration || 0;
                     document.getElementById('td-input-complete').value = task.complete || 0;
+
+                    const notesNode = Array.from(task.node.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'notes');
+                    document.getElementById('td-input-notes').value = notesNode ? notesNode.textContent : '';
 
                     const scheduling = task.node.getAttribute('scheduling') || 'calculate-end';
                     document.getElementById('td-input-scheduling').value = scheduling;
@@ -3550,7 +3650,7 @@
             // Création SVG dynamique
             // Configuration des polices du graphique
             const chartFontRaw = getGlobalPref('gantt-chart', 'general.chartFont', 'default');
-            const chartFont = chartFontRaw === 'default' ? 'inherit' : chartFontRaw;
+            const chartFont = chartFontRaw === 'default' ? 'inherit' : `'${chartFontRaw}'`;
 
             const chartFontSizeBase = parseInt(getGlobalPref('gantt-chart', 'general.chartFontSize', '3'));
             const chartFontSizes = { 1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px' };
@@ -3558,7 +3658,7 @@
             const fsz10 = Math.max(8, 10 + (chartFontSizeBase - 3) * 2);
             const fsz11 = Math.max(9, 11 + (chartFontSizeBase - 3) * 2);
 
-            let svg = `<svg width="${totalWidth}" height="${Math.max(totalHeight, 100)}" xmlns="http://www.w3.org/2000/svg" style="font-family: '${chartFont}'; font-size: ${chartFontSize};">`;
+            let svg = `<svg width="${totalWidth}" height="${Math.max(totalHeight, 100)}" xmlns="http://www.w3.org/2000/svg" style="font-family: ${chartFont}; font-size: ${chartFontSize};">`;
 
             // Définition de la flèche pour les dépendances et des motifs de remplissage (T052)
             svg += `<defs>
@@ -3991,7 +4091,7 @@
             wbsRows.forEach(row => {
                 const id = row.getAttribute('data-task-id');
                 if (window.selectedTaskIds.has(id)) {
-                    row.style.backgroundColor = '#e3f2fd'; // Bleu léger
+                    row.style.backgroundColor = 'var(--selected-bg)'; // Dynamic color
                 } else {
                     row.style.backgroundColor = '';
                 }
@@ -4857,6 +4957,7 @@
         // Traduction de l'IHM
         const I18N_DICT = {
             'fr': {
+                'pref_res_normal': "Ressources (normales)", 'pref_res_overloaded': "Ressources (surchargées)", 'pref_res_underloaded': "Ressources (sous employées)", 'pref_res_vacation': "Jours de congés",
                 _name: 'Français',
                 'tb_open': 'Ouvrir un projet (.gan)',
                 'tb_save': 'Enregistrer',
@@ -4893,7 +4994,7 @@
                 'td_title': "Édition de la tâche", 'td_tab_general': "Général", 'td_tab_predecessors': "Prédécesseurs", 'td_tab_resources': "Ressources", 'td_tab_custom': "Champs Perso.",
                 'td_name': "Nom de la tâche", 'td_milestone': "Jalon", 'td_plan_opt': "Option de planification", 'td_duration': "Durée (jours)", 'td_progress': "Avancement (%)", 'td_shape': "Graphisme", 'td_show_timeline': "Afficher dans la planif.", 'td_notes': "Notes",
                 'prio_low': "Faible", 'prio_normal': "Normale", 'prio_high': "Haute",
-                'tb_toggle_wbs': "Masquer / Afficher le WBS", 'tb_go_to': "Aller à...", 'tb_zoom_out': "Zoom Arrière", 'tb_zoom_in': "Zoom Avant", 'tb_cut': "Couper", 'tb_copy': "Copier", 'tb_paste': "Coller", 'tb_delete': "Supprimer", 'tb_outdent': "Désindenter", 'tb_indent': "Indenter", 'tb_move_up': "Monter", 'tb_move_down': "Descendre", 'tb_link': "Lier", 'tb_unlink': "Délier", 'tb_filter': "Filtrer", 'tb_critical_path': "Afficher/Masquer le chemin critique", 'tb_columns': "Colonnes",
+                'tb_toggle_wbs': "Masquer / Afficher la Liste", 'tb_go_to': "Aller à...", 'tb_zoom_out': "Zoom Arrière", 'tb_zoom_in': "Zoom Avant", 'tb_cut': "Couper", 'tb_copy': "Copier", 'tb_paste': "Coller", 'tb_delete': "Supprimer", 'tb_outdent': "Désindenter", 'tb_indent': "Indenter", 'tb_move_up': "Monter", 'tb_move_down': "Descendre", 'tb_link': "Lier", 'tb_unlink': "Délier", 'tb_filter': "Filtrer", 'tb_critical_path': "Afficher/Masquer le chemin critique", 'tb_columns': "Colonnes",
 
                 'help_formula_title': "Aide : Formules de calcul", 'base_title': "États de référence du projet", 'base_active': "État de référence actif sur le Gantt :", 'base_existing': "Empreintes existantes :", 'base_new_name': "Nom de la nouvelle empreinte", 'base_btn_create': "Créer", 'base_colors_title': "Couleurs des états d'avancement", 'base_todo': "Tâche restant à faire :", 'base_ahead': "Tâche en avance sur le planning :", 'base_late': "Tâche en retard sur le planning :",
                 'td_cost_title': "Coût de la tâche", 'td_cost_auto': "Calculé automatiquement", 'td_cost_manual': "Défini manuellement", 'td_cost_auto_mode': "Mode de calcul automatique :", 'td_cost_auto_desc': "Le coût est calculé dynamiquement en fonction des ressources affectées :", 'td_cost_formula': "Coût = Somme(Taux standard × Durée (j) × (Charge / 100))", 'td_cost_rate_desc': "(Le \"Taux standard\" est défini sur la fiche de chaque ressource)", 'td_custom_values': "Valeurs personnalisées pour cette tâche :", 'btn_manage_fields': "⚙️ Gérer les champs",
@@ -4959,6 +5060,7 @@
                 'col_formula': "Formule"
             },
             'en': {
+                'pref_res_normal': "Resources (normal)", 'pref_res_overloaded': "Resources (overloaded)", 'pref_res_underloaded': "Resources (underloaded)", 'pref_res_vacation': "Vacation days",
                 _name: 'English',
                 'tb_open': 'Open project (.gan)',
                 'tb_save': 'Save',
@@ -4995,7 +5097,7 @@
                 'td_title': "Task Edition", 'td_tab_general': "General", 'td_tab_predecessors': "Predecessors", 'td_tab_resources': "Resources", 'td_tab_custom': "Custom Fields",
                 'td_name': "Task name", 'td_milestone': "Milestone", 'td_plan_opt': "Planning option", 'td_duration': "Duration (days)", 'td_progress': "Progress (%)", 'td_shape': "Shape", 'td_show_timeline': "Show on timeline", 'td_notes': "Notes",
                 'prio_low': "Low", 'prio_normal': "Normal", 'prio_high': "High",
-                'tb_toggle_wbs': "Toggle WBS", 'tb_go_to': "Go to...", 'tb_zoom_out': "Zoom Out", 'tb_zoom_in': "Zoom In", 'tb_cut': "Cut", 'tb_copy': "Copy", 'tb_paste': "Paste", 'tb_delete': "Delete", 'tb_outdent': "Outdent", 'tb_indent': "Indent", 'tb_move_up': "Move Up", 'tb_move_down': "Move Down", 'tb_link': "Link", 'tb_unlink': "Unlink", 'tb_filter': "Filter", 'tb_critical_path': "Toggle Critical Path", 'tb_columns': "Columns",
+                'tb_toggle_wbs': "Toggle List", 'tb_go_to': "Go to...", 'tb_zoom_out': "Zoom Out", 'tb_zoom_in': "Zoom In", 'tb_cut': "Cut", 'tb_copy': "Copy", 'tb_paste': "Paste", 'tb_delete': "Delete", 'tb_outdent': "Outdent", 'tb_indent': "Indent", 'tb_move_up': "Move Up", 'tb_move_down': "Move Down", 'tb_link': "Link", 'tb_unlink': "Unlink", 'tb_filter': "Filter", 'tb_critical_path': "Toggle Critical Path", 'tb_columns': "Columns",
 
                 'help_formula_title': "Help: Calculation Formulas", 'base_title': "Project Baselines", 'base_active': "Active baseline on Gantt:", 'base_existing': "Existing footprints:", 'base_new_name': "New footprint name", 'base_btn_create': "Create", 'base_colors_title': "Progress state colors", 'base_todo': "Remaining task:", 'base_ahead': "Task ahead of schedule:", 'base_late': "Task behind schedule:",
                 'td_cost_title': "Task Cost", 'td_cost_auto': "Calculated automatically", 'td_cost_manual': "Defined manually", 'td_cost_auto_mode': "Automatic calculation mode:", 'td_cost_auto_desc': "The cost is dynamically calculated based on assigned resources:", 'td_cost_formula': "Cost = Sum(Standard rate × Duration (d) × (Load / 100))", 'td_cost_rate_desc': "(The \"Standard rate\" is defined on each resource's profile)", 'td_custom_values': "Custom values for this task:", 'btn_manage_fields': "⚙️ Manage fields",
@@ -5061,6 +5163,7 @@
                 'col_formula': "Formula"
             },
             'es': {
+                'pref_res_normal': "Recursos (normales)", 'pref_res_overloaded': "Recursos (sobrecargados)", 'pref_res_underloaded': "Recursos (subutilizados)", 'pref_res_vacation': "Días de vacaciones",
                 _name: 'Español',
                 'tb_open': "Abrir proyecto (.gan)",
                 'tb_save': "Guardar",
@@ -5220,7 +5323,7 @@
                 'prio_low': "Baja",
                 'prio_normal': "Normal",
                 'prio_high': "Alta",
-                'tb_toggle_wbs': "Mostrar/Ocultar WBS",
+                'tb_toggle_wbs': "Mostrar/Ocultar Lista",
                 'tb_go_to': "Ir a...",
                 'tb_zoom_out': "Alejar",
                 'tb_zoom_in': "Acercar",
@@ -5239,6 +5342,7 @@
                 'tb_columns': "Columnas",
             },
             'de': {
+                'pref_res_normal': "Ressourcen (normal)", 'pref_res_overloaded': "Ressourcen (überlastet)", 'pref_res_underloaded': "Ressourcen (unterausgelastet)", 'pref_res_vacation': "Urlaubstage",
                 _name: 'Deutsch',
                 'tb_open': "Projekt \u00f6ffnen (.gan)",
                 'tb_save': "Speichern",
@@ -5398,7 +5502,7 @@
                 'prio_low': "Niedrig",
                 'prio_normal': "Normal",
                 'prio_high': "Hoch",
-                'tb_toggle_wbs': "WBS umschalten",
+                'tb_toggle_wbs': "Liste umschalten",
                 'tb_go_to': "Gehe zu...",
                 'tb_zoom_out': "Herauszoomen",
                 'tb_zoom_in': "Hineinzoomen",
@@ -5417,6 +5521,7 @@
                 'tb_columns': "Spalten",
             },
             'it': {
+                'pref_res_normal': "Risorse (normali)", 'pref_res_overloaded': "Risorse (sovraccariche)", 'pref_res_underloaded': "Risorse (sottoutilizzate)", 'pref_res_vacation': "Giorni di ferie",
                 _name: 'Italiano',
                 'tb_open': "Apri progetto (.gan)",
                 'tb_save': "Salva",
@@ -5576,7 +5681,7 @@
                 'prio_low': "Bassa",
                 'prio_normal': "Normale",
                 'prio_high': "Alta",
-                'tb_toggle_wbs': "Mostra/Nascondi WBS",
+                'tb_toggle_wbs': "Mostra/Nascondi Lista",
                 'tb_go_to': "Vai a...",
                 'tb_zoom_out': "Riduci",
                 'tb_zoom_in': "Ingrandisci",
@@ -5595,6 +5700,7 @@
                 'tb_columns': "Colonne",
             },
             'nl': {
+                'pref_res_normal': "Middelen (normaal)", 'pref_res_overloaded': "Middelen (overbelast)", 'pref_res_underloaded': "Middelen (onderbezet)", 'pref_res_vacation': "Vakantiedagen",
                 _name: 'Nederlands',
                 'tb_open': "Project openen (.gan)",
                 'tb_save': "Opslaan",
@@ -5773,7 +5879,8 @@
                 'tb_columns': "Kolommen",
             },
             'lb': {
-                _name: '🇱Lëtzebuergesch',
+                'pref_res_normal': "Ressourcen (normal)", 'pref_res_overloaded': "Ressourcen (iwwerlaascht)", 'pref_res_underloaded': "Ressourcen (ënnerlaascht)", 'pref_res_vacation': "Vakanzdeeg",
+                _name: 'Lëtzebuergesch',
                 'tb_open': 'Projet opmaachen (.gan)',
                 'tb_save': 'Späicheren',
                 'tb_download': 'Eroflueden',
@@ -7735,7 +7842,7 @@
         });
 
         document.getElementById('td-input-name').addEventListener('input', (e) => {
-            document.getElementById('td-modal-title').textContent = `" + t('td_title') + " : ${e.target.value}`;
+            document.getElementById('td-modal-title').textContent = `${t('td_title')} : ${e.target.value}`;
         });
 
         document.getElementById('td-cost-auto').addEventListener('change', (e) => {
