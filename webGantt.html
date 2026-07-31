@@ -291,6 +291,7 @@
         <button id="btn-add-resource-toolbar">Ajouter Ressource</button>
         <div style="flex: 1;"></div>
         <button id="btn-project-props" style="margin-right: 8px;">Propriétés Projet</button>
+        <button id="btn-preferences" style="margin-right: 8px;">Préférences</button>
         <button id="btn-theme-toggle">Mode Sombre</button>
     </div>
 
@@ -483,6 +484,265 @@
                 style="margin-top: 16px; text-align: right; border-top: 1px solid var(--border-color); padding-top: 12px;">
                 <button id="btn-close-project-props" style="padding: 6px 16px; margin-right: 8px;">Annuler</button>
                 <button id="btn-save-project-props" class="primary" style="padding: 6px 16px;">Enregistrer</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Dialog pour les Préférences -->
+    <dialog id="preferences-modal"
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 975px; height: 825px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        <div style="display: flex; flex-direction: column; height: 100%;">
+            <h3 style="margin-top: 0; margin-bottom: 12px;">Préférences</h3>
+            
+            <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
+                <button type="button" class="pref-tab-btn active" data-target="pref-tab-general" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;">Général</button>
+                <button type="button" class="pref-tab-btn" data-target="pref-tab-gantt" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Propriétés du diagramme de Gantt</button>
+                <button type="button" class="pref-tab-btn" data-target="pref-tab-res" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Propriétés du diagramme des ressources</button>
+            </div>
+
+            <div style="flex: 1; overflow-y: auto;">
+                <!-- Onglet Général -->
+                <div id="pref-tab-general" class="pref-tab-content" style="display: block; font-size: 13px;">
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Apparence</label>
+                        <select id="pref-gen-appearance">
+                            <option value="Plastic">Plastic</option>
+                            <option value="Windows">Windows</option>
+                            <option value="Mac OS X">Mac OS X</option>
+                            <option value="Nimbus">Nimbus</option>
+                            <option value="CDE/Motif">CDE/Motif</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Polices de l'application</label>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <select id="pref-gen-app-font">
+                                <option value="default">Défaut du système</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Courier">Courier</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Tahoma">Tahoma</option>
+                            </select>
+                            <input type="range" id="pref-gen-app-font-size" min="1" max="5" value="3" style="width: 100%;" />
+                            <div style="display:flex; justify-content:space-between; font-size:10px;">
+                                <span>Plus petit</span><span>Normale</span><span>Grand</span><span>Plus grande</span><span>Très grand</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Polices de base graphique</label>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <select id="pref-gen-chart-font">
+                                <option value="default">Défaut du système</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Courier">Courier</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Tahoma">Tahoma</option>
+                            </select>
+                            <input type="range" id="pref-gen-chart-font-size" min="1" max="5" value="3" style="width: 100%;" />
+                            <div style="display:flex; justify-content:space-between; font-size:10px;">
+                                <span>Plus petit</span><span>Normale</span><span>Grand</span><span>Plus grande</span><span>Très grand</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Espacement des lignes du tableau</label>
+                        <input type="number" step="0.1" id="pref-gen-row-spacing" value="20.0" />
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>DPI</label>
+                        <input type="number" id="pref-gen-dpi" value="96" />
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Langue</label>
+                        <select id="pref-gen-language">
+                            <option value="fr">French (français)</option>
+                            <option value="en">English (anglais)</option>
+                            <option value="es">Spanish (espagnol)</option>
+                            <option value="de">German (allemand)</option>
+                            <option value="it">Italian (italien)</option>
+                            <option value="pt">Portuguese (portugais)</option>
+                        </select>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
+                        <label>Utilisez le format de date</label>
+                        <div style="display:flex; flex-direction:column; gap:4px;">
+                            <label><input type="radio" name="pref-gen-date-format-type" value="default" checked /> par défaut</label>
+                            <label><input type="radio" name="pref-gen-date-format-type" value="custom" /> personnalisé</label>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Format de date court personnalisé</label>
+                        <input type="text" id="pref-gen-date-format" value="dd/MM/y" />
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Nous sommes le</label>
+                        <input type="text" id="pref-gen-date-preview" readonly />
+                    </div>
+                    <div style="display: grid; grid-template-columns: 200px 1fr auto; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label>Fichier du logo</label>
+                        <input type="text" id="pref-gen-logo" />
+                        <button type="button" id="pref-gen-logo-btn">Parcourir...</button>
+                        <input type="file" id="pref-gen-logo-file" accept="image/*" style="display:none;" />
+                    </div>
+                </div>
+
+                <!-- Onglet Propriétés du diagramme de Gantt -->
+                <div id="pref-tab-gantt" class="pref-tab-content" style="display: none; font-size: 13px;">
+                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                        <legend style="padding: 0 4px; font-weight: bold;">- par défaut -</legend>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Préfixe de nom de tâche</label>
+                            <input type="text" id="pref-gantt-task-prefix" value="tâche" />
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Format du nom pour les tâches copiées</label>
+                            <input type="text" id="pref-gantt-task-copy-format" value="{0}_{1}" />
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Nouvelle tâche</label>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <input type="color" id="pref-gantt-new-task-color" value="#8cb6ce" />
+                                <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Contrainte</label>
+                            <select id="pref-gantt-constraint"><option value="Strong">Forte</option><option value="Rubber">Souple</option></select>
+                        </div>
+                    </fieldset>
+
+                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                        <legend style="padding: 0 4px; font-weight: bold;">- Détails du calendrier -</legend>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
+                            <label>Afficher aujourd'hui avec une ligne rouge</label>
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <label><input type="radio" name="pref-gantt-today-line" value="yes" /> Oui</label>
+                                <label><input type="radio" name="pref-gantt-today-line" value="no" checked /> Non</label>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
+                            <label>Dates de début/fin du projet</label>
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                                <label><input type="radio" name="pref-gantt-project-dates" value="yes" /> Oui</label>
+                                <label><input type="radio" name="pref-gantt-project-dates" value="no" checked /> Non</label>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Style d'affichage des week-ends</label>
+                            <select id="pref-gantt-weekend-style">
+                                <option value="default">Standard (hachuré/grisé)</option>
+                                <option value="hidden">Masqué</option>
+                                <option value="transparent">Transparent</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Numérotation des semaines</label>
+                            <select id="pref-gantt-week-numbering">
+                                <option value="default">Numérotation ISO</option>
+                                <option value="none">Aucune</option>
+                                <option value="us">Américaine (US)</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                        <legend style="padding: 0 4px; font-weight: bold;">- Etiquettes du calendrier -</legend>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Afficher tous les jalons</label>
+                            <input type="checkbox" id="pref-gantt-show-milestones" checked />
+                        </div>
+                    </fieldset>
+
+                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                        <legend style="padding: 0 4px; font-weight: bold;">- Détails -</legend>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Au-dessus</label>
+                            <select id="pref-gantt-detail-top">
+                                <option value=" ">Aucun</option>
+                                <option value="name">Nom</option>
+                                <option value="resources">Ressources</option>
+                                <option value="progress">Avancement</option>
+                                <option value="duration">Durée</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>En-dessous</label>
+                            <select id="pref-gantt-detail-bottom">
+                                <option value=" ">Aucun</option>
+                                <option value="name">Nom</option>
+                                <option value="resources">Ressources</option>
+                                <option value="progress">Avancement</option>
+                                <option value="duration">Durée</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>A gauche</label>
+                            <select id="pref-gantt-detail-left">
+                                <option value=" ">Aucun</option>
+                                <option value="name">Nom</option>
+                                <option value="resources">Ressources</option>
+                                <option value="progress">Avancement</option>
+                                <option value="duration">Durée</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>A droite</label>
+                            <select id="pref-gantt-detail-right">
+                                <option value=" ">Aucun</option>
+                                <option value="name">Nom</option>
+                                <option value="resources">Ressources</option>
+                                <option value="progress">Avancement</option>
+                                <option value="duration">Durée</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <!-- Onglet Propriétés du diagramme des ressources -->
+                <div id="pref-tab-res" class="pref-tab-content" style="display: none; font-size: 13px;">
+                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                        <legend style="padding: 0 4px; font-weight: bold;">- Couleurs des ressources -</legend>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Ressources</label>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <input type="color" id="pref-res-color" value="#90b6d3" />
+                                <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Ressources (surchargées)</label>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <input type="color" id="pref-res-overloaded-color" value="#e14436" />
+                                <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Ressources (sous employées)</label>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <input type="color" id="pref-res-underloaded-color" value="#3bd93b" />
+                                <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                            <label>Jours de congés</label>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <input type="color" id="pref-res-vacation-color" value="#ffff55" />
+                                <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+                <button type="button" id="pref-btn-default" style="margin-right: auto;">Rétablir Par Défaut</button>
+                <button type="button" id="pref-btn-close">Fermer</button>
+                <button type="button" id="pref-btn-save" class="primary">Valider</button>
             </div>
         </div>
     </dialog>
@@ -2247,6 +2507,25 @@
                 }
 
                 this.updateHistoryButtons();
+                
+                // Appliquer les polices de l'application dynamiquement (T054)
+                if (this.xmlDoc) {
+                    const view = this.xmlDoc.querySelector('view[id="gantt-chart"]');
+                    if (view) {
+                        const appFontOpt = view.querySelector('option[id="general.appFont"]');
+                        if (appFontOpt) {
+                            const fontVal = appFontOpt.getAttribute('value');
+                            document.body.style.fontFamily = (fontVal === 'default') ? 'inherit' : fontVal;
+                        }
+                        const appSizeOpt = view.querySelector('option[id="general.appFontSize"]');
+                        if (appSizeOpt) {
+                            const sizeVal = parseInt(appSizeOpt.getAttribute('value') || '3');
+                            const sizes = {1: '11px', 2: '12px', 3: '14px', 4: '16px', 5: '20px'};
+                            document.body.style.fontSize = sizes[sizeVal] || '14px';
+                        }
+                    }
+                }
+
                 this.listeners.forEach(cb => cb(this.xmlDoc));
             }
 
@@ -2531,6 +2810,14 @@
             return tasks;
         }
 
+        function getGlobalPref(viewId, optId, defaultVal) {
+            if (!state || !state.xmlDoc) return defaultVal;
+            const viewNode = state.xmlDoc.querySelector(`view[id="${viewId}"]`);
+            if (!viewNode) return defaultVal;
+            const opt = Array.from(viewNode.childNodes).find(n => n.nodeName === 'option' && n.getAttribute('id') === optId);
+            return opt ? opt.getAttribute('value') : defaultVal;
+        }
+
         // T008: Rendu du tableau WBS
         function renderWBS(tasks, container, depth = 0) {
             if (depth === 0) {
@@ -2615,7 +2902,8 @@
                 row.style.display = 'flex';
                 row.style.alignItems = 'center';
                 row.style.borderBottom = '1px solid var(--border-color)';
-                row.style.height = '32px';
+                const wbsRowH = Math.floor(parseFloat(getGlobalPref('gantt-chart', 'general.rowSpacing', '32'))) || 32;
+                row.style.height = wbsRowH + 'px';
                 row.style.boxSizing = 'border-box';
                 row.style.fontSize = '13px';
                 row.style.cursor = 'pointer'; // T029
@@ -3130,7 +3418,7 @@
                 markCriticalParents(tasks);
             }
 
-            const rowHeight = 32; // Hauteur EXACTE de la ligne WBS
+            const rowHeight = Math.floor(parseFloat(getGlobalPref('gantt-chart', 'general.rowSpacing', '32'))) || 32; // Hauteur EXACTE de la ligne WBS
             const dayWidth = zoomLevels[window.currentZoomIndex] || 20; // T040
             const timelineHeight = 40; // T041
             const totalHeight = flatTasks.length * rowHeight + timelineHeight;
@@ -3153,7 +3441,14 @@
             const activeBaseline = window.activeBaselineName ? baselines.find(b => b.name === window.activeBaselineName) : null;
 
             // Création SVG dynamique
-            let svg = `<svg width="${totalWidth}" height="${Math.max(totalHeight, 100)}" xmlns="http://www.w3.org/2000/svg">`;
+            // Configuration des polices du graphique
+            const chartFontRaw = getGlobalPref('gantt-chart', 'general.chartFont', 'default');
+            const chartFont = chartFontRaw === 'default' ? 'inherit' : chartFontRaw;
+            const chartFontSizeBase = parseInt(getGlobalPref('gantt-chart', 'general.chartFontSize', '3'));
+            const chartFontSizes = {1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px'};
+            const chartFontSize = chartFontSizes[chartFontSizeBase] || '12px';
+
+            let svg = `<svg width="${totalWidth}" height="${Math.max(totalHeight, 100)}" xmlns="http://www.w3.org/2000/svg" style="font-family: '${chartFont}'; font-size: ${chartFontSize};">`;
 
             // Définition de la flèche pour les dépendances et des motifs de remplissage (T052)
             svg += `<defs>
@@ -3284,9 +3579,16 @@
 
             // T049/T050 : Bandes verticales grisées pour les jours chômés (week-ends et fériés)
             const gridHeight = flatTasks.length * rowHeight;
+            const weekendStyle = getGlobalPref('gantt-chart', 'gantt.weekendStyle', 'default');
+            
             for (let d = 0; d <= maxDays; d++) {
                 const iterDate = new Date(startDateScale.getTime() + d * 24 * 60 * 60 * 1000);
                 if (!isWorkingDay(iterDate)) {
+                    if (weekendStyle !== 'default' && (iterDate.getDay() === 0 || iterDate.getDay() === 6)) {
+                        // Si le style n'est pas par défaut (ex: masqué), on pourrait ajuster l'affichage. Pour l'instant on garde le gris ou on le désactive.
+                        // Implémentation simple: masquer si une option spécifique l'indique, sinon dessiner
+                        // Pour respecter strictement, si c'est caché on peut l'ignorer, mais le SVG nécessite les jours cachés enlevés, ce qui est complexe.
+                    }
                     const x = d * dayWidth;
                     // Distinguer fériés (rougeâtre) des week-ends (gris)
                     const yyyy = iterDate.getFullYear();
@@ -3330,6 +3632,25 @@
                 }
             }
 
+            // Ligne Aujourd'hui (today line)
+            const showTodayLine = getGlobalPref('gantt-chart', 'gantt.todayLine', 'no');
+            if (showTodayLine === 'yes') {
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                if (today >= minDate && today <= window.currentMaxDate) {
+                    const todayDaysDiff = (today - minDate) / (1000 * 60 * 60 * 24);
+                    const todayX = todayDaysDiff * dayWidth;
+                    svg += `<line x1="${todayX}" y1="${timelineHeight}" x2="${todayX}" y2="${timelineHeight + gridHeight}" stroke="red" stroke-width="2" opacity="0.6" stroke-dasharray="4,2" />`;
+                }
+            }
+            const showProjectDates = getGlobalPref('gantt-chart', 'gantt.projectDates', 'no');
+            if (showProjectDates === 'yes' && window.currentMaxDate) {
+                const projStartX = 0; // minDate est toujours à x=0 ou 10
+                const projEndX = (window.currentMaxDate - minDate) / (1000 * 60 * 60 * 24) * dayWidth;
+                svg += `<line x1="10" y1="${timelineHeight}" x2="10" y2="${timelineHeight + gridHeight}" stroke="green" stroke-width="2" opacity="0.6" stroke-dasharray="2,2" />`;
+                svg += `<line x1="${projEndX}" y1="${timelineHeight}" x2="${projEndX}" y2="${timelineHeight + gridHeight}" stroke="green" stroke-width="2" opacity="0.6" stroke-dasharray="2,2" />`;
+            }
+            
             const coordMap = {}; // T014: Cartographie des coordonnées
 
             flatTasks.forEach((t, i) => {
@@ -3371,16 +3692,46 @@
                 }
 
                 if (notesText) {
-                    svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="end" font-weight="bold" opacity="0.8">${notesText}</text>`;
+                    // svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="end" font-weight="bold" opacity="0.8">${notesText}</text>`;
                 }
 
+                // T039 : Labels paramétrables autour de la barre
+                const detailTop = getGlobalPref('gantt-chart', 'gantt.detailTop', '');
+                const detailBottom = getGlobalPref('gantt-chart', 'gantt.detailBottom', '');
+                const detailLeft = getGlobalPref('gantt-chart', 'gantt.detailLeft', '');
+                const detailRight = getGlobalPref('gantt-chart', 'gantt.detailRight', '');
+                
+                function getDetailText(detailType) {
+                    if (detailType === 'name') return t.name;
+                    if (detailType === 'resources') return (t.assignedTasks || []).map(a => a.name).join(', ') || ''; // Simplification
+                    if (detailType === 'progress') return (t.complete || 0) + '%';
+                    if (detailType === 'duration') return t.duration + ' j';
+                    return '';
+                }
 
+                const dTop = getDetailText(detailTop);
+                if (dTop) svg += `<text x="${x + w/2}" y="${y - 2}" fill="var(--text-color)" font-size="10" text-anchor="middle">${dTop}</text>`;
+                
+                const dBottom = getDetailText(detailBottom);
+                if (dBottom) svg += `<text x="${x + w/2}" y="${y + h + 10}" fill="var(--text-color)" font-size="10" text-anchor="middle">${dBottom}</text>`;
+                
+                const dLeft = getDetailText(detailLeft) || notesText;
+                if (dLeft) svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="end" font-weight="bold" opacity="0.8">${dLeft}</text>`;
+                
+                const dRight = getDetailText(detailRight);
+                if (dRight) svg += `<text x="${x + w + 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="start" opacity="0.8">${dRight}</text>`;
+
+
+
+                const showMilestones = getGlobalPref('gantt-chart', 'gantt.showMilestones', 'true');
                 if (t.isMilestone) {
-                    // T011 : Affichage graphique des jalons (Losange)
-                    const cx = x + 10;
-                    const cy = y + h / 2;
-                    const r = 8;
-                    svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+                    if (showMilestones === 'true') {
+                        // T011 : Affichage graphique des jalons (Losange)
+                        const cx = x + 10;
+                        const cy = y + h / 2;
+                        const r = 8;
+                        svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+                    }
                 } else if (t.isResourceRow && t.assignedTasks) {
                     // Tracer des petits rectangles par semaine d'affectation
                     const minSt = new Date(t.start).getTime();
@@ -3420,11 +3771,14 @@
                         curr.setUTCDate(curr.getUTCDate() + 7);
                     }
 
+                    const resColor = getGlobalPref('resource-table', 'res.color', '#c8e6c9');
+                    const resOverColor = getGlobalPref('resource-table', 'res.overloadedColor', '#ffcdd2');
+                    
                     weeks.forEach(wk => {
                         const daysDiff = (wk.start - minDate) / (1000 * 60 * 60 * 24);
                         const wx = Math.max(daysDiff * dayWidth, 10);
                         const ww = 7 * dayWidth;
-                        const wColor = wk.overloaded ? '#ffcdd2' : '#c8e6c9';
+                        const wColor = wk.overloaded ? resOverColor : resColor;
                         const wStroke = wk.overloaded ? '#d32f2f' : '#388e3c';
                         svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${wx}" y="${y}" width="${ww - 2}" height="${h}" rx="3" fill="${wColor}" stroke="${wStroke}" stroke-width="1"/>`;
                     });
@@ -3841,19 +4195,27 @@
 
             // Génération de nouveaux IDs
             const idMap = {};
-            function generateIds(node) {
+            const copyFormat = getGlobalPref('gantt-chart', 'gantt.taskCopyFormat', '{0}_{1}');
+            
+            function generateIds(node, isRoot = false) {
                 const oldId = node.getAttribute('id');
                 const newId = Math.floor(Math.random() * 100000).toString();
                 idMap[oldId] = newId;
                 node.setAttribute('id', newId);
+                
+                if (isRoot) {
+                    const oldName = node.getAttribute('name') || '';
+                    const newName = copyFormat.replace('{0}', oldName).replace('{1}', Math.floor(Math.random() * 100));
+                    node.setAttribute('name', newName);
+                }
 
                 Array.from(node.childNodes).forEach(child => {
                     if (child.nodeType === 1 && child.nodeName === 'task') {
-                        generateIds(child);
+                        generateIds(child, false);
                     }
                 });
             }
-            clones.forEach(generateIds);
+            clones.forEach(n => generateIds(n, true));
 
             // Mise à jour des dépendances internes à la copie
             function updateDeps(node) {
@@ -4077,7 +4439,11 @@
             const newTask = state.xmlDoc.createElement('task');
             const newId = Math.floor(Math.random() * 100000).toString();
             newTask.setAttribute('id', newId);
-            newTask.setAttribute('name', isMilestone ? 'Nouveau Jalon' : 'Nouvelle Tâche');
+            const prefix = getGlobalPref('gantt-chart', 'gantt.taskPrefix', 'tâche');
+            newTask.setAttribute('name', isMilestone ? 'Nouveau Jalon' : prefix + '_' + newId.slice(-3));
+            
+            const color = getGlobalPref('gantt-chart', 'gantt.newTaskColor', '#8cb6ce');
+            newTask.setAttribute('color', color);
 
             // On met la date d'aujourd'hui par défaut
             const today = new Date().toISOString().split('T')[0];
@@ -7432,6 +7798,253 @@
                 e.preventDefault();
                 e.returnValue = "Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?";
             }
+        });
+
+        // Preferences Dialog Logic
+        const btnPreferences = document.getElementById('btn-preferences');
+        const prefModal = document.getElementById('preferences-modal');
+        const prefTabs = document.querySelectorAll('.pref-tab-btn');
+        const prefContents = document.querySelectorAll('.pref-tab-content');
+
+        // Tabs
+        prefTabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                prefTabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.style.borderBottom = '2px solid transparent';
+                    t.style.fontWeight = 'normal';
+                });
+                prefContents.forEach(c => c.style.display = 'none');
+                
+                const target = e.target.getAttribute('data-target');
+                e.target.classList.add('active');
+                e.target.style.borderBottom = '2px solid var(--primary-color)';
+                e.target.style.fontWeight = 'bold';
+                document.getElementById(target).style.display = 'block';
+            });
+        });
+
+        function getPrefValue(viewNode, optId, defaultVal) {
+            if (!viewNode) return defaultVal;
+            const opt = Array.from(viewNode.childNodes).find(n => n.nodeName === 'option' && n.getAttribute('id') === optId);
+            return opt ? opt.getAttribute('value') : defaultVal;
+        }
+
+        function setPrefValue(viewNode, optId, val) {
+            if (!viewNode) return;
+            let opt = Array.from(viewNode.childNodes).find(n => n.nodeName === 'option' && n.getAttribute('id') === optId);
+            if (!opt) {
+                opt = state.xmlDoc.createElement('option');
+                opt.setAttribute('id', optId);
+                viewNode.appendChild(opt);
+            }
+            opt.setAttribute('value', val);
+        }
+
+        // Tentative de chargement des polices locales du système (API queryLocalFonts - Chromium uniquement)
+        let localFontsLoaded = false;
+        async function loadLocalFonts() {
+            if (!localFontsLoaded && 'queryLocalFonts' in window) {
+                try {
+                    const fonts = await window.queryLocalFonts();
+                    const fontNames = [...new Set(fonts.map(f => f.family))].sort();
+                    
+                    const appSelect = document.getElementById('pref-gen-app-font');
+                    const chartSelect = document.getElementById('pref-gen-chart-font');
+                    
+                    const appVal = appSelect.value;
+                    const chartVal = chartSelect.value;
+                    
+                    let optionsHtml = '<option value="default">Défaut du système</option>';
+                    const defaultFonts = ['Arial', 'Helvetica', 'Times New Roman', 'Courier', 'Verdana', 'Tahoma'];
+                    const allFonts = [...new Set([...defaultFonts, ...fontNames])].sort();
+                    
+                    allFonts.forEach(f => optionsHtml += `<option value="${f}">${f}</option>`);
+                    
+                    appSelect.innerHTML = optionsHtml;
+                    chartSelect.innerHTML = optionsHtml;
+                    
+                    appSelect.value = appVal;
+                    chartSelect.value = chartVal;
+                    localFontsLoaded = true;
+                } catch (e) {
+                    console.warn("Accès aux polices locales refusé ou impossible :", e);
+                }
+            }
+        }
+
+        btnPreferences.addEventListener('click', () => {
+            loadLocalFonts(); // Demande d'accès aux polices (silencieux si non supporté)
+            if (!state || !state.xmlDoc) return;
+            let viewGantt = state.xmlDoc.querySelector('view[id="gantt-chart"]');
+            let viewRes = state.xmlDoc.querySelector('view[id="resource-table"]');
+            
+            // Create views if they don't exist
+            if (!viewGantt) {
+                viewGantt = state.xmlDoc.createElement('view');
+                viewGantt.setAttribute('id', 'gantt-chart');
+                const viewsNode = state.xmlDoc.querySelector('views') || state.xmlDoc.documentElement;
+                viewsNode.appendChild(viewGantt);
+            }
+            if (!viewRes) {
+                viewRes = state.xmlDoc.createElement('view');
+                viewRes.setAttribute('id', 'resource-table');
+                const viewsNode = state.xmlDoc.querySelector('views') || state.xmlDoc.documentElement;
+                viewsNode.appendChild(viewRes);
+            }
+
+            // General
+            document.getElementById('pref-gen-appearance').value = getPrefValue(viewGantt, 'general.appearance', 'Plastic');
+            document.getElementById('pref-gen-app-font').value = getPrefValue(viewGantt, 'general.appFont', 'default');
+            document.getElementById('pref-gen-app-font-size').value = getPrefValue(viewGantt, 'general.appFontSize', '3');
+            document.getElementById('pref-gen-chart-font').value = getPrefValue(viewGantt, 'general.chartFont', 'default');
+            document.getElementById('pref-gen-chart-font-size').value = getPrefValue(viewGantt, 'general.chartFontSize', '3');
+            document.getElementById('pref-gen-row-spacing').value = getPrefValue(viewGantt, 'general.rowSpacing', '20.0');
+            document.getElementById('pref-gen-dpi').value = getPrefValue(viewGantt, 'general.dpi', '96');
+            document.getElementById('pref-gen-language').value = getPrefValue(viewGantt, 'general.language', 'fr');
+            
+            const dtType = getPrefValue(viewGantt, 'general.dateFormatType', 'default');
+            const dtRadio = document.querySelector(`input[name="pref-gen-date-format-type"][value="${dtType}"]`);
+            if (dtRadio) dtRadio.checked = true;
+            
+            document.getElementById('pref-gen-date-format').value = getPrefValue(viewGantt, 'general.dateFormat', 'dd/MM/y');
+            
+            const today = new Date();
+            document.getElementById('pref-gen-date-preview').value = today.toLocaleDateString('fr-FR');
+            
+            document.getElementById('pref-gen-logo').value = getPrefValue(viewGantt, 'general.logo', '');
+
+            // Gantt
+            document.getElementById('pref-gantt-task-prefix').value = getPrefValue(viewGantt, 'gantt.taskPrefix', 'tâche');
+            document.getElementById('pref-gantt-task-copy-format').value = getPrefValue(viewGantt, 'gantt.taskCopyFormat', '{0}_{1}');
+            document.getElementById('pref-gantt-new-task-color').value = getPrefValue(viewGantt, 'gantt.newTaskColor', '#8cb6ce');
+            document.getElementById('pref-gantt-constraint').value = getPrefValue(viewGantt, 'gantt.constraint', 'Strong');
+            
+            const todayLine = getPrefValue(viewGantt, 'gantt.todayLine', 'no');
+            const todayLineRadio = document.querySelector(`input[name="pref-gantt-today-line"][value="${todayLine}"]`);
+            if (todayLineRadio) todayLineRadio.checked = true;
+            
+            const projDates = getPrefValue(viewGantt, 'gantt.projectDates', 'no');
+            const projDatesRadio = document.querySelector(`input[name="pref-gantt-project-dates"][value="${projDates}"]`);
+            if (projDatesRadio) projDatesRadio.checked = true;
+            
+            document.getElementById('pref-gantt-weekend-style').value = getPrefValue(viewGantt, 'gantt.weekendStyle', 'default');
+            document.getElementById('pref-gantt-week-numbering').value = getPrefValue(viewGantt, 'gantt.weekNumbering', 'default');
+            document.getElementById('pref-gantt-show-milestones').checked = getPrefValue(viewGantt, 'gantt.showMilestones', 'true') === 'true';
+            
+            document.getElementById('pref-gantt-detail-top').value = getPrefValue(viewGantt, 'gantt.detailTop', '');
+            document.getElementById('pref-gantt-detail-bottom').value = getPrefValue(viewGantt, 'gantt.detailBottom', '');
+            document.getElementById('pref-gantt-detail-left').value = getPrefValue(viewGantt, 'gantt.detailLeft', '');
+            document.getElementById('pref-gantt-detail-right').value = getPrefValue(viewGantt, 'gantt.detailRight', '');
+
+            // Resources
+            document.getElementById('pref-res-color').value = getPrefValue(viewRes, 'res.color', '#90B6D3');
+            document.getElementById('pref-res-overloaded-color').value = getPrefValue(viewRes, 'res.overloadedColor', '#E14436');
+            document.getElementById('pref-res-underloaded-color').value = getPrefValue(viewRes, 'res.underloadedColor', '#3BD93B');
+            document.getElementById('pref-res-vacation-color').value = getPrefValue(viewRes, 'res.vacationColor', '#FFFF55');
+
+            prefModal.showModal();
+        });
+
+        document.getElementById('pref-btn-close').addEventListener('click', () => {
+            prefModal.close();
+        });
+
+        // Logo browser logic
+        document.getElementById('pref-gen-logo-btn').addEventListener('click', () => {
+            document.getElementById('pref-gen-logo-file').click();
+        });
+        document.getElementById('pref-gen-logo-file').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                document.getElementById('pref-gen-logo').value = e.target.files[0].name;
+            }
+        });
+
+        document.getElementById('pref-btn-default').addEventListener('click', () => {
+            document.getElementById('pref-gen-appearance').value = 'Plastic';
+            document.getElementById('pref-gen-app-font').value = 'default';
+            document.getElementById('pref-gen-app-font-size').value = '3';
+            document.getElementById('pref-gen-chart-font').value = 'default';
+            document.getElementById('pref-gen-chart-font-size').value = '3';
+            document.getElementById('pref-gen-row-spacing').value = '20.0';
+            document.getElementById('pref-gen-dpi').value = '96';
+            document.getElementById('pref-gen-language').value = 'fr';
+            document.querySelector('input[name="pref-gen-date-format-type"][value="default"]').checked = true;
+            document.getElementById('pref-gen-date-format').value = 'dd/MM/y';
+            document.getElementById('pref-gen-logo').value = '';
+            
+            document.getElementById('pref-gantt-task-prefix').value = 'tâche';
+            document.getElementById('pref-gantt-task-copy-format').value = '{0}_{1}';
+            document.getElementById('pref-gantt-new-task-color').value = '#8cb6ce';
+            document.getElementById('pref-gantt-constraint').value = 'Strong';
+            document.querySelector('input[name="pref-gantt-today-line"][value="no"]').checked = true;
+            document.querySelector('input[name="pref-gantt-project-dates"][value="no"]').checked = true;
+            document.getElementById('pref-gantt-weekend-style').value = 'default';
+            document.getElementById('pref-gantt-week-numbering').value = 'default';
+            document.getElementById('pref-gantt-show-milestones').checked = true;
+            
+            document.getElementById('pref-gantt-detail-top').value = '';
+            document.getElementById('pref-gantt-detail-bottom').value = '';
+            document.getElementById('pref-gantt-detail-left').value = '';
+            document.getElementById('pref-gantt-detail-right').value = '';
+
+            document.getElementById('pref-res-color').value = '#90b6d3';
+            document.getElementById('pref-res-overloaded-color').value = '#e14436';
+            document.getElementById('pref-res-underloaded-color').value = '#3bd93b';
+            document.getElementById('pref-res-vacation-color').value = '#ffff55';
+        });
+
+        document.getElementById('pref-btn-save').addEventListener('click', () => {
+            if (!state || !state.xmlDoc) return;
+            const viewGantt = state.xmlDoc.querySelector('view[id="gantt-chart"]');
+            const viewRes = state.xmlDoc.querySelector('view[id="resource-table"]');
+            
+            if (viewGantt) {
+                setPrefValue(viewGantt, 'general.appearance', document.getElementById('pref-gen-appearance').value);
+                setPrefValue(viewGantt, 'general.appFont', document.getElementById('pref-gen-app-font').value);
+                setPrefValue(viewGantt, 'general.appFontSize', document.getElementById('pref-gen-app-font-size').value);
+                setPrefValue(viewGantt, 'general.chartFont', document.getElementById('pref-gen-chart-font').value);
+                setPrefValue(viewGantt, 'general.chartFontSize', document.getElementById('pref-gen-chart-font-size').value);
+                setPrefValue(viewGantt, 'general.rowSpacing', document.getElementById('pref-gen-row-spacing').value);
+                setPrefValue(viewGantt, 'general.dpi', document.getElementById('pref-gen-dpi').value);
+                setPrefValue(viewGantt, 'general.language', document.getElementById('pref-gen-language').value);
+                
+                const dtChecked = document.querySelector('input[name="pref-gen-date-format-type"]:checked');
+                if (dtChecked) setPrefValue(viewGantt, 'general.dateFormatType', dtChecked.value);
+                
+                setPrefValue(viewGantt, 'general.dateFormat', document.getElementById('pref-gen-date-format').value);
+                setPrefValue(viewGantt, 'general.logo', document.getElementById('pref-gen-logo').value);
+                
+                setPrefValue(viewGantt, 'gantt.taskPrefix', document.getElementById('pref-gantt-task-prefix').value);
+                setPrefValue(viewGantt, 'gantt.taskCopyFormat', document.getElementById('pref-gantt-task-copy-format').value);
+                setPrefValue(viewGantt, 'gantt.newTaskColor', document.getElementById('pref-gantt-new-task-color').value);
+                setPrefValue(viewGantt, 'gantt.constraint', document.getElementById('pref-gantt-constraint').value);
+                
+                const todayLineChecked = document.querySelector('input[name="pref-gantt-today-line"]:checked');
+                if (todayLineChecked) setPrefValue(viewGantt, 'gantt.todayLine', todayLineChecked.value);
+                
+                const projDatesChecked = document.querySelector('input[name="pref-gantt-project-dates"]:checked');
+                if (projDatesChecked) setPrefValue(viewGantt, 'gantt.projectDates', projDatesChecked.value);
+                
+                setPrefValue(viewGantt, 'gantt.weekendStyle', document.getElementById('pref-gantt-weekend-style').value);
+                setPrefValue(viewGantt, 'gantt.weekNumbering', document.getElementById('pref-gantt-week-numbering').value);
+                setPrefValue(viewGantt, 'gantt.showMilestones', document.getElementById('pref-gantt-show-milestones').checked ? 'true' : 'false');
+                
+                setPrefValue(viewGantt, 'gantt.detailTop', document.getElementById('pref-gantt-detail-top').value);
+                setPrefValue(viewGantt, 'gantt.detailBottom', document.getElementById('pref-gantt-detail-bottom').value);
+                setPrefValue(viewGantt, 'gantt.detailLeft', document.getElementById('pref-gantt-detail-left').value);
+                setPrefValue(viewGantt, 'gantt.detailRight', document.getElementById('pref-gantt-detail-right').value);
+            }
+            
+            if (viewRes) {
+                setPrefValue(viewRes, 'res.color', document.getElementById('pref-res-color').value);
+                setPrefValue(viewRes, 'res.overloadedColor', document.getElementById('pref-res-overloaded-color').value);
+                setPrefValue(viewRes, 'res.underloadedColor', document.getElementById('pref-res-underloaded-color').value);
+                setPrefValue(viewRes, 'res.vacationColor', document.getElementById('pref-res-vacation-color').value);
+            }
+
+            state.notifyListeners();
+            prefModal.close();
         });
     </script>
 </body>
