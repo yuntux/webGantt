@@ -36,7 +36,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             height: 100vh;
@@ -56,6 +56,11 @@
             gap: 12px;
         }
 
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: inherit;
+        }
+
         button {
             padding: 6px 12px;
             background-color: var(--surface-color);
@@ -63,7 +68,6 @@
             border: 1px solid var(--border-color);
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
             transition: background-color 0.2s;
         }
 
@@ -170,7 +174,7 @@
             padding: 4px 8px;
             box-sizing: border-box;
             font-weight: bold;
-            font-size: 13px;
+            
         }
 
         .pane-header button {
@@ -273,7 +277,7 @@
                 style="border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 0 6px; border-left: 1px solid rgba(0,0,0,0.1);"
                 title="Fichiers récents">▼</button>
             <div id="recent-files-dropdown"
-                style="display: none; position: absolute; top: 100%; left: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; z-index: 1000; min-width: 250px; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px; color: var(--text-color);">
+                style="display: none; position: absolute; top: 100%; left: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; z-index: 1000; min-width: 250px; max-height: 300px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px;  color: var(--text-color);">
                 <div style="padding: 8px; color: #888; font-style: italic;">Aucun fichier récent</div>
             </div>
         </div>
@@ -312,7 +316,7 @@
             </div>
 
             <div id="proj-prop-tab-general" class="proj-prop-tab-content"
-                style="display: flex; flex-direction: column; flex: 1; overflow-y: auto; gap: 12px; font-size: 13px;">
+                style="display: flex; flex-direction: column; flex: 1; overflow-y: auto; gap: 12px; ">
                 <div>
                     <label style="font-weight: bold;">Nom du projet :</label>
                     <input type="text" id="proj-prop-name"
@@ -336,7 +340,7 @@
             </div>
 
             <div id="proj-prop-tab-calendar" class="proj-prop-tab-content"
-                style="display: none; flex-direction: column; flex: 1; overflow-y: auto; gap: 16px; font-size: 13px;">
+                style="display: none; flex-direction: column; flex: 1; overflow-y: auto; gap: 16px; ">
                 <!-- Section Choix des week-ends -->
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                     <div style="display: flex; align-items: center; gap: 16px;">
@@ -459,7 +463,7 @@
             </div>
 
             <div id="proj-prop-tab-roles" class="proj-prop-tab-content"
-                style="display: none; flex-direction: column; flex: 1; min-height: 0; font-size: 13px;">
+                style="display: none; flex-direction: column; flex: 1; min-height: 0; ">
                 <div
                     style="flex: 1; margin: 0 0 16px 0; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px; min-height: 200px;">
                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
@@ -502,7 +506,7 @@
 
             <div style="flex: 1; overflow-y: auto;">
                 <!-- Onglet Général -->
-                <div id="pref-tab-general" class="pref-tab-content" style="display: block; font-size: 13px;">
+                <div id="pref-tab-general" class="pref-tab-content" style="display: block; ">
                     <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                         <label>Apparence</label>
                         <select id="pref-gen-appearance">
@@ -592,7 +596,7 @@
                 </div>
 
                 <!-- Onglet Propriétés du diagramme de Gantt -->
-                <div id="pref-tab-gantt" class="pref-tab-content" style="display: none; font-size: 13px;">
+                <div id="pref-tab-gantt" class="pref-tab-content" style="display: none; ">
                     <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- par défaut -</legend>
                         <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
@@ -704,7 +708,7 @@
                 </div>
 
                 <!-- Onglet Propriétés du diagramme des ressources -->
-                <div id="pref-tab-res" class="pref-tab-content" style="display: none; font-size: 13px;">
+                <div id="pref-tab-res" class="pref-tab-content" style="display: none; ">
                     <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- Couleurs des ressources -</legend>
                         <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
@@ -756,7 +760,7 @@
                 Champ</button>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; ">
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color);">
                     <th style="padding: 8px;">ID</th>
@@ -781,7 +785,7 @@
     <dialog id="formula-help-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <h3 style="margin-top: 0; color: var(--primary-color);">Aide : Formules de calcul</h3>
-        <div style="font-size: 13px; line-height: 1.5; margin-bottom: 16px;">
+        <div style=" line-height: 1.5; margin-bottom: 16px;">
             <p>Les champs calculés utilisent une expression de type SQL (compatibilité GanttProject / H2).</p>
             <p><strong>Variables natives disponibles (exclusivement) :</strong></p>
             <ul style="margin-top: 4px; padding-left: 20px;">
@@ -817,7 +821,7 @@
                 Ressource</button>
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; ">
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color);">
                     <th style="padding: 8px;">Nom</th>
@@ -850,7 +854,7 @@
                 style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
         </div>
         <div id="res-custom-props-container"
-            style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; overflow-y: auto; padding: 4px; max-height: 400px; font-size: 13px;">
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; overflow-y: auto; padding: 4px; max-height: 400px; ">
             <!-- Dynamique -->
         </div>
         <div style="margin-top: 16px; text-align: right;">
@@ -865,7 +869,7 @@
             <button id="btn-add-vacation" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouveau
                 congé</button>
         </div>
-        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; ">
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color);">
                     <th style="padding: 8px;">Date de début</th>
@@ -889,7 +893,7 @@
             <button id="btn-add-alloc" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouvelle
                 affectation</button>
         </div>
-        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; ">
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color);">
                     <th style="padding: 8px;">ID Tâche</th>
@@ -929,7 +933,7 @@
 
             <!-- Onglet Général -->
             <div id="rd-tab-general"
-                style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 13px; flex: 1; min-height: 0; align-content: start; overflow-y: auto; padding: 4px;">
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;  flex: 1; min-height: 0; align-content: start; overflow-y: auto; padding: 4px;">
                 <div style="display: flex; flex-direction: column; gap: 4px; grid-column: 1 / -1;">
                     <label style="font-weight: bold;">Nom</label>
                     <input type="text" id="rd-input-name" style="padding: 6px;" />
@@ -958,7 +962,7 @@
                     <button id="rd-btn-add-vacation" class="primary" style="padding: 6px 12px; font-weight: bold;">+
                         Nouveau congé</button>
                 </div>
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; ">
                     <thead>
                         <tr style="border-bottom: 2px solid var(--border-color);">
                             <th style="padding: 8px;">Date de début</th>
@@ -978,7 +982,7 @@
                         style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
                 </div>
                 <div id="rd-custom-props-container"
-                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 4px; font-size: 13px;">
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 4px; ">
                 </div>
             </div>
 
@@ -988,7 +992,7 @@
                     <button id="rd-btn-add-alloc" class="primary" style="padding: 6px 12px; font-weight: bold;">+
                         Nouvelle affectation</button>
                 </div>
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; ">
                     <thead>
                         <tr style="border-bottom: 2px solid var(--border-color);">
                             <th style="padding: 8px;">ID Tâche</th>
@@ -1012,7 +1016,7 @@
     <dialog id="assign-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         <h3>Affecter une ressource</h3>
-        <p style="margin: 8px 0; font-size: 13px;">Sélectionnez une ressource pour la tâche :</p>
+        <p style="margin: 8px 0; ">Sélectionnez une ressource pour la tâche :</p>
         <select id="assign-resource-select" style="width: 100%; padding: 4px; margin-bottom: 12px;"></select>
         <div style="display:flex; gap: 8px; justify-content: flex-end;">
             <button id="btn-cancel-assign">Annuler</button>
@@ -1024,7 +1028,7 @@
     <dialog id="baseline-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         <h3>États de référence du projet</h3>
-        <p style="margin: 8px 0; font-size: 13px;">État de référence actif sur le Gantt :</p>
+        <p style="margin: 8px 0; ">État de référence actif sur le Gantt :</p>
         <select id="active-baseline-select" style="width: 100%; padding: 4px; margin-bottom: 12px;"></select>
 
         <h4>Empreintes existantes :</h4>
@@ -1040,15 +1044,15 @@
         <div style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px;">
             <h4>Couleurs des états d'avancement</h4>
             <div style="display: flex; flex-direction: column; gap: 8px;">
-                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; ">
                     Tâche restant à faire :
                     <input type="color" id="color-baseline-todo" value="#808080" />
                 </label>
-                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; ">
                     Tâche en avance sur le planning :
                     <input type="color" id="color-baseline-ahead" value="#00ff00" />
                 </label>
-                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; ">
                     Tâche en retard sur le planning :
                     <input type="color" id="color-baseline-late" value="#ff0000" />
                 </label>
@@ -1083,7 +1087,7 @@
                 onsubmit="return false;">
                 <!-- Onglet Général -->
                 <div id="td-tab-general"
-                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; font-size: 13px; flex: 1; min-height: 0;">
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;  flex: 1; min-height: 0;">
 
                     <!-- Colonne Gauche : Tous les champs (sauf Notes) -->
                     <div
@@ -1193,7 +1197,7 @@
 
                 <!-- Onglet Prédécesseurs -->
                 <div id="td-tab-predecessors"
-                    style="display: none; font-size: 13px; flex-direction: column; flex: 1; min-height: 0;">
+                    style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
                     <p style="margin-top: 0; font-weight: bold;">Tâches dont dépend celle-ci (Prédécesseurs) :</p>
                     <div
                         style="flex: 1; margin: 0 0 16px 0; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px;">
@@ -1223,7 +1227,7 @@
 
                 <!-- Onglet Ressources -->
                 <div id="td-tab-resources"
-                    style="display: none; font-size: 13px; flex-direction: column; flex: 1; min-height: 0;">
+                    style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; min-height: 0;">
                         <!-- Colonne Gauche : Affectations -->
                         <div style="display: flex; flex-direction: column; height: 100%;">
@@ -1294,7 +1298,7 @@
 
                 <!-- Onglet Champs personnalisés -->
                 <div id="td-tab-custom"
-                    style="display: none; font-size: 13px; flex-direction: column; flex: 1; min-height: 0;">
+                    style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);">
                         <p style="margin: 0; font-weight: bold;">Valeurs personnalisées pour cette tâche :</p>
@@ -1328,7 +1332,7 @@
             <div class="view-tab" data-target="res-main-container">Diagramme des ressources</div>
         </div>
         <div style="position: relative; margin-right: 16px;">
-            <input type="text" id="global-search" placeholder="Rechercher (Tâches, Ressources)..." style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); font-size: 13px; width: 250px; background: var(--bg-color); color: var(--text-color);" />
+            <input type="text" id="global-search" placeholder="Rechercher (Tâches, Ressources)..." style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color);  width: 250px; background: var(--bg-color); color: var(--text-color);" />
             <div id="search-results" style="display:none; position:absolute; top:100%; right:0; background:var(--surface-color); border:1px solid var(--border-color); border-radius:4px; max-height:300px; overflow-y:auto; width:300px; z-index:2000; box-shadow:0 4px 12px rgba(0,0,0,0.15); margin-top: 4px;"></div>
         </div>
     </div>
@@ -1432,7 +1436,7 @@
                             </svg>
                         </button>
                         <div id="filter-dropdown"
-                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 180px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; ">
                             <form id="filter-form"
                                 style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
                                 <label style="cursor: pointer;"><input type="radio" name="filter-type" value="all"
@@ -1461,7 +1465,7 @@
                             </svg>
                         </button>
                         <div id="columns-dropdown"
-                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; ">
                             <form id="columns-form"
                                 style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
                                 <!-- Contenu généré dynamiquement -->
@@ -1497,7 +1501,7 @@
                             </svg>
                         </button>
                         <div id="scroll-to-dropdown"
-                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; ">
                             <form id="scroll-to-form"
                                 style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
                                 <button type="button" class="btn-scroll-action" data-action="start"
@@ -1588,7 +1592,7 @@
                             </svg>
                         </button>
                         <div id="res-scroll-to-dropdown"
-                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; font-size: 13px;">
+                            style="display: none; position: absolute; top: 100%; right: 0; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 12px; z-index: 1000; min-width: 150px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 4px; ">
                             <form id="res-scroll-to-form"
                                 style="margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px;">
                                 <button type="button" class="btn-scroll-action" data-action="start"
@@ -1667,7 +1671,7 @@
             const matchedRes = resNodes.filter(n => (n.getAttribute('name') || '').toLowerCase().includes(query)).map(n => ({ id: n.getAttribute('id'), name: n.getAttribute('name') }));
             
             if (matchedTasks.length === 0 && matchedRes.length === 0) {
-                searchResults.innerHTML = '<div style="padding: 8px; font-size: 13px; color: #888;">Aucun résultat</div>';
+                searchResults.innerHTML = '<div style="padding: 8px;  color: #888;">Aucun résultat</div>';
                 searchResults.style.display = 'block';
                 return;
             }
@@ -1676,13 +1680,13 @@
             if (matchedTasks.length > 0) {
                 html += '<div style="padding: 4px 8px; font-size: 11px; font-weight: bold; background: var(--bg-color); color: var(--text-color);">TÂCHES</div>';
                 matchedTasks.forEach(t => {
-                    html += `<div class="search-item" data-type="task" data-id="${t.id}" style="padding: 6px 8px; font-size: 13px; cursor: pointer; color: var(--text-color); border-bottom: 1px solid var(--border-color);">${t.name}</div>`;
+                    html += `<div class="search-item" data-type="task" data-id="${t.id}" style="padding: 6px 8px;  cursor: pointer; color: var(--text-color); border-bottom: 1px solid var(--border-color);">${t.name}</div>`;
                 });
             }
             if (matchedRes.length > 0) {
                 html += '<div style="padding: 4px 8px; font-size: 11px; font-weight: bold; background: var(--bg-color); color: var(--text-color);">RESSOURCES</div>';
                 matchedRes.forEach(r => {
-                    html += `<div class="search-item" data-type="resource" data-id="${r.id}" style="padding: 6px 8px; font-size: 13px; cursor: pointer; color: var(--text-color); border-bottom: 1px solid var(--border-color);">${r.name}</div>`;
+                    html += `<div class="search-item" data-type="resource" data-id="${r.id}" style="padding: 6px 8px;  cursor: pointer; color: var(--text-color); border-bottom: 1px solid var(--border-color);">${r.name}</div>`;
                 });
             }
             searchResults.innerHTML = html;
@@ -2515,7 +2519,7 @@
                         const appFontOpt = view.querySelector('option[id="general.appFont"]');
                         if (appFontOpt) {
                             const fontVal = appFontOpt.getAttribute('value');
-                            document.body.style.fontFamily = (fontVal === 'default') ? 'inherit' : fontVal;
+                            document.body.style.fontFamily = (fontVal === 'default') ? '' : fontVal;
                         }
                         const appSizeOpt = view.querySelector('option[id="general.appFontSize"]');
                         if (appSizeOpt) {
@@ -2819,7 +2823,13 @@
         }
 
         // T008: Rendu du tableau WBS
+        
         function renderWBS(tasks, container, depth = 0) {
+            const chartFontSizeBase = parseInt(getGlobalPref('gantt-chart', 'general.chartFontSize', '3'));
+            const chartFontSizes = {1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px'};
+            const chartFontSize = chartFontSizes[chartFontSizeBase] || '12px';
+            const wbsHdrFs = (12 + (chartFontSizeBase - 3) * 2) + 'px';
+
             if (depth === 0) {
                 container.innerHTML = ''; // Clear à la racine
 
@@ -2835,7 +2845,7 @@
                 header.style.position = 'sticky';
                 header.style.top = '0';
                 header.style.zIndex = '100';
-                header.style.fontSize = '12px';
+                header.style.fontSize = wbsHdrFs;
                 header.style.color = 'var(--text-color)';
                 header.style.backgroundColor = 'var(--bg-color)';
 
@@ -2905,7 +2915,7 @@
                 const wbsRowH = Math.floor(parseFloat(getGlobalPref('gantt-chart', 'general.rowSpacing', '32'))) || 32;
                 row.style.height = wbsRowH + 'px';
                 row.style.boxSizing = 'border-box';
-                row.style.fontSize = '13px';
+                row.style.fontSize = chartFontSize;
                 row.style.cursor = 'pointer'; // T029
                 row.style.userSelect = 'none'; // Empêcher la sélection de texte
 
@@ -2999,7 +3009,7 @@
                     const col = document.createElement('div');
                     applyColStyle(col, id, false);
                     col.style.paddingLeft = '4px';
-                    col.style.fontSize = '12px';
+                    col.style.fontSize = chartFontSize;
 
                     if (!window.visibleColumns[id]) col.style.display = 'none';
 
@@ -3040,7 +3050,7 @@
                     const col = document.createElement('div');
                     applyColStyle(col, id, false);
                     col.style.paddingLeft = '4px';
-                    col.style.fontSize = '12px';
+                    col.style.fontSize = chartFontSize;
                     if (!window.visibleColumns[id]) col.style.display = 'none';
 
                     let val = '';
@@ -3444,9 +3454,12 @@
             // Configuration des polices du graphique
             const chartFontRaw = getGlobalPref('gantt-chart', 'general.chartFont', 'default');
             const chartFont = chartFontRaw === 'default' ? 'inherit' : chartFontRaw;
+            
             const chartFontSizeBase = parseInt(getGlobalPref('gantt-chart', 'general.chartFontSize', '3'));
             const chartFontSizes = {1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px'};
             const chartFontSize = chartFontSizes[chartFontSizeBase] || '12px';
+            const fsz10 = Math.max(8, 10 + (chartFontSizeBase - 3) * 2);
+            const fsz11 = Math.max(9, 11 + (chartFontSizeBase - 3) * 2);
 
             let svg = `<svg width="${totalWidth}" height="${Math.max(totalHeight, 100)}" xmlns="http://www.w3.org/2000/svg" style="font-family: '${chartFont}'; font-size: ${chartFontSize};">`;
 
@@ -3482,11 +3495,11 @@
                 if (dayWidth >= 20) { // Zoom: Jour
                     headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                     if (dayWidth >= 40 || d % 2 === 0) { // Alléger le texte si trop petit
-                        headerGroup += `<text x="${x + (dayWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
+                        headerGroup += `<text x="${x + (dayWidth / 2)}" y="${timelineHeight - 4}" fill="var(--text-color)" text-anchor="middle">${iterDate.getDate()}</text>`;
                     }
                 } else if (dayWidth >= 10 && iterDate.getDay() === 1) { // Zoom: Semaine (Lundi)
                     headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
-                    headerGroup += `<text x="${x + 2}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
+                    headerGroup += `<text x="${x + 2}" y="${timelineHeight - 4}" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
                 }
 
                 // Gestion des changements de mois
@@ -3507,7 +3520,7 @@
                             } else {
                                 monthName = String(currentMonth + 1).padStart(2, '0');
                             }
-                            headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
+                            headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
                             headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                         } else {
                             // Mois en BAS (sans année)
@@ -3518,7 +3531,7 @@
                             } else {
                                 monthName = String(currentMonth + 1).padStart(2, '0');
                             }
-                            headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+                            headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight - 4}" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
                             headerGroup += `<line x1="${monthStartX}" y1="${timelineHeight / 2}" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                         }
                     }
@@ -3532,7 +3545,7 @@
                     if (iterDate.getFullYear() !== lastYear) {
                         if (lastYear !== -1) {
                             const yearWidth = x - yearStartX;
-                            headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
+                            headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
                             headerGroup += `<line x1="${yearStartX}" y1="0" x2="${yearStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                         }
                         lastYear = iterDate.getFullYear();
@@ -3552,12 +3565,12 @@
                         else if (monthWidth >= 60) monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
                         else if (monthWidth >= 25) monthName = dObj.toLocaleString('default', { month: 'short' });
                         else monthName = String(currentMonth + 1).padStart(2, '0');
-                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
+                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
                     } else {
                         if (monthWidth >= 60) monthName = dObj.toLocaleString('default', { month: 'long' });
                         else if (monthWidth >= 25) monthName = dObj.toLocaleString('default', { month: 'short' });
                         else monthName = String(currentMonth + 1).padStart(2, '0');
-                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight - 4}" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
                     }
                 }
             }
@@ -3565,7 +3578,7 @@
             if (dayWidth < 10 && lastYear !== -1) {
                 const yearWidth = (maxDays * dayWidth) - yearStartX;
                 if (yearWidth > 0) {
-                    headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
+                    headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
                 }
             }
 
@@ -3692,7 +3705,7 @@
                 }
 
                 if (notesText) {
-                    // svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="end" font-weight="bold" opacity="0.8">${notesText}</text>`;
+                    // svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" text-anchor="end" font-weight="bold" opacity="0.8">${notesText}</text>`;
                 }
 
                 // T039 : Labels paramétrables autour de la barre
@@ -3710,16 +3723,16 @@
                 }
 
                 const dTop = getDetailText(detailTop);
-                if (dTop) svg += `<text x="${x + w/2}" y="${y - 2}" fill="var(--text-color)" font-size="10" text-anchor="middle">${dTop}</text>`;
+                if (dTop) svg += `<text x="${x + w/2}" y="${y - 2}" fill="var(--text-color)" text-anchor="middle">${dTop}</text>`;
                 
                 const dBottom = getDetailText(detailBottom);
-                if (dBottom) svg += `<text x="${x + w/2}" y="${y + h + 10}" fill="var(--text-color)" font-size="10" text-anchor="middle">${dBottom}</text>`;
+                if (dBottom) svg += `<text x="${x + w/2}" y="${y + h + 10}" fill="var(--text-color)" text-anchor="middle">${dBottom}</text>`;
                 
                 const dLeft = getDetailText(detailLeft) || notesText;
-                if (dLeft) svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="end" font-weight="bold" opacity="0.8">${dLeft}</text>`;
+                if (dLeft) svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" text-anchor="end" font-weight="bold" opacity="0.8">${dLeft}</text>`;
                 
                 const dRight = getDetailText(detailRight);
-                if (dRight) svg += `<text x="${x + w + 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" font-size="11" text-anchor="start" opacity="0.8">${dRight}</text>`;
+                if (dRight) svg += `<text x="${x + w + 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" text-anchor="start" opacity="0.8">${dRight}</text>`;
 
 
 
@@ -3834,7 +3847,7 @@
                         return r ? r.name : 'Inconnu';
                     }).join(', ');
 
-                    svg += `<text x="${x + w + 10}" y="${y + h / 2 + 4}" font-size="11" fill="var(--text-color)">👤 ${resNames}</text>`;
+                    svg += `<text x="${x + w + 10}" y="${y + h / 2 + 4}" fill="var(--text-color)">👤 ${resNames}</text>`;
                 }
             });
 
