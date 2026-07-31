@@ -71,6 +71,7 @@
       </xs:element>
     </xs:sequence>
     <xs:attribute name="id" type="xs:string"/>
+    <!-- Niveau de zoom (0=Jour 65px, 9=Mois 3px). Ex: ganttproject-value-meta-current-gantt-gantt-chart-drawer-zoom:3 -->
     <xs:attribute name="zooming-state" type="xs:string"/>
   </xs:complexType>
 

@@ -96,8 +96,12 @@ L'élément racine représente les paramètres globaux du projet.
 ## Vues `<view>`
 Les balises `<view>` stockent la configuration de l'interface utilisateur.
 
-- `id="gantt-chart"` : Configure la vue principale.
-  - `zooming-state` : Niveau de zoom du diagramme (ex: `default:2`).
+- `id="gantt-chart"` : Vue du diagramme de Gantt.
+  - `zooming-state` : Niveau de zoom du diagramme. Dans GanttProject, il est stocké sous la forme `ganttproject-value-meta-current-gantt-gantt-chart-drawer-zoom:X` où `X` est un entier de 0 à 9 représentant l'index du niveau de zoom (défini par `GPTimeUnitStack`).
+    - `0` à `3` : Unité principale "Jour" (Largeur par jour : 65px, 55px, 44px, 34px).
+    - `4` à `7` : Unité principale "Semaine" (Largeur par semaine : 24px, 21px, 13px, 8px, soit env. 3.4px à 1.14px par jour).
+    - `8` à `9` : Unité principale "Mois" (Largeur par mois : 5px, 3px, soit env. 0.16px à 0.1px par jour).
+    - *Note : Plus la valeur est élevée, plus on est dézoomé.*
   - `<field>` : Définit les colonnes visibles dans le tableau WBS. L'attribut `id` fait référence aux propriétés `tpd` (voir ci-dessous). L'attribut `name` n'est qu'une étiquette traduite ; l'ID est la vraie clé immuable.
 
 ## Propriétés de Tâches : Les champs `tpd` (Task Property Default)

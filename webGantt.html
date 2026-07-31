@@ -1744,7 +1744,22 @@
                 const viewNode = this.xmlDoc.querySelector('view[id="gantt-chart"]');
                 if (viewNode) {
                     const zoomState = viewNode.getAttribute('zooming-state');
-                    if (zoomState) window.currentZoomLevel = zoomState;
+                    if (zoomState) {
+                        window.currentZoomLevel = zoomState;
+                        const match = zoomState.match(/\d+$/);
+                        if (match) {
+                            const gpZoom = parseInt(match[0], 10);
+                            // Table de mapping : GP (0..9) -> WG (0..11)
+                            const mapping = [11, 10, 9, 8, 6, 5, 3, 2, 1, 0];
+                            let targetIndex = 7;
+                            if (gpZoom >= 9) {
+                                targetIndex = 0;
+                            } else if (gpZoom >= 0 && gpZoom <= 8) {
+                                targetIndex = mapping[gpZoom];
+                            }
+                            window.currentZoomIndex = targetIndex;
+                        }
+                    }
 
                     const fields = viewNode.querySelectorAll('field');
                     if (fields.length > 0) {
@@ -1813,7 +1828,14 @@
                     projNode.appendChild(viewNode);
                 }
 
-                viewNode.setAttribute('zooming-state', window.currentZoomLevel || 'default:2');
+                // Table de mapping inverse : WG (0..11) -> GP (0..9)
+                const reverseMapping = [9, 8, 7, 6, 6, 5, 4, 3, 3, 2, 1, 0];
+                let gpZoom = 2; // default
+                if (window.currentZoomIndex >= 0 && window.currentZoomIndex <= 11) {
+                    gpZoom = reverseMapping[window.currentZoomIndex];
+                }
+                let zoomPrefix = window.currentZoomLevel ? window.currentZoomLevel.replace(/\d+$/, '') : 'ganttproject-value-meta-current-gantt-gantt-chart-drawer-zoom:';
+                viewNode.setAttribute('zooming-state', zoomPrefix + gpZoom);
 
                 viewNode.querySelectorAll('field').forEach(f => f.remove());
 
@@ -2302,7 +2324,7 @@
         window.columnWidths = { tpd3: 200, tpd4: 80, tpd5: 80, 'tpd-actions': 30 };
         // T037 : Chemin critique
         window.showCriticalPath = false;
-        // T040 : Niveaux de Zoom (largeurs de jour en pixels)
+        // T040 : Niveaux de zoom (largeurs de jour en pixels) adaptées pour le rendu SVG WebGantt
         const zoomLevels = [1, 2, 3, 5, 7, 10, 15, 20, 30, 40, 60, 80];
         window.currentZoomIndex = 7; // 20px par défaut
 
@@ -3037,6 +3059,9 @@
             let currentMonth = -1;
             let currentYear = -1;
             let monthStartX = 0;
+            
+            let lastYear = -1;
+            let yearStartX = 0;
 
             for (let d = 0; d <= maxDays; d++) {
                 const iterDate = new Date(startDateScale.getTime() + d * 24 * 60 * 60 * 1000);
@@ -3050,53 +3075,85 @@
                 } else if (dayWidth >= 10 && iterDate.getDay() === 1) { // Zoom: Semaine (Lundi)
                     headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                     headerGroup += `<text x="${x + 2}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)">${iterDate.getDate()} ${iterDate.toLocaleString('default', { month: 'short' })}</text>`;
-                } else if (dayWidth < 10 && iterDate.getDate() === 1) { // Zoom: Mois
-                    headerGroup += `<line x1="${x}" y1="${timelineHeight / 2}" x2="${x}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                 }
 
-                // Mois (toujours en haut)
+                // Gestion des changements de mois
                 if (iterDate.getMonth() !== currentMonth) {
                     if (currentMonth !== -1) {
                         const monthWidth = x - monthStartX;
                         let monthName = '';
                         const dObj = new Date(currentYear, currentMonth, 1);
-                        if (monthWidth >= 100) {
-                            monthName = dObj.toLocaleString('default', { month: 'long', year: 'numeric' });
-                        } else if (monthWidth >= 60) {
-                            monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
-                        } else if (monthWidth >= 30) {
-                            monthName = dObj.toLocaleString('default', { month: 'short' });
-                        } else {
-                            monthName = String(currentMonth + 1).padStart(2, '0');
-                        }
                         
-                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
-                        headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                        if (dayWidth >= 10) {
+                            // Mois en HAUT (avec année)
+                            if (monthWidth >= 100) {
+                                monthName = dObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+                            } else if (monthWidth >= 60) {
+                                monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
+                            } else if (monthWidth >= 25) {
+                                monthName = dObj.toLocaleString('default', { month: 'short' });
+                            } else {
+                                monthName = String(currentMonth + 1).padStart(2, '0');
+                            }
+                            headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
+                            headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                        } else {
+                            // Mois en BAS (sans année)
+                            if (monthWidth >= 60) {
+                                monthName = dObj.toLocaleString('default', { month: 'long' });
+                            } else if (monthWidth >= 25) {
+                                monthName = dObj.toLocaleString('default', { month: 'short' });
+                            } else {
+                                monthName = String(currentMonth + 1).padStart(2, '0');
+                            }
+                            headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+                            headerGroup += `<line x1="${monthStartX}" y1="${timelineHeight / 2}" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                        }
                     }
                     currentMonth = iterDate.getMonth();
                     currentYear = iterDate.getFullYear();
                     monthStartX = x;
                 }
+                
+                // Gestion des changements d'année (seulement si dayWidth < 10)
+                if (dayWidth < 10) {
+                    if (iterDate.getFullYear() !== lastYear) {
+                        if (lastYear !== -1) {
+                            const yearWidth = x - yearStartX;
+                            headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
+                            headerGroup += `<line x1="${yearStartX}" y1="0" x2="${yearStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                        }
+                        lastYear = iterDate.getFullYear();
+                        yearStartX = x;
+                    }
+                }
             }
             
-            // Dessiner le dernier mois
+            // Dessiner le dernier mois et la dernière année
             if (currentMonth !== -1) {
                 const monthWidth = (maxDays * dayWidth) - monthStartX;
                 if (monthWidth > 0) {
                     let monthName = '';
                     const dObj = new Date(currentYear, currentMonth, 1);
-                    if (monthWidth >= 100) {
-                        monthName = dObj.toLocaleString('default', { month: 'long', year: 'numeric' });
-                    } else if (monthWidth >= 60) {
-                        monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
-                    } else if (monthWidth >= 30) {
-                        monthName = dObj.toLocaleString('default', { month: 'short' });
+                    if (dayWidth >= 10) {
+                        if (monthWidth >= 100) monthName = dObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+                        else if (monthWidth >= 60) monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
+                        else if (monthWidth >= 25) monthName = dObj.toLocaleString('default', { month: 'short' });
+                        else monthName = String(currentMonth + 1).padStart(2, '0');
+                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
                     } else {
-                        monthName = String(currentMonth + 1).padStart(2, '0');
+                        if (monthWidth >= 60) monthName = dObj.toLocaleString('default', { month: 'long' });
+                        else if (monthWidth >= 25) monthName = dObj.toLocaleString('default', { month: 'short' });
+                        else monthName = String(currentMonth + 1).padStart(2, '0');
+                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight - 4}" font-size="10" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
                     }
-                    
-                    headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
-                    headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                }
+            }
+            
+            if (dayWidth < 10 && lastYear !== -1) {
+                const yearWidth = (maxDays * dayWidth) - yearStartX;
+                if (yearWidth > 0) {
+                    headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
                 }
             }
             
