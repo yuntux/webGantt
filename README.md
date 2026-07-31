@@ -4,6 +4,21 @@ WebGantt is a modern, lightweight, and fully web-based Gantt chart application d
 
 Built with pure HTML, CSS, and JavaScript, it requires no backend or server to run. You can manage your projects, resources, and task schedules with an intuitive and responsive user interface.
 
+
+## 🙏 Hommage à GanttProject
+
+WebGantt repose sur le format de fichier robuste `.gan` défini par [GanttProject](https://www.ganttproject.biz/). Nous tenons à remercier chaleureusement **Alexandre Thomas**, qui a créé GanttProject en 2003, ainsi que **Dmitry Barashev** et **Maarten Bezemer**, qui maintiennent et font évoluer ce projet avec brio depuis lors. GanttProject est un véritable outil de référence dans la gestion de projet depuis plus de vingt ans.
+
+Pour aider les développeurs à construire des applications interopérables avec les fichiers `.gan`, nous mettons à disposition plusieurs outils de référence dans nos assets :
+- [example.gan](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/example.gan) : Un fichier de projet d'exemple complet.
+- [ganttproject.xsd](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/ganttproject.xsd) : Le schéma XML (XSD) définissant la structure.
+- [format-gan.md](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/gan-format.md) : La documentation détaillée de l'architecture du format.
+
+## 📚 Documentation Utilisateur
+
+Pour un guide d'utilisation complet, incluant une description détaillée de l'application et de tous ses paramètres de préférences (impacts fonctionnels, valeurs possibles, et stockage XML), veuillez consulter le fichier [doc.md](https://github.com/yuntux/webGantt/blob/main/doc.md).
+
+
 ## 🚀 Features
 
 * **Full `.gan` File Compatibility**: Open, edit, and save XML files compatible with GanttProject.
