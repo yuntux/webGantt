@@ -300,6 +300,17 @@
                 /* Supprime l'URL et le titre injectés par le navigateur */
             }
 
+            /* Forcer le mode clair pour l'impression, même si le thème sombre est actif */
+            :root,
+            [data-theme="dark"] {
+                --bg-color: #ffffff !important;
+                --surface-color: #ffffff !important;
+                --text-color: #000000 !important;
+                --border-color: #cccccc !important;
+                --primary-color: #000000 !important;
+                --selected-bg: transparent !important;
+            }
+
             body,
             html {
                 margin: 10mm !important;
@@ -385,7 +396,7 @@
         </a>
         <div style="position: relative; display: inline-flex;">
             <button id="btn-open" class="primary" data-i18n="tb_open"
-                style="border-top-right-radius: 0; border-bottom-right-radius: 0;">Ouvrir un projet (.gan)</button>
+                style="border-top-right-radius: 0; border-bottom-right-radius: 0;">Ouvrir un projet</button>
             <button id="btn-open-recent" class="primary"
                 style="border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 0 6px; border-left: 1px solid rgba(0,0,0,0.1);"
                 title="Fichiers récents">▼</button>
@@ -499,14 +510,14 @@
                         <select id="pp-cal-import-holidays"
                             style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
                             <option value="" data-i18n="opt_cal_select">Sélectionner un calendrier...</option>
-                            <option value="fr" data-i18n="opt_cal_fr">France</option>
-                            <option value="de" data-i18n="opt_cal_de">Allemagne</option>
-                            <option value="uk" data-i18n="opt_cal_uk">Royaume-Uni</option>
-                            <option value="es" data-i18n="opt_cal_es">Espagne</option>
-                            <option value="it" data-i18n="opt_cal_it">Italie</option>
-                            <option value="lu">Luxembourg</option>
-                            <option value="be" data-i18n="opt_cal_be">Belgique</option>
-                            <option value="nl" data-i18n="opt_cal_nl">Pays-Bas</option>
+                            <option value="fr_FR" data-i18n="opt_cal_fr">France</option>
+                            <option value="de_DE" data-i18n="opt_cal_de">Allemagne</option>
+                            <option value="en_GB" data-i18n="opt_cal_uk">Royaume-Uni</option>
+                            <option value="es_ES" data-i18n="opt_cal_es">Espagne</option>
+                            <option value="it_IT" data-i18n="opt_cal_it">Italie</option>
+                            <option value="lb_LU">Luxembourg</option>
+                            <option value="fr_BE" data-i18n="opt_cal_be">Belgique</option>
+                            <option value="nl_NL" data-i18n="opt_cal_nl">Pays-Bas</option>
                         </select>
                     </div>
                 </div>
@@ -699,7 +710,7 @@
                     <div
                         style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                         <label data-i18n="pref_gen_row_spacing">Espacement des lignes du tableau</label>
-                        <input type="number" step="0.1" id="pref-gen-row-spacing" value="20.0" />
+                        <input type="number" step="0.1" id="pref-gen-row-spacing" value="35.0" />
                     </div>
                     <div
                         style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
@@ -992,7 +1003,7 @@
 
     <!-- T051 : Dialog for resources (CRUD) -->
     <dialog id="resource-modal"
-        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 800px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 1000px; height: 750px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <h3 style="margin: 0;" data-i18n="res_title">Administration des Ressources</h3>
             <button id="btn-add-resource" class="primary" style="padding: 6px 12px; font-weight: bold;"
@@ -1092,7 +1103,7 @@
 
     <!-- Dialog for Resource Details (loupe in resource tab) -->
     <dialog id="res-details-modal"
-        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 800px; height: 600px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 1000px; height: 750px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; flex-direction: column; height: 100%;">
             <div style="margin-bottom: 16px;">
                 <h3 id="rd-modal-title" style="margin: 0;">Édition de la ressource</h3>
@@ -1895,20 +1906,19 @@
                             const row = document.querySelector(`#wbs-content > div[data-task-id="${id}"]`);
                             if (row) {
                                 row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                row.style.backgroundColor = 'var(--primary-color)';
-                                row.style.color = 'white';
-                                setTimeout(() => { row.style.backgroundColor = ''; row.style.color = ''; }, 1500);
                             }
                         }, 100);
                     } else if (type === 'resource') {
                         document.querySelector('.view-tab[data-target="res-main-container"]').click();
+                        window.selectedTaskIds.clear();
+                        const resTaskId = 'res_' + id;
+                        window.selectedTaskIds.add(resTaskId);
+                        window.lastSelectedTaskId = resTaskId;
+                        state.notifyListeners();
                         setTimeout(() => {
-                            const row = document.querySelector(`#res-table-content > div[data-res-id="${id}"]`);
+                            const row = document.querySelector(`#res-wbs-content > div[data-task-id="${resTaskId}"]`);
                             if (row) {
                                 row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                row.style.backgroundColor = 'var(--primary-color)';
-                                row.style.color = 'white';
-                                setTimeout(() => { row.style.backgroundColor = ''; row.style.color = ''; }, 1500);
                             }
                         }, 100);
                     }
@@ -2284,6 +2294,16 @@
 
                 // T055 : Restaurer l'état UI depuis le XML
                 const projNode = this.xmlDoc.documentElement;
+
+                const localeAttr = projNode.getAttribute('locale');
+                if (localeAttr) {
+                    if (I18N_DICT[localeAttr]) {
+                        window.currentUiLang = localeAttr;
+                        const langSelect = document.getElementById('pref-gen-language');
+                        if (langSelect) langSelect.value = localeAttr;
+                        if (typeof updateUI === 'function') updateUI();
+                    }
+                }
 
                 const ganttDivider = parseInt(projNode.getAttribute('gantt-divider-location'));
                 // GanttProject often saves 1 or very low values due to a Java Swing technical limit.
@@ -4968,10 +4988,10 @@
 
         // Traduction de l'IHM
         const I18N_DICT = {
-            'fr': {
+            'fr_FR': {
                 'pref_res_normal': "Ressources (normales)", 'pref_res_overloaded': "Ressources (surchargées)", 'pref_res_underloaded': "Ressources (sous employées)", 'pref_res_vacation': "Jours de congés",
                 _name: 'Français',
-                'tb_open': 'Ouvrir un projet (.gan)',
+                'tb_open': 'Ouvrir un projet',
                 'tb_save': 'Enregistrer',
                 'tb_download': 'Télécharger',
                 'tb_undo': '↩ Annuler',
@@ -5071,10 +5091,10 @@
                 'col_calculated': "Calculé ?",
                 'col_formula': "Formule"
             },
-            'en': {
+            'en_US': {
                 'pref_res_normal': "Resources (normal)", 'pref_res_overloaded': "Resources (overloaded)", 'pref_res_underloaded': "Resources (underloaded)", 'pref_res_vacation': "Vacation days",
                 _name: 'English',
-                'tb_open': 'Open project (.gan)',
+                'tb_open': 'Open project',
                 'tb_save': 'Save',
                 'tb_download': 'Download',
                 'tb_undo': '↩ Undo',
@@ -5174,10 +5194,10 @@
                 'col_calculated': "Calculated?",
                 'col_formula': "Formula"
             },
-            'es': {
+            'es_ES': {
                 'pref_res_normal': "Recursos (normales)", 'pref_res_overloaded': "Recursos (sobrecargados)", 'pref_res_underloaded': "Recursos (subutilizados)", 'pref_res_vacation': "Días de vacaciones",
                 _name: 'Español',
-                'tb_open': "Abrir proyecto (.gan)",
+                'tb_open': "Abrir proyecto",
                 'tb_save': "Guardar",
                 'tb_download': "Descargar",
                 'tb_undo': "\u21a9 Deshacer",
@@ -5353,10 +5373,10 @@
                 'tb_critical_path': "Ruta Cr\u00edtica",
                 'tb_columns': "Columnas",
             },
-            'de': {
+            'de_DE': {
                 'pref_res_normal': "Ressourcen (normal)", 'pref_res_overloaded': "Ressourcen (überlastet)", 'pref_res_underloaded': "Ressourcen (unterausgelastet)", 'pref_res_vacation': "Urlaubstage",
                 _name: 'Deutsch',
-                'tb_open': "Projekt \u00f6ffnen (.gan)",
+                'tb_open': "Projekt \u00f6ffnen",
                 'tb_save': "Speichern",
                 'tb_download': "Herunterladen",
                 'tb_undo': "\u21a9 R\u00fcckg\u00e4ngig",
@@ -5532,10 +5552,10 @@
                 'tb_critical_path': "Kritischer Pfad",
                 'tb_columns': "Spalten",
             },
-            'it': {
+            'it_IT': {
                 'pref_res_normal': "Risorse (normali)", 'pref_res_overloaded': "Risorse (sovraccariche)", 'pref_res_underloaded': "Risorse (sottoutilizzate)", 'pref_res_vacation': "Giorni di ferie",
                 _name: 'Italiano',
-                'tb_open': "Apri progetto (.gan)",
+                'tb_open': "Apri progetto",
                 'tb_save': "Salva",
                 'tb_download': "Scarica",
                 'tb_undo': "\u21a9 Annulla",
@@ -5711,10 +5731,10 @@
                 'tb_critical_path': "Percorso critico",
                 'tb_columns': "Colonne",
             },
-            'nl': {
+            'nl_NL': {
                 'pref_res_normal': "Middelen (normaal)", 'pref_res_overloaded': "Middelen (overbelast)", 'pref_res_underloaded': "Middelen (onderbezet)", 'pref_res_vacation': "Vakantiedagen",
                 _name: 'Nederlands',
-                'tb_open': "Project openen (.gan)",
+                'tb_open': "Project openen",
                 'tb_save': "Opslaan",
                 'tb_download': "Downloaden",
                 'tb_undo': "\u21a9 Ongedaan maken",
@@ -5890,10 +5910,10 @@
                 'tb_critical_path': "Kritieke pad",
                 'tb_columns': "Kolommen",
             },
-            'lb': {
+            'lb_LU': {
                 'pref_res_normal': "Ressourcen (normal)", 'pref_res_overloaded': "Ressourcen (iwwerlaascht)", 'pref_res_underloaded': "Ressourcen (ënnerlaascht)", 'pref_res_vacation': "Vakanzdeeg",
                 _name: 'Lëtzebuergesch',
-                'tb_open': 'Projet opmaachen (.gan)',
+                'tb_open': 'Projet opmaachen',
                 'tb_save': 'Späicheren',
                 'tb_download': 'Eroflueden',
                 'tb_undo': '↩ Réckgängeg',
@@ -5995,7 +6015,7 @@
             }
         };
 
-        window.currentUiLang = 'fr'; // Langue par défaut de l'IHM
+        window.currentUiLang = 'fr_FR'; // Langue par défaut de l'IHM
 
         // Fonction utilitaire de traduction
         function t(key) {
@@ -6055,7 +6075,7 @@
 
         // T055 : Calendriers par défaut (jours fériés fixes récurrents et mobiles)
         const PREDEF_HOLIDAYS = {
-            'fr': {
+            'fr_FR': {
                 fixed: [
                     { d: '01-01', n: 'Nouvel An' }, { d: '05-01', n: 'Fête du Travail' }, { d: '05-08', n: 'Victoire 1945' },
                     { d: '07-14', n: 'Fête Nationale' }, { d: '08-15', n: 'Assomption' }, { d: '11-01', n: 'Toussaint' },
@@ -6063,20 +6083,20 @@
                 ],
                 mobile: [{ offset: 1, n: 'Lundi de Pâques' }, { offset: 39, n: 'Ascension' }, { offset: 50, n: 'Lundi de Pentecôte' }]
             },
-            'de': {
+            'de_DE': {
                 fixed: [
                     { d: '01-01', n: 'Neujahr' }, { d: '05-01', n: 'Tag der Arbeit' }, { d: '10-03', n: 'Tag der Deutschen Einheit' },
                     { d: '12-25', n: 'Erster Weihnachtsfeiertag' }, { d: '12-26', n: 'Zweiter Weihnachtsfeiertag' }
                 ],
                 mobile: [{ offset: -2, n: 'Karfreitag' }, { offset: 1, n: 'Ostermontag' }, { offset: 39, n: 'Christi Himmelfahrt' }, { offset: 50, n: 'Pfingstmontag' }]
             },
-            'uk': {
+            'en_GB': {
                 fixed: [
                     { d: '01-01', n: "New Year's Day" }, { d: '12-25', n: 'Christmas Day' }, { d: '12-26', n: 'Boxing Day' }
                 ],
                 mobile: [{ offset: -2, n: 'Good Friday' }, { offset: 1, n: 'Easter Monday' }]
             },
-            'es': {
+            'es_ES': {
                 fixed: [
                     { d: '01-01', n: 'Año Nuevo' }, { d: '01-06', n: 'Día de Reyes' }, { d: '05-01', n: 'Día del Trabajador' },
                     { d: '08-15', n: 'Asunción de la Virgen' }, { d: '10-12', n: 'Fiesta Nacional de España' },
@@ -6085,7 +6105,7 @@
                 ],
                 mobile: [{ offset: -2, n: 'Viernes Santo' }]
             },
-            'it': {
+            'it_IT': {
                 fixed: [
                     { d: '01-01', n: 'Capodanno' }, { d: '01-06', n: 'Epifania' }, { d: '04-25', n: 'Festa della Liberazione' },
                     { d: '05-01', n: 'Festa del Lavoro' }, { d: '06-02', n: 'Festa della Repubblica' }, { d: '08-15', n: 'Ferragosto' },
@@ -6094,7 +6114,7 @@
                 ],
                 mobile: [{ offset: 1, n: "Lunedì dell'Angelo" }]
             },
-            'lu': {
+            'lb_LU': {
                 fixed: [
                     { d: '01-01', n: 'Neijoerschdag' }, { d: '05-01', n: 'Dag vun der Aarbecht' }, { d: '05-09', n: 'Europadag' },
                     { d: '06-23', n: 'Nationalfeierdag' }, { d: '08-15', n: 'Léiffrawëschdag' }, { d: '11-01', n: 'Allerhellgen' },
@@ -6102,7 +6122,7 @@
                 ],
                 mobile: [{ offset: 1, n: 'Lundi de Pâques' }, { offset: 39, n: 'Ascension' }, { offset: 50, n: 'Lundi de Pentecôte' }]
             },
-            'be': {
+            'fr_BE': {
                 fixed: [
                     { d: '01-01', n: 'Nouvel An / Nieuwjaar' }, { d: '05-01', n: 'Fête du Travail / Dag van de Arbeid' },
                     { d: '07-21', n: 'Fête Nationale / Nationale feestdag' }, { d: '08-15', n: 'Assomption / O.L.V. Hemelvaart' },
@@ -6111,7 +6131,7 @@
                 ],
                 mobile: [{ offset: 1, n: 'Lundi de Pâques' }, { offset: 39, n: 'Ascension' }, { offset: 50, n: 'Lundi de Pentecôte' }]
             },
-            'nl': {
+            'nl_NL': {
                 fixed: [
                     { d: '01-01', n: 'Nieuwjaarsdag' }, { d: '04-27', n: 'Koningsdag' }, { d: '05-05', n: 'Bevrijdingsdag' },
                     { d: '12-25', n: 'Eerste Kerstdag' }, { d: '12-26', n: 'Tweede Kerstdag' }
@@ -6360,7 +6380,7 @@
             let calNode = state.xmlDoc.querySelector('calendars');
             if (!calNode) {
                 calNode = state.xmlDoc.createElement('calendars');
-                calNode.setAttribute('base-id', 'fr');
+                calNode.setAttribute('base-id', window.currentUiLang);
                 projNode.appendChild(calNode);
             }
 
@@ -6472,6 +6492,7 @@
             }
 
             document.getElementById('project-props-modal').close();
+            parseCalendar(state.xmlDoc);
             state.notifyListeners();
         });
 
@@ -7873,15 +7894,16 @@
         // Changement d'onglets de la popin Task Details
         document.querySelectorAll('.td-tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                const currentBtn = e.currentTarget;
                 document.querySelectorAll('.td-tab-btn').forEach(b => {
                     b.classList.remove('active');
                     b.style.fontWeight = 'normal';
                     b.style.borderBottom = 'none';
                 });
-                const target = e.target.getAttribute('data-target');
-                e.target.classList.add('active');
-                e.target.style.fontWeight = 'bold';
-                e.target.style.borderBottom = '2px solid var(--primary-color)';
+                const target = currentBtn.getAttribute('data-target');
+                currentBtn.classList.add('active');
+                currentBtn.style.fontWeight = 'bold';
+                currentBtn.style.borderBottom = '2px solid var(--primary-color)';
 
                 document.getElementById('td-tab-general').style.display = target === 'td-tab-general' ? 'grid' : 'none';
                 document.getElementById('td-tab-resources').style.display = target === 'td-tab-resources' ? 'flex' : 'none';
@@ -8822,7 +8844,7 @@
                         try {
                             const cached = localStorage.getItem('gantt_logo_' + logo);
                             if (cached) finalLogoSrc = cached;
-                        } catch(e) {}
+                        } catch (e) { }
                     }
                     let html = `<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; width:100%; border-bottom: 2px solid #ccc; padding-bottom:10px; margin-bottom:20px;">`;
                     html += `<div style="display:flex; align-items:center; flex:1;">`;
@@ -9295,7 +9317,7 @@
             document.getElementById('pref-gen-chart-font-size').value = getPrefValue(viewGantt, 'general.chartFontSize', '3');
             document.getElementById('pref-gen-row-spacing').value = getPrefValue(viewGantt, 'general.rowSpacing', '20.0');
             document.getElementById('pref-gen-dpi').value = getPrefValue(viewGantt, 'general.dpi', '96');
-            document.getElementById('pref-gen-language').value = getPrefValue(viewGantt, 'general.language', 'fr');
+            document.getElementById('pref-gen-language').value = getPrefValue(viewGantt, 'general.language', 'fr_FR');
 
             const dtType = getPrefValue(viewGantt, 'general.dateFormatType', 'default');
             const dtRadio = document.querySelector(`input[name="pref-gen-date-format-type"][value="${dtType}"]`);
@@ -9357,7 +9379,7 @@
                     window.currentLogoDataUrl = ev.target.result;
                     try {
                         localStorage.setItem('gantt_logo_' + file.name, ev.target.result);
-                    } catch(err) { console.warn('Logo too large for localStorage'); }
+                    } catch (err) { console.warn('Logo too large for localStorage'); }
                 };
                 reader.readAsDataURL(file);
             }
@@ -9371,7 +9393,7 @@
             document.getElementById('pref-gen-chart-font-size').value = '3';
             document.getElementById('pref-gen-row-spacing').value = '20.0';
             document.getElementById('pref-gen-dpi').value = '96';
-            document.getElementById('pref-gen-language').value = 'fr';
+            document.getElementById('pref-gen-language').value = 'fr_FR';
             document.querySelector('input[name="pref-gen-date-format-type"][value="default"]').checked = true;
             document.getElementById('pref-gen-date-format').value = 'dd/MM/y';
             document.getElementById('pref-gen-logo').value = '';
