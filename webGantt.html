@@ -56,7 +56,10 @@
             gap: 12px;
         }
 
-        button, input, select, textarea {
+        button,
+        input,
+        select,
+        textarea {
             font-family: inherit;
             font-size: inherit;
         }
@@ -174,7 +177,7 @@
             padding: 4px 8px;
             box-sizing: border-box;
             font-weight: bold;
-            
+
         }
 
         .pane-header button {
@@ -224,6 +227,7 @@
             .wbs-icon {
                 display: none !important;
             }
+
             #print-header {
                 display: block !important;
             }
@@ -251,13 +255,15 @@
             }
 
             /* Assurer que le SVG ne déborde pas de sa zone (crop de la zone visible) */
-            #gantt-content svg, #res-gantt-content svg {
+            #gantt-content svg,
+            #res-gantt-content svg {
                 overflow: hidden !important;
                 max-width: none !important;
             }
 
             /* Masquer les styles de surbrillance/sélection inutiles à l'impression */
-            #wbs-content>div, #res-wbs-content>div {
+            #wbs-content>div,
+            #res-wbs-content>div {
                 background-color: transparent !important;
             }
         }
@@ -281,7 +287,7 @@
                 style="font-weight: 600; font-size: 20px; font-family: system-ui, -apple-system, sans-serif;">webGantt</span>
         </a>
         <div style="position: relative; display: inline-flex;">
-            <button id="btn-open" class="primary"
+            <button id="btn-open" class="primary" data-i18n="tb_open"
                 style="border-top-right-radius: 0; border-bottom-right-radius: 0;">Ouvrir un projet (.gan)</button>
             <button id="btn-open-recent" class="primary"
                 style="border-top-left-radius: 0; border-bottom-left-radius: 0; padding: 0 6px; border-left: 1px solid rgba(0,0,0,0.1);"
@@ -291,59 +297,62 @@
                 <div style="padding: 8px; color: #888; font-style: italic;">Aucun fichier récent</div>
             </div>
         </div>
-        <button id="btn-save" style="display: none;">Enregistrer</button>
-        <button id="btn-download">Télécharger</button>
+        <button id="btn-save" style="display: none;" data-i18n="tb_save">Enregistrer</button>
+        <button id="btn-download" data-i18n="tb_download">Télécharger</button>
         <!-- T042 : Historique -->
-        <button id="btn-undo" title="Annuler (Ctrl+Z)" disabled>↩ Annuler</button>
-        <button id="btn-redo" title="Rétablir (Ctrl+Y)" disabled>↪ Rétablir</button>
+        <button id="btn-undo" title="Annuler (Ctrl+Z)" disabled data-i18n="tb_undo">↩ Annuler</button>
+        <button id="btn-redo" title="Rétablir (Ctrl+Y)" disabled data-i18n="tb_redo">↪ Rétablir</button>
         <div style="width: 12px;"></div>
         <!-- T044 : Impression -->
-        <button id="btn-print" title="Imprimer le diagramme">🖨️ Imprimer</button>
+        <button id="btn-print" title="Imprimer le diagramme" data-i18n="tb_print">🖨️ Imprimer</button>
         <div style="width: 12px;"></div>
-        <button id="btn-add-task">Ajouter Tâche</button>
-        <button id="btn-add-milestone">Ajouter Jalon</button>
-        <button id="btn-add-resource-toolbar">Ajouter Ressource</button>
+        <button id="btn-add-task" data-i18n="tb_add_task">Ajouter Tâche</button>
+        <button id="btn-add-milestone" data-i18n="tb_add_milestone">Ajouter Jalon</button>
+        <button id="btn-add-resource-toolbar" data-i18n="tb_add_resource">Ajouter Ressource</button>
         <div style="flex: 1;"></div>
-        <button id="btn-project-props" style="margin-right: 8px;">Propriétés Projet</button>
-        <button id="btn-preferences" style="margin-right: 8px;">Préférences</button>
-        <button id="btn-theme-toggle">Mode Sombre</button>
+        <button id="btn-project-props" style="margin-right: 8px;" data-i18n="tb_project_props">Propriétés Projet</button>
+        <button id="btn-preferences" style="margin-right: 8px;" data-i18n="tb_preferences">Préférences</button>
+        <button id="btn-theme-toggle" data-i18n="tb_dark_mode">Mode Sombre</button>
     </div>
 
     <!-- T055 : Dialog pour les propriétés du projet -->
     <dialog id="project-props-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 600px; height: 750px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; flex-direction: column; height: 100%;">
-            <h3 style="margin-top: 0; margin-bottom: 12px;">Propriétés du Projet</h3>
+            <h3 style="margin-top: 0; margin-bottom: 12px;" data-i18n="prop_title">Propriétés du Projet</h3>
 
             <!-- Onglets -->
             <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 12px;">
                 <button type="button" class="proj-prop-tab-btn active" data-target="proj-prop-tab-general"
-                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;">Général</button>
+                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;"
+                    data-i18n="prop_tab_general"><span data-i18n="td_tab_general">Général</span></button>
                 <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-calendar"
-                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Calendrier</button>
+                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;"
+                    data-i18n="prop_tab_calendar">Calendrier</button>
                 <button type="button" class="proj-prop-tab-btn" data-target="proj-prop-tab-roles"
-                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Rôles</button>
+                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;"
+                    data-i18n="prop_tab_roles">Rôles</button>
             </div>
 
             <div id="proj-prop-tab-general" class="proj-prop-tab-content"
                 style="display: flex; flex-direction: column; flex: 1; overflow-y: auto; gap: 12px; ">
                 <div>
-                    <label style="font-weight: bold;">Nom du projet :</label>
+                    <label style="font-weight: bold;" data-i18n="prop_name">Nom du projet :</label>
                     <input type="text" id="proj-prop-name"
                         style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
                 </div>
                 <div>
-                    <label style="font-weight: bold;">Organisation (Compagnie) :</label>
+                    <label style="font-weight: bold;" data-i18n="prop_company">Organisation (Compagnie) :</label>
                     <input type="text" id="proj-prop-company"
                         style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
                 </div>
                 <div>
-                    <label style="font-weight: bold;">Lien web :</label>
+                    <label style="font-weight: bold;" data-i18n="prop_weblink">Lien web :</label>
                     <input type="url" id="proj-prop-weblink"
                         style="width: 100%; padding: 4px; margin-top: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;" />
                 </div>
                 <div>
-                    <label style="font-weight: bold;">Description :</label>
+                    <label style="font-weight: bold;" data-i18n="prop_description">Description :</label>
                     <textarea id="proj-prop-description"
                         style="width: 100%; padding: 4px; margin-top: 4px; height: 80px; resize: vertical; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); border-radius: 4px;"></textarea>
                 </div>
@@ -354,47 +363,52 @@
                 <!-- Section Choix des week-ends -->
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                     <div style="display: flex; align-items: center; gap: 16px;">
-                        <div style="width: 220px; font-weight: bold;">Choix des week-ends</div>
+                        <div style="width: 220px; font-weight: bold;" data-i18n="prop_weekends">Choix des week-ends
+                        </div>
                         <div style="display: flex; gap: 8px;" id="pp-cal-weekends">
                             <label style="cursor: pointer;"><input type="checkbox" data-day="1" value="mon">
-                                lun.</label>
+                                <span data-i18n="day_mon">lun.</span></label>
                             <label style="cursor: pointer;"><input type="checkbox" data-day="2" value="tue">
-                                mar.</label>
+                                <span data-i18n="day_tue">mar.</span></label>
                             <label style="cursor: pointer;"><input type="checkbox" data-day="3" value="wed">
-                                mer.</label>
+                                <span data-i18n="day_wed">mer.</span></label>
                             <label style="cursor: pointer;"><input type="checkbox" data-day="4" value="thu">
-                                jeu.</label>
+                                <span data-i18n="day_thu">jeu.</span></label>
                             <label style="cursor: pointer;"><input type="checkbox" data-day="5" value="fri">
-                                ven.</label>
+                                <span data-i18n="day_fri">ven.</span></label>
                             <label style="cursor: pointer;"><input type="checkbox" data-day="6" value="sat">
-                                sam.</label>
+                                <span data-i18n="day_sat">sam.</span></label>
                             <label style="cursor: pointer;"><input type="checkbox" data-day="0" value="sun">
-                                dim.</label>
+                                <span data-i18n="day_sun">dim.</span></label>
                         </div>
                     </div>
 
                     <div style="display: flex; align-items: center; gap: 16px;">
-                        <div style="width: 220px; font-weight: bold;">Les week-ends</div>
+                        <div style="width: 220px; font-weight: bold;" data-i18n="prop_weekends_behavior">Les week-ends
+                        </div>
                         <select id="pp-cal-weekends-work"
                             style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
-                            <option value="false">Aucune tâche ne peut être exécutée</option>
-                            <option value="true">Les tâches sont executées comme n'iporte quel autre jour.</option>
+                            <option value="false" data-i18n="opt_no_task_weekend">Aucune tâche ne peut être exécutée
+                            </option>
+                            <option value="true" data-i18n="opt_task_weekend_normal">Les tâches sont executées comme
+                                n\'importe quel autre jour.</option>
                         </select>
                     </div>
 
                     <div style="display: flex; align-items: center; gap: 16px;">
-                        <div style="width: 220px; font-weight: bold;">Choix d'un calendrier de jours fériés</div>
+                        <div style="width: 220px; font-weight: bold;" data-i18n="prop_holidays">Choix d'un calendrier de
+                            jours fériés</div>
                         <select id="pp-cal-import-holidays"
                             style="flex: 1; padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);">
-                            <option value="">Sélectionner un calendrier...</option>
-                            <option value="fr">France</option>
-                            <option value="de">Allemagne</option>
-                            <option value="uk">Royaume-Uni</option>
-                            <option value="es">Espagne</option>
-                            <option value="it">Italie</option>
+                            <option value="" data-i18n="opt_cal_select">Sélectionner un calendrier...</option>
+                            <option value="fr" data-i18n="opt_cal_fr">France</option>
+                            <option value="de" data-i18n="opt_cal_de">Allemagne</option>
+                            <option value="uk" data-i18n="opt_cal_uk">Royaume-Uni</option>
+                            <option value="es" data-i18n="opt_cal_es">Espagne</option>
+                            <option value="it" data-i18n="opt_cal_it">Italie</option>
                             <option value="lu">Luxembourg</option>
-                            <option value="be">Belgique</option>
-                            <option value="nl">Pays-Bas</option>
+                            <option value="be" data-i18n="opt_cal_be">Belgique</option>
+                            <option value="nl" data-i18n="opt_cal_nl">Pays-Bas</option>
                         </select>
                     </div>
                 </div>
@@ -405,9 +419,11 @@
                     <div
                         style="background: var(--bg-color); padding: 8px; display: flex; gap: 8px; border-bottom: 1px solid var(--border-color);">
                         <button type="button" id="pp-cal-btn-add"
-                            style="padding: 4px 12px; background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">Ajouter</button>
+                            style="padding: 4px 12px; background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;"
+                            data-i18n="btn_add">Ajouter</button>
                         <button type="button" id="pp-cal-btn-del"
-                            style="padding: 4px 12px; background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;">Supprimer</button>
+                            style="padding: 4px 12px; background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer;"
+                            data-i18n="btn_del">Supprimer</button>
                     </div>
                     <div style="flex: 1; overflow-y: auto; min-height: 200px;">
                         <table style="width: 100%; border-collapse: collapse; text-align: left;">
@@ -429,7 +445,8 @@
                                     <th
                                         style="padding: 8px; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color);">
                                         Type</th>
-                                    <th style="padding: 8px; border-bottom: 1px solid var(--border-color);">Couleur</th>
+                                    <th style="padding: 8px; border-bottom: 1px solid var(--border-color);"
+                                        data-i18n="th_color">Couleur</th>
                                 </tr>
                             </thead>
                             <tbody id="pp-cal-holidays-tbody">
@@ -441,9 +458,10 @@
                 <!-- Décaler la date de début du projet -->
                 <div
                     style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; flex-direction: column; gap: 8px;">
-                    <div style="font-weight: bold; margin-bottom: 4px;">Décaler la date de début du projet</div>
+                    <div style="font-weight: bold; margin-bottom: 4px;" data-i18n="shift_project_start">Décaler la date
+                        de début du projet</div>
                     <div style="display: flex; align-items: center; gap: 16px;">
-                        <label style="width: 220px;">Nouvelle date de début</label>
+                        <label style="width: 220px;" data-i18n="shift_new_start">Nouvelle date de début</label>
                         <input type="date" id="pp-cal-new-start-date"
                             style="padding: 4px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color);" />
                     </div>
@@ -479,7 +497,7 @@
                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
                         <thead style="background: var(--bg-color); position: sticky; top: 0; z-index: 1;">
                             <tr style="border-bottom: 1px solid var(--border-color);">
-                                <th style="padding: 4px 8px;">Nom du rôle</th>
+                                <th style="padding: 4px 8px;" data-i18n="col_role_name">Nom du rôle</th>
                                 <th style="padding: 4px 8px; width: 40px;"></th>
                             </tr>
                         </thead>
@@ -496,8 +514,10 @@
             </div>
             <div
                 style="margin-top: 16px; text-align: right; border-top: 1px solid var(--border-color); padding-top: 12px;">
-                <button id="btn-close-project-props" style="padding: 6px 16px; margin-right: 8px;">Annuler</button>
-                <button id="btn-save-project-props" class="primary" style="padding: 6px 16px;">Enregistrer</button>
+                <button id="btn-close-project-props" style="padding: 6px 16px; margin-right: 8px;"
+                    data-i18n="btn_cancel">Annuler</button>
+                <button id="btn-save-project-props" class="primary" style="padding: 6px 16px;"
+                    data-i18n="tb_save">Enregistrer</button>
             </div>
         </div>
     </dialog>
@@ -506,19 +526,28 @@
     <dialog id="preferences-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 975px; height: 825px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; flex-direction: column; height: 100%;">
-            <h3 style="margin-top: 0; margin-bottom: 12px;">Préférences</h3>
-            
+            <h3 style="margin-top: 0; margin-bottom: 12px;" data-i18n="tb_preferences">Préférences</h3>
+
             <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
-                <button type="button" class="pref-tab-btn active" data-target="pref-tab-general" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;">Général</button>
-                <button type="button" class="pref-tab-btn" data-target="pref-tab-gantt" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Propriétés du diagramme de Gantt</button>
-                <button type="button" class="pref-tab-btn" data-target="pref-tab-res" style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;">Propriétés du diagramme des ressources</button>
+                <button type="button" class="pref-tab-btn active" data-target="pref-tab-general"
+                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid var(--primary-color); color: var(--text-color); cursor: pointer; font-weight: bold;"
+                    data-i18n="prop_tab_general"><span data-i18n="td_tab_general">Général</span></button>
+                <button type="button" class="pref-tab-btn" data-target="pref-tab-gantt"
+                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;"
+                    data-i18n="pref_tab_gantt">Propriétés du diagramme de
+                    Gantt</button>
+                <button type="button" class="pref-tab-btn" data-target="pref-tab-res"
+                    style="padding: 8px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-color); cursor: pointer;"
+                    data-i18n="pref_tab_res">Propriétés du diagramme des
+                    ressources</button>
             </div>
 
             <div style="flex: 1; overflow-y: auto;">
                 <!-- Onglet Général -->
                 <div id="pref-tab-general" class="pref-tab-content" style="display: block; ">
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Apparence</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_appearance">Apparence</label>
                         <select id="pref-gen-appearance">
                             <option value="Plastic">Plastic</option>
                             <option value="Windows">Windows</option>
@@ -527,8 +556,9 @@
                             <option value="CDE/Motif">CDE/Motif</option>
                         </select>
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Polices de l'application</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_app_font">Polices de l'application</label>
                         <div style="display:flex; flex-direction:column; gap:4px;">
                             <select id="pref-gen-app-font">
                                 <option value="default">Défaut du système</option>
@@ -539,14 +569,17 @@
                                 <option value="Verdana">Verdana</option>
                                 <option value="Tahoma">Tahoma</option>
                             </select>
-                            <input type="range" id="pref-gen-app-font-size" min="1" max="5" value="3" style="width: 100%;" />
+                            <input type="range" id="pref-gen-app-font-size" min="1" max="5" value="3"
+                                style="width: 100%;" />
                             <div style="display:flex; justify-content:space-between; font-size:10px;">
-                                <span>Plus petit</span><span>Normale</span><span>Grand</span><span>Plus grande</span><span>Très grand</span>
+                                <span>Plus petit</span><span>Normale</span><span>Grand</span><span>Plus
+                                    grande</span><span>Très grand</span>
                             </div>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Polices de base graphique</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_chart_font">Polices de base graphique</label>
                         <div style="display:flex; flex-direction:column; gap:4px;">
                             <select id="pref-gen-chart-font">
                                 <option value="default">Défaut du système</option>
@@ -557,96 +590,116 @@
                                 <option value="Verdana">Verdana</option>
                                 <option value="Tahoma">Tahoma</option>
                             </select>
-                            <input type="range" id="pref-gen-chart-font-size" min="1" max="5" value="3" style="width: 100%;" />
+                            <input type="range" id="pref-gen-chart-font-size" min="1" max="5" value="3"
+                                style="width: 100%;" />
                             <div style="display:flex; justify-content:space-between; font-size:10px;">
-                                <span>Plus petit</span><span>Normale</span><span>Grand</span><span>Plus grande</span><span>Très grand</span>
+                                <span>Plus petit</span><span>Normale</span><span>Grand</span><span>Plus
+                                    grande</span><span>Très grand</span>
                             </div>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Espacement des lignes du tableau</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_row_spacing">Espacement des lignes du tableau</label>
                         <input type="number" step="0.1" id="pref-gen-row-spacing" value="20.0" />
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                         <label>DPI</label>
                         <input type="number" id="pref-gen-dpi" value="96" />
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Langue</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_lang">Langue</label>
                         <select id="pref-gen-language">
-                            <option value="fr">French (français)</option>
-                            <option value="en">English (anglais)</option>
-                            <option value="es">Spanish (espagnol)</option>
-                            <option value="de">German (allemand)</option>
-                            <option value="it">Italian (italien)</option>
-                            <option value="pt">Portuguese (portugais)</option>
+                            <!-- Rempli dynamiquement -->
                         </select>
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
-                        <label>Utilisez le format de date</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_use_date_format">Utilisez le format de date</label>
                         <div style="display:flex; flex-direction:column; gap:4px;">
-                            <label><input type="radio" name="pref-gen-date-format-type" value="default" checked /> par défaut</label>
-                            <label><input type="radio" name="pref-gen-date-format-type" value="custom" /> personnalisé</label>
+                            <label><input type="radio" name="pref-gen-date-format-type" value="default" checked /> <span
+                                    data-i18n="pref_gen_date_default">par défaut</span></label>
+                            <label><input type="radio" name="pref-gen-date-format-type" value="custom" /> <span
+                                    data-i18n="pref_gen_date_custom">personnalisé</span></label>
                         </div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Format de date court personnalisé</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_custom_date_format">Format de date court personnalisé</label>
                         <input type="text" id="pref-gen-date-format" value="dd/MM/y" />
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Nous sommes le</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_we_are_the">Nous sommes le</label>
                         <input type="text" id="pref-gen-date-preview" readonly />
                     </div>
-                    <div style="display: grid; grid-template-columns: 200px 1fr auto; gap: 8px; align-items: center; margin-bottom: 8px;">
-                        <label>Fichier du logo</label>
+                    <div
+                        style="display: grid; grid-template-columns: 200px 1fr auto; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <label data-i18n="pref_gen_logo_file">Fichier du logo</label>
                         <input type="text" id="pref-gen-logo" />
-                        <button type="button" id="pref-gen-logo-btn">Parcourir...</button>
+                        <button type="button" id="pref-gen-logo-btn" data-i18n="btn_browse">Parcourir...</button>
                         <input type="file" id="pref-gen-logo-file" accept="image/*" style="display:none;" />
                     </div>
                 </div>
 
                 <!-- Onglet Propriétés du diagramme de Gantt -->
                 <div id="pref-tab-gantt" class="pref-tab-content" style="display: none; ">
-                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                    <fieldset
+                        style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- par défaut -</legend>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Préfixe de nom de tâche</label>
                             <input type="text" id="pref-gantt-task-prefix" value="tâche" />
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Format du nom pour les tâches copiées</label>
                             <input type="text" id="pref-gantt-task-copy-format" value="{0}_{1}" />
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Nouvelle tâche</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-gantt-new-task-color" value="#8cb6ce" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Contrainte</label>
-                            <select id="pref-gantt-constraint"><option value="Strong">Forte</option><option value="Rubber">Souple</option></select>
+                            <select id="pref-gantt-constraint">
+                                <option value="Strong">Forte</option>
+                                <option value="Rubber">Souple</option>
+                            </select>
                         </div>
                     </fieldset>
 
-                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                    <fieldset
+                        style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- Détails du calendrier -</legend>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
                             <label>Afficher aujourd'hui avec une ligne rouge</label>
                             <div style="display:flex; flex-direction:column; gap:4px;">
                                 <label><input type="radio" name="pref-gantt-today-line" value="yes" /> Oui</label>
-                                <label><input type="radio" name="pref-gantt-today-line" value="no" checked /> Non</label>
+                                <label><input type="radio" name="pref-gantt-today-line" value="no" checked />
+                                    Non</label>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: start; margin-bottom: 8px;">
                             <label>Dates de début/fin du projet</label>
                             <div style="display:flex; flex-direction:column; gap:4px;">
                                 <label><input type="radio" name="pref-gantt-project-dates" value="yes" /> Oui</label>
-                                <label><input type="radio" name="pref-gantt-project-dates" value="no" checked /> Non</label>
+                                <label><input type="radio" name="pref-gantt-project-dates" value="no" checked />
+                                    Non</label>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Style d'affichage des week-ends</label>
                             <select id="pref-gantt-weekend-style">
                                 <option value="default">Standard (hachuré/grisé)</option>
@@ -654,7 +707,8 @@
                                 <option value="transparent">Transparent</option>
                             </select>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Numérotation des semaines</label>
                             <select id="pref-gantt-week-numbering">
                                 <option value="default">Numérotation ISO</option>
@@ -663,18 +717,22 @@
                             </select>
                         </div>
                     </fieldset>
-                    
-                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+
+                    <fieldset
+                        style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- Etiquettes du calendrier -</legend>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Afficher tous les jalons</label>
                             <input type="checkbox" id="pref-gantt-show-milestones" checked />
                         </div>
                     </fieldset>
 
-                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                    <fieldset
+                        style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- Détails -</legend>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Au-dessus</label>
                             <select id="pref-gantt-detail-top">
                                 <option value=" ">Aucun</option>
@@ -684,7 +742,8 @@
                                 <option value="duration">Durée</option>
                             </select>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>En-dessous</label>
                             <select id="pref-gantt-detail-bottom">
                                 <option value=" ">Aucun</option>
@@ -694,7 +753,8 @@
                                 <option value="duration">Durée</option>
                             </select>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>A gauche</label>
                             <select id="pref-gantt-detail-left">
                                 <option value=" ">Aucun</option>
@@ -704,7 +764,8 @@
                                 <option value="duration">Durée</option>
                             </select>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>A droite</label>
                             <select id="pref-gantt-detail-right">
                                 <option value=" ">Aucun</option>
@@ -719,30 +780,35 @@
 
                 <!-- Onglet Propriétés du diagramme des ressources -->
                 <div id="pref-tab-res" class="pref-tab-content" style="display: none; ">
-                    <fieldset style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
+                    <fieldset
+                        style="border: none; border-top: 1px solid var(--border-color); margin: 0; padding: 12px 0;">
                         <legend style="padding: 0 4px; font-weight: bold;">- Couleurs des ressources -</legend>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Ressources</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-color" value="#90b6d3" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Ressources (surchargées)</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-overloaded-color" value="#e14436" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Ressources (sous employées)</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-underloaded-color" value="#3bd93b" />
                                 <span style="color: var(--primary-color); cursor: pointer;">Choisir...</span>
                             </div>
                         </div>
-                        <div style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
+                        <div
+                            style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Jours de congés</label>
                             <div style="display: flex; align-items: center; gap: 4px;">
                                 <input type="color" id="pref-res-vacation-color" value="#ffff55" />
@@ -754,9 +820,10 @@
             </div>
 
             <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
-                <button type="button" id="pref-btn-default" style="margin-right: auto;">Rétablir Par Défaut</button>
-                <button type="button" id="pref-btn-close">Fermer</button>
-                <button type="button" id="pref-btn-save" class="primary">Valider</button>
+                <button type="button" id="pref-btn-default" style="margin-right: auto;" data-i18n="btn_default">Rétablir
+                    Par Défaut</button>
+                <button type="button" id="pref-btn-close" data-i18n="btn_close">Fermer</button>
+                <button type="button" id="pref-btn-save" class="primary" data-i18n="btn_validate">Valider</button>
             </div>
         </div>
     </dialog>
@@ -765,8 +832,9 @@
     <dialog id="custom-props-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 650px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h3 style="margin: 0;">Configuration des Champs Personnalisés</h3>
-            <button id="btn-add-custom-prop" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouveau
+            <h3 style="margin: 0;" data-i18n="cp_title">Configuration des Champs Personnalisés</h3>
+            <button id="btn-add-custom-prop" class="primary" style="padding: 6px 12px; font-weight: bold;"
+                data-i18n="cp_btn_add">+ Nouveau
                 Champ</button>
         </div>
 
@@ -774,12 +842,12 @@
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color);">
                     <th style="padding: 8px;">ID</th>
-                    <th style="padding: 8px;">Nom</th>
-                    <th style="padding: 8px;">Type</th>
-                    <th style="padding: 8px;">Valeur par défaut</th>
-                    <th style="padding: 8px; text-align: center;">Calculé ?</th>
-                    <th style="padding: 8px;">Formule</th>
-                    <th style="padding: 8px; text-align: center;">Actions</th>
+                    <th style="padding: 8px;" data-i18n="col_name">Nom</th>
+                    <th style="padding: 8px;" data-i18n="col_type">Type</th>
+                    <th style="padding: 8px;" data-i18n="col_default">Valeur par défaut</th>
+                    <th style="padding: 8px; text-align: center;" data-i18n="col_calculated">Calculé ?</th>
+                    <th style="padding: 8px;" data-i18n="col_formula">Formule</th>
+                    <th style="padding: 8px; text-align: center;" data-i18n="col_actions">Actions</th>
                 </tr>
             </thead>
             <tbody id="custom-props-tbody">
@@ -788,13 +856,15 @@
         </table>
 
         <div style="margin-top: 20px; text-align: right;">
-            <button id="btn-close-custom-props" class="primary" style="padding: 6px 16px;">Fermer</button>
+            <button id="btn-close-custom-props" class="primary" style="padding: 6px 16px;"
+                data-i18n="btn_close">Fermer</button>
         </div>
     </dialog>
 
     <dialog id="formula-help-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); max-width: 450px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <h3 style="margin-top: 0; color: var(--primary-color);">Aide : Formules de calcul</h3>
+        <h3 style="margin-top: 0; color: var(--primary-color);" data-i18n="help_formula_title">Aide : Formules de calcul
+        </h3>
         <div style=" line-height: 1.5; margin-bottom: 16px;">
             <p>Les champs calculés utilisent une expression de type SQL (compatibilité GanttProject / H2).</p>
             <p><strong>Variables natives disponibles (exclusivement) :</strong></p>
@@ -826,23 +896,24 @@
     <dialog id="resource-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); min-width: 800px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h3 style="margin: 0;">Administration des Ressources</h3>
-            <button id="btn-add-resource" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouvelle
+            <h3 style="margin: 0;" data-i18n="res_title">Administration des Ressources</h3>
+            <button id="btn-add-resource" class="primary" style="padding: 6px 12px; font-weight: bold;"
+                data-i18n="res_btn_add">+ Nouvelle
                 Ressource</button>
         </div>
 
         <table style="width: 100%; border-collapse: collapse; text-align: left; ">
             <thead>
                 <tr style="border-bottom: 2px solid var(--border-color);">
-                    <th style="padding: 8px;">Nom</th>
-                    <th style="padding: 8px;">Rôle (Fonction)</th>
-                    <th style="padding: 8px;">Email (Contacts)</th>
-                    <th style="padding: 8px;">Téléphone</th>
-                    <th style="padding: 8px;">Taux standard</th>
-                    <th style="padding: 8px; text-align: center;">Congés</th>
-                    <th style="padding: 8px; text-align: center;">Affectations</th>
-                    <th style="padding: 8px; text-align: center;">Champs perso.</th>
-                    <th style="padding: 8px; text-align: center;">Actions</th>
+                    <th style="padding: 8px;" data-i18n="col_name">Nom</th>
+                    <th style="padding: 8px;" data-i18n="col_role">Rôle (Fonction)</th>
+                    <th style="padding: 8px;" data-i18n="col_email">Email (Contacts)</th>
+                    <th style="padding: 8px;" data-i18n="col_phone">Téléphone</th>
+                    <th style="padding: 8px;" data-i18n="col_rate">Taux standard</th>
+                    <th style="padding: 8px; text-align: center;" data-i18n="col_vacations">Congés</th>
+                    <th style="padding: 8px; text-align: center;" data-i18n="col_allocations">Affectations</th>
+                    <th style="padding: 8px; text-align: center;" data-i18n="col_custom_fields">Champs perso.</th>
+                    <th style="padding: 8px; text-align: center;" data-i18n="col_actions">Actions</th>
                 </tr>
             </thead>
             <tbody id="resource-tbody">
@@ -930,13 +1001,14 @@
             </div>
             <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
                 <button type="button" class="rd-tab-btn active" data-target="rd-tab-general"
-                    style="flex: 1; padding: 8px; border: none; background: none; border-bottom: 2px solid var(--primary-color); font-weight: bold; cursor: pointer; color: var(--text-color);">Général</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; border-bottom: 2px solid var(--primary-color); font-weight: bold; cursor: pointer; color: var(--text-color);"><span
+                        data-i18n="td_tab_general">Général</span></button>
                 <button type="button" class="rd-tab-btn" data-target="rd-tab-vacations"
                     style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Jours
                     de congés</button>
                 <button type="button" class="rd-tab-btn" data-target="rd-tab-custom"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs
-                    Perso.</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);"><span
+                        data-i18n="td_tab_custom">Champs Perso.</span></button>
                 <button type="button" class="rd-tab-btn" data-target="rd-tab-allocations"
                     style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Affectation</button>
             </div>
@@ -1047,12 +1119,12 @@
 
         <div style="display:flex; gap: 8px; margin-top: 12px;">
             <input type="text" id="new-baseline-name" placeholder="Nom de la nouvelle empreinte"
-                style="flex:1; padding: 4px;" />
-            <button id="btn-create-baseline" class="primary">Créer</button>
+                data-i18n-placeholder="base_new_name" style="flex:1; padding: 4px;" />
+            <button id="btn-create-baseline" class="primary" data-i18n="base_btn_create">Créer</button>
         </div>
 
         <div style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px;">
-            <h4>Couleurs des états d'avancement</h4>
+            <h4>Couleur...es états d'avancement</h4>
             <div style="display: flex; flex-direction: column; gap: 8px;">
                 <label style="display: flex; justify-content: space-between; align-items: center; ">
                     Tâche restant à faire :
@@ -1079,18 +1151,21 @@
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 1000px; height: 650px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; flex-direction: column; height: 100%;">
             <div style="margin-bottom: 16px;">
-                <h3 id="td-modal-title" style="margin: 0;">Édition de la tâche</h3>
+                <h3 id="td-modal-title" style="margin: 0;" data-i18n="td_title">Édition de la tâche</h3>
             </div>
             <div style="display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 16px;">
                 <button type="button" class="td-tab-btn active" data-target="td-tab-general"
-                    style="flex: 1; padding: 8px; border: none; background: none; border-bottom: 2px solid var(--primary-color); font-weight: bold; cursor: pointer; color: var(--text-color);">Général</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; border-bottom: 2px solid var(--primary-color); font-weight: bold; cursor: pointer; color: var(--text-color);"><span
+                        data-i18n="td_tab_general">Général</span></button>
                 <button type="button" class="td-tab-btn" data-target="td-tab-predecessors"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Prédécesseurs</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);"><span
+                        data-i18n="td_tab_predecessors">Prédécesseurs</span></button>
                 <button type="button" class="td-tab-btn" data-target="td-tab-resources"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Ressources</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);"><span
+                        data-i18n="td_tab_resources">Ressources</span></button>
                 <button type="button" class="td-tab-btn" data-target="td-tab-custom"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs
-                    Perso.</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);"><span
+                        data-i18n="td_tab_custom">Champs Perso.</span></button>
             </div>
 
             <form id="task-edit-form" style="flex: 1; display: flex; flex-direction: column; min-height: 0;"
@@ -1103,7 +1178,7 @@
                     <div
                         style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; overflow-y: auto; padding-right: 8px;">
                         <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 4px;">
-                            <label>Nom de la tâche</label>
+                            <label data-i18n="td_name">Nom de la tâche</label>
                             <div style="display: flex; gap: 8px; align-items: center;">
                                 <input type="text" id="td-input-name" style="flex: 1; padding: 6px;" />
                                 <input type="checkbox" id="td-input-milestone" /> <label for="td-input-milestone"
@@ -1112,7 +1187,7 @@
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Option de planification</label>
+                            <label data-i18n="td_plan_opt">Option de planification</label>
                             <select id="td-input-scheduling" style="padding: 6px;">
                                 <option value="calculate-end" selected>La date de fin est calculée</option>
                                 <option value="calculate-start">La date de début est calculée</option>
@@ -1121,32 +1196,33 @@
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Date de début</label>
+                            <label data-i18n="col_start_date">Date de début</label>
                             <input type="date" id="td-input-start" style="padding: 6px;" />
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Date de fin</label>
+                            <label data-i18n="col_end_date">Date de fin</label>
                             <input type="date" id="td-input-end" style="padding: 6px;" readonly />
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Durée (jours)</label>
+                            <label data-i18n="td_duration">Durée (jours)</label>
                             <input type="number" id="td-input-duration" min="0" style="padding: 6px;" />
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Avancement (%)</label>
+                            <label data-i18n="td_progress">Avancement (%)</label>
                             <input type="number" id="td-input-complete" min="0" max="100" style="padding: 6px;" />
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Couleur</label>
-                            <input type="color" id="td-input-color" style="padding: 0; width: 100%; height: 28px;" />
+                            <label data-i18n="col_color">Couleur</label>
+                                <input type="color" id="td-input-color"
+                                    style="padding: 0; width: 100%; height: 28px;" />
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Graphisme</label>
+                            <label data-i18n="td_shape">Graphisme</label>
                             <div class="shape-selector" style="position: relative; width: 100%;"
                                 id="shape-selector-container">
                                 <div id="selected-shape-display"
@@ -1170,16 +1246,16 @@
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Priorité</label>
+                            <label data-i18n="col_priority">Priorité</label>
                             <select id="td-input-priority" style="padding: 6px;">
-                                <option value="0">Faible</option>
-                                <option value="1">Normale</option>
-                                <option value="2">Haute</option>
+                                <option value="0" data-i18n="prio_low">Faible</option>
+                                <option value="1" data-i18n="prio_normal">Normale</option>
+                                <option value="2" data-i18n="prio_high">Haute</option>
                             </select>
                         </div>
 
                         <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label>Lien Web (URL)</label>
+                            <label data-i18n="col_weblink">Lien Web (URL)</label>
                             <input type="url" id="td-input-weblink" style="padding: 6px;" />
                         </div>
 
@@ -1206,8 +1282,7 @@
                 </div>
 
                 <!-- Onglet Prédécesseurs -->
-                <div id="td-tab-predecessors"
-                    style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
+                <div id="td-tab-predecessors" style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
                     <p style="margin-top: 0; font-weight: bold;">Tâches dont dépend celle-ci (Prédécesseurs) :</p>
                     <div
                         style="flex: 1; margin: 0 0 16px 0; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 4px;">
@@ -1216,9 +1291,9 @@
                                 <tr style="border-bottom: 1px solid var(--border-color);">
                                     <th style="padding: 4px 2px;">ID</th>
                                     <th style="padding: 4px 2px;">Nom de la tâche</th>
-                                    <th style="padding: 4px 2px;">Type de relation</th>
+                                    <th style="padding: 4px 2px;" data-i18n="td_dep_type">Type de relation</th>
                                     <th style="padding: 4px 2px;" title="Décalage en jours">Retard</th>
-                                    <th style="padding: 4px 2px;">Contrainte</th>
+                                    <th style="padding: 4px 2px;" data-i18n="td_dep_constraint">Contrainte</th>
                                     <th style="padding: 4px 2px;"></th>
                                 </tr>
                             </thead>
@@ -1228,7 +1303,7 @@
                     </div>
                     <div style="display: flex; gap: 8px; align-items: center; margin-top: auto;">
                         <select id="td-new-pred-task" style="flex: 1; padding: 6px;">
-                            <option value="">-- Ajouter un prédécesseur --</option>
+                            <option value="" data-i18n="td_dep_add_opt">-- Ajouter un prédécesseur --</option>
                         </select>
                         <button type="button" id="td-btn-add-pred" class="primary"
                             style="padding: 6px 12px;">Ajouter</button>
@@ -1236,8 +1311,7 @@
                 </div>
 
                 <!-- Onglet Ressources -->
-                <div id="td-tab-resources"
-                    style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
+                <div id="td-tab-resources" style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; min-height: 0;">
                         <!-- Colonne Gauche : Affectations -->
                         <div style="display: flex; flex-direction: column; height: 100%;">
@@ -1262,7 +1336,7 @@
                             </div>
                             <div style="display: flex; gap: 8px; align-items: center; margin-top: auto;">
                                 <select id="td-new-alloc-res" style="flex: 1; padding: 6px;">
-                                    <option value="">-- Affecter une ressource --</option>
+                                    <option value="" data-i18n="td_assign_res_opt">-- Affecter une ressource --</option>
                                 </select>
                                 <input type="number" id="td-new-alloc-load" value="100" step="10" min="0" max="100"
                                     style="width: 70px; padding: 6px;" title="Charge %" /> %
@@ -1295,20 +1369,20 @@
                             </div>
                             <div
                                 style="margin-top: 24px; font-size: 11px; color: #666; background: var(--bg-color); padding: 12px; border-radius: 4px; border: 1px solid var(--border-color);">
-                                <strong>Mode de calcul automatique :</strong><br><br>
+                                <strong data-i18n="td_cost_auto_mode">Mode de calcul automatique :</strong><br><br>
                                 Le coût est calculé dynamiquement en fonction des ressources affectées à la tâche
                                 :<br><br>
                                 <code
                                     style="display: block; padding: 4px; background: #fff; border: 1px solid #ddd; border-radius: 2px;">Coût = Somme(Taux standard × Durée (j) × (Charge / 100))</code><br>
-                                <em>(Le "Taux standard" est défini sur la fiche de chaque ressource)</em>
+                                <em data-i18n="td_cost_rate_desc">(Le "Taux standard" est défini sur la fiche de chaque
+                                    ressource)</em>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Onglet Champs personnalisés -->
-                <div id="td-tab-custom"
-                    style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
+                <div id="td-tab-custom" style="display: none;  flex-direction: column; flex: 1; min-height: 0;">
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color);">
                         <p style="margin: 0; font-weight: bold;">Valeurs personnalisées pour cette tâche :</p>
@@ -1336,14 +1410,20 @@
 
 
     <!-- Onglets de vue et Recherche -->
-    <div id="tabs-container" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color);">
+    <div id="tabs-container"
+        style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color);">
         <div style="display: flex;">
-            <div class="view-tab active" data-target="main-container">Gantt des Tâches</div>
-            <div class="view-tab" data-target="res-main-container">Diagramme des ressources</div>
+            <div class="view-tab active" data-target="main-container" data-i18n="tab_gantt">Gantt des Tâches</div>
+            <div class="view-tab" data-target="res-main-container" data-i18n="tab_resources">Diagramme des ressources
+            </div>
         </div>
         <div style="position: relative; margin-right: 16px;">
-            <input type="text" id="global-search" placeholder="Rechercher (Tâches, Ressources)..." style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color);  width: 250px; background: var(--bg-color); color: var(--text-color);" />
-            <div id="search-results" style="display:none; position:absolute; top:100%; right:0; background:var(--surface-color); border:1px solid var(--border-color); border-radius:4px; max-height:300px; overflow-y:auto; width:300px; z-index:2000; box-shadow:0 4px 12px rgba(0,0,0,0.15); margin-top: 4px;"></div>
+            <input type="text" id="global-search" data-i18n-placeholder="search_placeholder"
+                placeholder="Rechercher (Tâches, Ressources)..."
+                style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color);  width: 250px; background: var(--bg-color); color: var(--text-color);" />
+            <div id="search-results"
+                style="display:none; position:absolute; top:100%; right:0; background:var(--surface-color); border:1px solid var(--border-color); border-radius:4px; max-height:300px; overflow-y:auto; width:300px; z-index:2000; box-shadow:0 4px 12px rgba(0,0,0,0.15); margin-top: 4px;">
+            </div>
         </div>
     </div>
 
@@ -1355,7 +1435,7 @@
                 <span>Tâches</span>
                 <div id="wbs-toolbar" style="display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end;">
                     <!-- T043: Presse-papiers -->
-                    <button id="btn-cut" title="Couper" disabled>
+                    <button id="btn-cut" title="Couper" data-i18n-title="tb_cut" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="6" cy="6" r="3"></circle>
@@ -1365,21 +1445,21 @@
                             <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
                         </svg>
                     </button>
-                    <button id="btn-copy" title="Copier" disabled>
+                    <button id="btn-copy" title="Copier" data-i18n-title="tb_copy" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
                     </button>
-                    <button id="btn-paste" title="Coller" disabled>
+                    <button id="btn-paste" title="Coller" data-i18n-title="tb_paste" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
                             <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
                         </svg>
                     </button>
-                    <button id="btn-delete" title="Supprimer" disabled>
+                    <button id="btn-delete" title="Supprimer" data-i18n-title="tb_delete" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>
@@ -1389,7 +1469,7 @@
                     </button>
                     <div style="border-left: 1px solid var(--border-color); margin: 0 4px; height: 22px;"></div>
 
-                    <button id="btn-outdent" title="Désindenter" disabled>
+                    <button id="btn-outdent" title="Désindenter" data-i18n-title="tb_outdent" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1398,7 +1478,7 @@
                             <polyline points="8 16 4 12 8 8"></polyline>
                         </svg>
                     </button>
-                    <button id="btn-indent" title="Indenter" disabled>
+                    <button id="btn-indent" title="Indenter" data-i18n-title="tb_indent" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1407,28 +1487,28 @@
                             <polyline points="16 16 20 12 16 8"></polyline>
                         </svg>
                     </button>
-                    <button id="btn-move-up" title="Monter" disabled>
+                    <button id="btn-move-up" title="Monter" data-i18n-title="tb_move_up" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="19" x2="12" y2="5"></line>
                             <polyline points="5 12 12 5 19 12"></polyline>
                         </svg>
                     </button>
-                    <button id="btn-move-down" title="Descendre" disabled>
+                    <button id="btn-move-down" title="Descendre" data-i18n-title="tb_move_down" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"></line>
                             <polyline points="19 12 12 19 5 12"></polyline>
                         </svg>
                     </button>
-                    <button id="btn-link" title="Lier" disabled>
+                    <button id="btn-link" title="Lier" data-i18n-title="tb_link" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
                             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                         </svg>
                     </button>
-                    <button id="btn-unlink" title="Délier" disabled>
+                    <button id="btn-unlink" title="Délier" data-i18n-title="tb_unlink" disabled>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
@@ -1438,7 +1518,7 @@
                     </button>
                     <!-- T033: Bouton Filtre avec liste déroulante -->
                     <div style="position: relative; display: inline-block;">
-                        <button id="btn-filter" title="Filtrer"
+                        <button id="btn-filter" title="Filtrer" data-i18n-title="tb_filter"
                             style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1464,7 +1544,7 @@
                     </div>
                     <!-- T034: Bouton Colonnes avec liste déroulante -->
                     <div style="position: relative; display: inline-block;">
-                        <button id="btn-columns" title="Colonnes"
+                        <button id="btn-columns" title="Colonnes" data-i18n-title="tb_columns"
                             style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1495,13 +1575,13 @@
         <!-- Right Pane: Gantt Timeline -->
         <div id="right-pane">
             <div class="pane-header" style="display: flex; align-items: center;">
-                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS"
+                <button id="btn-toggle-pane" title="Masquer / Afficher le WBS" data-i18n-title="tb_toggle_wbs"
                     style="padding:0 4px; margin-right: 8px;">◀</button>
                 <span>Diagramme de Gantt</span>
                 <div style="margin-left: auto; display: flex; gap: 4px;">
                     <!-- Bouton Centrer (Scroll) -->
                     <div style="position: relative; display: inline-block;">
-                        <button id="btn-scroll-to" title="Aller à..."
+                        <button id="btn-scroll-to" title="Aller à..." data-i18n-title="tb_go_to"
                             style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1528,7 +1608,7 @@
                         </div>
                     </div>
                     <!-- T040: Boutons de zoom -->
-                    <button id="btn-zoom-out" title="Zoom Arrière"
+                    <button id="btn-zoom-out" title="Zoom Arrière" data-i18n-title="tb_zoom_out"
                         style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1537,7 +1617,7 @@
                             <line x1="8" y1="11" x2="14" y2="11"></line>
                         </svg>
                     </button>
-                    <button id="btn-zoom-in" title="Zoom Avant"
+                    <button id="btn-zoom-in" title="Zoom Avant" data-i18n-title="tb_zoom_in"
                         style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1549,6 +1629,7 @@
                     </button>
                     <!-- T037: Bouton Chemin Critique -->
                     <button id="btn-critical-path" title="Afficher/Masquer le chemin critique"
+                        data-i18n-title="tb_critical_path"
                         style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1571,7 +1652,7 @@
         <!-- Left Pane: Data Table -->
         <div id="res-left-pane">
             <div class="pane-header" style="justify-content: space-between;">
-                <span>Ressources</span>
+                <span data-i18n="tab_resources">Ressources</span>
                 <div id="res-wbs-toolbar" style="display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end;">
                 </div>
             </div>
@@ -1586,13 +1667,13 @@
         <!-- Right Pane: Gantt Timeline -->
         <div id="res-right-pane">
             <div class="pane-header" style="display: flex; align-items: center;">
-                <button id="res-btn-toggle-pane" title="Masquer / Afficher le WBS"
+                <button id="res-btn-toggle-pane" title="Masquer / Afficher le WBS" data-i18n-title="tb_toggle_wbs"
                     style="padding:0 4px; margin-right: 8px;">◀</button>
-                <span>Diagramme de Gantt</span>
+                <span data-i18n="tab_gantt">Diagramme de Gantt</span>
                 <div style="margin-left: auto; display: flex; gap: 4px;">
                     <!-- Bouton Centrer (Scroll) -->
                     <div style="position: relative; display: inline-block;">
-                        <button id="res-btn-scroll-to" title="Aller à..."
+                        <button id="res-btn-scroll-to" title="Aller à..." data-i18n-title="tb_go_to"
                             style="padding:0 4px; display: flex; align-items: center; justify-content: center; height: 100%;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1619,7 +1700,7 @@
                         </div>
                     </div>
                     <!-- T040: Boutons de zoom -->
-                    <button id="res-btn-zoom-out" title="Zoom Arrière"
+                    <button id="res-btn-zoom-out" title="Zoom Arrière" data-i18n-title="tb_zoom_out"
                         style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1628,7 +1709,7 @@
                             <line x1="8" y1="11" x2="14" y2="11"></line>
                         </svg>
                     </button>
-                    <button id="res-btn-zoom-in" title="Zoom Avant"
+                    <button id="res-btn-zoom-in" title="Zoom Avant" data-i18n-title="tb_zoom_in"
                         style="padding:0 4px; display: flex; align-items: center; justify-content: center;">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1662,7 +1743,7 @@
                 }
             });
         });
-        
+
         // Recherche Globale
         const globalSearch = document.getElementById('global-search');
         const searchResults = document.getElementById('search-results');
@@ -1673,19 +1754,19 @@
                 searchResults.style.display = 'none';
                 return;
             }
-            
+
             const tasksNodes = Array.from(state.xmlDoc.querySelectorAll('task'));
             const resNodes = Array.from(state.xmlDoc.querySelectorAll('resource'));
-            
+
             const matchedTasks = tasksNodes.filter(n => (n.getAttribute('name') || '').toLowerCase().includes(query)).map(n => ({ id: n.getAttribute('id'), name: n.getAttribute('name') }));
             const matchedRes = resNodes.filter(n => (n.getAttribute('name') || '').toLowerCase().includes(query)).map(n => ({ id: n.getAttribute('id'), name: n.getAttribute('name') }));
-            
+
             if (matchedTasks.length === 0 && matchedRes.length === 0) {
                 searchResults.innerHTML = '<div style="padding: 8px;  color: #888;">Aucun résultat</div>';
                 searchResults.style.display = 'block';
                 return;
             }
-            
+
             let html = '';
             if (matchedTasks.length > 0) {
                 html += '<div style="padding: 4px 8px; font-size: 11px; font-weight: bold; background: var(--bg-color); color: var(--text-color);">TÂCHES</div>';
@@ -1701,12 +1782,12 @@
             }
             searchResults.innerHTML = html;
             searchResults.style.display = 'block';
-            
+
             searchResults.querySelectorAll('.search-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const type = item.getAttribute('data-type');
                     const id = item.getAttribute('data-id');
-                    
+
                     if (type === 'task') {
                         document.querySelector('.view-tab[data-target="main-container"]').click();
                         window.selectedTaskIds.clear();
@@ -1734,13 +1815,13 @@
                             }
                         }, 100);
                     }
-                    
+
                     searchResults.style.display = 'none';
                     globalSearch.value = '';
                 });
             });
         });
-        
+
         document.addEventListener('click', (e) => {
             if (!globalSearch.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.style.display = 'none';
@@ -2178,7 +2259,7 @@
                         const actionCb = document.querySelector(`input[name="col-toggle"][value="tpd-actions"]`);
                         if (actionCb) actionCb.checked = true;
                     }
-                    
+
                     // Chargement des couleurs de baseline
                     window.baselineColors = { todo: '#808080', ahead: '#00ff00', late: '#ff0000' };
                     const optTodo = viewNode.querySelector('option[id="color.baseline.todo"]');
@@ -2236,13 +2317,13 @@
                         const f = this.xmlDoc.createElement('field');
                         f.setAttribute('id', key);
                         let name = key;
-                        if (key === 'tpd3') name = 'Nom';
-                        else if (key === 'tpd4') name = 'Date de début';
-                        else if (key === 'tpd5') name = 'Date de fin';
-                        else if (key === 'tpd6') name = 'Durée';
-                        else if (key === 'tpd7') name = 'Avancement';
-                        else if (key === 'tpd8') name = 'Responsable';
-                        else if (key === 'tpd9') name = 'Prédécesseurs';
+                        if (key === 'tpd3') name = t('col_name');
+                        else if (key === 'tpd4') name = t('col_start_date');
+                        else if (key === 'tpd5') name = t('col_end_date');
+                        else if (key === 'tpd6') name = t('col_duration');
+                        else if (key === 'tpd7') name = t('col_progress');
+                        else if (key === 'tpd8') name = t('col_coordinator');
+                        else if (key === 'tpd9') name = t('col_predecessors');
                         else if (key === 'tpd13') name = 'Ressources';
                         else if (key === 'tpd-actions') name = 'Actions';
 
@@ -2521,7 +2602,7 @@
                 }
 
                 this.updateHistoryButtons();
-                
+
                 // Appliquer les polices de l'application dynamiquement (T054)
                 if (this.xmlDoc) {
                     const view = this.xmlDoc.querySelector('view[id="gantt-chart"]');
@@ -2534,7 +2615,7 @@
                         const appSizeOpt = view.querySelector('option[id="general.appFontSize"]');
                         if (appSizeOpt) {
                             const sizeVal = parseInt(appSizeOpt.getAttribute('value') || '3');
-                            const sizes = {1: '11px', 2: '12px', 3: '14px', 4: '16px', 5: '20px'};
+                            const sizes = { 1: '11px', 2: '12px', 3: '14px', 4: '16px', 5: '20px' };
                             document.body.style.fontSize = sizes[sizeVal] || '14px';
                         }
                     }
@@ -2833,10 +2914,10 @@
         }
 
         // T008: Rendu du tableau WBS
-        
+
         function renderWBS(tasks, container, depth = 0) {
             const chartFontSizeBase = parseInt(getGlobalPref('gantt-chart', 'general.chartFontSize', '3'));
-            const chartFontSizes = {1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px'};
+            const chartFontSizes = { 1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px' };
             const chartFontSize = chartFontSizes[chartFontSizeBase] || '12px';
             const wbsHdrFs = (12 + (chartFontSizeBase - 3) * 2) + 'px';
 
@@ -2860,14 +2941,14 @@
                 header.style.backgroundColor = 'var(--bg-color)';
 
                 const cName = document.createElement('div');
-                cName.textContent = 'Nom';
+                cName.textContent = t('col_name');
                 applyColStyle(cName, 'tpd3', true);
                 cName.style.paddingLeft = '8px';
                 header.appendChild(cName);
 
                 const tpNode = ensureTaskPropertiesNode();
                 const props = tpNode ? Array.from(tpNode.querySelectorAll('taskproperty')) : [];
-                const tpdLabels = { tpd4: 'Date de début', tpd5: 'Date de fin', tpd6: 'Durée', tpd7: 'Avancement', tpd8: 'Responsable', tpd9: 'Prédécesseurs' };
+                const tpdLabels = { tpd4: t('col_start_date'), tpd5: t('col_end_date'), tpd6: t('col_duration'), tpd7: t('col_progress'), tpd8: t('col_coordinator'), tpd9: t('col_predecessors') };
                 props.forEach(p => {
                     const id = p.getAttribute('id');
                     if (id === 'tpd3') return;
@@ -2886,12 +2967,12 @@
 
                 // Custom native fields columns
                 const extraNatives = [
-                    { id: 'tpd13', name: 'Ressources' },
-                    { id: 'priority', name: 'Priorité' },
-                    { id: 'cost', name: 'Coût' },
-                    { id: 'color', name: 'Couleur' },
-                    { id: 'milestone', name: 'Jalon' },
-                    { id: 'webLink', name: 'Lien Web' }
+                    { id: 'tpd13', name: t('col_resources') || 'Ressources' },
+                    { id: 'priority', name: t('col_priority') || 'Priorité' },
+                    { id: 'cost', name: t('col_cost') || 'Coût' },
+                    { id: 'color', name: t('col_color') || 'Couleur...' },
+                    { id: 'milestone', name: t('col_milestone') || 'Jalon' },
+                    { id: 'webLink', name: t('col_weblink') || 'Lien Web' }
                 ];
 
                 extraNatives.forEach(e => {
@@ -2906,7 +2987,7 @@
                 });
 
                 const cAction = document.createElement('div');
-                cAction.textContent = 'Act.';
+                cAction.textContent = t('col_actions') ? t('col_actions').substr(0, 4) + '.' : 'Act.';
                 cAction.style.textAlign = 'center';
                 cAction.style.fontSize = '10px';
                 applyColStyle(cAction, 'tpd-actions', true);
@@ -3003,12 +3084,12 @@
                 }
 
                 nameCol.appendChild(chevronSpan);
-                
+
                 const iconSpan = document.createElement('span');
                 iconSpan.className = 'wbs-icon';
                 iconSpan.textContent = icon;
                 nameCol.appendChild(iconSpan);
-                
+
                 nameCol.appendChild(document.createTextNode(task.name));
 
                 row.appendChild(nameCol);
@@ -3145,9 +3226,9 @@
                         return;
                     }
 
-                    document.getElementById('td-modal-title').textContent = `Édition de la tâche : ${task.name}`;
+                    document.getElementById('td-modal-title').textContent = `" + t('td_title') + " : ${task.name}`;
                     document.getElementById('td-input-name').oninput = (e) => {
-                        document.getElementById('td-modal-title').textContent = `Édition de la tâche : ${e.target.value}`;
+                        document.getElementById('td-modal-title').textContent = `" + t('td_title') + " : ${e.target.value}`;
                     };
 
                     window.currentDetailsTaskId = task.id;
@@ -3470,9 +3551,9 @@
             // Configuration des polices du graphique
             const chartFontRaw = getGlobalPref('gantt-chart', 'general.chartFont', 'default');
             const chartFont = chartFontRaw === 'default' ? 'inherit' : chartFontRaw;
-            
+
             const chartFontSizeBase = parseInt(getGlobalPref('gantt-chart', 'general.chartFontSize', '3'));
-            const chartFontSizes = {1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px'};
+            const chartFontSizes = { 1: '10px', 2: '11px', 3: '12px', 4: '14px', 5: '16px' };
             const chartFontSize = chartFontSizes[chartFontSizeBase] || '12px';
             const fsz10 = Math.max(8, 10 + (chartFontSizeBase - 3) * 2);
             const fsz11 = Math.max(9, 11 + (chartFontSizeBase - 3) * 2);
@@ -3609,7 +3690,7 @@
             // T049/T050 : Bandes verticales grisées pour les jours chômés (week-ends et fériés)
             const gridHeight = flatTasks.length * rowHeight;
             const weekendStyle = getGlobalPref('gantt-chart', 'gantt.weekendStyle', 'default');
-            
+
             for (let d = 0; d <= maxDays; d++) {
                 const iterDate = new Date(startDateScale.getTime() + d * 24 * 60 * 60 * 1000);
                 if (!isWorkingDay(iterDate)) {
@@ -3665,7 +3746,7 @@
             const showTodayLine = getGlobalPref('gantt-chart', 'gantt.todayLine', 'no');
             if (showTodayLine === 'yes') {
                 const today = new Date();
-                today.setHours(0,0,0,0);
+                today.setHours(0, 0, 0, 0);
                 if (today >= minDate && today <= window.currentMaxDate) {
                     const todayDaysDiff = (today - minDate) / (1000 * 60 * 60 * 24);
                     const todayX = todayDaysDiff * dayWidth;
@@ -3679,7 +3760,7 @@
                 svg += `<line x1="10" y1="${timelineHeight}" x2="10" y2="${timelineHeight + gridHeight}" stroke="green" stroke-width="2" opacity="0.6" stroke-dasharray="2,2" />`;
                 svg += `<line x1="${projEndX}" y1="${timelineHeight}" x2="${projEndX}" y2="${timelineHeight + gridHeight}" stroke="green" stroke-width="2" opacity="0.6" stroke-dasharray="2,2" />`;
             }
-            
+
             const coordMap = {}; // T014: Cartographie des coordonnées
 
             flatTasks.forEach((t, i) => {
@@ -3729,7 +3810,7 @@
                 const detailBottom = getGlobalPref('gantt-chart', 'gantt.detailBottom', '');
                 const detailLeft = getGlobalPref('gantt-chart', 'gantt.detailLeft', '');
                 const detailRight = getGlobalPref('gantt-chart', 'gantt.detailRight', '');
-                
+
                 function getDetailText(detailType) {
                     if (detailType === 'name') return t.name;
                     if (detailType === 'resources') return (t.assignedTasks || []).map(a => a.name).join(', ') || ''; // Simplification
@@ -3739,14 +3820,14 @@
                 }
 
                 const dTop = getDetailText(detailTop);
-                if (dTop) svg += `<text x="${x + w/2}" y="${y - 2}" fill="var(--text-color)" text-anchor="middle">${dTop}</text>`;
-                
+                if (dTop) svg += `<text x="${x + w / 2}" y="${y - 2}" fill="var(--text-color)" text-anchor="middle">${dTop}</text>`;
+
                 const dBottom = getDetailText(detailBottom);
-                if (dBottom) svg += `<text x="${x + w/2}" y="${y + h + 10}" fill="var(--text-color)" text-anchor="middle">${dBottom}</text>`;
-                
+                if (dBottom) svg += `<text x="${x + w / 2}" y="${y + h + 10}" fill="var(--text-color)" text-anchor="middle">${dBottom}</text>`;
+
                 const dLeft = getDetailText(detailLeft) || notesText;
                 if (dLeft) svg += `<text x="${x - 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" text-anchor="end" font-weight="bold" opacity="0.8">${dLeft}</text>`;
-                
+
                 const dRight = getDetailText(detailRight);
                 if (dRight) svg += `<text x="${x + w + 6}" y="${y + h / 2 + 4}" fill="var(--text-color)" text-anchor="start" opacity="0.8">${dRight}</text>`;
 
@@ -3802,7 +3883,7 @@
 
                     const resColor = getGlobalPref('resource-table', 'res.color', '#c8e6c9');
                     const resOverColor = getGlobalPref('resource-table', 'res.overloadedColor', '#ffcdd2');
-                    
+
                     weeks.forEach(wk => {
                         const daysDiff = (wk.start - minDate) / (1000 * 60 * 60 * 24);
                         const wx = Math.max(daysDiff * dayWidth, 10);
@@ -3841,7 +3922,7 @@
                             const bEndDate = getTaskEndDate(bTask);
                             const bCalendarSpan = (bEndDate - bStartDate) / (1000 * 60 * 60 * 24);
                             const bw = Math.max(bCalendarSpan * dayWidth, 4);
-                            
+
                             const tEndDate = getTaskEndDate(t);
                             let bColor = window.baselineColors ? window.baselineColors.todo : '#808080';
                             if (tEndDate.getTime() > bEndDate.getTime()) {
@@ -4225,13 +4306,13 @@
             // Génération de nouveaux IDs
             const idMap = {};
             const copyFormat = getGlobalPref('gantt-chart', 'gantt.taskCopyFormat', '{0}_{1}');
-            
+
             function generateIds(node, isRoot = false) {
                 const oldId = node.getAttribute('id');
                 const newId = Math.floor(Math.random() * 100000).toString();
                 idMap[oldId] = newId;
                 node.setAttribute('id', newId);
-                
+
                 if (isRoot) {
                     const oldName = node.getAttribute('name') || '';
                     const newName = copyFormat.replace('{0}', oldName).replace('{1}', Math.floor(Math.random() * 100));
@@ -4470,7 +4551,7 @@
             newTask.setAttribute('id', newId);
             const prefix = getGlobalPref('gantt-chart', 'gantt.taskPrefix', 'tâche');
             newTask.setAttribute('name', isMilestone ? 'Nouveau Jalon' : prefix + '_' + newId.slice(-3));
-            
+
             const color = getGlobalPref('gantt-chart', 'gantt.newTaskColor', '#8cb6ce');
             newTask.setAttribute('color', color);
 
@@ -4770,6 +4851,1086 @@
                 tr.appendChild(tdType);
                 tr.appendChild(tdColor);
                 tbody.appendChild(tr);
+            });
+        }
+
+        // Traduction de l'IHM
+        const I18N_DICT = {
+            'fr': {
+                _name: 'Français',
+                'tb_open': 'Ouvrir un projet (.gan)',
+                'tb_save': 'Enregistrer',
+                'tb_download': 'Télécharger',
+                'tb_undo': '↩ Annuler',
+                'tb_redo': '↪ Rétablir',
+                'tb_print': '🖨️ Imprimer',
+                'tb_add_task': 'Ajouter Tâche',
+                'tb_add_milestone': 'Ajouter Jalon',
+                'tb_add_resource': 'Ajouter Ressource',
+                'tb_project_props': 'Propriétés Projet',
+                'tb_preferences': 'Préférences',
+                'tb_dark_mode': 'Mode Sombre',
+                'tab_gantt': 'Gantt des Tâches',
+                'tab_resources': 'Diagramme des ressources',
+                'search_placeholder': 'Rechercher (Tâches, Ressources)...',
+                'prop_title': 'Propriétés du Projet',
+                'prop_tab_general': 'Général',
+                'prop_tab_calendar': 'Calendrier',
+                'prop_tab_roles': 'Rôles',
+                'prop_name': 'Nom du projet :',
+                'prop_company': 'Organisation (Compagnie) :',
+                'prop_weblink': 'Lien web :',
+                'prop_description': 'Description :',
+                'prop_weekends': 'Choix des week-ends',
+                'prop_weekends_behavior': 'Les week-ends',
+                'prop_holidays': "Choix d'un calendrier de jours fériés",
+                'btn_ok': 'OK',
+                'btn_cancel': 'Annuler',
+
+                'th_dates': "Dates", 'th_recurrent': "Récurrent", 'th_summary': "Résumé", 'th_type': "Type", 'th_color': "Couleur",
+                'shift_project_start': "Décaler la date de début du projet", 'shift_new_start': "Nouvelle date de début", 'shift_all_tasks': "Décaler toutes les tâches de votre projet", 'shift_tasks_from_date': "Décaler les tâches à partir de cette date et replanifier le reste",
+                'opt_no_task_weekend': "Aucune tâche ne peut être exécutée", 'opt_task_weekend_normal': "Les tâches sont executées comme n'importe quel autre jour.",
+                'td_title': "Édition de la tâche", 'td_tab_general': "Général", 'td_tab_predecessors': "Prédécesseurs", 'td_tab_resources': "Ressources", 'td_tab_custom': "Champs Perso.",
+                'td_name': "Nom de la tâche", 'td_milestone': "Jalon", 'td_plan_opt': "Option de planification", 'td_duration': "Durée (jours)", 'td_progress': "Avancement (%)", 'td_shape': "Graphisme", 'td_show_timeline': "Afficher dans la planif.", 'td_notes': "Notes",
+                'prio_low': "Faible", 'prio_normal': "Normale", 'prio_high': "Haute",
+                'tb_toggle_wbs': "Masquer / Afficher le WBS", 'tb_go_to': "Aller à...", 'tb_zoom_out': "Zoom Arrière", 'tb_zoom_in': "Zoom Avant", 'tb_cut': "Couper", 'tb_copy': "Copier", 'tb_paste': "Coller", 'tb_delete': "Supprimer", 'tb_outdent': "Désindenter", 'tb_indent': "Indenter", 'tb_move_up': "Monter", 'tb_move_down': "Descendre", 'tb_link': "Lier", 'tb_unlink': "Délier", 'tb_filter': "Filtrer", 'tb_critical_path': "Afficher/Masquer le chemin critique", 'tb_columns': "Colonnes",
+
+                'help_formula_title': "Aide : Formules de calcul", 'base_title': "États de référence du projet", 'base_active': "État de référence actif sur le Gantt :", 'base_existing': "Empreintes existantes :", 'base_new_name': "Nom de la nouvelle empreinte", 'base_btn_create': "Créer", 'base_colors_title': "Couleurs des états d'avancement", 'base_todo': "Tâche restant à faire :", 'base_ahead': "Tâche en avance sur le planning :", 'base_late': "Tâche en retard sur le planning :",
+                'td_cost_title': "Coût de la tâche", 'td_cost_auto': "Calculé automatiquement", 'td_cost_manual': "Défini manuellement", 'td_cost_auto_mode': "Mode de calcul automatique :", 'td_cost_auto_desc': "Le coût est calculé dynamiquement en fonction des ressources affectées :", 'td_cost_formula': "Coût = Somme(Taux standard × Durée (j) × (Charge / 100))", 'td_cost_rate_desc': "(Le \"Taux standard\" est défini sur la fiche de chaque ressource)", 'td_custom_values': "Valeurs personnalisées pour cette tâche :", 'btn_manage_fields': "⚙️ Gérer les champs",
+                'td_manage_res': "Gérez les ressources affectées :", 'td_assign_res_opt': "-- Affecter une ressource --", 'td_col_resp_title': "Responsable", 'td_col_resp': "Resp.", 'col_unit': "Unité",
+                'td_deps_title': "Tâches dont dépend celle-ci (Prédécesseurs) :", 'td_dep_type': "Type de relation", 'td_dep_lag_title': "Décalage en jours", 'td_dep_lag': "Retard", 'td_dep_constraint': "Contrainte", 'td_dep_add_opt': "-- Ajouter un prédécesseur --",
+                'ctx_new_task': "Nouvelle Tâche", 'ctx_color': "Couleur...", 'ctx_props': "Propriétés",
+
+                'recent_files': "Fichiers récents", 'no_recent_files': "Aucun fichier récent",
+                'day_mon': "lun.", 'day_tue': "mar.", 'day_wed': "mer.", 'day_thu': "jeu.", 'day_fri': "ven.", 'day_sat': "sam.", 'day_sun': "dim.",
+                'opt_cal_select': "Sélectionner un calendrier...", 'opt_cal_fr': "France", 'opt_cal_de': "Allemagne", 'opt_cal_uk': "Royaume-Uni", 'opt_cal_es': "Espagne", 'opt_cal_it': "Italie", 'opt_cal_lb': "Luxembourg", 'opt_cal_be': "Belgique", 'opt_cal_nl': "Pays-Bas",
+                'td_opt_fixed_start': "La date de fin est calculée", 'td_opt_fixed_end': "La date de début est calculée", 'td_opt_fixed_dur': "La durée est calculée",
+                'tb_lbl_tasks': "Tâches", 'tb_lbl_gantt': "Diagramme de Gantt",
+                'filter_all': "Toutes les tâches", 'filter_incomp': "Non terminées", 'filter_today': "À faire aujourd'hui", 'filter_late': "En retard", 'filter_ongoing': "En cours",
+                'btn_add': 'Ajouter',
+                'btn_del': 'Supprimer',
+                'pref_tab_gantt': 'Propriétés du diagramme de Gantt',
+                'pref_tab_res': 'Propriétés du diagramme des ressources',
+                'pref_gen_appearance': 'Apparence',
+                'pref_gen_app_font': "Polices de l'application",
+                'pref_gen_chart_font': "Polices de base graphique",
+                'pref_gen_row_spacing': "Espacement des lignes du tableau",
+                'pref_gen_lang': "Langue",
+                'pref_gen_use_date_format': "Utilisez le format de date",
+                'pref_gen_date_default': "par défaut",
+                'pref_gen_date_custom': "personnalisé",
+                'pref_gen_custom_date_format': "Format de date court personnalisé",
+                'pref_gen_we_are_the': "Nous sommes le",
+                'pref_gen_logo_file': "Fichier du logo",
+                'btn_browse': "Parcourir...",
+                'btn_default': "Rétablir Par Défaut",
+                'btn_close': "Fermer",
+                'btn_validate': "Valider",
+                'col_name': "Nom",
+                'col_start_date': "Date de début",
+                'col_end_date': "Date de fin",
+                'col_duration': "Durée",
+                'col_duration': "Durée",
+                'col_progress': "Avancement",
+                'col_coordinator': "Responsable",
+                'col_predecessors': "Prédécesseurs",
+                'col_role_name': "Nom du rôle",
+                'res_title': "Administration des Ressources",
+                'res_btn_add': "+ Nouvelle Ressource",
+                'col_role': "Rôle (Fonction)",
+                'col_email': "Email (Contacts)",
+                'col_phone': "Téléphone",
+                'col_rate': "Taux standard",
+                'col_vacations': "Congés",
+                'col_allocations': "Affectations",
+                'col_custom_fields': "Champs perso.",
+                'col_actions': "Actions",
+                'col_resources': "Ressources",
+                'col_priority': "Priorité",
+                'col_cost': "Coût",
+                'col_color': "Couleur",
+                'col_milestone': "Jalon",
+                'col_weblink': "Lien Web",
+                'cp_title': "Configuration des Champs Personnalisés",
+                'cp_btn_add': "+ Nouveau Champ",
+                'col_type': "Type",
+                'col_default': "Valeur par défaut",
+                'col_calculated': "Calculé ?",
+                'col_formula': "Formule"
+            },
+            'en': {
+                _name: 'English',
+                'tb_open': 'Open project (.gan)',
+                'tb_save': 'Save',
+                'tb_download': 'Download',
+                'tb_undo': '↩ Undo',
+                'tb_redo': '↪ Redo',
+                'tb_print': '🖨️ Print',
+                'tb_add_task': 'Add Task',
+                'tb_add_milestone': 'Add Milestone',
+                'tb_add_resource': 'Add Resource',
+                'tb_project_props': 'Project Properties',
+                'tb_preferences': 'Preferences',
+                'tb_dark_mode': 'Dark Mode',
+                'tab_gantt': 'Gantt Chart',
+                'tab_resources': 'Resources Chart',
+                'search_placeholder': 'Search (Tasks, Resources)...',
+                'prop_title': 'Project Properties',
+                'prop_tab_general': 'General',
+                'prop_tab_calendar': 'Calendar',
+                'prop_tab_roles': 'Roles',
+                'prop_name': 'Project name:',
+                'prop_company': 'Organization (Company):',
+                'prop_weblink': 'Web link:',
+                'prop_description': 'Description:',
+                'prop_weekends': 'Weekend days',
+                'prop_weekends_behavior': 'Weekends',
+                'prop_holidays': 'Holiday calendar',
+                'btn_ok': 'OK',
+                'btn_cancel': 'Cancel',
+
+                'th_dates': "Dates", 'th_recurrent': "Recurring", 'th_summary': "Summary", 'th_type': "Type", 'th_color': "Color",
+                'shift_project_start': "Shift project start date", 'shift_new_start': "New start date", 'shift_all_tasks': "Shift all tasks in your project", 'shift_tasks_from_date': "Shift tasks from this date and reschedule the rest",
+                'opt_no_task_weekend': "No task can be executed", 'opt_task_weekend_normal': "Tasks are executed as on any other day.",
+                'td_title': "Task Edition", 'td_tab_general': "General", 'td_tab_predecessors': "Predecessors", 'td_tab_resources': "Resources", 'td_tab_custom': "Custom Fields",
+                'td_name': "Task name", 'td_milestone': "Milestone", 'td_plan_opt': "Planning option", 'td_duration': "Duration (days)", 'td_progress': "Progress (%)", 'td_shape': "Shape", 'td_show_timeline': "Show on timeline", 'td_notes': "Notes",
+                'prio_low': "Low", 'prio_normal': "Normal", 'prio_high': "High",
+                'tb_toggle_wbs': "Toggle WBS", 'tb_go_to': "Go to...", 'tb_zoom_out': "Zoom Out", 'tb_zoom_in': "Zoom In", 'tb_cut': "Cut", 'tb_copy': "Copy", 'tb_paste': "Paste", 'tb_delete': "Delete", 'tb_outdent': "Outdent", 'tb_indent': "Indent", 'tb_move_up': "Move Up", 'tb_move_down': "Move Down", 'tb_link': "Link", 'tb_unlink': "Unlink", 'tb_filter': "Filter", 'tb_critical_path': "Toggle Critical Path", 'tb_columns': "Columns",
+
+                'help_formula_title': "Help: Calculation Formulas", 'base_title': "Project Baselines", 'base_active': "Active baseline on Gantt:", 'base_existing': "Existing footprints:", 'base_new_name': "New footprint name", 'base_btn_create': "Create", 'base_colors_title': "Progress state colors", 'base_todo': "Remaining task:", 'base_ahead': "Task ahead of schedule:", 'base_late': "Task behind schedule:",
+                'td_cost_title': "Task Cost", 'td_cost_auto': "Calculated automatically", 'td_cost_manual': "Defined manually", 'td_cost_auto_mode': "Automatic calculation mode:", 'td_cost_auto_desc': "The cost is dynamically calculated based on assigned resources:", 'td_cost_formula': "Cost = Sum(Standard rate × Duration (d) × (Load / 100))", 'td_cost_rate_desc': "(The \"Standard rate\" is defined on each resource's profile)", 'td_custom_values': "Custom values for this task:", 'btn_manage_fields': "⚙️ Manage fields",
+                'td_manage_res': "Manage assigned resources:", 'td_assign_res_opt': "-- Assign a resource --", 'td_col_resp_title': "Coordinator", 'td_col_resp': "Coord.", 'col_unit': "Unit",
+                'td_deps_title': "Tasks this one depends on (Predecessors):", 'td_dep_type': "Relation type", 'td_dep_lag_title': "Lag in days", 'td_dep_lag': "Lag", 'td_dep_constraint': "Constraint", 'td_dep_add_opt': "-- Add a predecessor --",
+                'ctx_new_task': "New Task", 'ctx_color': "Color...", 'ctx_props': "Properties",
+
+                'recent_files': "Recent files", 'no_recent_files': "No recent files",
+                'day_mon': "Mon", 'day_tue': "Tue", 'day_wed': "Wed", 'day_thu': "Thu", 'day_fri': "Fri", 'day_sat': "Sat", 'day_sun': "Sun",
+                'opt_cal_select': "Select a calendar...", 'opt_cal_fr': "France", 'opt_cal_de': "Germany", 'opt_cal_uk': "United Kingdom", 'opt_cal_es': "Spain", 'opt_cal_it': "Italy", 'opt_cal_lb': "Luxembourg", 'opt_cal_be': "Belgium", 'opt_cal_nl': "Netherlands",
+                'td_opt_fixed_start': "End date is calculated", 'td_opt_fixed_end': "Start date is calculated", 'td_opt_fixed_dur': "Duration is calculated",
+                'tb_lbl_tasks': "Tasks", 'tb_lbl_gantt': "Gantt Chart",
+                'filter_all': "All tasks", 'filter_incomp': "Incomplete", 'filter_today': "To do today", 'filter_late': "Overdue", 'filter_ongoing': "In progress",
+                'btn_add': 'Add',
+                'btn_del': 'Delete',
+                'pref_tab_gantt': 'Gantt Chart Properties',
+                'pref_tab_res': 'Resources Chart Properties',
+                'pref_gen_appearance': 'Appearance',
+                'pref_gen_app_font': "Application fonts",
+                'pref_gen_chart_font': "Chart base fonts",
+                'pref_gen_row_spacing': "Table row spacing",
+                'pref_gen_lang': "Language",
+                'pref_gen_use_date_format': "Use date format",
+                'pref_gen_date_default': "default",
+                'pref_gen_date_custom': "custom",
+                'pref_gen_custom_date_format': "Custom short date format",
+                'pref_gen_we_are_the': "Today is",
+                'pref_gen_logo_file': "Logo file",
+                'btn_browse': "Browse...",
+                'btn_default': "Restore Defaults",
+                'btn_close': "Close",
+                'btn_validate': "Apply",
+                'col_name': "Name",
+                'col_start_date': "Start date",
+                'col_end_date': "End date",
+                'col_duration': "Duration",
+                'col_duration': "Duration",
+                'col_progress': "Progress",
+                'col_coordinator': "Coordinator",
+                'col_predecessors': "Predecessors",
+                'col_role_name': "Role name",
+                'res_title': "Resources Administration",
+                'res_btn_add': "+ New Resource",
+                'col_role': "Role (Function)",
+                'col_email': "Email (Contacts)",
+                'col_phone': "Phone",
+                'col_rate': "Standard rate",
+                'col_vacations': "Vacations",
+                'col_allocations': "Allocations",
+                'col_custom_fields': "Custom fields",
+                'col_actions': "Actions",
+                'col_resources': "Resources",
+                'col_priority': "Priority",
+                'col_cost': "Cost",
+                'col_color': "Color",
+                'col_milestone': "Milestone",
+                'col_weblink': "Web Link",
+                'cp_title': "Custom Fields Configuration",
+                'cp_btn_add': "+ New Field",
+                'col_type': "Type",
+                'col_default': "Default value",
+                'col_calculated': "Calculated?",
+                'col_formula': "Formula"
+            },
+            'es': {
+                _name: 'Español',
+                'tb_open': "Abrir proyecto (.gan)",
+                'tb_save': "Guardar",
+                'tb_download': "Descargar",
+                'tb_undo': "\u21a9 Deshacer",
+                'tb_redo': "\u21aa Rehacer",
+                'tb_print': "\ud83d\udda8\ufe0f Imprimir",
+                'tb_add_task': "A\u00f1adir tarea",
+                'tb_add_milestone': "A\u00f1adir hito",
+                'tb_add_resource': "A\u00f1adir recurso",
+                'tb_project_props': "Propiedades del proyecto",
+                'tb_preferences': "Preferencias",
+                'tb_dark_mode': "Modo oscuro",
+                'tab_gantt': "Diagrama de Gantt",
+                'tab_resources': "Diagrama de Recursos",
+                'search_placeholder': "Buscar (tareas, recursos)...",
+                'prop_title': "Propiedades del Proyecto",
+                'prop_tab_general': "General",
+                'prop_tab_calendar': "Calendario",
+                'prop_tab_roles': "Roles",
+                'prop_gen_name': "Nombre del proyecto:",
+                'prop_gen_org': "Organizaci\u00f3n:",
+                'prop_gen_link': "Enlace web:",
+                'prop_gen_desc': "Descripci\u00f3n:",
+                'pref_tab_gantt': "Propiedades del diagrama de Gantt",
+                'pref_tab_res': "Propiedades del diagrama de recursos",
+                'pref_gen_appearance': "Apariencia",
+                'pref_gen_font_size': "Tama\u00f1o de fuente base",
+                'pref_gen_lang': "Idioma",
+                'pref_gen_date_format': "Formato de fecha",
+                'pref_gen_logo': "Logo del panel principal",
+                'pref_gantt_red_line': "L\u00ednea roja para hoy",
+                'pref_res_red_line': "L\u00ednea roja para hoy",
+                'pref_gantt_row_height': "Altura de fila",
+                'pref_res_row_height': "Altura de fila",
+                'btn_browse': "Explorar...",
+                'btn_default': "Restaurar predeterminados",
+                'btn_close': "Cerrar",
+                'btn_validate': "Aplicar",
+                'btn_add': "A\u00f1adir",
+                'btn_cancel': "Cancelar",
+                'col_name': "Nombre",
+                'col_start_date': "Fecha de inicio",
+                'col_end_date': "Fecha de fin",
+                'col_duration': "Duraci\u00f3n",
+                'col_progress': "Progreso",
+                'col_coordinator': "Coordinador",
+                'col_predecessors': "Predecesores",
+                'col_role_name': "Nombre del rol",
+                'res_title': "Administraci\u00f3n de Recursos",
+                'res_btn_add': "+ Nuevo Recurso",
+                'col_role': "Rol (Funci\u00f3n)",
+                'col_email': "Correo (Contactos)",
+                'col_phone': "Tel\u00e9fono",
+                'col_rate': "Tasa est\u00e1ndar",
+                'col_vacations': "Vacaciones",
+                'col_allocations': "Asignaciones",
+                'col_custom_fields': "Campos personalizados",
+                'col_actions': "Acciones",
+                'col_resources': "Recursos",
+                'col_priority': "Prioridad",
+                'col_cost': "Coste",
+                'col_color': "Color",
+                'col_milestone': "Hito",
+                'col_weblink': "Enlace Web",
+                'cp_title': "Configuraci\u00f3n de Campos Personalizados",
+                'cp_btn_add': "+ Nuevo Campo",
+                'col_type': "Tipo",
+                'col_default': "Valor por defecto",
+                'col_calculated': "\u00bfCalculado?",
+                'col_formula': "F\u00f3rmula",
+                'recent_files': "Archivos recientes",
+                'no_recent_files': "No hay archivos recientes",
+                'day_mon': "Lun",
+                'day_tue': "Mar",
+                'day_wed': "Mi\u00e9",
+                'day_thu': "Jue",
+                'day_fri': "Vie",
+                'day_sat': "S\u00e1b",
+                'day_sun': "Dom",
+                'opt_cal_select': "Seleccionar un calendario...",
+                'opt_cal_fr': "Francia",
+                'opt_cal_de': "Alemania",
+                'opt_cal_uk': "Reino Unido",
+                'opt_cal_es': "Espa\u00f1a",
+                'opt_cal_it': "Italia",
+                'opt_cal_lb': "Luxemburgo",
+                'opt_cal_be': "B\u00e9lgica",
+                'opt_cal_nl': "Pa\u00edses Bajos",
+                'td_opt_fixed_start': "Fecha de fin calculada",
+                'td_opt_fixed_end': "Fecha de inicio calculada",
+                'td_opt_fixed_dur': "Duraci\u00f3n calculada",
+                'tb_lbl_tasks': "Tareas",
+                'tb_lbl_gantt': "Diagrama de Gantt",
+                'filter_all': "Todas las tareas",
+                'filter_incomp': "No completadas",
+                'filter_today': "Para hoy",
+                'filter_late': "Atrasadas",
+                'filter_ongoing': "En progreso",
+                'help_formula_title': "Ayuda: F\u00f3rmulas de c\u00e1lculo",
+                'base_title': "L\u00edneas base del proyecto",
+                'base_active': "L\u00ednea base activa en Gantt:",
+                'base_existing': "L\u00edneas base existentes:",
+                'base_new_name': "Nombre de nueva l\u00ednea base",
+                'base_btn_create': "Crear",
+                'base_colors_title': "Colores de progreso",
+                'base_todo': "Tarea restante:",
+                'base_ahead': "Tarea adelantada:",
+                'base_late': "Tarea atrasada:",
+                'td_cost_title': "Coste de la tarea",
+                'td_cost_auto': "Calculado autom\u00e1ticamente",
+                'td_cost_manual': "Definido manualmente",
+                'td_cost_auto_mode': "Modo de c\u00e1lculo autom\u00e1tico:",
+                'td_cost_auto_desc': "El coste se calcula din\u00e1micamente seg\u00fan los recursos asignados:",
+                'td_cost_formula': "Coste = Suma(Tasa est\u00e1ndar \u00d7 Duraci\u00f3n (d) \u00d7 (Carga / 100))",
+                'td_cost_rate_desc': "(La 'Tasa est\u00e1ndar' se define en el perfil de cada recurso)",
+                'td_custom_values': "Valores personalizados para esta tarea:",
+                'btn_manage_fields': "\u2699\ufe0f Gestionar campos",
+                'td_manage_res': "Gestionar recursos asignados:",
+                'td_assign_res_opt': "-- Asignar recurso --",
+                'td_col_resp_title': "Responsable",
+                'td_col_resp': "Resp.",
+                'col_unit': "Unidad",
+                'td_deps_title': "Tareas de las que depende (Predecesoras):",
+                'td_dep_type': "Tipo de relaci\u00f3n",
+                'td_dep_lag_title': "Retraso en d\u00edas",
+                'td_dep_lag': "Retraso",
+                'td_dep_constraint': "Restricci\u00f3n",
+                'td_dep_add_opt': "-- A\u00f1adir predecesora --",
+                'ctx_new_task': "Nueva Tarea",
+                'ctx_color': "Color...",
+                'ctx_props': "Propiedades",
+                'th_dates': "Fechas",
+                'th_recurrent': "Recurrente",
+                'th_summary': "Resumen",
+                'th_type': "Tipo",
+                'th_color': "Color",
+                'shift_project_start': "Mover fecha de inicio del proyecto",
+                'shift_new_start': "Nueva fecha de inicio",
+                'shift_all_tasks': "Mover todas las tareas",
+                'shift_tasks_from_date': "Mover tareas desde esta fecha",
+                'opt_no_task_weekend': "No se puede ejecutar ninguna tarea",
+                'opt_task_weekend_normal': "Las tareas se ejecutan como cualquier otro d\u00eda.",
+                'td_title': "Edici\u00f3n de tarea",
+                'td_tab_general': "General",
+                'td_tab_predecessors': "Predecesores",
+                'td_tab_resources': "Recursos",
+                'td_tab_custom': "Campos Pers.",
+                'td_name': "Nombre de la tarea",
+                'td_milestone': "Hito",
+                'td_plan_opt': "Opci\u00f3n de planificaci\u00f3n",
+                'td_duration': "Duraci\u00f3n (d\u00edas)",
+                'td_progress': "Progreso (%)",
+                'td_shape': "Forma",
+                'td_show_timeline': "Mostrar en l\u00ednea de tiempo",
+                'td_notes': "Notas",
+                'prio_low': "Baja",
+                'prio_normal': "Normal",
+                'prio_high': "Alta",
+                'tb_toggle_wbs': "Mostrar/Ocultar WBS",
+                'tb_go_to': "Ir a...",
+                'tb_zoom_out': "Alejar",
+                'tb_zoom_in': "Acercar",
+                'tb_cut': "Cortar",
+                'tb_copy': "Copiar",
+                'tb_paste': "Pegar",
+                'tb_delete': "Eliminar",
+                'tb_outdent': "Disminuir sangr\u00eda",
+                'tb_indent': "Aumentar sangr\u00eda",
+                'tb_move_up': "Subir",
+                'tb_move_down': "Bajar",
+                'tb_link': "Vincular",
+                'tb_unlink': "Desvincular",
+                'tb_filter': "Filtrar",
+                'tb_critical_path': "Ruta Cr\u00edtica",
+                'tb_columns': "Columnas",
+            },
+            'de': {
+                _name: 'Deutsch',
+                'tb_open': "Projekt \u00f6ffnen (.gan)",
+                'tb_save': "Speichern",
+                'tb_download': "Herunterladen",
+                'tb_undo': "\u21a9 R\u00fcckg\u00e4ngig",
+                'tb_redo': "\u21aa Wiederholen",
+                'tb_print': "\ud83d\udda8\ufe0f Drucken",
+                'tb_add_task': "Aufgabe hinzuf\u00fcgen",
+                'tb_add_milestone': "Meilenstein hinzuf\u00fcgen",
+                'tb_add_resource': "Ressource hinzuf\u00fcgen",
+                'tb_project_props': "Projekteigenschaften",
+                'tb_preferences': "Einstellungen",
+                'tb_dark_mode': "Dunkelmodus",
+                'tab_gantt': "Gantt-Diagramm",
+                'tab_resources': "Ressourcendiagramm",
+                'search_placeholder': "Suchen (Aufgaben, Ressourcen)...",
+                'prop_title': "Projekteigenschaften",
+                'prop_tab_general': "Allgemein",
+                'prop_tab_calendar': "Kalender",
+                'prop_tab_roles': "Rollen",
+                'prop_gen_name': "Projektname:",
+                'prop_gen_org': "Organisation:",
+                'prop_gen_link': "Weblink:",
+                'prop_gen_desc': "Beschreibung:",
+                'pref_tab_gantt': "Gantt-Diagramm-Eigenschaften",
+                'pref_tab_res': "Ressourcendiagramm-Eigenschaften",
+                'pref_gen_appearance': "Erscheinungsbild",
+                'pref_gen_font_size': "Basis-Schriftgr\u00f6\u00dfe",
+                'pref_gen_lang': "Sprache",
+                'pref_gen_date_format': "Datumsformat",
+                'pref_gen_logo': "Hauptpanel-Logo",
+                'pref_gantt_red_line': "Rote Linie f\u00fcr heute",
+                'pref_res_red_line': "Rote Linie f\u00fcr heute",
+                'pref_gantt_row_height': "Zeilenh\u00f6he",
+                'pref_res_row_height': "Zeilenh\u00f6he",
+                'btn_browse': "Durchsuchen...",
+                'btn_default': "Standard wiederherstellen",
+                'btn_close': "Schlie\u00dfen",
+                'btn_validate': "Anwenden",
+                'btn_add': "Hinzuf\u00fcgen",
+                'btn_cancel': "Abbrechen",
+                'col_name': "Name",
+                'col_start_date': "Startdatum",
+                'col_end_date': "Enddatum",
+                'col_duration': "Dauer",
+                'col_progress': "Fortschritt",
+                'col_coordinator': "Koordinator",
+                'col_predecessors': "Vorg\u00e4nger",
+                'col_role_name': "Rollenname",
+                'res_title': "Ressourcenverwaltung",
+                'res_btn_add': "+ Neue Ressource",
+                'col_role': "Rolle (Funktion)",
+                'col_email': "E-Mail (Kontakte)",
+                'col_phone': "Telefon",
+                'col_rate': "Standardsatz",
+                'col_vacations': "Urlaub",
+                'col_allocations': "Zuweisungen",
+                'col_custom_fields': "Benutzerdefinierte Felder",
+                'col_actions': "Aktionen",
+                'col_resources': "Ressourcen",
+                'col_priority': "Priorit\u00e4t",
+                'col_cost': "Kosten",
+                'col_color': "Farbe",
+                'col_milestone': "Meilenstein",
+                'col_weblink': "Weblink",
+                'cp_title': "Konfiguration benutzerdefinierter Felder",
+                'cp_btn_add': "+ Neues Feld",
+                'col_type': "Typ",
+                'col_default': "Standardwert",
+                'col_calculated': "Berechnet?",
+                'col_formula': "Formel",
+                'recent_files': "Letzte Dateien",
+                'no_recent_files': "Keine letzten Dateien",
+                'day_mon': "Mo",
+                'day_tue': "Di",
+                'day_wed': "Mi",
+                'day_thu': "Do",
+                'day_fri': "Fr",
+                'day_sat': "Sa",
+                'day_sun': "So",
+                'opt_cal_select': "Kalender ausw\u00e4hlen...",
+                'opt_cal_fr': "Frankreich",
+                'opt_cal_de': "Deutschland",
+                'opt_cal_uk': "Gro\u00dfbritannien",
+                'opt_cal_es': "Spanien",
+                'opt_cal_it': "Italien",
+                'opt_cal_lb': "Luxemburg",
+                'opt_cal_be': "Belgien",
+                'opt_cal_nl': "Niederlande",
+                'td_opt_fixed_start': "Enddatum wird berechnet",
+                'td_opt_fixed_end': "Startdatum wird berechnet",
+                'td_opt_fixed_dur': "Dauer wird berechnet",
+                'tb_lbl_tasks': "Aufgaben",
+                'tb_lbl_gantt': "Gantt-Diagramm",
+                'filter_all': "Alle Aufgaben",
+                'filter_incomp': "Unvollst\u00e4ndig",
+                'filter_today': "Heute zu tun",
+                'filter_late': "\u00dcberf\u00e4llig",
+                'filter_ongoing': "In Bearbeitung",
+                'help_formula_title': "Hilfe: Berechnungsformeln",
+                'base_title': "Projekt-Basislinien",
+                'base_active': "Aktive Basislinie im Gantt:",
+                'base_existing': "Vorhandene Basislinien:",
+                'base_new_name': "Name der neuen Basislinie",
+                'base_btn_create': "Erstellen",
+                'base_colors_title': "Fortschrittsfarben",
+                'base_todo': "Verbleibende Aufgabe:",
+                'base_ahead': "Aufgabe vor Plan:",
+                'base_late': "Aufgabe im Verzug:",
+                'td_cost_title': "Aufgabenkosten",
+                'td_cost_auto': "Automatisch berechnet",
+                'td_cost_manual': "Manuell definiert",
+                'td_cost_auto_mode': "Automatischer Berechnungsmodus:",
+                'td_cost_auto_desc': "Die Kosten werden basierend auf zugewiesenen Ressourcen berechnet:",
+                'td_cost_formula': "Kosten = Summe(Standardsatz \u00d7 Dauer (T) \u00d7 (Auslastung / 100))",
+                'td_cost_rate_desc': "(Der 'Standardsatz' wird im Profil jeder Ressource definiert)",
+                'td_custom_values': "Benutzerdefinierte Werte f\u00fcr diese Aufgabe:",
+                'btn_manage_fields': "\u2699\ufe0f Felder verwalten",
+                'td_manage_res': "Zugewiesene Ressourcen verwalten:",
+                'td_assign_res_opt': "-- Ressource zuweisen --",
+                'td_col_resp_title': "Koordinator",
+                'td_col_resp': "Koord.",
+                'col_unit': "Einheit",
+                'td_deps_title': "Aufgaben, von denen diese abh\u00e4ngt (Vorg\u00e4nger):",
+                'td_dep_type': "Beziehungstyp",
+                'td_dep_lag_title': "Verz\u00f6gerung in Tagen",
+                'td_dep_lag': "Verz\u00f6gerung",
+                'td_dep_constraint': "Einschr\u00e4nkung",
+                'td_dep_add_opt': "-- Vorg\u00e4nger hinzuf\u00fcgen --",
+                'ctx_new_task': "Neue Aufgabe",
+                'ctx_color': "Farbe...",
+                'ctx_props': "Eigenschaften",
+                'th_dates': "Daten",
+                'th_recurrent': "Wiederkehrend",
+                'th_summary': "Zusammenfassung",
+                'th_type': "Typ",
+                'th_color': "Farbe",
+                'shift_project_start': "Projektstartdatum verschieben",
+                'shift_new_start': "Neues Startdatum",
+                'shift_all_tasks': "Alle Aufgaben verschieben",
+                'shift_tasks_from_date': "Aufgaben ab diesem Datum verschieben",
+                'opt_no_task_weekend': "Keine Aufgabe kann ausgef\u00fchrt werden",
+                'opt_task_weekend_normal': "Aufgaben werden wie an jedem anderen Tag ausgef\u00fchrt.",
+                'td_title': "Aufgabe bearbeiten",
+                'td_tab_general': "Allgemein",
+                'td_tab_predecessors': "Vorg\u00e4nger",
+                'td_tab_resources': "Ressourcen",
+                'td_tab_custom': "Benutzerdef. Felder",
+                'td_name': "Aufgabenname",
+                'td_milestone': "Meilenstein",
+                'td_plan_opt': "Planungsoption",
+                'td_duration': "Dauer (Tage)",
+                'td_progress': "Fortschritt (%)",
+                'td_shape': "Form",
+                'td_show_timeline': "Auf der Zeitachse anzeigen",
+                'td_notes': "Notizen",
+                'prio_low': "Niedrig",
+                'prio_normal': "Normal",
+                'prio_high': "Hoch",
+                'tb_toggle_wbs': "WBS umschalten",
+                'tb_go_to': "Gehe zu...",
+                'tb_zoom_out': "Herauszoomen",
+                'tb_zoom_in': "Hineinzoomen",
+                'tb_cut': "Ausschneiden",
+                'tb_copy': "Kopieren",
+                'tb_paste': "Einf\u00fcgen",
+                'tb_delete': "L\u00f6schen",
+                'tb_outdent': "Ausr\u00fccken",
+                'tb_indent': "Einr\u00fccken",
+                'tb_move_up': "Nach oben",
+                'tb_move_down': "Nach unten",
+                'tb_link': "Verkn\u00fcpfen",
+                'tb_unlink': "Trennen",
+                'tb_filter': "Filtern",
+                'tb_critical_path': "Kritischer Pfad",
+                'tb_columns': "Spalten",
+            },
+            'it': {
+                _name: 'Italiano',
+                'tb_open': "Apri progetto (.gan)",
+                'tb_save': "Salva",
+                'tb_download': "Scarica",
+                'tb_undo': "\u21a9 Annulla",
+                'tb_redo': "\u21aa Ripeti",
+                'tb_print': "\ud83d\udda8\ufe0f Stampa",
+                'tb_add_task': "Aggiungi attivit\u00e0",
+                'tb_add_milestone': "Aggiungi pietra miliare",
+                'tb_add_resource': "Aggiungi risorsa",
+                'tb_project_props': "Propriet\u00e0 progetto",
+                'tb_preferences': "Preferenze",
+                'tb_dark_mode': "Modalit\u00e0 scura",
+                'tab_gantt': "Diagramma di Gantt",
+                'tab_resources': "Diagramma risorse",
+                'search_placeholder': "Cerca (attivit\u00e0, risorse)...",
+                'prop_title': "Propriet\u00e0 Progetto",
+                'prop_tab_general': "Generale",
+                'prop_tab_calendar': "Calendario",
+                'prop_tab_roles': "Ruoli",
+                'prop_gen_name': "Nome progetto:",
+                'prop_gen_org': "Organizzazione:",
+                'prop_gen_link': "Link web:",
+                'prop_gen_desc': "Descrizione:",
+                'pref_tab_gantt': "Propriet\u00e0 diagramma Gantt",
+                'pref_tab_res': "Propriet\u00e0 diagramma risorse",
+                'pref_gen_appearance': "Aspetto",
+                'pref_gen_font_size': "Dimensione carattere base",
+                'pref_gen_lang': "Lingua",
+                'pref_gen_date_format': "Formato data",
+                'pref_gen_logo': "Logo pannello principale",
+                'pref_gantt_red_line': "Linea rossa per oggi",
+                'pref_res_red_line': "Linea rossa per oggi",
+                'pref_gantt_row_height': "Altezza riga",
+                'pref_res_row_height': "Altezza riga",
+                'btn_browse': "Sfoglia...",
+                'btn_default': "Ripristina predefiniti",
+                'btn_close': "Chiudi",
+                'btn_validate': "Applica",
+                'btn_add': "Aggiungi",
+                'btn_cancel': "Annulla",
+                'col_name': "Nome",
+                'col_start_date': "Data di inizio",
+                'col_end_date': "Data di fine",
+                'col_duration': "Durata",
+                'col_progress': "Avanzamento",
+                'col_coordinator': "Coordinatore",
+                'col_predecessors': "Predecessori",
+                'col_role_name': "Nome ruolo",
+                'res_title': "Amministrazione Risorse",
+                'res_btn_add': "+ Nuova Risorsa",
+                'col_role': "Ruolo (Funzione)",
+                'col_email': "Email (Contatti)",
+                'col_phone': "Telefono",
+                'col_rate': "Tariffa standard",
+                'col_vacations': "Ferie",
+                'col_allocations': "Assegnazioni",
+                'col_custom_fields': "Campi personalizzati",
+                'col_actions': "Azioni",
+                'col_resources': "Risorse",
+                'col_priority': "Priorit\u00e0",
+                'col_cost': "Costo",
+                'col_color': "Colore",
+                'col_milestone': "Pietra miliare",
+                'col_weblink': "Link Web",
+                'cp_title': "Configurazione Campi Personalizzati",
+                'cp_btn_add': "+ Nuovo Campo",
+                'col_type': "Tipo",
+                'col_default': "Valore predefinito",
+                'col_calculated': "Calcolato?",
+                'col_formula': "Formula",
+                'recent_files': "File recenti",
+                'no_recent_files': "Nessun file recente",
+                'day_mon': "Lun",
+                'day_tue': "Mar",
+                'day_wed': "Mer",
+                'day_thu': "Gio",
+                'day_fri': "Ven",
+                'day_sat': "Sab",
+                'day_sun': "Dom",
+                'opt_cal_select': "Seleziona un calendario...",
+                'opt_cal_fr': "Francia",
+                'opt_cal_de': "Germania",
+                'opt_cal_uk': "Regno Unito",
+                'opt_cal_es': "Spagna",
+                'opt_cal_it': "Italia",
+                'opt_cal_lb': "Lussemburgo",
+                'opt_cal_be': "Belgio",
+                'opt_cal_nl': "Paesi Bassi",
+                'td_opt_fixed_start': "Data di fine calcolata",
+                'td_opt_fixed_end': "Data di inizio calcolata",
+                'td_opt_fixed_dur': "Durata calcolata",
+                'tb_lbl_tasks': "Attivit\u00e0",
+                'tb_lbl_gantt': "Diagramma di Gantt",
+                'filter_all': "Tutte le attivit\u00e0",
+                'filter_incomp': "Incomplete",
+                'filter_today': "Da fare oggi",
+                'filter_late': "In ritardo",
+                'filter_ongoing': "In corso",
+                'help_formula_title': "Guida: Formule di calcolo",
+                'base_title': "Linee base del progetto",
+                'base_active': "Linea base attiva nel Gantt:",
+                'base_existing': "Linee base esistenti:",
+                'base_new_name': "Nome nuova linea base",
+                'base_btn_create': "Crea",
+                'base_colors_title': "Colori di avanzamento",
+                'base_todo': "Attivit\u00e0 rimanente:",
+                'base_ahead': "Attivit\u00e0 in anticipo:",
+                'base_late': "Attivit\u00e0 in ritardo:",
+                'td_cost_title': "Costo attivit\u00e0",
+                'td_cost_auto': "Calcolato automaticamente",
+                'td_cost_manual': "Definito manualmente",
+                'td_cost_auto_mode': "Modalit\u00e0 calcolo automatico:",
+                'td_cost_auto_desc': "Il costo \u00e8 calcolato dinamicamente in base alle risorse assegnate:",
+                'td_cost_formula': "Costo = Somma(Tariffa standard \u00d7 Durata (g) \u00d7 (Carico / 100))",
+                'td_cost_rate_desc': "(La 'Tariffa standard' \u00e8 definita nel profilo di ogni risorsa)",
+                'td_custom_values': "Valori personalizzati per questa attivit\u00e0:",
+                'btn_manage_fields': "\u2699\ufe0f Gestisci campi",
+                'td_manage_res': "Gestisci risorse assegnate:",
+                'td_assign_res_opt': "-- Assegna risorsa --",
+                'td_col_resp_title': "Coordinatore",
+                'td_col_resp': "Coord.",
+                'col_unit': "Unit\u00e0",
+                'td_deps_title': "Attivit\u00e0 da cui dipende (Predecessori):",
+                'td_dep_type': "Tipo di relazione",
+                'td_dep_lag_title': "Ritardo in giorni",
+                'td_dep_lag': "Ritardo",
+                'td_dep_constraint': "Vincolo",
+                'td_dep_add_opt': "-- Aggiungi predecessore --",
+                'ctx_new_task': "Nuova Attivit\u00e0",
+                'ctx_color': "Colore...",
+                'ctx_props': "Propriet\u00e0",
+                'th_dates': "Date",
+                'th_recurrent': "Ricorrente",
+                'th_summary': "Riepilogo",
+                'th_type': "Tipo",
+                'th_color': "Colore",
+                'shift_project_start': "Sposta data inizio progetto",
+                'shift_new_start': "Nuova data di inizio",
+                'shift_all_tasks': "Sposta tutte le attivit\u00e0",
+                'shift_tasks_from_date': "Sposta attivit\u00e0 da questa data",
+                'opt_no_task_weekend': "Nessuna attivit\u00e0 pu\u00f2 essere eseguita",
+                'opt_task_weekend_normal': "Le attivit\u00e0 vengono eseguite come in qualsiasi altro giorno.",
+                'td_title': "Modifica attivit\u00e0",
+                'td_tab_general': "Generale",
+                'td_tab_predecessors': "Predecessori",
+                'td_tab_resources': "Risorse",
+                'td_tab_custom': "Campi Pers.",
+                'td_name': "Nome attivit\u00e0",
+                'td_milestone': "Pietra miliare",
+                'td_plan_opt': "Opzione di pianificazione",
+                'td_duration': "Durata (giorni)",
+                'td_progress': "Avanzamento (%)",
+                'td_shape': "Forma",
+                'td_show_timeline': "Mostra nella sequenza temporale",
+                'td_notes': "Note",
+                'prio_low': "Bassa",
+                'prio_normal': "Normale",
+                'prio_high': "Alta",
+                'tb_toggle_wbs': "Mostra/Nascondi WBS",
+                'tb_go_to': "Vai a...",
+                'tb_zoom_out': "Riduci",
+                'tb_zoom_in': "Ingrandisci",
+                'tb_cut': "Taglia",
+                'tb_copy': "Copia",
+                'tb_paste': "Incolla",
+                'tb_delete': "Elimina",
+                'tb_outdent': "Riduci rientro",
+                'tb_indent': "Aumenta rientro",
+                'tb_move_up': "Sposta su",
+                'tb_move_down': "Sposta gi\u00f9",
+                'tb_link': "Collega",
+                'tb_unlink': "Scollega",
+                'tb_filter': "Filtra",
+                'tb_critical_path': "Percorso critico",
+                'tb_columns': "Colonne",
+            },
+            'nl': {
+                _name: 'Nederlands',
+                'tb_open': "Project openen (.gan)",
+                'tb_save': "Opslaan",
+                'tb_download': "Downloaden",
+                'tb_undo': "\u21a9 Ongedaan maken",
+                'tb_redo': "\u21aa Opnieuw doen",
+                'tb_print': "\ud83d\udda8\ufe0f Afdrukken",
+                'tb_add_task': "Taak toevoegen",
+                'tb_add_milestone': "Mijlpaal toevoegen",
+                'tb_add_resource': "Resource toevoegen",
+                'tb_project_props': "Projecteigenschappen",
+                'tb_preferences': "Voorkeuren",
+                'tb_dark_mode': "Donkere modus",
+                'tab_gantt': "Gantt-diagram",
+                'tab_resources': "Resourcediagram",
+                'search_placeholder': "Zoeken (taken, resources)...",
+                'prop_title': "Project Eigenschappen",
+                'prop_tab_general': "Algemeen",
+                'prop_tab_calendar': "Kalender",
+                'prop_tab_roles': "Rollen",
+                'prop_gen_name': "Projectnaam:",
+                'prop_gen_org': "Organisatie:",
+                'prop_gen_link': "Weblink:",
+                'prop_gen_desc': "Beschrijving:",
+                'pref_tab_gantt': "Gantt-diagram eigenschappen",
+                'pref_tab_res': "Resourcediagram eigenschappen",
+                'pref_gen_appearance': "Uiterlijk",
+                'pref_gen_font_size': "Basis lettergrootte",
+                'pref_gen_lang': "Taal",
+                'pref_gen_date_format': "Datumformaat",
+                'pref_gen_logo': "Hoofdpaneel logo",
+                'pref_gantt_red_line': "Rode lijn voor vandaag",
+                'pref_res_red_line': "Rode lijn voor vandaag",
+                'pref_gantt_row_height': "Rijhoogte",
+                'pref_res_row_height': "Rijhoogte",
+                'btn_browse': "Bladeren...",
+                'btn_default': "Standaard herstellen",
+                'btn_close': "Sluiten",
+                'btn_validate': "Toepassen",
+                'btn_add': "Toevoegen",
+                'btn_cancel': "Annuleren",
+                'col_name': "Naam",
+                'col_start_date': "Startdatum",
+                'col_end_date': "Einddatum",
+                'col_duration': "Duur",
+                'col_progress': "Voortgang",
+                'col_coordinator': "Co\u00f6rdinator",
+                'col_predecessors': "Voorgangers",
+                'col_role_name': "Rolnaam",
+                'res_title': "Resources Administratie",
+                'res_btn_add': "+ Nieuwe Resource",
+                'col_role': "Rol (Functie)",
+                'col_email': "E-mail (Contacten)",
+                'col_phone': "Telefoon",
+                'col_rate': "Standaard tarief",
+                'col_vacations': "Vakanties",
+                'col_allocations': "Toewijzingen",
+                'col_custom_fields': "Aangepaste velden",
+                'col_actions': "Acties",
+                'col_resources': "Resources",
+                'col_priority': "Prioriteit",
+                'col_cost': "Kosten",
+                'col_color': "Kleur",
+                'col_milestone': "Mijlpaal",
+                'col_weblink': "Weblink",
+                'cp_title': "Aangepaste Velden Configuratie",
+                'cp_btn_add': "+ Nieuw Veld",
+                'col_type': "Type",
+                'col_default': "Standaardwaarde",
+                'col_calculated': "Berekend?",
+                'col_formula': "Formule",
+                'recent_files': "Recente bestanden",
+                'no_recent_files': "Geen recente bestanden",
+                'day_mon': "Maa",
+                'day_tue': "Din",
+                'day_wed': "Woe",
+                'day_thu': "Don",
+                'day_fri': "Vrij",
+                'day_sat': "Zat",
+                'day_sun': "Zon",
+                'opt_cal_select': "Selecteer een kalender...",
+                'opt_cal_fr': "Frankrijk",
+                'opt_cal_de': "Duitsland",
+                'opt_cal_uk': "Verenigd Koninkrijk",
+                'opt_cal_es': "Spanje",
+                'opt_cal_it': "Itali\u00eb",
+                'opt_cal_lb': "Luxemburg",
+                'opt_cal_be': "Belgi\u00eb",
+                'opt_cal_nl': "Nederland",
+                'td_opt_fixed_start': "Einddatum wordt berekend",
+                'td_opt_fixed_end': "Startdatum wordt berekend",
+                'td_opt_fixed_dur': "Duur wordt berekend",
+                'tb_lbl_tasks': "Taken",
+                'tb_lbl_gantt': "Gantt-diagram",
+                'filter_all': "Alle taken",
+                'filter_incomp': "Onvolledig",
+                'filter_today': "Vandaag te doen",
+                'filter_late': "Te laat",
+                'filter_ongoing': "In uitvoering",
+                'help_formula_title': "Hulp: Berekeningsformules",
+                'base_title': "Project Basislijnen",
+                'base_active': "Actieve basislijn in Gantt:",
+                'base_existing': "Bestaande basislijnen:",
+                'base_new_name': "Naam nieuwe basislijn",
+                'base_btn_create': "Maken",
+                'base_colors_title': "Voortgangskleuren",
+                'base_todo': "Resterende taak:",
+                'base_ahead': "Taak voor op schema:",
+                'base_late': "Taak achter op schema:",
+                'td_cost_title': "Taakkosten",
+                'td_cost_auto': "Automatisch berekend",
+                'td_cost_manual': "Handmatig gedefinieerd",
+                'td_cost_auto_mode': "Automatische berekeningsmodus:",
+                'td_cost_auto_desc': "De kosten worden dynamisch berekend op basis van toegewezen resources:",
+                'td_cost_formula': "Kosten = Som(Standaard tarief \u00d7 Duur (d) \u00d7 (Lading / 100))",
+                'td_cost_rate_desc': "(Het 'Standaard tarief' wordt gedefinieerd in het profiel van elke resource)",
+                'td_custom_values': "Aangepaste waarden voor deze taak:",
+                'btn_manage_fields': "\u2699\ufe0f Velden beheren",
+                'td_manage_res': "Toegewezen resources beheren:",
+                'td_assign_res_opt': "-- Resource toewijzen --",
+                'td_col_resp_title': "Co\u00f6rdinator",
+                'td_col_resp': "Coord.",
+                'col_unit': "Eenheid",
+                'td_deps_title': "Taken waarvan deze afhankelijk is (Voorgangers):",
+                'td_dep_type': "Relatietype",
+                'td_dep_lag_title': "Vertraging in dagen",
+                'td_dep_lag': "Vertraging",
+                'td_dep_constraint': "Beperking",
+                'td_dep_add_opt': "-- Voorganger toevoegen --",
+                'ctx_new_task': "Nieuwe Taak",
+                'ctx_color': "Kleur...",
+                'ctx_props': "Eigenschappen",
+                'th_dates': "Datums",
+                'th_recurrent': "Terugkerend",
+                'th_summary': "Samenvatting",
+                'th_type': "Type",
+                'th_color': "Kleur",
+                'shift_project_start': "Project startdatum verschuiven",
+                'shift_new_start': "Nieuwe startdatum",
+                'shift_all_tasks': "Alle taken verschuiven",
+                'shift_tasks_from_date': "Taken vanaf deze datum verschuiven",
+                'opt_no_task_weekend': "Geen taak kan worden uitgevoerd",
+                'opt_task_weekend_normal': "Taken worden uitgevoerd zoals op elke andere dag.",
+                'td_title': "Taak bewerken",
+                'td_tab_general': "Algemeen",
+                'td_tab_predecessors': "Voorgangers",
+                'td_tab_resources': "Resources",
+                'td_tab_custom': "Aangepaste Velden",
+                'td_name': "Taaknaam",
+                'td_milestone': "Mijlpaal",
+                'td_plan_opt': "Planningsoptie",
+                'td_duration': "Duur (dagen)",
+                'td_progress': "Voortgang (%)",
+                'td_shape': "Vorm",
+                'td_show_timeline': "Weergeven op tijdlijn",
+                'td_notes': "Notities",
+                'prio_low': "Laag",
+                'prio_normal': "Normaal",
+                'prio_high': "Hoog",
+                'tb_toggle_wbs': "WBS tonen/verbergen",
+                'tb_go_to': "Ga naar...",
+                'tb_zoom_out': "Uitzoomen",
+                'tb_zoom_in': "Inzoomen",
+                'tb_cut': "Knippen",
+                'tb_copy': "Kopi\u00ebren",
+                'tb_paste': "Plakken",
+                'tb_delete': "Verwijderen",
+                'tb_outdent': "Inspringen verkleinen",
+                'tb_indent': "Inspringen vergroten",
+                'tb_move_up': "Omhoog verplaatsen",
+                'tb_move_down': "Omlaag verplaatsen",
+                'tb_link': "Koppelen",
+                'tb_unlink': "Ontkoppelen",
+                'tb_filter': "Filteren",
+                'tb_critical_path': "Kritieke pad",
+                'tb_columns': "Kolommen",
+            },
+            'lb': {
+                _name: '🇱Lëtzebuergesch',
+                'tb_open': 'Projet opmaachen (.gan)',
+                'tb_save': 'Späicheren',
+                'tb_download': 'Eroflueden',
+                'tb_undo': '↩ Réckgängeg',
+                'tb_redo': '↪ Widderhuelen',
+                'tb_print': '🖨️ Drécken',
+                'tb_add_task': 'Aufgab derbäisetzen',
+                'tb_add_milestone': 'Meilesteen derbäisetzen',
+                'tb_add_resource': 'Ressource derbäisetzen',
+                'tb_project_props': 'Projet Eegeschaften',
+                'tb_preferences': 'Astellungen',
+                'tb_dark_mode': 'Däischter Modus',
+                'tab_gantt': 'Gantt Diagramm',
+                'tab_resources': 'Ressourcen Diagramm',
+                'search_placeholder': 'Sichen (Aufgaben, Ressourcen)...',
+                'prop_title': 'Projet Eegeschaften',
+                'prop_tab_general': 'Allgemeng',
+                'prop_tab_calendar': 'Kalenner',
+                'prop_tab_roles': 'Rollen',
+                'prop_name': 'Projet Numm:',
+                'prop_company': 'Organisatioun (Firma):',
+                'prop_weblink': 'Weblink:',
+                'prop_description': 'Beschreiwung:',
+                'prop_weekends': 'Weekend Deeg',
+                'prop_weekends_behavior': 'Weekender',
+                'prop_holidays': 'Feierdeeg Kalenner',
+                'btn_ok': 'OK',
+                'btn_cancel': 'Ofbriechen',
+
+                'th_dates': "Datumer", 'th_recurrent': "Widderhuelend", 'th_summary': "Zesummefaassung", 'th_type': "Typ", 'th_color': "Faarf",
+                'shift_project_start': "Projet Ufanksdatum verréckelen", 'shift_new_start': "Neien Ufanksdatum", 'shift_all_tasks': "All Aufgabe verréckelen", 'shift_tasks_from_date': "Aufgabe vun dësem Datum un verréckelen",
+                'opt_no_task_weekend': "Keng Aufgab ka gemaach ginn", 'opt_task_weekend_normal': "Aufgabe gi wéi op all aneren Dag gemaach.",
+                'td_title': "Aufgab Änneren", 'td_tab_general': "Allgemeng", 'td_tab_predecessors': "Virgänger", 'td_tab_resources': "Ressourcen", 'td_tab_custom': "Benotzerdef. Felder",
+                'td_name': "Aufgabennumm", 'td_milestone': "Meilesteen", 'td_plan_opt': "Planungsoptioun", 'td_duration': "Dauer (Deeg)", 'td_progress': "Fortschrëtt (%)", 'td_shape': "Form", 'td_show_timeline': "Op der Zäitleescht weisen", 'td_notes': "Notizen",
+                'prio_low': "Niddereg", 'prio_normal': "Normal", 'prio_high': "Héich",
+                'tb_toggle_wbs': "WBS weisen / verstoppen", 'tb_go_to': "Gitt op...", 'tb_zoom_out': "Rauszoomen", 'tb_zoom_in': "Razoomen", 'tb_cut': "Ausschneiden", 'tb_copy': "Kopéieren", 'tb_paste': "Apechen", 'tb_delete': "Läschen", 'tb_outdent': "Abléck verréngeren", 'tb_indent': "Abléck vergréisseren", 'tb_move_up': "Erop réckelen", 'tb_move_down': "Erof réckelen", 'tb_link': "Verknëppen", 'tb_unlink': "Trennen", 'tb_filter': "Filter", 'tb_critical_path': "Kritesche Wee weisen", 'tb_columns': "Kolonnen",
+
+                'help_formula_title': "Hëllef: Berechnungsformelen", 'base_title': "Projet-Referenzstänn", 'base_active': "Aktive Referenzstand um Gantt:", 'base_existing': "Bestehend Foussofdrock:", 'base_new_name': "Neie Foussofdrock Numm", 'base_btn_create': "Erstellen", 'base_colors_title': "Fortschrëttsstatus Faarwen", 'base_todo': "Iwwreg Aufgab:", 'base_ahead': "Aufgab virum Zäitplang:", 'base_late': "Aufgab hannert Zäitplang:",
+                'td_cost_title': "Aufgab Käschten", 'td_cost_auto': "Automatesch berechent", 'td_cost_manual': "Manuell definéiert", 'td_cost_auto_mode': "Automatesch Berechnungsmodus:", 'td_cost_auto_desc': "D'Käschte ginn dynamesch baséiert op de Ressourcen berechent:", 'td_cost_formula': "Käschten = Zomm(Standard Taux × Dauer (d) × (Laascht / 100))", 'td_cost_rate_desc': "(De \"Standard Taux\" gëtt op der Profilsäit vu jiddwer Ressource festgeluecht)", 'td_custom_values': "Benotzerdefinéiert Wäerter fir dës Aufgab:", 'btn_manage_fields': "⚙️ Felder verwalten",
+                'td_manage_res': "Zougewisen Ressourcen verwalten:", 'td_assign_res_opt': "-- Ressource zouweisen --", 'td_col_resp_title': "Responsabel", 'td_col_resp': "Resp.", 'col_unit': "Eenheet",
+                'td_deps_title': "Aufgaben vun deenen dës ofhänkt (Virgänger):", 'td_dep_type': "Bezéiungstyp", 'td_dep_lag_title': "Verzögerung an Deeg", 'td_dep_lag': "Verzögerung", 'td_dep_constraint': "Restriktioun", 'td_dep_add_opt': "-- E Virgänger derbäisetzen --",
+                'ctx_new_task': "Nei Aufgab", 'ctx_color': "Faarf...", 'ctx_props': "Eegeschaften",
+
+                'recent_files': "Rezent Fichieren", 'no_recent_files': "Keng rezent Fichieren",
+                'day_mon': "Méi.", 'day_tue': "Dën.", 'day_wed': "Mët.", 'day_thu': "Don.", 'day_fri': "Fré.", 'day_sat': "Sam.", 'day_sun': "Son.",
+                'opt_cal_select': "Wielt e Kalenner...", 'opt_cal_fr': "Frankräich", 'opt_cal_de': "Däitschland", 'opt_cal_uk': "Groussbritannien", 'opt_cal_es': "Spuenien", 'opt_cal_it': "Italien", 'opt_cal_lb': "Lëtzebuerg", 'opt_cal_be': "Belsch", 'opt_cal_nl': "Holland",
+                'td_opt_fixed_start': "Den Enddatum gëtt berechent", 'td_opt_fixed_end': "Den Ufanksdatum gëtt berechent", 'td_opt_fixed_dur': "D'Dauer gëtt berechent",
+                'tb_lbl_tasks': "Aufgaben", 'tb_lbl_gantt': "Gantt Diagramm",
+                'filter_all': "All Aufgaben", 'filter_incomp': "Net ofgeschloss", 'filter_today': "Haut ze maachen", 'filter_late': "Hannerzeg", 'filter_ongoing': "Am gaang",
+                'btn_add': 'Derbäisetzen',
+                'btn_del': 'Läschen',
+                'pref_tab_gantt': 'Gantt Diagramm Eegeschaften',
+                'pref_tab_res': 'Ressourcen Diagramm Eegeschaften',
+                'pref_gen_appearance': 'Ausgesinn',
+                'pref_gen_app_font': "Applikatiounsschrëften",
+                'pref_gen_chart_font': "Diagramm Grondschrëften",
+                'pref_gen_row_spacing': "Tabellzeilenofstand",
+                'pref_gen_lang': "Sprooch",
+                'pref_gen_use_date_format': "Datumsformat benotzen",
+                'pref_gen_date_default': "Standard",
+                'pref_gen_date_custom': "Benotzerdefinéiert",
+                'pref_gen_custom_date_format': "Benotzerdefinéiert Kuerzdatumsformat",
+                'pref_gen_we_are_the': "Haut ass",
+                'pref_gen_logo_file': "Logo Fichier",
+                'btn_browse': "Duerchsichen...",
+                'btn_default': "Standard zrécksetzen",
+                'btn_close': "Zoumaachen",
+                'btn_validate': "Uwennen",
+                'col_name': "Numm",
+                'col_start_date': "Ufanksdatum",
+                'col_end_date': "Enddatum",
+                'col_duration': "Dauer",
+                'col_duration': "Dauer",
+                'col_progress': "Fortschrëtt",
+                'col_coordinator': "Responsabel",
+                'col_predecessors': "Virgänger",
+                'col_role_name': "Rollennumm",
+                'res_title': "Ressourcen Administratioun",
+                'res_btn_add': "+ Nei Ressource",
+                'col_role': "Roll (Funktioun)",
+                'col_email': "Email (Kontakter)",
+                'col_phone': "Telefon",
+                'col_rate': "Standard Taux",
+                'col_vacations': "Congé",
+                'col_allocations': "Zouweisungen",
+                'col_custom_fields': "Benotzerdefinéiert Felder",
+                'col_actions': "Aktiounen",
+                'col_resources': "Ressourcen",
+                'col_priority': "Prioritéit",
+                'col_cost': "Käschten",
+                'col_color': "Faarf",
+                'col_milestone': "Meilesteen",
+                'col_weblink': "Weblink",
+                'cp_title': "Benotzerdefinéiert Felder Configuratioun",
+                'cp_btn_add': "+ Neit Feld",
+                'col_type': "Typ",
+                'col_default': "Standardwäert",
+                'col_calculated': "Berechent?",
+                'col_formula': "Formel"
+            }
+        };
+
+        window.currentUiLang = 'fr'; // Langue par défaut de l'IHM
+
+        // Fonction utilitaire de traduction
+        function t(key) {
+            if (I18N_DICT[window.currentUiLang] && I18N_DICT[window.currentUiLang][key]) {
+                return I18N_DICT[window.currentUiLang][key];
+            }
+            if (I18N_DICT['fr'] && I18N_DICT['fr'][key]) {
+                return I18N_DICT['fr'][key]; // Fallback
+            }
+            return key;
+        }
+
+        function updateUI() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (el.tagName === 'INPUT' && el.type === 'button') {
+                    el.value = t(key);
+                } else {
+                    el.textContent = t(key);
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key);
+            });
+            document.querySelectorAll('[data-i18n-title]').forEach(el => {
+                const key = el.getAttribute('data-i18n-title');
+                el.title = t(key);
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key);
+            });
+
+            // Rafraîchir les diagrammes si le projet est chargé (pour traduire les en-têtes)
+            if (window.state && window.state.xmlDoc) {
+                renderWBS();
+                renderGantt();
+            }
+        }
+
+        // Peupler la liste des langues dans les préférences
+        const langSelect = document.getElementById('pref-gen-language');
+        if (langSelect) {
+            langSelect.innerHTML = '';
+            for (const [code, dict] of Object.entries(I18N_DICT)) {
+                const opt = document.createElement('option');
+                opt.value = code;
+                opt.textContent = dict._name;
+                langSelect.appendChild(opt);
+            }
+            langSelect.addEventListener('change', (e) => {
+                window.currentUiLang = e.target.value;
+                updateUI();
             });
         }
 
@@ -5313,7 +6474,7 @@
                         </div>
                     </td>
                     <td style="padding: 8px; text-align: center;">
-                        <button type="button" class="btn-del-cp" data-id="${id}" style="background: none; border: none; cursor: pointer; color: #d32f2f;" title="Supprimer">🗑️</button>
+                        <button type="button" class="btn-del-cp" data-id="${id}" style="background: none; border: none; cursor: pointer; color: #d32f2f;" title="Supprimer" data-i18n-title="tb_delete">🗑️</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -6280,7 +7441,7 @@
                 if (b.name === window.activeBaselineName) opt.selected = true;
                 activeBaselineSelect.appendChild(opt);
             });
-            
+
             // Mise à jour des sélecteurs de couleur
             if (window.baselineColors) {
                 document.getElementById('color-baseline-todo').value = window.baselineColors.todo;
@@ -6325,13 +7486,13 @@
 
         document.getElementById('btn-baselines').addEventListener('click', () => {
             if (!state.xmlDoc) return alert('Ouvrez un projet d\'abord.');
-            
+
             const today = new Date();
             const dd = String(today.getDate()).padStart(2, '0');
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const yyyy = today.getFullYear();
             document.getElementById('new-baseline-name').value = `${dd}/${mm}/${yyyy}`;
-            
+
             refreshBaselineModal();
             baselineModal.showModal();
         });
@@ -6386,7 +7547,7 @@
             state.notifyListeners();
             refreshBaselineModal();
         });
-        
+
         // Sauvegarde des couleurs de baseline dans le XML
         function updateBaselineColorOpt(id, value) {
             if (!state.xmlDoc) return;
@@ -6574,7 +7735,7 @@
         });
 
         document.getElementById('td-input-name').addEventListener('input', (e) => {
-            document.getElementById('td-modal-title').textContent = `Édition de la tâche : ${e.target.value}`;
+            document.getElementById('td-modal-title').textContent = `" + t('td_title') + " : ${e.target.value}`;
         });
 
         document.getElementById('td-cost-auto').addEventListener('change', (e) => {
@@ -7014,7 +8175,7 @@
             // Populate select for new predecessor
             const selectPred = document.getElementById('td-new-pred-task');
             if (selectPred) {
-                selectPred.innerHTML = '<option value="">-- Ajouter un prédécesseur --</option>';
+                selectPred.innerHTML = '<option value="" data-i18n="td_dep_add_opt">-- Ajouter un prédécesseur --</option>';
                 // Exclure soi-même et ceux qui sont déjà prédécesseurs
                 allTasks.forEach(taskNode => {
                     const tId = taskNode.getAttribute('id');
@@ -7177,7 +8338,7 @@
             // Populate select for new allocation
             const selectRes = document.getElementById('td-new-alloc-res');
             if (selectRes) {
-                selectRes.innerHTML = '<option value="">-- Affecter une ressource --</option>';
+                selectRes.innerHTML = '<option value="" data-i18n="td_assign_res_opt">-- Affecter une ressource --</option>';
                 allRes.forEach(r => {
                     if (!allocs.some(a => a.getAttribute('resource-id') === r.id)) {
                         const opt = document.createElement('option');
@@ -7331,7 +8492,7 @@
 
             const tpNode = ensureTaskPropertiesNode();
             const props = tpNode ? Array.from(tpNode.querySelectorAll('taskproperty')) : [];
-            const tpdLabels = { tpd4: 'Date de début', tpd5: 'Date de fin', tpd6: 'Durée', tpd7: 'Avancement', tpd8: 'Responsable', tpd9: 'Prédécesseurs' };
+            const tpdLabels = { tpd4: t('col_start_date'), tpd5: t('col_end_date'), tpd6: t('col_duration'), tpd7: t('col_progress'), tpd8: t('col_coordinator'), tpd9: t('col_predecessors') };
             props.forEach(p => {
                 const id = p.getAttribute('id');
                 if (id === 'tpd3') return;
@@ -7345,7 +8506,7 @@
             addCheckbox('tpd13', 'Ressources');
             addCheckbox('priority', 'Priorité');
             addCheckbox('cost', 'Coût');
-            addCheckbox('color', 'Couleur');
+            addCheckbox('color', 'Couleur...');
             addCheckbox('milestone', 'Jalon');
             addCheckbox('webLink', 'Lien Web');
 
@@ -7527,7 +8688,7 @@
                     const projectName = state.xmlDoc.documentElement.getAttribute('name') || 'Projet Sans Nom';
                     const dateFormatType = getPrefValue(viewGantt, 'general.dateFormatType', 'default');
                     const dateFormat = getPrefValue(viewGantt, 'general.dateFormat', 'dd/MM/y');
-                    
+
                     let dateStr = new Date().toLocaleDateString();
                     if (dateFormatType === 'custom') {
                         const d = new Date();
@@ -7536,7 +8697,7 @@
                         const dd = String(d.getDate()).padStart(2, '0');
                         dateStr = dateFormat.replace('yyyy', yyyy).replace('y', yyyy).replace('MM', mm).replace('dd', dd);
                     }
-                    
+
                     let finalLogoSrc = window.currentLogoDataUrl || logo;
                     let html = `<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; width:100%; border-bottom: 2px solid #ccc; padding-bottom:10px; margin-bottom:20px;">`;
                     html += `<div style="display:flex; align-items:center; flex:1;">`;
@@ -7923,7 +9084,7 @@
                     t.style.fontWeight = 'normal';
                 });
                 prefContents.forEach(c => c.style.display = 'none');
-                
+
                 const target = e.target.getAttribute('data-target');
                 e.target.classList.add('active');
                 e.target.style.borderBottom = '2px solid var(--primary-color)';
@@ -7956,22 +9117,22 @@
                 try {
                     const fonts = await window.queryLocalFonts();
                     const fontNames = [...new Set(fonts.map(f => f.family))].sort();
-                    
+
                     const appSelect = document.getElementById('pref-gen-app-font');
                     const chartSelect = document.getElementById('pref-gen-chart-font');
-                    
+
                     const appVal = appSelect.value;
                     const chartVal = chartSelect.value;
-                    
+
                     let optionsHtml = '<option value="default">Défaut du système</option>';
                     const defaultFonts = ['Arial', 'Helvetica', 'Times New Roman', 'Courier', 'Verdana', 'Tahoma'];
                     const allFonts = [...new Set([...defaultFonts, ...fontNames])].sort();
-                    
+
                     allFonts.forEach(f => optionsHtml += `<option value="${f}">${f}</option>`);
-                    
+
                     appSelect.innerHTML = optionsHtml;
                     chartSelect.innerHTML = optionsHtml;
-                    
+
                     appSelect.value = appVal;
                     chartSelect.value = chartVal;
                     localFontsLoaded = true;
@@ -7986,7 +9147,7 @@
             if (!state || !state.xmlDoc) return;
             let viewGantt = state.xmlDoc.querySelector('view[id="gantt-chart"]');
             let viewRes = state.xmlDoc.querySelector('view[id="resource-table"]');
-            
+
             // Create views if they don't exist
             if (!viewGantt) {
                 viewGantt = state.xmlDoc.createElement('view');
@@ -8010,16 +9171,16 @@
             document.getElementById('pref-gen-row-spacing').value = getPrefValue(viewGantt, 'general.rowSpacing', '20.0');
             document.getElementById('pref-gen-dpi').value = getPrefValue(viewGantt, 'general.dpi', '96');
             document.getElementById('pref-gen-language').value = getPrefValue(viewGantt, 'general.language', 'fr');
-            
+
             const dtType = getPrefValue(viewGantt, 'general.dateFormatType', 'default');
             const dtRadio = document.querySelector(`input[name="pref-gen-date-format-type"][value="${dtType}"]`);
             if (dtRadio) dtRadio.checked = true;
-            
+
             document.getElementById('pref-gen-date-format').value = getPrefValue(viewGantt, 'general.dateFormat', 'dd/MM/y');
-            
+
             const today = new Date();
             document.getElementById('pref-gen-date-preview').value = today.toLocaleDateString('fr-FR');
-            
+
             document.getElementById('pref-gen-logo').value = getPrefValue(viewGantt, 'general.logo', '');
 
             // Gantt
@@ -8027,19 +9188,19 @@
             document.getElementById('pref-gantt-task-copy-format').value = getPrefValue(viewGantt, 'gantt.taskCopyFormat', '{0}_{1}');
             document.getElementById('pref-gantt-new-task-color').value = getPrefValue(viewGantt, 'gantt.newTaskColor', '#8cb6ce');
             document.getElementById('pref-gantt-constraint').value = getPrefValue(viewGantt, 'gantt.constraint', 'Strong');
-            
+
             const todayLine = getPrefValue(viewGantt, 'gantt.todayLine', 'no');
             const todayLineRadio = document.querySelector(`input[name="pref-gantt-today-line"][value="${todayLine}"]`);
             if (todayLineRadio) todayLineRadio.checked = true;
-            
+
             const projDates = getPrefValue(viewGantt, 'gantt.projectDates', 'no');
             const projDatesRadio = document.querySelector(`input[name="pref-gantt-project-dates"][value="${projDates}"]`);
             if (projDatesRadio) projDatesRadio.checked = true;
-            
+
             document.getElementById('pref-gantt-weekend-style').value = getPrefValue(viewGantt, 'gantt.weekendStyle', 'default');
             document.getElementById('pref-gantt-week-numbering').value = getPrefValue(viewGantt, 'gantt.weekNumbering', 'default');
             document.getElementById('pref-gantt-show-milestones').checked = getPrefValue(viewGantt, 'gantt.showMilestones', 'true') === 'true';
-            
+
             document.getElementById('pref-gantt-detail-top').value = getPrefValue(viewGantt, 'gantt.detailTop', '');
             document.getElementById('pref-gantt-detail-bottom').value = getPrefValue(viewGantt, 'gantt.detailBottom', '');
             document.getElementById('pref-gantt-detail-left').value = getPrefValue(viewGantt, 'gantt.detailLeft', '');
@@ -8086,7 +9247,7 @@
             document.querySelector('input[name="pref-gen-date-format-type"][value="default"]').checked = true;
             document.getElementById('pref-gen-date-format').value = 'dd/MM/y';
             document.getElementById('pref-gen-logo').value = '';
-            
+
             document.getElementById('pref-gantt-task-prefix').value = 'tâche';
             document.getElementById('pref-gantt-task-copy-format').value = '{0}_{1}';
             document.getElementById('pref-gantt-new-task-color').value = '#8cb6ce';
@@ -8096,7 +9257,7 @@
             document.getElementById('pref-gantt-weekend-style').value = 'default';
             document.getElementById('pref-gantt-week-numbering').value = 'default';
             document.getElementById('pref-gantt-show-milestones').checked = true;
-            
+
             document.getElementById('pref-gantt-detail-top').value = '';
             document.getElementById('pref-gantt-detail-bottom').value = '';
             document.getElementById('pref-gantt-detail-left').value = '';
@@ -8112,7 +9273,7 @@
             if (!state || !state.xmlDoc) return;
             const viewGantt = state.xmlDoc.querySelector('view[id="gantt-chart"]');
             const viewRes = state.xmlDoc.querySelector('view[id="resource-table"]');
-            
+
             if (viewGantt) {
                 setPrefValue(viewGantt, 'general.appearance', document.getElementById('pref-gen-appearance').value);
                 setPrefValue(viewGantt, 'general.appFont', document.getElementById('pref-gen-app-font').value);
@@ -8122,34 +9283,34 @@
                 setPrefValue(viewGantt, 'general.rowSpacing', document.getElementById('pref-gen-row-spacing').value);
                 setPrefValue(viewGantt, 'general.dpi', document.getElementById('pref-gen-dpi').value);
                 setPrefValue(viewGantt, 'general.language', document.getElementById('pref-gen-language').value);
-                
+
                 const dtChecked = document.querySelector('input[name="pref-gen-date-format-type"]:checked');
                 if (dtChecked) setPrefValue(viewGantt, 'general.dateFormatType', dtChecked.value);
-                
+
                 setPrefValue(viewGantt, 'general.dateFormat', document.getElementById('pref-gen-date-format').value);
                 setPrefValue(viewGantt, 'general.logo', document.getElementById('pref-gen-logo').value);
-                
+
                 setPrefValue(viewGantt, 'gantt.taskPrefix', document.getElementById('pref-gantt-task-prefix').value);
                 setPrefValue(viewGantt, 'gantt.taskCopyFormat', document.getElementById('pref-gantt-task-copy-format').value);
                 setPrefValue(viewGantt, 'gantt.newTaskColor', document.getElementById('pref-gantt-new-task-color').value);
                 setPrefValue(viewGantt, 'gantt.constraint', document.getElementById('pref-gantt-constraint').value);
-                
+
                 const todayLineChecked = document.querySelector('input[name="pref-gantt-today-line"]:checked');
                 if (todayLineChecked) setPrefValue(viewGantt, 'gantt.todayLine', todayLineChecked.value);
-                
+
                 const projDatesChecked = document.querySelector('input[name="pref-gantt-project-dates"]:checked');
                 if (projDatesChecked) setPrefValue(viewGantt, 'gantt.projectDates', projDatesChecked.value);
-                
+
                 setPrefValue(viewGantt, 'gantt.weekendStyle', document.getElementById('pref-gantt-weekend-style').value);
                 setPrefValue(viewGantt, 'gantt.weekNumbering', document.getElementById('pref-gantt-week-numbering').value);
                 setPrefValue(viewGantt, 'gantt.showMilestones', document.getElementById('pref-gantt-show-milestones').checked ? 'true' : 'false');
-                
+
                 setPrefValue(viewGantt, 'gantt.detailTop', document.getElementById('pref-gantt-detail-top').value);
                 setPrefValue(viewGantt, 'gantt.detailBottom', document.getElementById('pref-gantt-detail-bottom').value);
                 setPrefValue(viewGantt, 'gantt.detailLeft', document.getElementById('pref-gantt-detail-left').value);
                 setPrefValue(viewGantt, 'gantt.detailRight', document.getElementById('pref-gantt-detail-right').value);
             }
-            
+
             if (viewRes) {
                 setPrefValue(viewRes, 'res.color', document.getElementById('pref-res-color').value);
                 setPrefValue(viewRes, 'res.overloadedColor', document.getElementById('pref-res-overloaded-color').value);
@@ -8160,6 +9321,8 @@
             state.notifyListeners();
             prefModal.close();
         });
+        // Initialisation initiale de l'interface
+        updateUI();
     </script>
 </body>
 
