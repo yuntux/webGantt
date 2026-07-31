@@ -2286,19 +2286,14 @@
                 const projNode = this.xmlDoc.documentElement;
 
                 const ganttDivider = parseInt(projNode.getAttribute('gantt-divider-location'));
-                if (!isNaN(ganttDivider)) {
-                    const leftPane = document.getElementById('left-pane');
-                    const btnToggle = document.getElementById('btn-toggle-pane');
-                    if (leftPane && btnToggle) {
-                        const isCurrentlyCollapsed = leftPane.style.display === 'none';
-                        if (ganttDivider <= 10) {
-                            leftPane.style.width = '800px';
-                            if (isCurrentlyCollapsed) btnToggle.click(); // Afficher
-                        } else {
-                            leftPane.style.width = '30%';
-                            if (isCurrentlyCollapsed) btnToggle.click(); // Afficher
-                        }
-                    }
+                // GanttProject often saves 1 or very low values due to a Java Swing technical limit.
+                // It does NOT mean the panel should be hidden. We ignore this and always set to 30%.
+                const leftPane = document.getElementById('left-pane');
+                const btnToggle = document.getElementById('btn-toggle-pane');
+                if (leftPane && btnToggle) {
+                    const isCurrentlyCollapsed = leftPane.style.display === 'none';
+                    leftPane.style.width = '30%';
+                    if (isCurrentlyCollapsed) btnToggle.click(); // Afficher
                 }
 
                 const viewNode = this.xmlDoc.querySelector('view[id="gantt-chart"]');
@@ -2330,15 +2325,32 @@
                         const fieldsList = Array.from(fields);
                         fieldsList.sort((a, b) => parseInt(a.getAttribute('order') || 0) - parseInt(b.getAttribute('order') || 0));
 
+                        let totalFileWidth = 0;
+                        const parsedWidths = {};
+
                         fieldsList.forEach(f => {
                             const id = f.getAttribute('id');
                             window.columnOrder.push(id);
                             window.visibleColumns[id] = true;
                             const w = parseInt(f.getAttribute('width'));
-                            if (!isNaN(w) && w > 0) window.columnWidths[id] = w;
+                            if (!isNaN(w) && w > 0) {
+                                parsedWidths[id] = w;
+                                totalFileWidth += w;
+                            }
                             const cb = document.querySelector(`input[name="col-toggle"][value="${id}"]`);
                             if (cb) cb.checked = true;
                         });
+
+                        if (totalFileWidth > 0) {
+                            let targetWidth = Math.max(300, window.innerWidth * 0.3) - 30; // -30 for actions column
+                            const ratio = targetWidth / totalFileWidth;
+                            fieldsList.forEach(f => {
+                                const id = f.getAttribute('id');
+                                if (parsedWidths[id]) {
+                                    window.columnWidths[id] = Math.max(40, Math.round(parsedWidths[id] * ratio));
+                                }
+                            });
+                        }
 
                         const allKnown = ['tpd3', 'tpd4', 'tpd5', 'tpd6', 'tpd7', 'tpd8', 'tpd9', 'tpd13', 'priority', 'cost', 'color', 'milestone', 'webLink', 'tpd-actions'];
                         allKnown.forEach(k => {
@@ -8806,6 +8818,12 @@
                     }
 
                     let finalLogoSrc = window.currentLogoDataUrl || logo;
+                    if (logo && !window.currentLogoDataUrl) {
+                        try {
+                            const cached = localStorage.getItem('gantt_logo_' + logo);
+                            if (cached) finalLogoSrc = cached;
+                        } catch(e) {}
+                    }
                     let html = `<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; width:100%; border-bottom: 2px solid #ccc; padding-bottom:10px; margin-bottom:20px;">`;
                     html += `<div style="display:flex; align-items:center; flex:1;">`;
                     if (finalLogoSrc) {
@@ -9337,6 +9355,9 @@
                 const reader = new FileReader();
                 reader.onload = (ev) => {
                     window.currentLogoDataUrl = ev.target.result;
+                    try {
+                        localStorage.setItem('gantt_logo_' + file.name, ev.target.result);
+                    } catch(err) { console.warn('Logo too large for localStorage'); }
                 };
                 reader.readAsDataURL(file);
             }
