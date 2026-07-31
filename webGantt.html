@@ -1046,7 +1046,7 @@
     <!-- Onglets de vue -->
     <div id="tabs-container">
         <div class="view-tab active" data-target="main-container">Gantt des Tâches</div>
-        <div class="view-tab" data-target="res-main-container">Gantt des Ressources</div>
+        <div class="view-tab" data-target="res-main-container">Diagramme des ressources</div>
     </div>
 
     <!-- Main Application Split View -->
@@ -2830,7 +2830,13 @@
 
                 resources.forEach(res => {
                     const resAllocs = allocations.filter(a => a.resourceId === res.id);
-                    const assignedTasks = resAllocs.map(a => taskMap[a.taskId]).filter(t => t && t.start);
+                    const assignedTasks = resAllocs.map(a => {
+                        const t = taskMap[a.taskId];
+                        if (t && t.start) {
+                            return { ...t, load: parseFloat(a.load || '100') };
+                        }
+                        return null;
+                    }).filter(t => t);
 
                     let minStart = new Date().getTime();
                     let maxEnd = minStart;
@@ -2842,7 +2848,7 @@
 
                         assignedTasks.forEach(t => {
                             const st = new Date(t.start).getTime();
-                            const ed = st + (parseInt(t.duration) * 24 * 60 * 60 * 1000);
+                            const ed = getTaskEndDate(t).getTime();
                             if (st < minStart) minStart = st;
                             if (ed > maxEnd) maxEnd = ed;
                         });
@@ -2850,18 +2856,34 @@
                     }
 
                     const resStart = new Date(minStart);
-                    const resStartDateStr = resStart.getFullYear() + '-' + String(resStart.getMonth() + 1).padStart(2, '0') + '-' + String(resStart.getDate()).padStart(2, '0');
+                    const resStartDateStr = resStart.getUTCFullYear() + '-' + String(resStart.getUTCMonth() + 1).padStart(2, '0') + '-' + String(resStart.getUTCDate()).padStart(2, '0');
+
+                    window.expandedResourceIds = window.expandedResourceIds || new Set();
 
                     const resTask = {
-                        node: { getAttribute: () => null, childNodes: [], setAttribute: () => { } },
+                        node: {
+                            getAttribute: (attr) => {
+                                if (attr === 'expand') return window.expandedResourceIds.has(res.id) ? 'true' : 'false';
+                                return null;
+                            },
+                            childNodes: [],
+                            setAttribute: (attr, val) => {
+                                if (attr === 'expand') {
+                                    if (val === 'true') window.expandedResourceIds.add(res.id);
+                                    else window.expandedResourceIds.delete(res.id);
+                                }
+                            }
+                        },
                         id: 'res_' + res.id,
                         name: res.name,
                         start: resStartDateStr,
                         duration: resDuration.toString(),
                         complete: '0',
                         color: '#000000',
-                        isProject: true,
-                        isExpanded: true,
+                        isProject: false,
+                        isResourceRow: true,
+                        assignedTasks: assignedTasks,
+                        isExpanded: window.expandedResourceIds.has(res.id),
                         depends: [],
                         subtasks: assignedTasks.map(t => ({ ...t, subtasks: [], isProject: false, color: '#8bb0f5', isExpanded: true }))
                     };
@@ -3035,9 +3057,20 @@
                 // Mois (toujours en haut)
                 if (iterDate.getMonth() !== currentMonth) {
                     if (currentMonth !== -1) {
-                        const monthName = new Date(currentYear, currentMonth, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
                         const monthWidth = x - monthStartX;
-                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="14" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle">${monthName}</text>`;
+                        let monthName = '';
+                        const dObj = new Date(currentYear, currentMonth, 1);
+                        if (monthWidth >= 100) {
+                            monthName = dObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+                        } else if (monthWidth >= 60) {
+                            monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
+                        } else if (monthWidth >= 30) {
+                            monthName = dObj.toLocaleString('default', { month: 'short' });
+                        } else {
+                            monthName = String(currentMonth + 1).padStart(2, '0');
+                        }
+                        
+                        headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
                         headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
                     }
                     currentMonth = iterDate.getMonth();
@@ -3045,6 +3078,28 @@
                     monthStartX = x;
                 }
             }
+            
+            // Dessiner le dernier mois
+            if (currentMonth !== -1) {
+                const monthWidth = (maxDays * dayWidth) - monthStartX;
+                if (monthWidth > 0) {
+                    let monthName = '';
+                    const dObj = new Date(currentYear, currentMonth, 1);
+                    if (monthWidth >= 100) {
+                        monthName = dObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+                    } else if (monthWidth >= 60) {
+                        monthName = dObj.toLocaleString('default', { month: 'short', year: '2-digit' });
+                    } else if (monthWidth >= 30) {
+                        monthName = dObj.toLocaleString('default', { month: 'short' });
+                    } else {
+                        monthName = String(currentMonth + 1).padStart(2, '0');
+                    }
+                    
+                    headerGroup += `<text x="${monthStartX + (monthWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${monthName}</text>`;
+                    headerGroup += `<line x1="${monthStartX}" y1="0" x2="${monthStartX}" y2="${timelineHeight}" stroke="var(--border-color)" stroke-width="1" />`;
+                }
+            }
+            
             headerGroup += `</g>`;
 
             // Lignes d'arrière plan (grille)
@@ -3152,6 +3207,53 @@
                     const cy = y + h / 2;
                     const r = 8;
                     svg += `<polygon class="gantt-item" data-task-id="${t.id}" points="${cx},${cy - r} ${cx + r},${cy} ${cx},${cy + r} ${cx - r},${cy}" fill="${color}" stroke="#e68a00" stroke-width="1"/>`;
+                } else if (t.isResourceRow && t.assignedTasks) {
+                    // Tracer des petits rectangles par semaine d'affectation
+                    const minSt = new Date(t.start).getTime();
+                    const maxEd = minSt + parseInt(t.duration) * 24 * 3600 * 1000;
+                    
+                    let curr = new Date(minSt);
+                    const dayOfWeek = curr.getUTCDay();
+                    const diff = curr.getUTCDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+                    curr.setUTCDate(diff); // Lundi UTC
+
+                    const weeks = [];
+                    while (curr.getTime() <= maxEd) {
+                        const weekStart = curr.getTime();
+                        
+                        let hasAlloc = false;
+                        let isOverloaded = false;
+                        
+                        for (let d = 0; d < 7; d++) {
+                            const dayTime = weekStart + d * 24 * 3600 * 1000;
+                            const dayTimeEnd = dayTime + 24 * 3600 * 1000;
+                            let dayLoad = 0;
+                            t.assignedTasks.forEach(at => {
+                                const atSt = new Date(at.start).getTime();
+                                const atEd = getTaskEndDate(at).getTime();
+                                // Vérification d'intersection d'intervalles (robuste)
+                                if (Math.max(atSt, dayTime) < Math.min(atEd, dayTimeEnd)) {
+                                    dayLoad += at.load;
+                                }
+                            });
+                            if (dayLoad > 0) hasAlloc = true;
+                            if (dayLoad > 100) isOverloaded = true;
+                        }
+                        
+                        if (hasAlloc) {
+                            weeks.push({ start: weekStart, overloaded: isOverloaded });
+                        }
+                        curr.setUTCDate(curr.getUTCDate() + 7);
+                    }
+                    
+                    weeks.forEach(wk => {
+                        const daysDiff = (wk.start - minDate) / (1000 * 60 * 60 * 24);
+                        const wx = Math.max(daysDiff * dayWidth, 10);
+                        const ww = 7 * dayWidth;
+                        const wColor = wk.overloaded ? '#ffcdd2' : '#c8e6c9';
+                        const wStroke = wk.overloaded ? '#d32f2f' : '#388e3c';
+                        svg += `<rect class="gantt-item" data-task-id="${t.id}" x="${wx}" y="${y}" width="${ww - 2}" height="${h}" rx="3" fill="${wColor}" stroke="${wStroke}" stroke-width="1"/>`;
+                    });
                 } else {
                     // Barre de tâche rectangulaire avec prise en charge du motif (T052)
                     const shape = t.node ? t.node.getAttribute('shape') : '';
@@ -3178,7 +3280,11 @@
                         if (!isNaN(bStartDate)) {
                             const bDaysDiff = (bStartDate - minDate) / (1000 * 60 * 60 * 24);
                             const bx = Math.max(bDaysDiff * dayWidth, 10);
-                            const bw = Math.max(bTask.duration * dayWidth, 4);
+                            
+                            const bEndDate = getTaskEndDate(bTask);
+                            const bCalendarSpan = (bEndDate - bStartDate) / (1000 * 60 * 60 * 24);
+                            const bw = Math.max(bCalendarSpan * dayWidth, 4);
+                            
                             svg += `<rect x="${bx}" y="${y + h - 4}" width="${bw}" height="6" fill="#888888" opacity="0.6" rx="2" title="Ligne de base"/>`;
                         }
                     }
@@ -3874,7 +3980,8 @@
             if (!state.xmlDoc) return [];
             return Array.from(state.xmlDoc.querySelectorAll('allocations > allocation')).map(n => ({
                 taskId: n.getAttribute('task-id'),
-                resourceId: n.getAttribute('resource-id')
+                resourceId: n.getAttribute('resource-id'),
+                load: n.getAttribute('load') || '100'
             }));
         }
 
