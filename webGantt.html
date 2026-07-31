@@ -763,8 +763,8 @@
     <!-- T028 : Dialog for baselines -->
     <dialog id="baseline-modal"
         style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--surface-color); color: var(--text-color); min-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-        <h3>Lignes de base (Baselines)</h3>
-        <p style="margin: 8px 0; font-size: 13px;">Ligne de base active sur le Gantt :</p>
+        <h3>États de référence du projet</h3>
+        <p style="margin: 8px 0; font-size: 13px;">État de référence actif sur le Gantt :</p>
         <select id="active-baseline-select" style="width: 100%; padding: 4px; margin-bottom: 12px;"></select>
 
         <h4>Empreintes existantes :</h4>
@@ -775,6 +775,24 @@
             <input type="text" id="new-baseline-name" placeholder="Nom de la nouvelle empreinte"
                 style="flex:1; padding: 4px;" />
             <button id="btn-create-baseline" class="primary">Créer</button>
+        </div>
+
+        <div style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px;">
+            <h4>Couleurs des états d'avancement</h4>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                    Tâche restant à faire :
+                    <input type="color" id="color-baseline-todo" value="#808080" />
+                </label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                    Tâche en avance sur le planning :
+                    <input type="color" id="color-baseline-ahead" value="#00ff00" />
+                </label>
+                <label style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                    Tâche en retard sur le planning :
+                    <input type="color" id="color-baseline-late" value="#ff0000" />
+                </label>
+            </div>
         </div>
         <br><br>
         <div style="text-align: right;">
@@ -1043,10 +1061,16 @@
     <!-- Main Application Split View -->
 
 
-    <!-- Onglets de vue -->
-    <div id="tabs-container">
-        <div class="view-tab active" data-target="main-container">Gantt des Tâches</div>
-        <div class="view-tab" data-target="res-main-container">Diagramme des ressources</div>
+    <!-- Onglets de vue et Recherche -->
+    <div id="tabs-container" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color);">
+        <div style="display: flex;">
+            <div class="view-tab active" data-target="main-container">Gantt des Tâches</div>
+            <div class="view-tab" data-target="res-main-container">Diagramme des ressources</div>
+        </div>
+        <div style="position: relative; margin-right: 16px;">
+            <input type="text" id="global-search" placeholder="Rechercher (Tâches, Ressources)..." style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border-color); font-size: 13px; width: 250px; background: var(--bg-color); color: var(--text-color);" />
+            <div id="search-results" style="display:none; position:absolute; top:100%; right:0; background:var(--surface-color); border:1px solid var(--border-color); border-radius:4px; max-height:300px; overflow-y:auto; width:300px; z-index:2000; box-shadow:0 4px 12px rgba(0,0,0,0.15); margin-top: 4px;"></div>
+        </div>
     </div>
 
     <!-- Main Application Split View -->
@@ -1363,6 +1387,90 @@
                     state.notifyListeners();
                 }
             });
+        });
+        
+        // Recherche Globale
+        const globalSearch = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+
+        globalSearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query || !state || !state.xmlDoc) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            const tasksNodes = Array.from(state.xmlDoc.querySelectorAll('task'));
+            const resNodes = Array.from(state.xmlDoc.querySelectorAll('resource'));
+            
+            const matchedTasks = tasksNodes.filter(n => (n.getAttribute('name') || '').toLowerCase().includes(query)).map(n => ({ id: n.getAttribute('id'), name: n.getAttribute('name') }));
+            const matchedRes = resNodes.filter(n => (n.getAttribute('name') || '').toLowerCase().includes(query)).map(n => ({ id: n.getAttribute('id'), name: n.getAttribute('name') }));
+            
+            if (matchedTasks.length === 0 && matchedRes.length === 0) {
+                searchResults.innerHTML = '<div style="padding: 8px; font-size: 13px; color: #888;">Aucun résultat</div>';
+                searchResults.style.display = 'block';
+                return;
+            }
+            
+            let html = '';
+            if (matchedTasks.length > 0) {
+                html += '<div style="padding: 4px 8px; font-size: 11px; font-weight: bold; background: var(--bg-color); color: var(--text-color);">TÂCHES</div>';
+                matchedTasks.forEach(t => {
+                    html += `<div class="search-item" data-type="task" data-id="${t.id}" style="padding: 6px 8px; font-size: 13px; cursor: pointer; color: var(--text-color); border-bottom: 1px solid var(--border-color);">${t.name}</div>`;
+                });
+            }
+            if (matchedRes.length > 0) {
+                html += '<div style="padding: 4px 8px; font-size: 11px; font-weight: bold; background: var(--bg-color); color: var(--text-color);">RESSOURCES</div>';
+                matchedRes.forEach(r => {
+                    html += `<div class="search-item" data-type="resource" data-id="${r.id}" style="padding: 6px 8px; font-size: 13px; cursor: pointer; color: var(--text-color); border-bottom: 1px solid var(--border-color);">${r.name}</div>`;
+                });
+            }
+            searchResults.innerHTML = html;
+            searchResults.style.display = 'block';
+            
+            searchResults.querySelectorAll('.search-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const type = item.getAttribute('data-type');
+                    const id = item.getAttribute('data-id');
+                    
+                    if (type === 'task') {
+                        document.querySelector('.view-tab[data-target="main-container"]').click();
+                        window.selectedTaskIds.clear();
+                        window.selectedTaskIds.add(id);
+                        window.lastSelectedTaskId = id;
+                        state.notifyListeners();
+                        setTimeout(() => {
+                            const row = document.querySelector(`#wbs-content > div[data-task-id="${id}"]`);
+                            if (row) {
+                                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                row.style.backgroundColor = 'var(--primary-color)';
+                                row.style.color = 'white';
+                                setTimeout(() => { row.style.backgroundColor = ''; row.style.color = ''; }, 1500);
+                            }
+                        }, 100);
+                    } else if (type === 'resource') {
+                        document.querySelector('.view-tab[data-target="res-main-container"]').click();
+                        setTimeout(() => {
+                            const row = document.querySelector(`#res-table-content > div[data-res-id="${id}"]`);
+                            if (row) {
+                                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                row.style.backgroundColor = 'var(--primary-color)';
+                                row.style.color = 'white';
+                                setTimeout(() => { row.style.backgroundColor = ''; row.style.color = ''; }, 1500);
+                            }
+                        }, 100);
+                    }
+                    
+                    searchResults.style.display = 'none';
+                    globalSearch.value = '';
+                });
+            });
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!globalSearch.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
         });
 
         // Splitter pour l'onglet Ressources
@@ -1796,6 +1904,15 @@
                         const actionCb = document.querySelector(`input[name="col-toggle"][value="tpd-actions"]`);
                         if (actionCb) actionCb.checked = true;
                     }
+                    
+                    // Chargement des couleurs de baseline
+                    window.baselineColors = { todo: '#808080', ahead: '#00ff00', late: '#ff0000' };
+                    const optTodo = viewNode.querySelector('option[id="color.baseline.todo"]');
+                    if (optTodo) window.baselineColors.todo = optTodo.getAttribute('value');
+                    const optAhead = viewNode.querySelector('option[id="color.baseline.ahead"]');
+                    if (optAhead) window.baselineColors.ahead = optAhead.getAttribute('value');
+                    const optLate = viewNode.querySelector('option[id="color.baseline.late"]');
+                    if (optLate) window.baselineColors.late = optLate.getAttribute('value');
                 }
 
                 // T042 : Initialiser l'historique avec l'état de départ
@@ -3059,7 +3176,7 @@
             let currentMonth = -1;
             let currentYear = -1;
             let monthStartX = 0;
-            
+
             let lastYear = -1;
             let yearStartX = 0;
 
@@ -3083,7 +3200,7 @@
                         const monthWidth = x - monthStartX;
                         let monthName = '';
                         const dObj = new Date(currentYear, currentMonth, 1);
-                        
+
                         if (dayWidth >= 10) {
                             // Mois en HAUT (avec année)
                             if (monthWidth >= 100) {
@@ -3114,7 +3231,7 @@
                     currentYear = iterDate.getFullYear();
                     monthStartX = x;
                 }
-                
+
                 // Gestion des changements d'année (seulement si dayWidth < 10)
                 if (dayWidth < 10) {
                     if (iterDate.getFullYear() !== lastYear) {
@@ -3128,7 +3245,7 @@
                     }
                 }
             }
-            
+
             // Dessiner le dernier mois et la dernière année
             if (currentMonth !== -1) {
                 const monthWidth = (maxDays * dayWidth) - monthStartX;
@@ -3149,14 +3266,14 @@
                     }
                 }
             }
-            
+
             if (dayWidth < 10 && lastYear !== -1) {
                 const yearWidth = (maxDays * dayWidth) - yearStartX;
                 if (yearWidth > 0) {
                     headerGroup += `<text x="${yearStartX + (yearWidth / 2)}" y="${timelineHeight / 4}" font-size="11" font-weight="bold" fill="var(--text-color)" text-anchor="middle" dominant-baseline="central">${lastYear}</text>`;
                 }
             }
-            
+
             headerGroup += `</g>`;
 
             // Lignes d'arrière plan (grille)
@@ -3268,7 +3385,7 @@
                     // Tracer des petits rectangles par semaine d'affectation
                     const minSt = new Date(t.start).getTime();
                     const maxEd = minSt + parseInt(t.duration) * 24 * 3600 * 1000;
-                    
+
                     let curr = new Date(minSt);
                     const dayOfWeek = curr.getUTCDay();
                     const diff = curr.getUTCDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
@@ -3277,10 +3394,10 @@
                     const weeks = [];
                     while (curr.getTime() <= maxEd) {
                         const weekStart = curr.getTime();
-                        
+
                         let hasAlloc = false;
                         let isOverloaded = false;
-                        
+
                         for (let d = 0; d < 7; d++) {
                             const dayTime = weekStart + d * 24 * 3600 * 1000;
                             const dayTimeEnd = dayTime + 24 * 3600 * 1000;
@@ -3296,13 +3413,13 @@
                             if (dayLoad > 0) hasAlloc = true;
                             if (dayLoad > 100) isOverloaded = true;
                         }
-                        
+
                         if (hasAlloc) {
                             weeks.push({ start: weekStart, overloaded: isOverloaded });
                         }
                         curr.setUTCDate(curr.getUTCDate() + 7);
                     }
-                    
+
                     weeks.forEach(wk => {
                         const daysDiff = (wk.start - minDate) / (1000 * 60 * 60 * 24);
                         const wx = Math.max(daysDiff * dayWidth, 10);
@@ -3337,12 +3454,20 @@
                         if (!isNaN(bStartDate)) {
                             const bDaysDiff = (bStartDate - minDate) / (1000 * 60 * 60 * 24);
                             const bx = Math.max(bDaysDiff * dayWidth, 10);
-                            
+
                             const bEndDate = getTaskEndDate(bTask);
                             const bCalendarSpan = (bEndDate - bStartDate) / (1000 * 60 * 60 * 24);
                             const bw = Math.max(bCalendarSpan * dayWidth, 4);
                             
-                            svg += `<rect x="${bx}" y="${y + h - 4}" width="${bw}" height="6" fill="#888888" opacity="0.6" rx="2" title="Ligne de base"/>`;
+                            const tEndDate = getTaskEndDate(t);
+                            let bColor = window.baselineColors ? window.baselineColors.todo : '#808080';
+                            if (tEndDate.getTime() > bEndDate.getTime()) {
+                                bColor = window.baselineColors ? window.baselineColors.late : '#ff0000';
+                            } else if (tEndDate.getTime() < bEndDate.getTime()) {
+                                bColor = window.baselineColors ? window.baselineColors.ahead : '#00ff00';
+                            }
+
+                            svg += `<rect x="${bx}" y="${y + h - 4}" width="${bw}" height="6" fill="${bColor}" opacity="0.8" rx="2" title="Ligne de base"/>`;
                         }
                     }
                 }
@@ -5760,6 +5885,13 @@
                 if (b.name === window.activeBaselineName) opt.selected = true;
                 activeBaselineSelect.appendChild(opt);
             });
+            
+            // Mise à jour des sélecteurs de couleur
+            if (window.baselineColors) {
+                document.getElementById('color-baseline-todo').value = window.baselineColors.todo;
+                document.getElementById('color-baseline-ahead').value = window.baselineColors.ahead;
+                document.getElementById('color-baseline-late').value = window.baselineColors.late;
+            }
 
             baselineList.innerHTML = '';
             baselines.forEach(b => {
@@ -5798,6 +5930,13 @@
 
         document.getElementById('btn-baselines').addEventListener('click', () => {
             if (!state.xmlDoc) return alert('Ouvrez un projet d\'abord.');
+            
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            document.getElementById('new-baseline-name').value = `${dd}/${mm}/${yyyy}`;
+            
             refreshBaselineModal();
             baselineModal.showModal();
         });
@@ -5851,6 +5990,29 @@
             window.activeBaselineName = name; // Active la nouvelle ligne de base par défaut
             state.notifyListeners();
             refreshBaselineModal();
+        });
+        
+        // Sauvegarde des couleurs de baseline dans le XML
+        function updateBaselineColorOpt(id, value) {
+            if (!state.xmlDoc) return;
+            const viewNode = state.xmlDoc.querySelector('view[id="gantt-chart"]');
+            if (!viewNode) return;
+            let opt = viewNode.querySelector(`option[id="${id}"]`);
+            if (!opt) {
+                opt = state.xmlDoc.createElement('option');
+                opt.setAttribute('id', id);
+                viewNode.appendChild(opt);
+            }
+            opt.setAttribute('value', value);
+        }
+
+        ['todo', 'ahead', 'late'].forEach(type => {
+            document.getElementById(`color-baseline-${type}`).addEventListener('input', (e) => {
+                if (!window.baselineColors) window.baselineColors = {};
+                window.baselineColors[type] = e.target.value;
+                updateBaselineColorOpt(`color.baseline.${type}`, e.target.value);
+                state.notifyListeners(); // Rafraîchit dynamiquement le Gantt
+            });
         });
 
         // Réaction aux changements d'état principal
