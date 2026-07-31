@@ -216,9 +216,16 @@
             }
 
             #toolbar,
+            #tabs-container,
             #splitter,
-            #btn-theme-toggle {
+            #res-splitter,
+            #btn-theme-toggle,
+            .pane-header,
+            .wbs-icon {
                 display: none !important;
+            }
+            #print-header {
+                display: block !important;
             }
 
             .view-container.active {
@@ -229,7 +236,9 @@
             }
 
             #left-pane,
-            #right-pane {
+            #right-pane,
+            #res-left-pane,
+            #res-right-pane {
                 height: auto !important;
                 overflow: visible !important;
                 border: none !important;
@@ -241,14 +250,14 @@
                 height: auto !important;
             }
 
-            /* Assurer que le SVG s'imprime en entier */
-            #gantt-content svg {
-                overflow: visible !important;
+            /* Assurer que le SVG ne déborde pas de sa zone (crop de la zone visible) */
+            #gantt-content svg, #res-gantt-content svg {
+                overflow: hidden !important;
                 max-width: none !important;
             }
 
             /* Masquer les styles de surbrillance/sélection inutiles à l'impression */
-            #wbs-content>div {
+            #wbs-content>div, #res-wbs-content>div {
                 background-color: transparent !important;
             }
         }
@@ -256,6 +265,7 @@
 </head>
 
 <body>
+    <div id="print-header" style="display: none; padding-bottom: 20px; text-align: center; font-family: inherit;"></div>
     <!-- SVG Patterns pour GanttProject Shapes -->
     <svg width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
         <defs id="global-shape-defs"></defs>
@@ -2993,7 +3003,13 @@
                 }
 
                 nameCol.appendChild(chevronSpan);
-                nameCol.appendChild(document.createTextNode(icon + task.name));
+                
+                const iconSpan = document.createElement('span');
+                iconSpan.className = 'wbs-icon';
+                iconSpan.textContent = icon;
+                nameCol.appendChild(iconSpan);
+                
+                nameCol.appendChild(document.createTextNode(task.name));
 
                 row.appendChild(nameCol);
 
@@ -7504,7 +7520,86 @@
         const btnPrint = document.getElementById('btn-print');
         if (btnPrint) {
             btnPrint.addEventListener('click', () => {
+                const printHeader = document.getElementById('print-header');
+                if (printHeader && state.xmlDoc) {
+                    const viewGantt = Array.from(state.xmlDoc.querySelectorAll('view')).find(v => v.getAttribute('id') === 'gantt-chart');
+                    const logo = getPrefValue(viewGantt, 'general.logo', '');
+                    const projectName = state.xmlDoc.documentElement.getAttribute('name') || 'Projet Sans Nom';
+                    const dateFormatType = getPrefValue(viewGantt, 'general.dateFormatType', 'default');
+                    const dateFormat = getPrefValue(viewGantt, 'general.dateFormat', 'dd/MM/y');
+                    
+                    let dateStr = new Date().toLocaleDateString();
+                    if (dateFormatType === 'custom') {
+                        const d = new Date();
+                        const yyyy = d.getFullYear().toString();
+                        const mm = String(d.getMonth() + 1).padStart(2, '0');
+                        const dd = String(d.getDate()).padStart(2, '0');
+                        dateStr = dateFormat.replace('yyyy', yyyy).replace('y', yyyy).replace('MM', mm).replace('dd', dd);
+                    }
+                    
+                    let finalLogoSrc = window.currentLogoDataUrl || logo;
+                    let html = `<div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; width:100%; border-bottom: 2px solid #ccc; padding-bottom:10px; margin-bottom:20px;">`;
+                    html += `<div style="display:flex; align-items:center; flex:1;">`;
+                    if (finalLogoSrc) {
+                        html += `<img src="${finalLogoSrc}" style="max-height: 60px; margin-right: 15px;" onerror="this.style.display='none';" />`;
+                    }
+                    html += `<h2 style="margin: 0;">${projectName}</h2>`;
+                    html += `</div>`;
+                    html += `<div style="flex-shrink:0;">`;
+                    html += `<p style="margin: 0; font-weight:bold;">${dateStr}</p>`;
+                    html += `</div>`;
+                    html += `</div>`;
+                    printHeader.innerHTML = html;
+                }
+
+                // Ajustement du SVG pour n'imprimer que la période visible (Start/End dates affichées)
+                const rightPane = document.getElementById('right-pane');
+                const ganttSvg = document.querySelector('#gantt-content svg');
+                let origGanttViewBox = null;
+                let origGanttWidth = null;
+
+                if (rightPane && ganttSvg && document.getElementById('main-container').classList.contains('active')) {
+                    const scrollX = rightPane.scrollLeft;
+                    const visibleW = rightPane.clientWidth;
+                    const svgH = parseInt(ganttSvg.getAttribute('height') || '100', 10);
+
+                    origGanttViewBox = ganttSvg.getAttribute('viewBox');
+                    origGanttWidth = ganttSvg.getAttribute('width');
+
+                    ganttSvg.setAttribute('viewBox', `${scrollX} 0 ${visibleW} ${svgH}`);
+                    ganttSvg.setAttribute('width', visibleW);
+                }
+
+                const resRightPane = document.getElementById('res-right-pane');
+                const resSvg = document.querySelector('#res-gantt-content svg');
+                let origResViewBox = null;
+                let origResWidth = null;
+
+                if (resRightPane && resSvg && document.getElementById('res-main-container').classList.contains('active')) {
+                    const scrollX = resRightPane.scrollLeft;
+                    const visibleW = resRightPane.clientWidth;
+                    const svgH = parseInt(resSvg.getAttribute('height') || '100', 10);
+
+                    origResViewBox = resSvg.getAttribute('viewBox');
+                    origResWidth = resSvg.getAttribute('width');
+
+                    resSvg.setAttribute('viewBox', `${scrollX} 0 ${visibleW} ${svgH}`);
+                    resSvg.setAttribute('width', visibleW);
+                }
+
                 window.print();
+
+                // Restauration
+                if (ganttSvg && origGanttWidth !== null) {
+                    if (origGanttViewBox) ganttSvg.setAttribute('viewBox', origGanttViewBox);
+                    else ganttSvg.removeAttribute('viewBox');
+                    ganttSvg.setAttribute('width', origGanttWidth);
+                }
+                if (resSvg && origResWidth !== null) {
+                    if (origResViewBox) resSvg.setAttribute('viewBox', origResViewBox);
+                    else resSvg.removeAttribute('viewBox');
+                    resSvg.setAttribute('width', origResWidth);
+                }
             });
         }
 
@@ -7969,7 +8064,13 @@
         });
         document.getElementById('pref-gen-logo-file').addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                document.getElementById('pref-gen-logo').value = e.target.files[0].name;
+                const file = e.target.files[0];
+                document.getElementById('pref-gen-logo').value = file.name;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    window.currentLogoDataUrl = ev.target.result;
+                };
+                reader.readAsDataURL(file);
             }
         });
 
