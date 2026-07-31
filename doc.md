@@ -1,186 +1,183 @@
-# Documentation webGantt
+# webGantt Documentation
 
-**webGantt** est une application web d'édition et de visualisation de diagrammes de Gantt, conçue pour être 100% compatible avec le format XML `.gan` de l'application open-source de référence GanttProject.
+**webGantt** is a web application for editing and visualizing Gantt charts, designed to be 100% compatible with the `.gan` XML format of the open-source reference application, GanttProject.
 
-Cette documentation a pour but de présenter le fonctionnement global de l'application et les configurations avancées disponibles via le menu des préférences.
-
----
-
-
-
-## Chapitre 1 : Introduction & Architecture de l'Application
-
-### 1.1 Principe et Interopérabilité
-**webGantt** est conçu pour fonctionner intégralement et de manière autonome au sein de votre navigateur web. Il n'utilise aucune base de données côté serveur, ce qui garantit la confidentialité totale de vos plannings. Le moteur de l'application lit, interprète, et génère directement des fichiers XML portant l'extension `.gan`.
-Cette approche garantit une interopérabilité absolue avec le logiciel de bureau open-source **GanttProject** (un standard de l'industrie de la gestion de projet).
-
-### 1.2 L'Interface Principale
-La zone de travail est structurée autour d'un redimensionnement dynamique (*splitter*) :
-- **À gauche (Panneau WBS)** : L'arborescence des tâches ou la liste de vos ressources. Il prend généralement 30% à 40% de l'écran.
-- **À droite (Panneau Graphique)** : La ligne de temps dynamique (timeline) affichant le diagramme de Gantt ou la carte d'occupation des ressources.
-
-### 1.3 Actions Globales de la Barre d'Outils
-La barre d'outils supérieure rassemble les contrôles vitaux du cycle de vie du projet :
-- **Ouvrir** : Analyse et charge instantanément un fichier `.gan` local. 
-- **Sauvegarder** : Compile l'état actuel de votre écran (incluant les préférences graphiques) et déclenche le téléchargement d'un nouveau fichier XML valide.
-- **Bouton Thème (Clair/Sombre)** : Alterne les variables CSS de l'application pour offrir un mode sombre profond (idéal pour réduire la fatigue visuelle) ou un mode clair classique.
-- **Propriétés du Projet** : Permet de définir les métadonnées globales (Nom du projet, Entreprise, URL) ainsi que les calendriers des week-ends et jours fériés généraux qui impacteront toutes les tâches.
+This documentation aims to present the overall operation of the application and the advanced configurations available via the preferences menu.
 
 ---
 
-## Chapitre 2 : L'arborescence des Tâches (WBS)
+## Chapter 1: Introduction & Application Architecture
 
-La *Work Breakdown Structure* (WBS) est le tableau de bord structurel de votre projet.
+### 1.1 Principle and Interoperability
+**webGantt** is designed to run entirely and autonomously within your web browser. It uses no server-side database, which guarantees the total confidentiality of your schedules. The application engine directly reads, interprets, and generates XML files with the `.gan` extension.
+This approach guarantees absolute interoperability with the open-source desktop software **GanttProject** (an industry standard in project management).
 
-### 2.1 Manipulation des Tâches
-- **Ajout rapide** : Cliquez sur "Ajouter une tâche". Si une tâche est déjà sélectionnée, la nouvelle ligne s'insèrera immédiatement sous la sélection, en héritant de son parent direct. Un identifiant unique de tâche (`id`) est automatiquement généré en arrière-plan.
-- **Édition directe (Inline)** : Un double-clic sur certaines colonnes (comme le Nom) permet une édition instantanée sans ouvrir les propriétés avancées.
-- **Masquer le panneau** : Si vous souhaitez vous concentrer sur l'aspect calendaire, le bouton de repli (◀) situé en haut du panneau WBS permet de cacher ce dernier pour passer le diagramme de Gantt en plein écran.
+### 1.2 The Main Interface
+The workspace is structured around a dynamic resizer (*splitter*):
+- **Left (WBS Pane)**: The task tree or your list of resources. It generally takes up 30% to 40% of the screen.
+- **Right (Graphical Pane)**: The dynamic timeline displaying the Gantt chart or the resource allocation map.
 
-### 2.2 Hiérarchisation et Structure
-La barre d'outils dédiée au WBS (située au-dessus de la liste des tâches) propose des outils de déplacement structurel. Les règles de grisage (activation/désactivation) s'assurent que la structure reste logiquement cohérente.
-- **Indenter (flèche droite →)** : Décale la tâche sélectionnée vers la droite. La tâche située juste au-dessus devient alors une "tâche mère" (ou résumé de phase). **Attention** : Les dates d'une tâche mère sont automatiquement calculées en fonction de ses enfants. Vous ne pouvez plus éditer manuellement les dates d'une tâche mère.
-- **Désindenter (flèche gauche ←)** : Ramène la sous-tâche au niveau supérieur (soeur de son ancien parent).
-- **Monter (↑) / Descendre (↓)** : Modifie l'ordre d'affichage vertical de deux tâches ayant le même parent et le même niveau de profondeur.
-
-### 2.3 Multisélection
-L'interface gère la multisélection : maintenez la touche `Ctrl` (ou `Cmd` sous Mac) pour sélectionner plusieurs tâches éparses, ou `Shift` pour sélectionner un bloc entier. Cela est particulièrement utile pour appliquer des liaisons de masse (voir Chapitre 3) ou supprimer un lot.
-
----
-
-## Chapitre 3 : Diagramme de Gantt et Liens de Dépendance
-
-Le diagramme de droite convertit vos données WBS en une représentation temporelle claire.
-
-### 3.1 Représentations Visuelles
-- **Tâches classiques** : Rectangles colorés (par défaut bleus).
-- **Tâches Mères (Groupes)** : Barres noires ou foncées avec des extrémités biseautées englobant temporellement toutes leurs sous-tâches.
-- **Jalons (Milestones)** : Les tâches dont la durée est de 0 jour (marquant la fin d'une phase, par exemple un rendu de livrable) sont automatiquement représentées par un losange.
-
-### 3.2 Gestion des Dépendances (Chaînage)
-Au lieu de modifier manuellement les dates de chaque tâche, l'application utilise un moteur de contraintes :
-- **Lier (🔗)** : Sélectionnez chronologiquement plusieurs tâches dans le WBS à l'aide de la touche `Ctrl`. Cliquez sur "Lier" : des relations "Fin-à-Début" (FS) seront créées. La tâche B ne pourra pas démarrer avant la fin de la tâche A.
-- **Délier (⛓️‍💥)** : Permet de casser toutes les relations entre les tâches actuellement sélectionnées.
-*Note technique : Le moteur recalcule en temps réel l'ensemble du planning si la tâche "A" subit un retard.*
-
-### 3.3 Contrôles Graphiques Avancés
-- **Zoom (+ / -)** : Ajuste dynamiquement l'échelle temporelle (axe X). Vous pouvez passer d'une vue détaillée "Jours / Semaines" à une vue "Mois / Années" pour les projets au long cours.
-- **Filtrage (Entonnoir)** : Ouvre un menu déroulant permettant d'épurer le diagramme.
-  - *Non terminées* : Masque ce qui est à 100% d'avancement.
-  - *À faire aujourd'hui* / *En retard* : Se base sur la date système courante pour cibler l'urgence.
-- **Chemin Critique** : Activez l'icône de chemin critique pour afficher en rouge continu le chemin temporel inaltérable du projet. Toute tâche située sur ce chemin (qui n'a aucune marge de sécurité) décalera la date de livraison finale du projet si sa propre durée s'allonge.
+### 1.3 Global Toolbar Actions
+The top toolbar gathers the vital controls for the project lifecycle:
+- **Open**: Instantly parses and loads a local `.gan` file.
+- **Save**: Compiles the current state of your screen (including graphical preferences) and triggers the download of a new valid XML file.
+- **Theme Button (Light/Dark)**: Toggles the CSS variables of the application to offer a deep dark mode (ideal to reduce eye strain) or a classic light mode.
+- **Project Properties**: Allows defining global metadata (Project Name, Company, URL) as well as the calendars for general weekends and holidays that will impact all tasks.
 
 ---
 
-## Chapitre 4 : Gestion des Ressources Humaines et Matérielles
+## Chapter 2: The Work Breakdown Structure (WBS)
 
-Les ressources sont au cœur de la planification capacitaire de **webGantt**.
+The *Work Breakdown Structure* (WBS) is the structural dashboard of your project.
 
-### 4.1 La base de Ressources
-- Basculez sur l'espace "Ressources" (en bas ou onglet de vue) pour lister votre équipe.
-- Ajoutez de nouvelles ressources en définissant des données de contact (Nom, Email, Téléphone).
-- Vous pouvez définir un **Coût Standard** (taux horaire ou journalier) qui servira, couplé à la durée des tâches, au calcul automatisé du coût total du projet.
+### 2.1 Task Manipulation
+- **Quick Add**: Click on "Add a task". If a task is already selected, the new row will be inserted immediately below the selection, inheriting its direct parent. A unique task identifier (`id`) is automatically generated in the background.
+- **Inline Editing**: A double-click on certain columns (like the Name) allows instant editing without opening the advanced properties.
+- **Hide the pane**: If you want to focus on the calendar aspect, the collapse button (◀) located at the top of the WBS pane allows hiding it to switch the Gantt chart to full screen.
 
-### 4.2 Les Rôles
-Les rôles normalisent les intitulés de postes (ex: *Architecte Cloud*, *Ingénieur QA*, *Consultant Fonctionnel*).
-- Ils se créent globalement via le menu **Propriétés du Projet**.
-- Une fois créés, vous pouvez assigner un Rôle par défaut à chaque ressource. Cela permet de grouper l'équipe par corps de métier.
+### 2.2 Hierarchy and Structure
+The WBS dedicated toolbar (located above the task list) offers structural movement tools. Graying out rules (enable/disable) ensure the structure remains logically coherent.
+- **Indent (Right arrow →)**: Shifts the selected task to the right. The task immediately above then becomes a "parent task" (or phase summary). **Warning**: The dates of a parent task are automatically calculated based on its children. You can no longer manually edit the dates of a parent task.
+- **Outdent (Left arrow ←)**: Brings the subtask up a level (sibling of its former parent).
+- **Move Up (↑) / Move Down (↓)**: Modifies the vertical display order of two tasks with the same parent and the same depth level.
 
-### 4.3 Jours de Congés Individuels (Calendrier de Ressource)
-Outre le calendrier du projet (week-ends et jours fériés globaux), webGantt gère l'indisponibilité individuelle.
-- Dans les détails d'une ressource, accédez à son **Calendrier de jours de congés**.
-- Toute plage déclarée en congé suspendra le travail de cette ressource sur le Gantt. Les tâches qui lui sont affectées exclusives subiront automatiquement un allongement de leur durée réelle (saut par-dessus les congés).
-
----
-
-## Chapitre 5 : Affectation, Taux de Charge et Planification
-
-### 5.1 Affecter une ressource
-Ouvrez le panneau de **Propriétés avancées de la tâche** (icône d'engrenage sur une ligne du WBS, ou double-clic).
-- Dans l'onglet **Ressources**, vous pouvez sélectionner un intervenant dans la liste.
-- Vous devez définir un **Taux de charge (Unités)** en pourcentage. Un taux de `100%` signifie un emploi à temps plein de l'individu sur la tâche. Un taux de `50%` indique une charge à temps partiel.
-- **Responsable** : L'option "Coordinator" (Responsable) permet de désigner spécifiquement une personne (parmi celles affectées) comme chef d'orchestre de la tâche.
-
-### 5.2 Le Diagramme d'occupation et la Surcharge
-Dans le panneau des ressources, la frise chronologique n'affiche pas des tâches, mais des **barres d'occupation**.
-- Ces barres cumulent mathématiquement le taux de charge d'une personne si elle est affectée à plusieurs tâches se chevauchant.
-- Si le cumul des charges journalières dépasse **100%**, la barre se colore en rouge (Surcharge / *Overloaded*). Cela indique un conflit d'agenda qu'il faudra résoudre (en lissant les dates ou en réduisant le taux de charge).
-- *(Note : les couleurs d'alerte, de charge normale et de sous-charge sont personnalisables dans les Préférences du Projet).*
+### 2.3 Multi-selection
+The interface handles multi-selection: hold the `Ctrl` key (or `Cmd` on Mac) to select multiple scattered tasks, or `Shift` to select an entire block. This is particularly useful for applying mass links (see Chapter 3) or deleting a batch.
 
 ---
 
-## Chapitre 6 : Colonnes, Champs Personnalisés et Lignes de Base
+## Chapter 3: Gantt Chart and Dependencies
 
-### 6.1 Le Sélecteur de Colonnes WBS (⚙️)
-La liste des tâches possède un bouton d'engrenage dans son en-tête. Il déclenche un menu contextuel permettant d'afficher ou masquer à la volée n'importe quel attribut système (Date de début, Date de fin, % d'avancement, Coût, Durée). 
-*L'état d'affichage des colonnes est temporaire afin d'optimiser l'espace visuel.*
+The right pane converts your WBS data into a clear temporal representation.
 
-### 6.2 Les Champs Personnalisés (Custom Properties)
-Si le standard ne suffit pas à votre métier, webGantt permet de créer des méta-données :
-- Allez dans **Propriétés du Projet** > Onglet **Champs personnalisés**.
-- Créez un champ (Ex: "Ticket Jira", "Phase de Validation", "Budget Estimé").
-- Vous devez choisir un type strict : *Texte*, *Date*, *Entier*, *Booléen* ou *Double*.
-- Une fois créés, ces champs apparaissent automatiquement sous forme de nouvelles colonnes dans l'arbre WBS et de nouveaux champs de saisie dans le détail de chaque tâche.
+### 3.1 Visual Representations
+- **Standard Tasks**: Colored rectangles (blue by default).
+- **Parent Tasks (Groups)**: Black or dark bars with beveled ends temporally encompassing all their subtasks.
+- **Milestones**: Tasks whose duration is 0 days (marking the end of a phase, for example, a deliverable submission) are automatically represented by a diamond.
 
-### 6.3 Lignes de Base (Baselines / Empreintes)
-La planification est un métier itératif. Une fois le planning validé, vous pouvez créer une **Ligne de Base**.
-- Une ligne de base effectue un "instantané" silencieux des dates prévues de toutes les tâches à l'instant T.
-- Au fil du déroulement du projet, si les tâches prennent du retard, vous pourrez afficher la ligne de base sur le diagramme de Gantt. L'interface superposera (généralement en gris) le rectangle des dates d'origine sous le rectangle coloré courant, exposant visuellement le dérapage ou l'avance du planning.
+### 3.2 Dependency Management (Chaining)
+Instead of manually modifying the dates of each task, the application uses a constraint engine:
+- **Link (🔗)**: Chronologically select several tasks in the WBS using the `Ctrl` key. Click on "Link": "Finish-to-Start" (FS) relationships will be created. Task B cannot start before the end of Task A.
+- **Unlink (⛓️‍💥)**: Allows breaking all relationships between the currently selected tasks.
+*Technical note: The engine recalculates the entire schedule in real-time if task "A" experiences a delay.*
+
+### 3.3 Advanced Graphical Controls
+- **Zoom (+ / -)**: Dynamically adjusts the time scale (X-axis). You can switch from a detailed "Days / Weeks" view to a "Months / Years" view for long-term projects.
+- **Filtering (Funnel)**: Opens a dropdown menu allowing you to filter the chart.
+  - *Not completed*: Hides what is at 100% progress.
+  - *To do today* / *Late*: Relies on the current system date to target urgency.
+- **Critical Path**: Activate the critical path icon to display in solid red the unalterable time path of the project. Any task located on this path (which has no safety margin) will shift the final delivery date of the project if its own duration extends.
 
 ---
 
-## Chapitre 7 : Les Préférences du Projet
+## Chapter 4: Human and Material Resource Management
 
+Resources are at the heart of capacity planning in **webGantt**.
 
-La fenêtre des **Préférences** permet de paramétrer finement l'affichage de l'interface, des composants du diagramme de Gantt et du planificateur de ressources. Ces préférences sont directement persistées dans votre fichier `.gan` et s'appliquent de manière portable (si le fichier est ouvert par un autre utilisateur ou sous GanttProject, la configuration graphique est conservée).
+### 4.1 The Resource Base
+- Switch to the "Resources" space (at the bottom or via the dedicated view tab) to list your team.
+- Add new resources by defining contact data (Name, Email, Phone).
+- You can define a **Standard Rate** (hourly or daily rate) which, coupled with the duration of the tasks, will be used for the automated calculation of the total project cost.
 
-La fenêtre est divisée en trois onglets : **Général**, **Propriétés du diagramme de Gantt**, et **Propriétés du diagramme des ressources**.
+### 4.2 Roles
+Roles standardize job titles (e.g., *Cloud Architect*, *QA Engineer*, *Functional Consultant*).
+- They are created globally via the **Project Properties** menu.
+- Once created, you can assign a default Role to each resource. This allows grouping the team by profession.
 
-### 7.1 Onglet "Général"
+### 4.3 Individual Vacation Days (Resource Calendar)
+Besides the project calendar (weekends and global holidays), webGantt manages individual unavailability.
+- In the details of a resource, access its **Vacation days calendar**.
+- Any range declared as vacation will suspend the work of this resource on the Gantt chart. Tasks that are exclusively assigned to them will automatically see an extension of their actual duration (jumping over the vacations).
 
-Cet onglet permet de contrôler l'apparence globale du logiciel (UI) ainsi que les formats régionaux (langue, format des dates).
+---
 
-| Nom du champ | Valeurs possibles | Effet du paramètre | XPath dans le fichier .gan |
+## Chapter 5: Assignment, Workload and Planning
+
+### 5.1 Assign a resource
+Open the **Advanced task properties** pane (gear icon on a WBS row, or double-click).
+- In the **Resources** tab, you can select a contributor from the list.
+- You must define a **Workload (Units)** in percentage. A rate of `100%` means full-time employment of the individual on the task. A rate of `50%` indicates part-time workload.
+- **Coordinator**: The "Coordinator" option allows specifically designating one person (among those assigned) as the lead of the task.
+
+### 5.2 The Occupancy Chart and Overload
+In the resources pane, the timeline does not display tasks, but **occupancy bars**.
+- These bars mathematically accumulate a person's workload if they are assigned to multiple overlapping tasks.
+- If the cumulative daily workload exceeds **100%**, the bar turns red (*Overloaded*). This indicates a schedule conflict that will need to be resolved (by smoothing out dates or reducing the workload).
+- *(Note: the alert colors, normal workload, and underload colors are customizable in the Project Preferences).*
+
+---
+
+## Chapter 6: Columns, Custom Fields and Baselines
+
+### 6.1 The WBS Column Selector (⚙️)
+The task list has a gear button in its header. It triggers a contextual menu allowing you to dynamically show or hide any system attribute (Start Date, End Date, % Complete, Cost, Duration). 
+*The display state of the columns is temporary to optimize visual space.*
+
+### 6.2 Custom Properties
+If the standard is not enough for your profession, webGantt allows you to create metadata:
+- Go to **Project Properties** > **Custom Fields** tab.
+- Create a field (e.g., "Jira Ticket", "Validation Phase", "Estimated Budget").
+- You must choose a strict type: *Text*, *Date*, *Integer*, *Boolean*, or *Double*.
+- Once created, these fields automatically appear as new columns in the WBS tree and new input fields in the detail of each task.
+
+### 6.3 Baselines
+Planning is an iterative profession. Once the schedule is validated, you can create a **Baseline**.
+- A baseline takes a silent "snapshot" of the planned dates of all tasks at time T.
+- As the project progresses, if tasks get delayed, you can display the baseline on the Gantt chart. The interface will overlay (usually in gray) the original dates' rectangle under the current colored rectangle, visually exposing the slippage or advance of the schedule.
+
+---
+
+## Chapter 7: Project Preferences
+
+The **Preferences** window allows for fine-tuning the display of the interface, the Gantt chart components, and the resource planner. These preferences are directly persisted in your `.gan` file and apply portably (if the file is opened by another user or in GanttProject, the graphical configuration is retained).
+
+The window is divided into three tabs: **General**, **Gantt Chart Properties**, and **Resource Chart Properties**.
+
+### 7.1 "General" Tab
+
+This tab controls the overall appearance of the software (UI) as well as regional formats (language, date format).
+
+| Field Name | Possible Values | Parameter Effect | XPath in the .gan file |
 | --- | --- | --- | --- |
-| Apparence | `Plastic`, etc. | Thème visuel global de l'interface. | `//view[@id='gantt-chart']/option[@id='general.appearance']/@value` |
-| Polices de l'application | Liste des polices (ex: `default`) | Définit la police de caractères utilisée pour l'UI. | `//view[@id='gantt-chart']/option[@id='general.appFont']/@value` |
-| (Taille police de l'application) | `1` à `5` (entier) | Ajuste la taille du texte de l'interface graphique. | `//view[@id='gantt-chart']/option[@id='general.appFontSize']/@value` |
-| Polices de base graphique | Liste des polices (ex: `default`) | Définit la police utilisée pour le dessin SVG du graphe. | `//view[@id='gantt-chart']/option[@id='general.chartFont']/@value` |
-| (Taille police graphique) | `1` à `5` (entier) | Ajuste la taille du texte à l'intérieur du diagramme SVG. | `//view[@id='gantt-chart']/option[@id='general.chartFontSize']/@value` |
-| Espacement des lignes du tableau | Nombre décimal (ex: `20.0`, `32`) | Modifie la hauteur (en pixels) de chaque ligne de l'arborescence (WBS) et du diagramme. | `//view[@id='gantt-chart']/option[@id='general.rowSpacing']/@value` |
-| DPI | Nombre (ex: `96`) | Densité de pixels simulée pour la définition des polices et impressions. | `//view[@id='gantt-chart']/option[@id='general.dpi']/@value` |
-| Langue | `fr`, `en`, etc. | Langue de localisation des mois, jours de la semaine et labels UI. | `//view[@id='gantt-chart']/option[@id='general.language']/@value` |
-| Utilisez le format de date | `default` ou `custom` | Choix entre le format dicté par le système ou un format saisi manuellement. | `//view[@id='gantt-chart']/option[@id='general.dateFormatType']/@value` |
-| Format de date court personnalisé | Chaîne de format (ex: `dd/MM/y`) | Syntaxe de formatage appliquée à l'affichage des dates du projet. | `//view[@id='gantt-chart']/option[@id='general.dateFormat']/@value` |
-| Fichier du logo | Chemin absolu ou relatif du fichier | Logo affiché sur les rapports et l'export du projet (pour impression). | `//view[@id='gantt-chart']/option[@id='general.logo']/@value` |
+| Appearance | `Plastic`, etc. | Global visual theme of the interface. | `//view[@id='gantt-chart']/option[@id='general.appearance']/@value` |
+| Application Fonts | List of fonts (e.g., `default`) | Defines the font used for the UI. | `//view[@id='gantt-chart']/option[@id='general.appFont']/@value` |
+| (Application font size) | `1` to `5` (integer) | Adjusts the text size of the graphical interface. | `//view[@id='gantt-chart']/option[@id='general.appFontSize']/@value` |
+| Chart Base Fonts | List of fonts (e.g., `default`) | Defines the font used for the SVG drawing of the chart. | `//view[@id='gantt-chart']/option[@id='general.chartFont']/@value` |
+| (Chart font size) | `1` to `5` (integer) | Adjusts the text size inside the SVG chart. | `//view[@id='gantt-chart']/option[@id='general.chartFontSize']/@value` |
+| Table Row Spacing | Decimal number (e.g., `20.0`, `32`) | Modifies the height (in pixels) of each row in the tree (WBS) and the chart. | `//view[@id='gantt-chart']/option[@id='general.rowSpacing']/@value` |
+| DPI | Number (e.g., `96`) | Simulated pixel density for font definition and printing. | `//view[@id='gantt-chart']/option[@id='general.dpi']/@value` |
+| Language | `fr`, `en`, etc. | Localization language for months, days of the week, and UI labels. | `//view[@id='gantt-chart']/option[@id='general.language']/@value` |
+| Use Date Format | `default` or `custom` | Choice between the format dictated by the system or a manually entered format. | `//view[@id='gantt-chart']/option[@id='general.dateFormatType']/@value` |
+| Custom Short Date Format | Format string (e.g., `dd/MM/y`) | Formatting syntax applied to the display of project dates. | `//view[@id='gantt-chart']/option[@id='general.dateFormat']/@value` |
+| Logo File | Absolute or relative file path | Logo displayed on reports and project export (for printing). | `//view[@id='gantt-chart']/option[@id='general.logo']/@value` |
 
-### 7.2 Onglet "Propriétés du diagramme de Gantt"
+### 7.2 "Gantt Chart Properties" Tab
 
-Ces options modifient le comportement natif des tâches et les informations textuelles ou visuelles dessinées autour de celles-ci.
+These options modify the native behavior of tasks and the textual or visual information drawn around them.
 
-| Nom du champ | Valeurs possibles | Effet du paramètre | XPath dans le fichier .gan |
+| Field Name | Possible Values | Parameter Effect | XPath in the .gan file |
 | --- | --- | --- | --- |
-| Préfixe de nom de tâche | Texte libre (ex: `tâche`) | Préfixe utilisé automatiquement lors de la création d'une nouvelle tâche. | `//view[@id='gantt-chart']/option[@id='gantt.taskPrefix']/@value` |
-| Format du nom pour les tâches copiées | Format tokenisé (ex: `{0}_{1}`) | Gabarit d'automatisation utilisé pour renommer une tâche dupliquée. | `//view[@id='gantt-chart']/option[@id='gantt.taskCopyFormat']/@value` |
-| Nouvelle tâche | Couleur hex (ex: `#8cb6ce`) | Couleur d'arrière-plan appliquée par défaut aux nouvelles tâches créées. | `//view[@id='gantt-chart']/option[@id='gantt.newTaskColor']/@value` |
-| Contrainte | `Strong` ou `Rubber` | Type de contrainte d'enchaînement par défaut. Une contrainte forte ("Strong") déplace automatiquement une tâche en cas de retard. | `//view[@id='gantt-chart']/option[@id='gantt.constraint']/@value` |
-| Afficher aujourd'hui avec une ligne rouge | `yes` ou `no` | Si activé, une ligne rouge verticale barre le diagramme à la date d'aujourd'hui. | `//view[@id='gantt-chart']/option[@id='gantt.todayLine']/@value` |
-| Dates de début/fin du projet | `yes` ou `no` | Si activé, marque explicitement les limites globales du projet sur l'axe calendaire. | `//view[@id='gantt-chart']/option[@id='gantt.projectDates']/@value` |
-| Style d'affichage des week-ends | `default` (grisé), etc. | Définit si les week-ends et jours chômés sont hachurés, grisés, ou masqués. | `//view[@id='gantt-chart']/option[@id='gantt.weekendStyle']/@value` |
-| Numérotation des semaines | `default` (ISO), etc. | Mode de numérotation utilisé dans l'en-tête de la timeline du diagramme. | `//view[@id='gantt-chart']/option[@id='gantt.weekNumbering']/@value` |
-| Afficher tous les jalons | Boîte à cocher (`true` ou `false`) | Indique si les tâches d'une durée de 0 (jalons) doivent être rendues (losange) dans le SVG. | `//view[@id='gantt-chart']/option[@id='gantt.showMilestones']/@value` |
-| (Détails) Au-dessus | `name`, `resources`, `progress`, `duration`, ` ` | Définit la métrique affichée *au-dessus* de la barre rectangulaire SVG de la tâche. | `//view[@id='gantt-chart']/option[@id='gantt.detailTop']/@value` |
-| (Détails) En-dessous | `name`, `resources`, `progress`, `duration`, ` ` | Définit la métrique affichée *en-dessous* de la barre rectangulaire SVG de la tâche. | `//view[@id='gantt-chart']/option[@id='gantt.detailBottom']/@value` |
-| (Détails) A gauche | `name`, `resources`, `progress`, `duration`, ` ` | Définit la métrique affichée *à gauche* de la barre rectangulaire SVG de la tâche. | `//view[@id='gantt-chart']/option[@id='gantt.detailLeft']/@value` |
-| (Détails) A droite | `name`, `resources`, `progress`, `duration`, ` ` | Définit la métrique affichée *à droite* de la barre rectangulaire SVG de la tâche. | `//view[@id='gantt-chart']/option[@id='gantt.detailRight']/@value` |
+| Task Name Prefix | Free text (e.g., `task`) | Prefix automatically used when creating a new task. | `//view[@id='gantt-chart']/option[@id='gantt.taskPrefix']/@value` |
+| Name Format for Copied Tasks | Tokenized format (e.g., `{0}_{1}`) | Automation template used to rename a duplicated task. | `//view[@id='gantt-chart']/option[@id='gantt.taskCopyFormat']/@value` |
+| New Task | Hex color (e.g., `#8cb6ce`) | Default background color applied to newly created tasks. | `//view[@id='gantt-chart']/option[@id='gantt.newTaskColor']/@value` |
+| Constraint | `Strong` or `Rubber` | Default chaining constraint type. A "Strong" constraint automatically moves a task in case of a delay. | `//view[@id='gantt-chart']/option[@id='gantt.constraint']/@value` |
+| Show Today with a Red Line | `yes` or `no` | If enabled, a vertical red line crosses the chart at today's date. | `//view[@id='gantt-chart']/option[@id='gantt.todayLine']/@value` |
+| Project Start/End Dates | `yes` or `no` | If enabled, explicitly marks the global limits of the project on the timeline. | `//view[@id='gantt-chart']/option[@id='gantt.projectDates']/@value` |
+| Weekend Display Style | `default` (grayed out), etc. | Defines whether weekends and non-working days are hatched, grayed out, or hidden. | `//view[@id='gantt-chart']/option[@id='gantt.weekendStyle']/@value` |
+| Week Numbering | `default` (ISO), etc. | Numbering mode used in the header of the chart's timeline. | `//view[@id='gantt-chart']/option[@id='gantt.weekNumbering']/@value` |
+| Show All Milestones | Checkbox (`true` or `false`) | Indicates if tasks with a duration of 0 (milestones) should be rendered (diamond) in the SVG. | `//view[@id='gantt-chart']/option[@id='gantt.showMilestones']/@value` |
+| (Details) Above | `name`, `resources`, `progress`, `duration`, ` ` | Defines the metric displayed *above* the SVG rectangular bar of the task. | `//view[@id='gantt-chart']/option[@id='gantt.detailTop']/@value` |
+| (Details) Below | `name`, `resources`, `progress`, `duration`, ` ` | Defines the metric displayed *below* the SVG rectangular bar of the task. | `//view[@id='gantt-chart']/option[@id='gantt.detailBottom']/@value` |
+| (Details) Left | `name`, `resources`, `progress`, `duration`, ` ` | Defines the metric displayed *to the left* of the SVG rectangular bar of the task. | `//view[@id='gantt-chart']/option[@id='gantt.detailLeft']/@value` |
+| (Details) Right | `name`, `resources`, `progress`, `duration`, ` ` | Defines the metric displayed *to the right* of the SVG rectangular bar of the task. | `//view[@id='gantt-chart']/option[@id='gantt.detailRight']/@value` |
 
-### 7.3 Onglet "Propriétés du diagramme des ressources"
+### 7.3 "Resource Chart Properties" Tab
 
-Ce troisième onglet sert à configurer le panneau inférieur de l'application (l'arbre et la timeline des ressources matérielles ou humaines), et en particulier la coloration conditionnelle liée au taux de charge hebdomadaire de ces ressources.
+This third tab is used to configure the bottom pane of the application (the tree and timeline of material or human resources), and in particular the conditional coloring related to the weekly workload of these resources.
 
-| Nom du champ | Valeurs possibles | Effet du paramètre | XPath dans le fichier .gan |
+| Field Name | Possible Values | Parameter Effect | XPath in the .gan file |
 | --- | --- | --- | --- |
-| Ressources | Couleur hex (ex: `#90b6d3`) | Couleur de fond standard des intervalles où la ressource travaille normalement (charge <= 100%). | `//view[@id='resource-table']/option[@id='res.color']/@value` |
-| Ressources (surchargées) | Couleur hex (ex: `#e14436`) | Couleur d'alerte pour les périodes où la ressource est assignée à plus de 100% (conflits d'agenda). | `//view[@id='resource-table']/option[@id='res.overloadedColor']/@value` |
-| Ressources (sous employées) | Couleur hex (ex: `#3bd93b`) | Couleur marquant les périodes où la ressource n'atteint pas le quota d'heures prévu (optionnel). | `//view[@id='resource-table']/option[@id='res.underloadedColor']/@value` |
-| Jours de congés | Couleur hex (ex: `#ffff55`) | Couleur utilisée pour dessiner l'arrière-plan des plages d'inactivité ou de vacances signalées pour cette ressource. | `//view[@id='resource-table']/option[@id='res.vacationColor']/@value` |
+| Resources | Hex color (e.g., `#90b6d3`) | Standard background color for intervals where the resource works normally (load <= 100%). | `//view[@id='resource-table']/option[@id='res.color']/@value` |
+| Resources (Overloaded) | Hex color (e.g., `#e14436`) | Alert color for periods when the resource is assigned to more than 100% (schedule conflicts). | `//view[@id='resource-table']/option[@id='res.overloadedColor']/@value` |
+| Resources (Underloaded) | Hex color (e.g., `#3bd93b`) | Color marking periods when the resource does not meet the expected hours quota (optional). | `//view[@id='resource-table']/option[@id='res.underloadedColor']/@value` |
+| Vacation Days | Hex color (e.g., `#ffff55`) | Color used to draw the background of inactivity or vacation periods reported for this resource. | `//view[@id='resource-table']/option[@id='res.vacationColor']/@value` |

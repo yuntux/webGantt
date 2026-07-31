@@ -1,8 +1,8 @@
-# Structure du fichier .gan (GanttProject)
+# .gan File Structure (GanttProject)
 
-Ce document fournit une spécification détaillée du format de fichier XML `.gan` utilisé par GanttProject, afin de garantir l'interopérabilité avec d'autres applications telles que **webGantt**.
+This document provides a detailed specification of the `.gan` XML file format used by GanttProject, to ensure interoperability with other applications such as **webGantt**.
 
-## Vue d'ensemble (Modèle de Données)
+## Overview (Data Model)
 
 ```mermaid
 classDiagram
@@ -79,133 +79,133 @@ classDiagram
 ```
 
 
-## Élément Racine `<project>`
-L'élément racine représente les paramètres globaux du projet.
+## Root Element `<project>`
+The root element represents the global settings of the project.
 
-**Attributs principaux :**
-- `name` : Nom du projet.
-- `company` : Nom de l'organisation.
-- `webLink` : URL associée au projet.
-- `gantt-divider-location` : Largeur en pixels du panneau de gauche (le tableau WBS). **Note :** Une valeur très faible (ex: `1`) est ignorée par GanttProject (limite technique Java Swing) qui affichera le panneau à sa largeur minimale par défaut.
-- `resource-divider-location` : Largeur en pixels du panneau des ressources.
-- `version`, `locale`, `view-date`, `view-index` : Paramètres de versioning et d'état de vue initial.
+**Main attributes:**
+- `name` : Name of the project.
+- `company` : Organization name.
+- `webLink` : URL associated with the project.
+- `gantt-divider-location` : Width in pixels of the left pane (the WBS table). **Note:** A very low value (e.g., `1`) is ignored by GanttProject (Java Swing technical limit) which will display the pane at its default minimum width.
+- `resource-divider-location` : Width in pixels of the resources pane.
+- `version`, `locale`, `view-date`, `view-index` : Versioning parameters and initial view state.
 
-**Enfants :**
-- `<description>` : Contient le texte descriptif du projet.
+**Children:**
+- `<description>` : Contains the descriptive text of the project.
 
-## Vues `<view>`
-Les balises `<view>` stockent la configuration de l'interface utilisateur.
+## Views `<view>`
+The `<view>` tags store the user interface configuration.
 
-- `id="gantt-chart"` : Vue du diagramme de Gantt.
-  - `zooming-state` : Niveau de zoom du diagramme. Dans GanttProject, il est stocké sous la forme `ganttproject-value-meta-current-gantt-gantt-chart-drawer-zoom:X` où `X` est un entier de 0 à 9 représentant l'index du niveau de zoom (défini par `GPTimeUnitStack`).
-    - `0` à `3` : Unité principale "Jour" (Largeur par jour : 65px, 55px, 44px, 34px).
-    - `4` à `7` : Unité principale "Semaine" (Largeur par semaine : 24px, 21px, 13px, 8px, soit env. 3.4px à 1.14px par jour).
-    - `8` à `9` : Unité principale "Mois" (Largeur par mois : 5px, 3px, soit env. 0.16px à 0.1px par jour).
-    - *Note : Plus la valeur est élevée, plus on est dézoomé.*
-  - `<field>` : Définit les colonnes visibles dans le tableau WBS. L'attribut `id` fait référence aux propriétés `tpd` (voir ci-dessous). L'attribut `name` n'est qu'une étiquette traduite ; l'ID est la vraie clé immuable.
+- `id="gantt-chart"` : Gantt chart view.
+  - `zooming-state` : Zoom level of the diagram. In GanttProject, it is stored as `ganttproject-value-meta-current-gantt-gantt-chart-drawer-zoom:X` where `X` is an integer from 0 to 9 representing the index of the zoom level (defined by `GPTimeUnitStack`).
+    - `0` to `3` : Main unit "Day" (Width per day: 65px, 55px, 44px, 34px).
+    - `4` to `7` : Main unit "Week" (Width per week: 24px, 21px, 13px, 8px, i.e., approx. 3.4px to 1.14px per day).
+    - `8` to `9` : Main unit "Month" (Width per month: 5px, 3px, i.e., approx. 0.16px to 0.1px per day).
+    - *Note: The higher the value, the more zoomed out it is.*
+  - `<field>` : Defines the visible columns in the WBS table. The `id` attribute refers to the `tpd` properties (see below). The `name` attribute is just a translated label; the ID is the true immutable key.
 
-## Propriétés de Tâches : Les champs `tpd` (Task Property Default)
-Les colonnes et métadonnées natives sont gérées par des identifiants `tpd` internes.
+## Task Properties: The `tpd` fields (Task Property Default)
+Native columns and metadata are managed by internal `tpd` identifiers.
 
-### Déclarés dans `<taskproperties>`
-GanttProject écrit explicitement les propriétés `tpd0` à `tpd9` dans le fichier :
-- `tpd0` : Icône de Type
-- `tpd1` : Icône de Priorité
-- `tpd2` : Icône d'Information
-- `tpd3` : Nom de la tâche
-- `tpd4` : Date de début
-- `tpd5` : Date de fin
-- `tpd6` : Durée
-- `tpd7` : Avancement (complétion)
-- `tpd8` : Coordinateur / Responsable
-- `tpd9` : Prédécesseurs
+### Declared in `<taskproperties>`
+GanttProject explicitly writes the properties `tpd0` to `tpd9` in the file:
+- `tpd0` : Type Icon
+- `tpd1` : Priority Icon
+- `tpd2` : Information Icon
+- `tpd3` : Task Name
+- `tpd4` : Start Date
+- `tpd5` : End Date
+- `tpd6` : Duration
+- `tpd7` : Completion (progress)
+- `tpd8` : Coordinator / Responsible
+- `tpd9` : Predecessors
 
-### Champs Implicites (non déclarés dans `<taskproperties>`)
-GanttProject gère d'autres colonnes de manière native, sans les lister dans `<taskproperties>`. Elles peuvent néanmoins être appelées par leur `id` dans une `<view>` :
+### Implicit Fields (not declared in `<taskproperties>`)
+GanttProject natively handles other columns without listing them in `<taskproperties>`. They can nevertheless be called by their `id` in a `<view>`:
 - `tpd10` : ID
-- `tpd11` : Outline Number (Numéro hiérarchique WBS)
-- `tpd12` : Coût
-- `tpd13` : Ressources (Calculé à partir des `<allocations>`)
-- `tpd14` : Couleur
+- `tpd11` : Outline Number (Hierarchical WBS number)
+- `tpd12` : Cost
+- `tpd13` : Resources (Calculated from `<allocations>`)
+- `tpd14` : Color
 - `tpd15` : Notes
-- `tpd16` : Pièces jointes (Lien Web)
-- `tpd17` : Date de début au plus tôt
-- `tpd18` : Tâche critique
+- `tpd16` : Attachments (Web Link)
+- `tpd17` : Earliest Start Date
+- `tpd18` : Critical Task
 
-### Propriétés Personnalisées (`<taskproperty>`)
-Les champs créés par l'utilisateur possèdent un `id` arbitraire (ex: `tpc0`, `tpc1`), un `type="custom"` et parfois un attribut `formula` contenant du code JavaScript si le champ est calculé.
+### Custom Properties (`<taskproperty>`)
+Fields created by the user have an arbitrary `id` (e.g., `tpc0`, `tpc1`), a `type="custom"`, and sometimes a `formula` attribute containing JavaScript code if the field is calculated.
 
-## Tâches `<task>`
-Imbriquées pour représenter l'arborescence (WBS).
-**Attributs principaux :**
-- `id` (Int) : Identifiant unique de la tâche.
-- `uid` (String) : Identifiant unique interne.
-- `name` (String) : Nom ou titre de la tâche.
-- `start` (String, YYYY-MM-DD) : Date de début prévue.
-- `duration` (Int) : Durée en jours.
-- `complete` (Int, 0-100) : Pourcentage d'avancement.
-- `meeting` (Boolean) : Indique si la tâche est un jalon (durée = 0).
-- `color` : Couleur de la barre au format hexadécimal.
-- `shape` : Entier représentant le motif de remplissage (hachures) appliqué sur la barre :
-  - `0` ou non défini : Plein / Transparent (par défaut)
-  - `1` : Motif par défaut (Damier)
-  - `2` : Croix (Cross)
-  - `3` : Lignes verticales
-  - `4` : Lignes horizontales
-  - `5` : Grille
-  - `6` : Ronds
-  - `7` à `10` : Triangles (NW, NE, SW, SE)
-  - `11` : Losanges
-  - `12` à `13` : Points (denses ou espacés)
-  - `14` à `15` : Diagonales (Slash `///` et Backslash `\\\`)
-  - `16` à `20` : Équivalents en lignes épaisses (Thick)
-- `priority`, `webLink`, `expand` : Autres métadonnées natives.
+## Tasks `<task>`
+Nested to represent the tree structure (WBS).
+**Main attributes:**
+- `id` (Int) : Unique identifier of the task.
+- `uid` (String) : Internal unique identifier.
+- `name` (String) : Name or title of the task.
+- `start` (String, YYYY-MM-DD) : Planned start date.
+- `duration` (Int) : Duration in days.
+- `complete` (Int, 0-100) : Progress percentage.
+- `meeting` (Boolean) : Indicates if the task is a milestone (duration = 0).
+- `color` : Color of the bar in hexadecimal format.
+- `shape` : Integer representing the fill pattern (hatching) applied to the bar:
+  - `0` or undefined : Solid / Transparent (default)
+  - `1` : Default pattern (Checkerboard)
+  - `2` : Cross
+  - `3` : Vertical lines
+  - `4` : Horizontal lines
+  - `5` : Grid
+  - `6` : Circles
+  - `7` to `10` : Triangles (NW, NE, SW, SE)
+  - `11` : Diamonds
+  - `12` to `13` : Dots (dense or spaced)
+  - `14` to `15` : Diagonals (Slash `///` and Backslash `\\\`)
+  - `16` to `20` : Equivalents in thick lines
+- `priority`, `webLink`, `expand` : Other native metadata.
 
-**Enfants :**
-- `<notes>` : Description textuelle de la tâche.
-- `<customproperty>` : Pour la valeur des champs personnalisés.
-- `<depend>` : Dépendance de cette tâche vers une autre :
-  - `id` (Int) : ID de la tâche cible.
-  - `type` (String) : Type de contrainte (ex: "FS").
-  - `difference` (Int) : Décalage temporel.
-  - `hardness` (String) : Dureté de la contrainte.
+**Children:**
+- `<notes>` : Textual description of the task.
+- `<customproperty>` : For the value of custom fields.
+- `<depend>` : Dependency of this task to another:
+  - `id` (Int) : ID of the target task.
+  - `type` (String) : Type of constraint (e.g., "FS").
+  - `difference` (Int) : Time offset.
+  - `hardness` (String) : Hardness of the constraint.
 
-## Ressources et Allocations
+## Resources and Allocations
 ### `<resource>`
-- `id` (Int) : Identifiant de la ressource.
-- `name` (String) : Nom de la personne.
-- `function` (String) : Rôle (référence à `<roles>`).
-- `contacts`, `phone` : Informations de contact.
+- `id` (Int) : Identifier of the resource.
+- `name` (String) : Name of the person.
+- `function` (String) : Role (reference to `<roles>`).
+- `contacts`, `phone` : Contact information.
 
 ### `<allocation>`
-Associe une ressource à un `task-id`. C'est ce bloc qui alimente la colonne dynamique `tpd13`.
-- `task-id` (Int) : ID de la tâche.
-- `resource-id` (Int) : ID de la ressource.
-- `function` (String) : Rôle pour cette assignation.
-- `load` (Float) : Charge de travail (ex: 100.0).
-- `responsible` (Boolean) : Indique si c'est le coordinateur (tpd8).
+Associates a resource with a `task-id`. This block feeds the dynamic column `tpd13`.
+- `task-id` (Int) : ID of the task.
+- `resource-id` (Int) : ID of the resource.
+- `function` (String) : Role for this assignment.
+- `load` (Float) : Workload (e.g., 100.0).
+- `responsible` (Boolean) : Indicates if it's the coordinator (tpd8).
 
-## Rôles `<roles>`
-Définit le dictionnaire des fonctions/rôles assignables aux ressources.
+## Roles `<roles>`
+Defines the dictionary of assignable functions/roles to resources.
 
-**Enfants :**
-- `<role>` : Un rôle spécifique.
-  - `id` (String) : Identifiant unique du rôle (ex: `SoftwareDevelopment:1`).
-  - `name` (String) : Nom d'affichage du rôle (ex: `Chef de Projet`).
+**Children:**
+- `<role>` : A specific role.
+  - `id` (String) : Unique identifier of the role (e.g., `SoftwareDevelopment:1`).
+  - `name` (String) : Display name of the role (e.g., `Project Manager`).
 
-## Calendriers `<calendars>`
-Définit la configuration des jours ouvrés et des dates particulières du projet.
+## Calendars `<calendars>`
+Defines the configuration of working days and special dates for the project.
 
-**Enfants :**
-- `<day-types>` : Configuration hebdomadaire.
-  - `<default-week>` : Attributs `sun`, `mon`, `tue`, `wed`, `thu`, `fri`, `sat` avec pour valeur `0` (jour ouvré) ou `1` (jour chômé/week-end).
-  - `<only-show-weekends>` : Si `value="true"`, les week-ends sont traités comme des jours ouvrés dans le Gantt.
-- `<date>` : Définition d'un jour particulier (ex: Jour férié).
-  - `year` (String, Optionnel) : L'année. Si l'attribut est omis ou vide (`year=""`), la date est considérée comme **récurrente** (elle se répète chaque année à la même date).
-  - `month`, `date` (Int) : Le mois et le jour.
-  - `type` (String) : Type de jour. Valeurs possibles :
-    - `HOLIDAY` : Vacances / Jour chômé.
-    - `WORKING_DAY` : Jour de travail forcé.
-    - `NEUTRAL` : Jour neutre.
-  - `color` (String) : Couleur d'affichage dans le Gantt (ex: `#ff9999`).
-  - *Texte du nœud* (CDATA) : Le nom ou résumé du jour (ex: `Nouvel An`).
+**Children:**
+- `<day-types>` : Weekly configuration.
+  - `<default-week>` : Attributes `sun`, `mon`, `tue`, `wed`, `thu`, `fri`, `sat` with value `0` (working day) or `1` (non-working day/weekend).
+  - `<only-show-weekends>` : If `value="true"`, weekends are treated as working days in the Gantt chart.
+- `<date>` : Definition of a specific day (e.g., Public Holiday).
+  - `year` (String, Optional) : The year. If the attribute is omitted or empty (`year=""`), the date is considered **recurring** (repeats every year on the same date).
+  - `month`, `date` (Int) : The month and the day.
+  - `type` (String) : Type of day. Possible values:
+    - `HOLIDAY` : Vacation / Non-working day.
+    - `WORKING_DAY` : Forced working day.
+    - `NEUTRAL` : Neutral day.
+  - `color` (String) : Display color in the Gantt chart (e.g., `#ff9999`).
+  - *Node Text* (CDATA) : The name or summary of the day (e.g., `New Year's Day`).

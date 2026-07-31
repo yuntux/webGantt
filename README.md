@@ -5,18 +5,18 @@ WebGantt is a modern, lightweight, and fully web-based Gantt chart application d
 Built with pure HTML, CSS, and JavaScript, it requires no backend or server to run. You can manage your projects, resources, and task schedules with an intuitive and responsive user interface.
 
 
-## 🙏 Hommage à GanttProject
+## 🙏 Acknowledgements to GanttProject
 
-WebGantt repose sur le format de fichier robuste `.gan` défini par [GanttProject](https://www.ganttproject.biz/). Nous tenons à remercier chaleureusement **Alexandre Thomas**, qui a créé GanttProject en 2003, ainsi que **Dmitry Barashev** et **Maarten Bezemer**, qui maintiennent et font évoluer ce projet avec brio depuis lors. GanttProject est un véritable outil de référence dans la gestion de projet depuis plus de vingt ans.
+WebGantt relies on the robust `.gan` file format defined by [GanttProject](https://www.ganttproject.biz/). We would like to warmly thank **Alexandre Thomas**, who created GanttProject in 2003, as well as **Dmitry Barashev** and **Maarten Bezemer**, who have brilliantly maintained and evolved this project ever since. GanttProject has been a true reference tool in project management for over twenty years.
 
-Pour aider les développeurs à construire des applications interopérables avec les fichiers `.gan`, nous mettons à disposition plusieurs outils de référence dans nos assets :
-- [example.gan](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/example.gan) : Un fichier de projet d'exemple complet.
-- [ganttproject.xsd](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/ganttproject.xsd) : Le schéma XML (XSD) définissant la structure.
-- [format-gan.md](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/gan-format.md) : La documentation détaillée de l'architecture du format.
+To help developers build applications that are interoperable with `.gan` files, we provide several reference tools in our assets:
+- [example.gan](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/example.gan) : A comprehensive sample project file.
+- [ganttproject.xsd](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/ganttproject.xsd) : The XML schema (XSD) defining the structure.
+- [format-gan.md](https://github.com/yuntux/webGantt/blob/main/specs/001-ganttproject-features/assets/gan-format.md) : Detailed documentation of the format's architecture.
 
-## 📚 Documentation Utilisateur
+## 📚 User Documentation
 
-Pour un guide d'utilisation complet, incluant une description détaillée de l'application et de tous ses paramètres de préférences (impacts fonctionnels, valeurs possibles, et stockage XML), veuillez consulter le fichier [doc.md](https://github.com/yuntux/webGantt/blob/main/doc.md).
+For a comprehensive user guide, including a detailed description of the application and all its preference settings (functional impacts, possible values, and XML storage), please refer to the [doc.md](https://github.com/yuntux/webGantt/blob/main/doc.md) file.
 
 
 ## 🚀 Features
