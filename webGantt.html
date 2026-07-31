@@ -97,21 +97,25 @@
             border-bottom: 1px solid var(--border-color);
             padding: 0 16px;
         }
+
         .view-tab {
             padding: 8px 16px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             font-weight: normal;
         }
+
         .view-tab.active {
             border-bottom: 2px solid var(--primary-color);
             font-weight: bold;
         }
+
         .view-container {
             flex: 1;
             display: none;
             overflow: hidden;
         }
+
         .view-container.active {
             display: flex;
         }
@@ -119,7 +123,8 @@
 
 
         /* Left Pane: WBS Data Table */
-        #left-pane, #res-left-pane {
+        #left-pane,
+        #res-left-pane {
             width: 30%;
             min-width: 300px;
             background-color: var(--surface-color);
@@ -128,7 +133,8 @@
         }
 
         /* Splitter (T038) */
-        #splitter, #res-splitter {
+        #splitter,
+        #res-splitter {
             width: 4px;
             cursor: col-resize;
             background-color: var(--border-color);
@@ -145,7 +151,8 @@
         }
 
         /* Right Pane: Gantt Timeline */
-        #right-pane, #res-right-pane {
+        #right-pane,
+        #res-right-pane {
             flex: 1;
             background-color: var(--bg-color);
             display: flex;
@@ -281,7 +288,7 @@
         <div style="width: 12px;"></div>
         <button id="btn-add-task">Ajouter Tâche</button>
         <button id="btn-add-milestone">Ajouter Jalon</button>
-        <button id="btn-resources">Ressources</button>
+        <button id="btn-add-resource-toolbar">Ajouter Ressource</button>
         <div style="flex: 1;"></div>
         <button id="btn-project-props" style="margin-right: 8px;">Propriétés Projet</button>
         <button id="btn-theme-toggle">Mode Sombre</button>
@@ -651,9 +658,11 @@
                 <button type="button" class="rd-tab-btn active" data-target="rd-tab-general"
                     style="flex: 1; padding: 8px; border: none; background: none; border-bottom: 2px solid var(--primary-color); font-weight: bold; cursor: pointer; color: var(--text-color);">Général</button>
                 <button type="button" class="rd-tab-btn" data-target="rd-tab-vacations"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Jours de congés</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Jours
+                    de congés</button>
                 <button type="button" class="rd-tab-btn" data-target="rd-tab-custom"
-                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs Perso.</button>
+                    style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Champs
+                    Perso.</button>
                 <button type="button" class="rd-tab-btn" data-target="rd-tab-allocations"
                     style="flex: 1; padding: 8px; border: none; background: none; cursor: pointer; color: var(--text-color);">Affectation</button>
             </div>
@@ -686,7 +695,8 @@
             <!-- Onglet Congés -->
             <div id="rd-tab-vacations" style="display: none; flex: 1; min-height: 0; overflow-y: auto;">
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                    <button id="rd-btn-add-vacation" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouveau congé</button>
+                    <button id="rd-btn-add-vacation" class="primary" style="padding: 6px 12px; font-weight: bold;">+
+                        Nouveau congé</button>
                 </div>
                 <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
                     <thead>
@@ -704,7 +714,8 @@
             <!-- Onglet Champs perso -->
             <div id="rd-tab-custom" style="display: none; flex: 1; min-height: 0; overflow-y: auto;">
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                    <button id="rd-btn-manage-custom-props" class="primary" style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
+                    <button id="rd-btn-manage-custom-props" class="primary"
+                        style="padding: 4px 12px; font-size: 12px; font-weight: bold;">⚙️ Gérer les champs</button>
                 </div>
                 <div id="rd-custom-props-container"
                     style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 4px; font-size: 13px;">
@@ -714,7 +725,8 @@
             <!-- Onglet Affectation -->
             <div id="rd-tab-allocations" style="display: none; flex: 1; min-height: 0; overflow-y: auto;">
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
-                    <button id="rd-btn-add-alloc" class="primary" style="padding: 6px 12px; font-weight: bold;">+ Nouvelle affectation</button>
+                    <button id="rd-btn-add-alloc" class="primary" style="padding: 6px 12px; font-weight: bold;">+
+                        Nouvelle affectation</button>
                 </div>
                 <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
                     <thead>
@@ -1029,7 +1041,7 @@
         </div>
     </dialog>
     <!-- Main Application Split View -->
-    
+
 
     <!-- Onglets de vue -->
     <div id="tabs-container">
@@ -1343,10 +1355,10 @@
             tab.addEventListener('click', (e) => {
                 document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
                 document.querySelectorAll('.view-container').forEach(c => c.classList.remove('active'));
-                
+
                 tab.classList.add('active');
                 document.getElementById(tab.getAttribute('data-target')).classList.add('active');
-                
+
                 if (typeof state !== 'undefined' && state) {
                     state.notifyListeners();
                 }
@@ -1380,7 +1392,7 @@
                 }
             });
         }
-        
+
         // Toggle Pane pour Ressources
         let isResPaneCollapsed = false;
         let previousResPaneWidth = '400px';
@@ -2788,18 +2800,18 @@
         function renderResourceView() {
             try {
                 if (!document.getElementById('res-main-container').classList.contains('active')) return;
-                
+
                 const wbsContent = document.getElementById('res-wbs-content');
                 const ganttContent = document.getElementById('res-gantt-content');
                 if (!wbsContent || !ganttContent) return;
 
                 const tasksNode = state.xmlDoc.querySelector('tasks');
                 if (!tasksNode) return;
-                
+
                 const allTaskNodes = Array.from(tasksNode.querySelectorAll('task'));
                 const allocations = getAllocations();
                 const resources = getResources();
-                
+
                 const taskMap = {};
                 allTaskNodes.forEach(node => {
                     taskMap[node.getAttribute('id')] = {
@@ -2813,21 +2825,21 @@
                         depends: []
                     };
                 });
-                
+
                 let resPseudoTasks = [];
-                
+
                 resources.forEach(res => {
                     const resAllocs = allocations.filter(a => a.resourceId === res.id);
                     const assignedTasks = resAllocs.map(a => taskMap[a.taskId]).filter(t => t && t.start);
-                    
+
                     let minStart = new Date().getTime();
                     let maxEnd = minStart;
                     let resDuration = 0;
-                    
+
                     if (assignedTasks.length > 0) {
                         minStart = new Date(2100, 0, 1).getTime();
                         maxEnd = new Date(1970, 0, 1).getTime();
-                        
+
                         assignedTasks.forEach(t => {
                             const st = new Date(t.start).getTime();
                             const ed = st + (parseInt(t.duration) * 24 * 60 * 60 * 1000);
@@ -2836,12 +2848,12 @@
                         });
                         resDuration = Math.ceil((maxEnd - minStart) / (24 * 60 * 60 * 1000));
                     }
-                    
+
                     const resStart = new Date(minStart);
-                    const resStartDateStr = resStart.getFullYear() + '-' + String(resStart.getMonth()+1).padStart(2, '0') + '-' + String(resStart.getDate()).padStart(2, '0');
-                    
+                    const resStartDateStr = resStart.getFullYear() + '-' + String(resStart.getMonth() + 1).padStart(2, '0') + '-' + String(resStart.getDate()).padStart(2, '0');
+
                     const resTask = {
-                        node: { getAttribute: () => null, childNodes: [], setAttribute: () => {} },
+                        node: { getAttribute: () => null, childNodes: [], setAttribute: () => { } },
                         id: 'res_' + res.id,
                         name: res.name,
                         start: resStartDateStr,
@@ -2851,18 +2863,18 @@
                         isProject: true,
                         isExpanded: true,
                         depends: [],
-                        subtasks: assignedTasks.map(t => ({...t, subtasks: [], isProject: false, color: '#8bb0f5', isExpanded: true}))
+                        subtasks: assignedTasks.map(t => ({ ...t, subtasks: [], isProject: false, color: '#8bb0f5', isExpanded: true }))
                     };
-                    
+
                     resPseudoTasks.push(resTask);
                 });
-                
+
                 const oldFilter = window.currentFilter;
                 window.currentFilter = 'all';
-                
+
                 renderWBS(resPseudoTasks, wbsContent);
                 renderGantt(resPseudoTasks, ganttContent);
-                
+
                 window.currentFilter = oldFilter;
             } catch (err) {
                 alert("Erreur renderResourceView: " + err.message + "\n" + err.stack);
@@ -2993,7 +3005,7 @@
             </defs>`;
 
             let headerGroup = '';
-// T041 : Rendu de l'échelle temporelle
+            // T041 : Rendu de l'échelle temporelle
             headerGroup += `<g class="gantt-timeline-header">`;
             headerGroup += `<rect x="0" y="0" width="${totalWidth}" height="${timelineHeight}" fill="var(--bg-color)" stroke="var(--border-color)" stroke-width="1"/>`;
             const startDateScale = new Date(minDate);
@@ -3648,9 +3660,9 @@
         // T057: Création de lien par glisser-déposer sur le Gantt
         let linkDragState = null;
         let tempLinkLine = null;
-        
+
         const ganttContainer = document.getElementById('gantt-content');
-        
+
         ganttContainer.addEventListener('mousedown', (e) => {
             const item = e.target.closest('.gantt-item');
             if (item) {
@@ -3678,7 +3690,7 @@
                 tempLinkLine.setAttribute('stroke-width', '2');
                 tempLinkLine.setAttribute('stroke-dasharray', '5,5');
                 svg.appendChild(tempLinkLine);
-                
+
                 e.preventDefault();
             }
         });
@@ -3691,7 +3703,7 @@
                 pt.x = e.clientX;
                 pt.y = e.clientY;
                 const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
-                
+
                 tempLinkLine.setAttribute('x2', svgP.x);
                 tempLinkLine.setAttribute('y2', svgP.y);
             }
@@ -3705,7 +3717,7 @@
                     if (targetTaskId && targetTaskId !== linkDragState.sourceTaskId) {
                         const sourceNode = state.xmlDoc.querySelector(`task[id="${linkDragState.sourceTaskId}"]`);
                         const targetNode = state.xmlDoc.querySelector(`task[id="${targetTaskId}"]`);
-                        
+
                         if (sourceNode && targetNode) {
                             const existing = Array.from(sourceNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'depend' && n.getAttribute('id') === targetTaskId);
                             if (!existing) {
@@ -3714,7 +3726,7 @@
                                 depend.setAttribute('type', 'FS');
                                 depend.setAttribute('difference', '0');
                                 depend.setAttribute('hardness', 'Strong');
-                                
+
                                 const firstTask = Array.from(sourceNode.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'task');
                                 if (firstTask) {
                                     sourceNode.insertBefore(depend, firstTask);
@@ -3726,7 +3738,7 @@
                         }
                     }
                 }
-                
+
                 if (tempLinkLine && tempLinkLine.parentNode) {
                     tempLinkLine.parentNode.removeChild(tempLinkLine);
                 }
@@ -3876,7 +3888,7 @@
                     roles.push({ id: r.getAttribute('id'), name: r.getAttribute('name') });
                 });
             }
-            let html = '<option value="">-- Aucun --</option>';
+            let html = '';
             let found = false;
             roles.forEach(r => {
                 const sel = (r.id === selectedRoleId) ? 'selected' : '';
@@ -3885,8 +3897,13 @@
             });
             if (selectedRoleId && !found && selectedRoleId !== 'Default:0') {
                 html += `<option value="${selectedRoleId}" selected>${selectedRoleId}</option>`;
-            } else if (selectedRoleId === 'Default:0' && !found) {
-                html += `<option value="Default:0" selected>Défaut (Default:0)</option>`;
+            }
+
+            // Toujours s'assurer que "Default:0" est disponible, qu'il soit sélectionné ou non
+            const hasDefault0 = roles.some(r => r.id === 'Default:0');
+            if (!hasDefault0) {
+                const selDefault0 = (selectedRoleId === 'Default:0') ? 'selected' : '';
+                html += `<option value="Default:0" ${selDefault0}>Défaut</option>`;
             }
             return html;
         }
@@ -4494,10 +4511,10 @@
             state.notifyListeners();
         });
 
-        // T051 : Ressources UI
-        document.getElementById('btn-resources').addEventListener('click', () => {
-            renderResourceTable();
-            document.getElementById('resource-modal').showModal();
+        // T051 : Ressources UI (Remplacé par Ajouter Ressource)
+        document.getElementById('btn-add-resource-toolbar').addEventListener('click', () => {
+            if (!state.xmlDoc) return alert('Ouvrez un projet d\'abord.');
+            createNewResource();
         });
 
         // T053 : Configuration Globale des Champs Personnalisés
@@ -4745,11 +4762,7 @@
         let currentVacationResId = null;
         let currentAllocationResId = null;
 
-        document.getElementById('btn-resources').addEventListener('click', () => {
-            if (!state.xmlDoc) return alert('Ouvrez un projet d\'abord.');
-            renderResourceTable();
-            resModal.showModal();
-        });
+
 
         function renderResourceTable() {
             const tbody = document.getElementById('resource-tbody');
@@ -5203,7 +5216,7 @@
 
             // Onglet Général
             document.getElementById('rd-input-name').value = name;
-            document.getElementById('rd-input-role').innerHTML = getRoleOptionsHtml(resNode.getAttribute('function') || '0');
+            document.getElementById('rd-input-role').innerHTML = getRoleOptionsHtml(resNode.getAttribute('function') || 'Default:0');
             document.getElementById('rd-input-email').value = resNode.getAttribute('contacts') || '';
             document.getElementById('rd-input-phone').value = resNode.getAttribute('phone') || '';
             const rateNode = resNode.querySelector('rate[name="standard"]');
@@ -5486,7 +5499,7 @@
             currentRdResId = null;
         });
 
-        document.getElementById('btn-add-resource').addEventListener('click', () => {
+        function createNewResource() {
             let resNode = state.xmlDoc.querySelector('resources');
             if (!resNode) {
                 resNode = state.xmlDoc.createElement('resources');
@@ -5504,10 +5517,18 @@
             const newRes = state.xmlDoc.createElement('resource');
             newRes.setAttribute('id', newId);
             newRes.setAttribute('name', 'Nouvelle ressource');
+            newRes.setAttribute('function', 'Default:0');
             resNode.appendChild(newRes);
 
             state.notifyListeners();
-            renderResourceTable();
+            if (typeof renderResourceTable === 'function') {
+                renderResourceTable();
+            }
+            openResDetailsModal(newId);
+        }
+
+        document.getElementById('btn-add-resource').addEventListener('click', () => {
+            createNewResource();
         });
 
         document.getElementById('btn-close-resources').addEventListener('click', () => {
@@ -6636,7 +6657,7 @@
         [
             { btn: btnScrollTo, drop: scrollToDropdown },
             { btn: resBtnScrollTo, drop: resScrollToDropdown }
-        ].forEach(({btn, drop}) => {
+        ].forEach(({ btn, drop }) => {
             if (btn && drop) {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -6652,64 +6673,64 @@
             }
         });
 
-            document.querySelectorAll('.btn-scroll-action').forEach(btn => {
-                btn.addEventListener('mouseenter', () => btn.style.backgroundColor = 'var(--bg-color)');
-                btn.addEventListener('mouseleave', () => btn.style.backgroundColor = 'transparent');
+        document.querySelectorAll('.btn-scroll-action').forEach(btn => {
+            btn.addEventListener('mouseenter', () => btn.style.backgroundColor = 'var(--bg-color)');
+            btn.addEventListener('mouseleave', () => btn.style.backgroundColor = 'transparent');
 
-                btn.addEventListener('click', (e) => {
-                    const action = e.target.getAttribute('data-action');
-                    const ganttContent = document.getElementById('gantt-content');
-                    if (!ganttContent || !window.currentMinDate) return;
+            btn.addEventListener('click', (e) => {
+                const action = e.target.getAttribute('data-action');
+                const ganttContent = document.getElementById('gantt-content');
+                if (!ganttContent || !window.currentMinDate) return;
 
-                    const dayWidth = zoomLevels[window.currentZoomIndex] || 20;
-                    const dateToX = (date) => {
-                        return ((date.getTime() - window.currentMinDate.getTime()) / (1000 * 60 * 60 * 24)) * dayWidth;
-                    };
+                const dayWidth = zoomLevels[window.currentZoomIndex] || 20;
+                const dateToX = (date) => {
+                    return ((date.getTime() - window.currentMinDate.getTime()) / (1000 * 60 * 60 * 24)) * dayWidth;
+                };
 
-                    let targetX = 0;
-                    let handled = true;
+                let targetX = 0;
+                let handled = true;
 
-                    if (action === 'start') {
-                        targetX = 0;
-                    } else if (action === 'end' && window.currentMaxDate) {
-                        targetX = dateToX(window.currentMaxDate);
-                    } else if (action === 'today') {
-                        targetX = dateToX(new Date());
-                    } else if (action === 'selection') {
-                        if (window.selectedTaskIds && window.selectedTaskIds.size > 0) {
-                            const firstSelectedId = Array.from(window.selectedTaskIds)[0];
-                            const taskNode = state.xmlDoc.querySelector(`task[id="${firstSelectedId}"]`);
-                            if (taskNode && taskNode.getAttribute('start')) {
-                                targetX = dateToX(new Date(taskNode.getAttribute('start')));
-                            } else {
-                                handled = false;
-                            }
+                if (action === 'start') {
+                    targetX = 0;
+                } else if (action === 'end' && window.currentMaxDate) {
+                    targetX = dateToX(window.currentMaxDate);
+                } else if (action === 'today') {
+                    targetX = dateToX(new Date());
+                } else if (action === 'selection') {
+                    if (window.selectedTaskIds && window.selectedTaskIds.size > 0) {
+                        const firstSelectedId = Array.from(window.selectedTaskIds)[0];
+                        const taskNode = state.xmlDoc.querySelector(`task[id="${firstSelectedId}"]`);
+                        if (taskNode && taskNode.getAttribute('start')) {
+                            targetX = dateToX(new Date(taskNode.getAttribute('start')));
                         } else {
                             handled = false;
                         }
                     } else {
                         handled = false;
                     }
+                } else {
+                    handled = false;
+                }
 
-                    if (handled) {
-                        const activeGantt = document.getElementById('res-main-container').classList.contains('active') 
-                            ? document.getElementById('res-gantt-content') 
-                            : document.getElementById('gantt-content');
-                        if (activeGantt) activeGantt.scrollLeft = Math.max(0, targetX - 50);
-                    }
-                    const activeDrop = document.getElementById('res-main-container').classList.contains('active')
-                        ? document.getElementById('res-scroll-to-dropdown')
-                        : document.getElementById('scroll-to-dropdown');
-                    if (activeDrop) activeDrop.style.display = 'none';
-                });
+                if (handled) {
+                    const activeGantt = document.getElementById('res-main-container').classList.contains('active')
+                        ? document.getElementById('res-gantt-content')
+                        : document.getElementById('gantt-content');
+                    if (activeGantt) activeGantt.scrollLeft = Math.max(0, targetX - 50);
+                }
+                const activeDrop = document.getElementById('res-main-container').classList.contains('active')
+                    ? document.getElementById('res-scroll-to-dropdown')
+                    : document.getElementById('scroll-to-dropdown');
+                if (activeDrop) activeDrop.style.display = 'none';
             });
+        });
 
         // T040 : Zoom
         const btnZoomIn = document.getElementById('btn-zoom-in');
         const resBtnZoomIn = document.getElementById('res-btn-zoom-in');
         const btnZoomOut = document.getElementById('btn-zoom-out');
         const resBtnZoomOut = document.getElementById('res-btn-zoom-out');
-        
+
         [btnZoomIn, resBtnZoomIn].forEach(btn => {
             if (btn) btn.addEventListener('click', () => {
                 if (window.currentZoomIndex < zoomLevels.length - 1) {
@@ -6718,7 +6739,7 @@
                 }
             });
         });
-        
+
         [btnZoomOut, resBtnZoomOut].forEach(btn => {
             if (btn) btn.addEventListener('click', () => {
                 if (window.currentZoomIndex > 0) {
