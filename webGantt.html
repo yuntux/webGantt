@@ -395,6 +395,7 @@
                 style="font-weight: 600; font-size: 20px; font-family: system-ui, -apple-system, sans-serif;">webGantt</span>
         </a>
         <div style="position: relative; display: inline-flex;">
+            <button id="btn-new" class="primary" data-i18n="tb_new" style="margin-right: 8px;">Nouveau projet</button>
             <button id="btn-open" class="primary" data-i18n="tb_open"
                 style="border-top-right-radius: 0; border-bottom-right-radius: 0;">Ouvrir un projet</button>
             <button id="btn-open-recent" class="primary"
@@ -844,44 +845,60 @@
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>Au-dessus</label>
                             <select id="pref-gantt-detail-top">
-                                <option value=" ">Aucun</option>
-                                <option value="name">Nom</option>
-                                <option value="resources">Ressources</option>
-                                <option value="progress">Avancement</option>
-                                <option value="duration">Durée</option>
+                                <option value=" " data-i18n="opt_gantt_detail_none">Aucune</option>
+                                <option value="id" data-i18n="opt_gantt_detail_id">ID de tâche</option>
+                                <option value="dates" data-i18n="opt_gantt_detail_dates">Dates de début/fin de tâche</option>
+                                <option value="name" data-i18n="opt_gantt_detail_name">Nom de la tâche</option>
+                                <option value="length" data-i18n="opt_gantt_detail_length">Durée de la tâche</option>
+                                <option value="advance" data-i18n="opt_gantt_detail_advance">Progression de la tâche</option>
+                                <option value="coordinator" data-i18n="opt_gantt_detail_coordinator">Responsable</option>
+                                <option value="resources" data-i18n="opt_gantt_detail_resources">Ressources affectées</option>
+                                <option value="predecessors" data-i18n="opt_gantt_detail_predecessors">Prédécesseurs</option>
                             </select>
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>En-dessous</label>
                             <select id="pref-gantt-detail-bottom">
-                                <option value=" ">Aucun</option>
-                                <option value="name">Nom</option>
-                                <option value="resources">Ressources</option>
-                                <option value="progress">Avancement</option>
-                                <option value="duration">Durée</option>
+                                <option value=" " data-i18n="opt_gantt_detail_none">Aucune</option>
+                                <option value="id" data-i18n="opt_gantt_detail_id">ID de tâche</option>
+                                <option value="dates" data-i18n="opt_gantt_detail_dates">Dates de début/fin de tâche</option>
+                                <option value="name" data-i18n="opt_gantt_detail_name">Nom de la tâche</option>
+                                <option value="length" data-i18n="opt_gantt_detail_length">Durée de la tâche</option>
+                                <option value="advance" data-i18n="opt_gantt_detail_advance">Progression de la tâche</option>
+                                <option value="coordinator" data-i18n="opt_gantt_detail_coordinator">Responsable</option>
+                                <option value="resources" data-i18n="opt_gantt_detail_resources">Ressources affectées</option>
+                                <option value="predecessors" data-i18n="opt_gantt_detail_predecessors">Prédécesseurs</option>
                             </select>
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>A gauche</label>
                             <select id="pref-gantt-detail-left">
-                                <option value=" ">Aucun</option>
-                                <option value="name">Nom</option>
-                                <option value="resources">Ressources</option>
-                                <option value="progress">Avancement</option>
-                                <option value="duration">Durée</option>
+                                <option value=" " data-i18n="opt_gantt_detail_none">Aucune</option>
+                                <option value="id" data-i18n="opt_gantt_detail_id">ID de tâche</option>
+                                <option value="dates" data-i18n="opt_gantt_detail_dates">Dates de début/fin de tâche</option>
+                                <option value="name" data-i18n="opt_gantt_detail_name">Nom de la tâche</option>
+                                <option value="length" data-i18n="opt_gantt_detail_length">Durée de la tâche</option>
+                                <option value="advance" data-i18n="opt_gantt_detail_advance">Progression de la tâche</option>
+                                <option value="coordinator" data-i18n="opt_gantt_detail_coordinator">Responsable</option>
+                                <option value="resources" data-i18n="opt_gantt_detail_resources">Ressources affectées</option>
+                                <option value="predecessors" data-i18n="opt_gantt_detail_predecessors">Prédécesseurs</option>
                             </select>
                         </div>
                         <div
                             style="display: grid; grid-template-columns: 250px 1fr; gap: 8px; align-items: center; margin-bottom: 8px;">
                             <label>A droite</label>
                             <select id="pref-gantt-detail-right">
-                                <option value=" ">Aucun</option>
-                                <option value="name">Nom</option>
-                                <option value="resources">Ressources</option>
-                                <option value="progress">Avancement</option>
-                                <option value="duration">Durée</option>
+                                <option value=" " data-i18n="opt_gantt_detail_none">Aucune</option>
+                                <option value="id" data-i18n="opt_gantt_detail_id">ID de tâche</option>
+                                <option value="dates" data-i18n="opt_gantt_detail_dates">Dates de début/fin de tâche</option>
+                                <option value="name" data-i18n="opt_gantt_detail_name">Nom de la tâche</option>
+                                <option value="length" data-i18n="opt_gantt_detail_length">Durée de la tâche</option>
+                                <option value="advance" data-i18n="opt_gantt_detail_advance">Progression de la tâche</option>
+                                <option value="coordinator" data-i18n="opt_gantt_detail_coordinator">Responsable</option>
+                                <option value="resources" data-i18n="opt_gantt_detail_resources">Ressources affectées</option>
+                                <option value="predecessors" data-i18n="opt_gantt_detail_predecessors">Prédécesseurs</option>
                             </select>
                         </div>
                     </fieldset>
@@ -1257,7 +1274,7 @@
 
     <!-- Dialog for Task Details -->
     <dialog id="task-details-modal"
-        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 1000px; height: 650px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        style="margin: auto; padding: 16px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--surface-color); color: var(--text-color); width: 1200px; height: 800px; max-width: 95vw; max-height: 95vh; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
         <div style="display: flex; flex-direction: column; height: 100%;">
             <div style="margin-bottom: 16px;">
                 <h3 id="td-modal-title" style="margin: 0;" data-i18n="td_title">Édition de la tâche</h3>
@@ -2402,9 +2419,14 @@
                 // T042 : Initialiser l'historique avec l'état de départ
                 this.historyStack = [this.getXMLString()];
                 this.historyIndex = 0;
+                this.savedHistoryIndex = 0;
                 this.updateHistoryButtons();
 
                 this.notifyListeners(true);
+            }
+
+                        isDirty() {
+                return this.historyIndex !== this.savedHistoryIndex;
             }
 
             // Synchronise l'état UI vers le XML avant sauvegarde (T055)
@@ -3369,6 +3391,15 @@
                     document.getElementById('td-input-duration').value = task.duration || 0;
                     document.getElementById('td-input-complete').value = task.complete || 0;
 
+                    // Disable computed fields for parent tasks
+                    const isParent = task.subtasks && task.subtasks.length > 0;
+                    document.getElementById('td-input-milestone').disabled = isParent;
+                    document.getElementById('td-input-start').disabled = isParent;
+                    document.getElementById('td-input-end').disabled = isParent;
+                    document.getElementById('td-input-duration').disabled = isParent;
+                    document.getElementById('td-input-complete').disabled = isParent;
+                    document.getElementById('td-input-scheduling').disabled = isParent;
+
                     const notesNode = Array.from(task.node.childNodes).find(n => n.nodeType === 1 && n.nodeName === 'notes');
                     document.getElementById('td-input-notes').value = notesNode ? notesNode.textContent : '';
 
@@ -3944,10 +3975,39 @@
                 const detailRight = getGlobalPref('gantt-chart', 'gantt.detailRight', '');
 
                 function getDetailText(detailType) {
+                    if (!detailType || detailType === ' ') return '';
+                    if (detailType === 'id') return t.id;
                     if (detailType === 'name') return t.name;
-                    if (detailType === 'resources') return (t.assignedTasks || []).map(a => a.name).join(', ') || ''; // Simplification
+                    if (detailType === 'length') return (t.duration || 0) + ' j';
+                    if (detailType === 'advance') return (t.complete || 0) + '%';
+                    if (detailType === 'dates') {
+                        const fmt = (d) => d ? new Date(d).toLocaleDateString(window.currentUiLang ? window.currentUiLang.replace('_', '-') : 'fr-FR') : '';
+                        return `${fmt(t.start)} - ${fmt(t.end)}`;
+                    }
+                    if (detailType === 'resources') {
+                        if (t.isResourceRow) return (t.assignedTasks || []).map(a => a.name).join(', ');
+                        const allocs = Array.from(state.xmlDoc.querySelectorAll(`allocation[task-id="${t.id}"]`));
+                        return allocs.map(a => {
+                            const resNode = state.xmlDoc.querySelector(`resource[id="${a.getAttribute('resource-id')}"]`);
+                            return resNode ? resNode.getAttribute('name') : '';
+                        }).filter(Boolean).join(', ');
+                    }
+                    if (detailType === 'coordinator') {
+                        const coordAlloc = Array.from(state.xmlDoc.querySelectorAll(`allocation[task-id="${t.id}"][responsible="true"]`)).shift();
+                        if (coordAlloc) {
+                            const resNode = state.xmlDoc.querySelector(`resource[id="${coordAlloc.getAttribute('resource-id')}"]`);
+                            return resNode ? resNode.getAttribute('name') : '';
+                        }
+                        return '';
+                    }
+                    if (detailType === 'predecessors') {
+                        if (!t.node) return '';
+                        const preds = Array.from(t.node.querySelectorAll('depend'));
+                        return preds.map(p => p.getAttribute('id')).join(', ');
+                    }
+                    // Fallbacks for legacy prefs if any
+                    if (detailType === 'duration') return (t.duration || 0) + ' j';
                     if (detailType === 'progress') return (t.complete || 0) + '%';
-                    if (detailType === 'duration') return t.duration + ' j';
                     return '';
                 }
 
@@ -4068,16 +4128,7 @@
                     }
                 }
 
-                // T019 : Afficher la ressource assignée à côté de la tâche
-                const taskAllocs = allocations.filter(a => a.taskId === t.id);
-                if (taskAllocs.length > 0) {
-                    const resNames = taskAllocs.map(a => {
-                        const r = resources.find(res => res.id === a.resourceId);
-                        return r ? r.name : 'Inconnu';
-                    }).join(', ');
-
-                    svg += `<text x="${x + w + 10}" y="${y + h / 2 + 4}" fill="var(--text-color)">👤 ${resNames}</text>`;
-                }
+                // Old T019 code for default resource rendering has been removed to favor custom details (detailLeft, detailRight, etc.)
             });
 
             // T014: Tracer les liens de dépendances
@@ -4989,6 +5040,18 @@
         // Traduction de l'IHM
         const I18N_DICT = {
             'fr_FR': {
+                'tb_new': 'Nouveau projet',
+                'confirm_unsaved': 'Des modifications non enregistrées seront perdues. Voulez-vous continuer ?',
+                'opt_gantt_detail_none': 'Aucune',
+                'opt_gantt_detail_id': 'ID de tâche',
+                'opt_gantt_detail_dates': 'Dates de début/fin de tâche',
+                'opt_gantt_detail_name': 'Nom de la tâche',
+                'opt_gantt_detail_length': 'Durée de la tâche',
+                'opt_gantt_detail_advance': 'Progression de la tâche',
+                'opt_gantt_detail_coordinator': 'Responsable',
+                'opt_gantt_detail_resources': 'Ressources affectées',
+                'opt_gantt_detail_predecessors': 'Prédécesseurs',
+
                 'pref_res_normal': "Ressources (normales)", 'pref_res_overloaded': "Ressources (surchargées)", 'pref_res_underloaded': "Ressources (sous employées)", 'pref_res_vacation': "Jours de congés",
                 _name: 'Français',
                 'tb_open': 'Ouvrir un projet',
@@ -5092,6 +5155,18 @@
                 'col_formula': "Formule"
             },
             'en_US': {
+                'tb_new': 'New project',
+                'confirm_unsaved': 'Unsaved changes will be lost. Do you want to continue?',
+                'opt_gantt_detail_none': 'None',
+                'opt_gantt_detail_id': 'Task ID',
+                'opt_gantt_detail_dates': 'Task start/end dates',
+                'opt_gantt_detail_name': 'Task name',
+                'opt_gantt_detail_length': 'Task duration',
+                'opt_gantt_detail_advance': 'Task progress',
+                'opt_gantt_detail_coordinator': 'Coordinator',
+                'opt_gantt_detail_resources': 'Assigned resources',
+                'opt_gantt_detail_predecessors': 'Predecessors',
+
                 'pref_res_normal': "Resources (normal)", 'pref_res_overloaded': "Resources (overloaded)", 'pref_res_underloaded': "Resources (underloaded)", 'pref_res_vacation': "Vacation days",
                 _name: 'English',
                 'tb_open': 'Open project',
@@ -8939,6 +9014,7 @@
                 item.addEventListener('mouseleave', () => item.style.backgroundColor = '');
                 item.addEventListener('click', async () => {
                     recentDropdown.style.display = 'none';
+                    if (state.isDirty() && !confirm(t('confirm_unsaved'))) return;
                     try {
                         if (!r.handle.fallback) {
                             if ((await r.handle.queryPermission({ mode: 'read' })) !== 'granted') {
@@ -9002,7 +9078,16 @@
             });
         }
 
+                document.getElementById('btn-new').addEventListener('click', () => {
+            if (state.isDirty() && !confirm(t('confirm_unsaved'))) return;
+            const emptyXml = `<?xml version="1.0" encoding="UTF-8"?><project name="Nouveau projet" version="3.3" locale="${window.currentUiLang}"><view id="gantt-chart"></view><view id="resource-table"></view><tasks><taskproperties></taskproperties></tasks><resources></resources><allocations></allocations><vacations></vacations><previous></previous><roles></roles></project>`;
+            state.loadXML(emptyXml);
+            state.fileHandle = null;
+            document.getElementById('btn-save').style.display = 'none';
+        });
+
         btnOpen.addEventListener('click', async () => {
+            if (state.isDirty() && !confirm(t('confirm_unsaved'))) return;
             if (window.showOpenFilePicker) {
                 try {
                     // Navigateurs modernes (Chrome, Edge, etc.)
@@ -9210,9 +9295,9 @@
 
         // Avertissement de modifications non sauvegardées à la fermeture
         window.addEventListener('beforeunload', (e) => {
-            if (state.hasUnsavedChanges) {
+            if (state.isDirty()) {
                 e.preventDefault();
-                e.returnValue = "Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?";
+                e.returnValue = t('confirm_unsaved') || "Vous avez des modifications non enregistrées. Voulez-vous vraiment quitter ?";
             }
         });
 
@@ -9317,7 +9402,7 @@
             document.getElementById('pref-gen-chart-font-size').value = getPrefValue(viewGantt, 'general.chartFontSize', '3');
             document.getElementById('pref-gen-row-spacing').value = getPrefValue(viewGantt, 'general.rowSpacing', '20.0');
             document.getElementById('pref-gen-dpi').value = getPrefValue(viewGantt, 'general.dpi', '96');
-            document.getElementById('pref-gen-language').value = getPrefValue(viewGantt, 'general.language', 'fr_FR');
+            document.getElementById('pref-gen-language').value = getPrefValue(viewGantt, 'general.language', window.currentUiLang);
 
             const dtType = getPrefValue(viewGantt, 'general.dateFormatType', 'default');
             const dtRadio = document.querySelector(`input[name="pref-gen-date-format-type"][value="${dtType}"]`);
