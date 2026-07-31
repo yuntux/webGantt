@@ -181,3 +181,67 @@ This third tab is used to configure the bottom pane of the application (the tree
 | Resources (Overloaded) | Hex color (e.g., `#e14436`) | Alert color for periods when the resource is assigned to more than 100% (schedule conflicts). | `//view[@id='resource-table']/option[@id='res.overloadedColor']/@value` |
 | Resources (Underloaded) | Hex color (e.g., `#3bd93b`) | Color marking periods when the resource does not meet the expected hours quota (optional). | `//view[@id='resource-table']/option[@id='res.underloadedColor']/@value` |
 | Vacation Days | Hex color (e.g., `#ffff55`) | Color used to draw the background of inactivity or vacation periods reported for this resource. | `//view[@id='resource-table']/option[@id='res.vacationColor']/@value` |
+
+---
+
+## Chapitre 8 : Inventaire des balises XML (Format .gan)
+
+Ce chapitre recense l'exhaustivité des balises et de leurs attributs présents dans l'écosystème GanttProject (incluant la documentation, le XSD et les fichiers de projets récents).
+Il précise si la balise est lue par **webGantt**, son impact visuel/structurel, et si elle est modifiable via l'interface graphique.
+
+### 8.1 Configuration et Propriétés Globales
+
+| Balise | Attribut(s) | Lue par WebGantt ? | Impact / Rôle dans l'application | Modifiable via IHM ? |
+| :--- | :--- | :---: | :--- | :---: |
+| `<project>` | `name`, `company`, `locale` | ✅ Oui | Affiche le nom et l'entreprise dans le Header et à l'impression. `locale` sert pour l'I18N et le formatage des dates. | ✅ Oui *(Préférences + Propriétés)* |
+| `<project>` | `version`, `view-date`, `view-index`, `webLink` | ✅ Oui | `webLink` permet de lier une URL au projet. Les autres sont des métadonnées internes. | ✅ Oui *(Lien Web via Propriétés)* |
+| `<view>` | `id`, `zooming-state` | ✅ Oui | Isole les préférences (gantt-chart / resource-table). | ❌ Non *(Technique interne)* |
+| `<option>` | `id`, `value` | ✅ Oui | Contrôle l'esthétique du Gantt : Labels, couleurs, jalons, etc. | ✅ Oui *(Préférences / Filtres)* |
+| `<description>` | *(aucun)* | ✅ Oui | Champ texte libre de description du projet. | ✅ Oui *(Propriétés du projet)* |
+
+### 8.2 Calendrier et Jours Fériés
+
+| Balise | Attribut(s) | Lue par WebGantt ? | Impact / Rôle dans l'application | Modifiable via IHM ? |
+| :--- | :--- | :---: | :--- | :---: |
+| `<calendars>` | `base-id` | ✅ Oui | Conteneur des calendriers. | ❌ Non *(Technique interne)* |
+| `<default-week>` | `id`, `mon`, `tue`, `wed`... | ✅ Oui | Définit finement les jours travaillés ou chômés de la semaine standard. | ✅ Oui *(Propriétés > Jours fériés & Week-ends)* |
+| `<date>` | `year`, `month`, `date`, `type`, `color` | ✅ Oui | Gère les jours fériés récurrents ou ponctuels, qui s'affichent grisés sur le Gantt. | ✅ Oui *(Propriétés > Jours fériés & Week-ends)* |
+| `<day-types>` | *(aucun)* | ✅ Oui | Conteneur de définition de jours chômés. | ❌ Non *(Technique interne)* |
+| `<overriden-day-types>` | *(aucun)* | ❌ Non | Surcharges de calendriers spécifiques. | ❌ Non *(Ignoré)* |
+
+### 8.3 Tâches (WBS) et Dépendances
+
+| Balise | Attribut(s) | Lue par WebGantt ? | Impact / Rôle dans l'application | Modifiable via IHM ? |
+| :--- | :--- | :---: | :--- | :---: |
+| `<tasks>` | `empty-milestones` | ✅ Oui | Conteneur racine du WBS. | ❌ Non *(Technique interne)* |
+| `<task>` | `id`, `name`, `start`, `duration`, `complete`, `color`, `shape`, `meeting`, `expand` | ✅ Oui | Cœur du projet : Dessine la barre SVG, définit l'arborescence (WBS), pilote les jalons (`meeting=true`). | ✅ Oui *(Modale Tâche + Drag&Drop)* |
+| `<task>` | `priority`, `webLink`, `cost-calculated` | ✅ Oui | Permet de définir une priorité (1-3), d'attacher une URL, et de choisir le mode de calcul du coût (auto/manuel). | ✅ Oui *(Modale Tâche)* |
+| `<task>` | `fixed-start`, `thirdDate` | ❌ Non | Contraintes temporelles avancées (non affichées). | ❌ Non *(Conservées)* |
+| `<notes>` | *(Texte interne)* | ✅ Oui | Affiche une info-bulle ou un texte à côté de la tâche sur le Gantt. | ✅ Oui *(Modale Tâche)* |
+| `<depend>` | `id`, `type`, `difference`, `hardness` | ✅ Oui | Trace les flèches SVG entre les tâches et recalcule les dates automatiquement si contraintes de précédence. | ✅ Oui *(Boutons Lier/Délier + Modale Tâche)* |
+| `<taskproperties>` | *(aucun)* | ✅ Oui | Conteneur des colonnes personnalisées. | ❌ Non *(Technique interne)* |
+| `<taskproperty>` | `id`, `name`, `type`, `defaultvalue`, `calculated` | ✅ Oui | Lit la définition d'un champ personnalisé (ex: "Phase", "Coût") pour l'afficher sous forme de colonne. | ✅ Oui *(Modale Propriétés projet)* |
+| `<customproperty>` | `taskproperty-id`, `value` | ✅ Oui | Affiche et lie la valeur précise saisie pour une tâche dans le WBS. | ✅ Oui *(Modale Tâche)* |
+
+### 8.4 Ressources et Affectations
+
+| Balise | Attribut(s) | Lue par WebGantt ? | Impact / Rôle dans l'application | Modifiable via IHM ? |
+| :--- | :--- | :---: | :--- | :---: |
+| `<resources>` | *(aucun)* | ✅ Oui | Conteneur racine des ressources. | ❌ Non *(Technique interne)* |
+| `<resource>` | `id`, `name`, `phone`, `function`, `contacts` | ✅ Oui | Affiche la ressource dans le 2ème onglet (Diagramme des ressources) et permet de l'affecter aux tâches. | ✅ Oui *(Onglet Ressources)* |
+| `<allocations>` | *(aucun)* | ✅ Oui | Conteneur racine des affectations. | ❌ Non *(Technique interne)* |
+| `<allocation>` | `task-id`, `resource-id`, `load`, `responsible` | ✅ Oui | Lie une ressource à une tâche, affiche le nom de la ressource sur le Gantt, calcule la surcharge. | ✅ Oui *(Modale Tâche)* |
+| `<vacations>` | *(aucun)* | ✅ Oui | Conteneur racine des congés. | ❌ Non *(Technique interne)* |
+| `<vacation>` | `resourceid`, `start`, `end` | ✅ Oui | Crée une indisponibilité (bloc gris) pour la ressource sélectionnée dans l'onglet Ressources. | ✅ Oui *(Onglet Ressources)* |
+| `<roles>` / `<role>` | `id`, `name` | ✅ Oui | Liste des rôles/fonctions (Développeur, Chef de projet) associables aux ressources. | ✅ Oui *(Modale Propriétés projet)* |
+| `<rate>` | `name`, `value` | ✅ Oui | Coût horaire/journalier standard de la ressource, utilisé pour le calcul dynamique des coûts de tâche. | ✅ Oui *(Onglet Ressources)* |
+
+### 8.5 Lignes de base (Baselines)
+
+| Balise | Attribut(s) | Lue par WebGantt ? | Impact / Rôle dans l'application | Modifiable via IHM ? |
+| :--- | :--- | :---: | :--- | :---: |
+| `<previous>` | *(aucun)* | ✅ Oui | Conteneur des lignes de base. | ❌ Non |
+| `<previous-tasks>` | `name` | ✅ Oui | Stocke un état archivé du projet. Permet de le sélectionner dans la liste déroulante "Comparaison / Lignes de base". | ✅ Oui *(via Bouton Appareil Photo)* |
+| `<previous-task>` | `id`, `start`, `duration`, `meeting`, `super` | ✅ Oui | Dessine une ligne en pointillé / grisée sous la barre de tâche actuelle pour comparer visuellement le retard ou l'avance. | ✅ Oui *(Création auto au clic)* |
+
+**En résumé :** L'écrasante majorité des balises ayant un **impact visuel ou structurel direct** sont entièrement gérées en lecture/écriture par WebGantt. Les balises non lues sont ignorées lors du rendu de l'UI mais sont strictement **préservées** grâce au fait que l'application mute le document XML natif plutôt que de le reconstruire à zéro. Ainsi, ouvrir le fichier modifié dans le logiciel de bureau *GanttProject* ne provoquera aucune perte d'informations.
