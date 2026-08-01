@@ -1,1 +1,4 @@
 node_modules/
+.agents/workflow_cm_diff.patch
+voices-v1.0.bin
+kokoro-v1.0.onnx

@@ -1,0 +1,13 @@
+{
+  "video_path": "/home/ubuntu/webGantt/artifacts/temp_video/page@f22a90f64cbd6a998b4c5110c9fb9e2c.webm",
+  "timestamps": {
+    "01_intro": 0.20862269401550293,
+    "02_open_file": 18.7611882686615,
+    "03_wbs": 26.384739637374878,
+    "04_dependencies": 38.23758888244629,
+    "05_critical_path": 49.61174535751343,
+    "06_resources": 60.243796825408936,
+    "07_save_darkmode": 73.40508437156677,
+    "08_outro": 86.22124814987183
+  }
+}

@@ -3152,6 +3152,7 @@
             tasks.forEach(task => {
                 const row = document.createElement('div');
                 row.setAttribute('data-task-id', task.id);
+                row.setAttribute('draggable', 'true'); // Activer le drag and drop
                 row.style.display = 'flex';
                 row.style.alignItems = 'center';
                 row.style.borderBottom = '1px solid var(--border-color)';
@@ -3161,6 +3162,7 @@
                 row.style.fontSize = chartFontSize;
                 row.style.cursor = 'pointer'; // T029
                 row.style.userSelect = 'none'; // Empêcher la sélection de texte
+                row.style.transition = 'background-color 0.2s'; // Animation lors du drag
 
                 // T029 : Gestion du clic pour multisélection
                 row.addEventListener('click', (e) => {
@@ -3200,6 +3202,96 @@
                         window.lastSelectedTaskId = task.id;
                     }
                     updateSelectionUI();
+                });
+
+                // Drag and Drop : Déplacer les tâches/ressources
+                row.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', task.id);
+                    row.style.opacity = '0.5';
+                    row.style.backgroundColor = 'rgba(0, 105, 217, 0.1)';
+                });
+
+                row.addEventListener('dragend', (e) => {
+                    row.style.opacity = '1';
+                    row.style.backgroundColor = '';
+                    // Retirer la classe de surbrillance de tous les éléments
+                    document.querySelectorAll('#wbs-content > div, #res-wbs-content > div').forEach(r => {
+                        r.style.borderTop = '';
+                    });
+                });
+
+                row.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    // Afficher une ligne d'insertion
+                    if (e.clientY - row.getBoundingClientRect().top < row.offsetHeight / 2) {
+                        row.style.borderTop = '3px solid #0969da';
+                    } else {
+                        row.style.borderBottom = '3px solid #0969da';
+                    }
+                });
+
+                row.addEventListener('dragleave', (e) => {
+                    row.style.borderTop = '';
+                    row.style.borderBottom = '';
+                });
+
+                row.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const draggedTaskId = e.dataTransfer.getData('text/plain');
+                    if (draggedTaskId === task.id) return;
+
+                    // Déterminer si on insère avant ou après
+                    const insertBefore = e.clientY - row.getBoundingClientRect().top < row.offsetHeight / 2;
+
+                    // Cas 1 : Tâche ordinaire
+                    if (!draggedTaskId.startsWith('res_')) {
+                        const draggedTask = state.xmlDoc.querySelector(`task[id="${draggedTaskId}"]`);
+                        if (!draggedTask) return;
+
+                        draggedTask.parentNode.removeChild(draggedTask);
+                        if (insertBefore) {
+                            task.node.parentNode.insertBefore(draggedTask, task.node);
+                        } else {
+                            task.node.parentNode.insertBefore(draggedTask, task.node.nextSibling);
+                        }
+                    }
+                    // Cas 2 : Ressource (ID commence par "res_")
+                    else {
+                        const resId = draggedTaskId.substring(4); // Retirer le préfixe "res_"
+                        const draggedRes = state.xmlDoc.querySelector(`resource[id="${resId}"]`);
+                        if (!draggedRes) return;
+
+                        const targetResId = task.id.startsWith('res_') ? task.id.substring(4) : null;
+                        if (!targetResId) return;
+
+                        const targetRes = state.xmlDoc.querySelector(`resource[id="${targetResId}"]`);
+                        if (!targetRes) return;
+
+                        // Réorganiser les ressources dans le XML
+                        const resourcesContainer = state.xmlDoc.querySelector('resources');
+                        if (resourcesContainer) {
+                            draggedRes.parentNode.removeChild(draggedRes);
+                            if (insertBefore) {
+                                resourcesContainer.insertBefore(draggedRes, targetRes);
+                            } else {
+                                resourcesContainer.insertBefore(draggedRes, targetRes.nextSibling);
+                            }
+                        }
+                    }
+
+                    row.style.borderTop = '';
+                    row.style.borderBottom = '';
+                    state.notifyListeners();
+                });
+
+                // Double-clic sur la ligne pour ouvrir les détails (même effet que le bouton loupe)
+                row.addEventListener('dblclick', (e) => {
+                    e.stopPropagation();
+                    openTaskDetailsModal();
                 });
 
                 const nameCol = document.createElement('div');
@@ -3358,19 +3450,8 @@
                 });
 
                 // T010, T015, T018, T022: Remplacés par un bouton Loupe unique
-                const detailsBtn = document.createElement('button');
-                detailsBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
-                detailsBtn.style.padding = '0';
-                detailsBtn.style.width = '22px';
-                detailsBtn.style.height = '22px';
-                detailsBtn.style.display = 'flex';
-                detailsBtn.style.alignItems = 'center';
-                detailsBtn.style.justifyContent = 'center';
-                detailsBtn.style.cursor = 'pointer';
-                detailsBtn.title = 'Voir les caractéristiques';
-                detailsBtn.onclick = (e) => {
-                    e.stopPropagation(); // Éviter la sélection de la tâche si on clique juste sur le bouton
-
+                // Fonction réutilisable pour ouvrir les détails (bouton loupe ou double-clic)
+                const openTaskDetailsModal = () => {
                     // Si c'est une ligne de ressource (onglet Ressource), ouvrir la modale ressource
                     if (typeof task.id === 'string' && task.id.startsWith('res_')) {
                         const realResId = task.id.replace('res_', '');
@@ -3473,6 +3554,21 @@
                     renderTaskCustomProps(task.id);
 
                     document.getElementById('task-details-modal').showModal();
+                };
+
+                const detailsBtn = document.createElement('button');
+                detailsBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>';
+                detailsBtn.style.padding = '0';
+                detailsBtn.style.width = '22px';
+                detailsBtn.style.height = '22px';
+                detailsBtn.style.display = 'flex';
+                detailsBtn.style.alignItems = 'center';
+                detailsBtn.style.justifyContent = 'center';
+                detailsBtn.style.cursor = 'pointer';
+                detailsBtn.title = 'Voir les caractéristiques';
+                detailsBtn.onclick = (e) => {
+                    e.stopPropagation(); // Éviter la sélection de la tâche si on clique juste sur le bouton
+                    openTaskDetailsModal();
                 };
 
                 const actionCol = document.createElement('div');
