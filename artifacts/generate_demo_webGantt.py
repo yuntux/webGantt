@@ -30,11 +30,11 @@ intégrer les sélecteurs CSS et les actions à réaliser."
 
 INSTALLATION DES DEPENDANCES :
 ------------------------------
-# Dépendances système : ffmpeg (requis par MoviePy), polices DejaVu (page de garde), espeak-ng (fallback phonémisation Kokoro)
-sudo apt update && sudo apt install -y python3-pip python3-venv ffmpeg fonts-dejavu-core espeak-ng
+# Dépendances système : ffmpeg (requis par MoviePy), polices DejaVu (page de garde)
+sudo apt update && sudo apt install -y python3-pip python3-venv ffmpeg fonts-dejavu-core
 
-# Dépendances Python
-pip install playwright moviepy kokoro soundfile numpy --break-system-packages
+# Dépendances Python (kokoro-onnx: TTS local léger, aucune dépendance Cython)
+pip install playwright moviepy kokoro-onnx soundfile pillow --break-system-packages
 
 # Navigateur Chromium pour Playwright + ses dépendances système
 playwright install --with-deps chromium
