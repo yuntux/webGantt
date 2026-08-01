@@ -73,4 +73,4 @@ Contributions, bug reports, and feature requests are welcome! Feel free to open 
 
 ## 📜 License
 
-This project is open-source and available under the standard MIT License.
+This project is open-source and available under the **GNU General Public License v3 (GPL v3)**. See the [LICENSE](LICENSE) file for details.
