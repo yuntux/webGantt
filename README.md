@@ -2,10 +2,8 @@
 
 ## 📺 Demo Video
 
-<video width="100%" controls style="max-width: 800px; margin: 20px 0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-  <source src="artifacts/DEMO_WEBGANTT_20260801_215124.mp4" type="video/mp4">
-  Your browser does not support the video tag. <a href="artifacts/DEMO_WEBGANTT_20260801_215124.mp4">Download the demo video</a>
-</video>
+https://github.com/user-attachments/assets/07921247-2ead-4c7e-98ad-babd3f27f96b
+
 
 ---
 
